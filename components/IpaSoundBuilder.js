@@ -4,7 +4,7 @@
  * Supports: hvað, nafn, steinn, fjall, takk with distractor pools and linguistic feedback (+25 XP)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.5';
+import { audioEngine } from './AudioEngine.js?v=5.6';
 import { gameState } from './GameState.js';
 
 export class IpaSoundBuilder {

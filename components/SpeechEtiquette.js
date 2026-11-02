@@ -8,7 +8,7 @@
  * - Dual Theme AAA Contrast (Obsidian Dark & Nordic Light Paper)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.5';
+import { audioEngine } from './AudioEngine.js?v=5.6';
 
 export class SpeechEtiquette {
   constructor(container, dialogueData) {

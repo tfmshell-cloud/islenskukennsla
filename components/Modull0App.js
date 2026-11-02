@@ -22,7 +22,7 @@ import { SagaRoadmap } from './SagaRoadmap.js';
 import { DropsFlexionLab } from './DropsFlexionLab.js';
 import { gameState } from './GameState.js';
 import { binAuraSystem } from './BinAuraSystem.js';
-import { audioEngine } from './AudioEngine.js?v=5.5';
+import { audioEngine } from './AudioEngine.js?v=5.6';
 
 export class Modull0App {
   constructor(rootElement) {

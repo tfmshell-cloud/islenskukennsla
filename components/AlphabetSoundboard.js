@@ -3,7 +3,7 @@
  * 50% card size reduction with lightweight 3D-flip mnemonics and zero vertical scrolling.
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.5';
+import { audioEngine } from './AudioEngine.js?v=5.6';
 
 export class AlphabetSoundboard {
   constructor(container, alphabetData, raddstafirData) {
@@ -89,7 +89,7 @@ export class AlphabetSoundboard {
             <!-- Compact Inspector Audio Actions -->
             <div class="flex items-center gap-2 w-full md:w-auto justify-end flex-shrink-0">
               <button id="inspector-play-letter-btn" class="px-3.5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center gap-1.5 shadow-md transition-all active:scale-95">
-                <span>🔊 ${this.selectedLetter.upper === 'Y' ? 'Назва: [Ufsilon y]' : this.selectedLetter.upper === 'Ý' ? 'Назва: [Ufsilon ý]' : `Літера [${this.selectedLetter.upper}]`}</span>
+                <span>🔊 ${this.selectedLetter.upper === 'Y' ? 'Назва: [Ufsilon y]' : this.selectedLetter.upper === 'Ý' ? 'Назва: [Ufsilon með broddi]' : `Літера [${this.selectedLetter.upper}]`}</span>
               </button>
               <button id="inspector-play-word-btn" class="px-3 py-2 rounded-lg bg-cyber-deep border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95">
                 <span>🗣️ <span id="inspector-word-label">${this.selectedLetter.example_word}</span></span>
@@ -150,7 +150,7 @@ export class AlphabetSoundboard {
               <!-- Card Top: Number, Name, Flip Trigger -->
               <div class="flex items-center justify-between text-[10px] font-mono leading-none">
                 <span class="text-slate-500 font-bold group-hover:text-cyan-400">#${String(item.id).padStart(2, '0')}</span>
-                <span class="px-1 py-0.2 rounded border ${badgeStyle} text-[9px] font-semibold truncate max-w-[42px]">
+                <span class="px-1 py-0.2 rounded border ${badgeStyle} text-[9px] font-semibold truncate max-w-[70px]" title="${item.letter_name}">
                   ${item.letter_name}
                 </span>
                 <button class="flip-trigger-btn w-4 h-4 rounded hover:bg-amber-500/20 text-amber-300 text-[10px] flex items-center justify-center transition-colors" title="Мнемоніка">
@@ -315,7 +315,7 @@ export class AlphabetSoundboard {
       const btnTitle = item.upper === 'Y' 
         ? '🔊 Назва: [Ufsilon y]' 
         : item.upper === 'Ý' 
-          ? '🔊 Назва: [Ufsilon ý]' 
+          ? '🔊 Назва: [Ufsilon með broddi]' 
           : `🔊 Літера [${item.upper}]`;
       playLetterBtn.innerHTML = `<span>${btnTitle}</span>`;
     }

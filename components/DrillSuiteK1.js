@@ -3,7 +3,7 @@
  * Vera forms, frá + dative, V2 syntax + ekki, question words, acoustic traps.
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.5';
+import { audioEngine } from './AudioEngine.js?v=5.6';
 import { gameState } from './GameState.js';
 
 export class DrillSuiteK1 {

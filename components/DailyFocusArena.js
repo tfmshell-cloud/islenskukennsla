@@ -4,11 +4,12 @@
  * - 300s Countdown Timer
  * - 4-Phase Multimodal Pipeline (Exposure -> Recognition -> Speller -> V2 Anchoring)
  * - Two-tier Trap-Recycler Engine (In-session 2-card re-queue + Next-day SRS priority)
+ * - Full 15-Word Ribbon Switcher & Dual View Modes (Trainer Focus vs 15-Card Grid Overview)
  * - 100% Success-Gated Session Exit (+50 XP, +5 Gems, Streak Shield)
  */
 
 import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js';
-import { audioEngine } from './AudioEngine.js?v=5.5';
+import { audioEngine } from './AudioEngine.js?v=5.6';
 import { gameState } from './GameState.js';
 
 export class DailyFocusArena {
@@ -19,11 +20,10 @@ export class DailyFocusArena {
     this.timerInterval = null;
     this.queue = [];
     this.currentIndex = 0;
-    this.currentPhase = 1; // 1: Card, 2: Audio, 3: Constructor, 4: V2
+    this.viewMode = 'focus'; // 'focus' or 'grid'
     this.trapsToday = new Set();
     this.assembledLetters = [];
     this.score = 0;
-    this.isAnswered = false;
     this.modalEl = null;
 
     this.createModalDom();
@@ -34,7 +34,7 @@ export class DailyFocusArena {
     if (!modal) {
       modal = document.createElement('div');
       modal.id = 'daily-focus-arena-modal';
-      modal.className = 'fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 select-none-text';
+      modal.className = 'fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-2 sm:p-5 select-none-text';
       document.body.appendChild(modal);
     }
     this.modalEl = modal;
@@ -69,6 +69,7 @@ export class DailyFocusArena {
     this.activeModule = moduleKey;
     this.timerSeconds = 300;
     this.score = 0;
+    this.viewMode = 'focus';
     this.trapsToday.clear();
     this.initSessionQueue();
 
@@ -133,31 +134,61 @@ export class DailyFocusArena {
     this.currentIndex = 0;
   }
 
+  jumpToWord(index) {
+    if (index >= 0 && index < this.queue.length) {
+      this.currentIndex = index;
+      this.viewMode = 'focus';
+      this.render();
+    }
+  }
+
+  prevWord() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.render();
+    }
+  }
+
+  nextWord() {
+    if (this.currentIndex < this.queue.length - 1) {
+      this.currentIndex++;
+      this.render();
+    } else {
+      this.renderVictoryCelebration();
+    }
+  }
+
   render() {
     if (this.currentIndex >= this.queue.length) {
       this.renderVictoryCelebration();
       return;
     }
 
+    if (this.viewMode === 'grid') {
+      this.renderGridView();
+      return;
+    }
+
     const currentItem = this.queue[this.currentIndex];
-    const totalGoal = 15;
+    const totalGoal = Math.min(15, this.queue.length);
     const progressCount = Math.min(totalGoal, this.currentIndex + 1);
-    const progressPercent = Math.round((this.currentIndex / totalGoal) * 100);
+    const progressPercent = Math.round((progressCount / totalGoal) * 100);
 
     const mins = Math.floor(Math.max(0, this.timerSeconds) / 60);
     const secs = Math.max(0, this.timerSeconds) % 60;
     const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
     this.modalEl.innerHTML = `
-      <div class="w-full max-w-xl bg-cyber-deep/95 border border-cyan-500/40 rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
+      <div class="w-full max-w-2xl bg-cyber-deep/98 border border-cyan-500/40 rounded-3xl p-3 sm:p-5 shadow-2xl space-y-3.5 max-h-[94vh] overflow-y-auto">
+        
         <!-- Top HUD Header -->
-        <div class="flex items-center justify-between pb-3 border-b border-cyber-border/40">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
-            <div>
-              <div class="flex items-center gap-2">
+        <div class="flex items-center justify-between pb-2.5 border-b border-cyber-border/40 gap-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping flex-shrink-0"></span>
+            <div class="truncate">
+              <div class="flex items-center gap-1.5 flex-wrap">
                 <span class="text-xs sm:text-sm font-black text-white font-mono uppercase tracking-wider">
-                  Dagsamningur • Focus Arena
+                  Dagsamningur • Щоденний Тренажер
                 </span>
                 ${currentItem.isTrap ? `
                   <span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
@@ -171,37 +202,78 @@ export class DailyFocusArena {
             </div>
           </div>
 
-          <!-- Timer & Close -->
-          <div class="flex items-center gap-2.5">
-            <div class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-black/60 border border-slate-800 text-xs font-mono font-bold">
+          <!-- Timer, View Toggle & Close -->
+          <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+            <div class="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-black/60 border border-slate-800 text-xs font-mono font-bold">
               <span>⏱️</span>
               <span id="arena-timer-display" class="${this.timerSeconds <= 60 ? 'text-rose-400 animate-pulse' : 'text-cyan-300'}">${timeStr}</span>
             </div>
+
+            <!-- View Toggle Button -->
+            <button id="arena-toggle-view-btn" class="px-2 py-1 rounded-lg bg-black/50 hover:bg-black border border-slate-700 hover:border-cyan-400 text-cyan-300 font-mono text-[11px] font-bold transition-all" title="Показати всі 15 карток разом">
+              📋 Всі 15 слів
+            </button>
+
+            <!-- Close Modal -->
             <button id="arena-close-btn" class="w-7 h-7 rounded-lg bg-rose-500/10 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 hover:text-white flex items-center justify-center text-xs font-bold transition-all shadow-sm active:scale-90" title="Закрити арену">
               ✕
             </button>
           </div>
         </div>
 
-        <!-- Sleek Progress Bar -->
+        <!-- 15-WORD INTERACTIVE RIBBON SWITCHER -->
+        <div class="space-y-1">
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 px-0.5">
+            <span>Швидкий вибір слова (клікніть будь-яке слово):</span>
+            <span class="text-cyan-400 font-bold">${this.currentIndex + 1} / ${this.queue.length}</span>
+          </div>
+          <div class="flex items-center gap-1 overflow-x-auto py-1 scrollbar-thin">
+            ${this.queue.slice(0, 15).map((w, idx) => {
+              const isActive = idx === this.currentIndex;
+              return `
+                <button 
+                  class="arena-word-pill px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold border transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer ${isActive ? 'bg-cyan-500 text-black border-cyan-300 shadow-md shadow-cyan-500/30 scale-105' : 'bg-black/50 text-slate-300 border-slate-800 hover:border-cyan-500/50 hover:text-white'}" 
+                  data-index="${idx}"
+                  title="${idx + 1}. ${w.word} (${w.uk})">
+                  <span class="text-[9px] opacity-75">${idx + 1}.</span>
+                  <span>${w.word}</span>
+                  ${w.isTrap ? '<span class="text-[9px]">🪤</span>' : ''}
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
         <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden border border-slate-800">
           <div class="bg-gradient-to-r from-rose-500 via-amber-400 to-emerald-400 h-1.5 rounded-full transition-all duration-300" style="width: ${progressPercent}%;"></div>
         </div>
 
-        <!-- Phase Navigation Indicator -->
-        <div class="grid grid-cols-4 gap-1 text-[10px] font-mono">
-          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 1 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
-            1. Експозиція
+        <!-- Navigation Row: Prev Word | Phase Jumpers | Next Word -->
+        <div class="flex items-center justify-between gap-1.5 pt-0.5">
+          <button id="arena-prev-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white font-mono text-xs flex items-center gap-1 transition-all active:scale-95 ${this.currentIndex === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.currentIndex === 0 ? 'disabled' : ''}>
+            ◀ Попереднє
+          </button>
+
+          <!-- Clickable Phase Tabs for Current Word -->
+          <div class="grid grid-cols-4 gap-1 text-[10px] font-mono flex-1 max-w-sm">
+            <button class="arena-phase-tab p-1 rounded text-center transition-all cursor-pointer ${currentItem.phase === 1 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="1">
+              1. Експозиція
+            </button>
+            <button class="arena-phase-tab p-1 rounded text-center transition-all cursor-pointer ${currentItem.phase === 2 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="2">
+              2. Слух
+            </button>
+            <button class="arena-phase-tab p-1 rounded text-center transition-all cursor-pointer ${currentItem.phase === 3 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="3">
+              3. Конструктор
+            </button>
+            <button class="arena-phase-tab p-1 rounded text-center transition-all cursor-pointer ${currentItem.phase === 4 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="4">
+              4. V2-Речення
+            </button>
           </div>
-          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 2 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
-            2. Слух
-          </div>
-          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 3 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
-            3. Конструктор
-          </div>
-          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 4 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
-            4. V2-Контекст
-          </div>
+
+          <button id="arena-next-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white font-mono text-xs flex items-center gap-1 transition-all active:scale-95">
+            Наступне ▶
+          </button>
         </div>
 
         <!-- Dynamic Phase Stage Container -->
@@ -209,11 +281,38 @@ export class DailyFocusArena {
       </div>
     `;
 
-    // Bind Close Button
+    // Bind Global Modal Controls
     const closeBtn = this.modalEl.querySelector('#arena-close-btn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => this.close());
-    }
+    if (closeBtn) closeBtn.addEventListener('click', () => this.close());
+
+    const toggleViewBtn = this.modalEl.querySelector('#arena-toggle-view-btn');
+    if (toggleViewBtn) toggleViewBtn.addEventListener('click', () => {
+      this.viewMode = 'grid';
+      this.render();
+    });
+
+    const prevBtn = this.modalEl.querySelector('#arena-prev-btn');
+    if (prevBtn) prevBtn.addEventListener('click', () => this.prevWord());
+
+    const nextBtn = this.modalEl.querySelector('#arena-next-btn');
+    if (nextBtn) nextBtn.addEventListener('click', () => this.nextWord());
+
+    // Word Pills Click Delegation
+    this.modalEl.querySelectorAll('.arena-word-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        this.jumpToWord(idx);
+      });
+    });
+
+    // Phase Tabs Click Delegation
+    this.modalEl.querySelectorAll('.arena-phase-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const ph = parseInt(tab.dataset.phase, 10);
+        currentItem.phase = ph;
+        this.render();
+      });
+    });
 
     const stage = this.modalEl.querySelector('#arena-stage-container');
     if (!stage) return;
@@ -234,6 +333,100 @@ export class DailyFocusArena {
       default:
         this.renderPhase1Exposure(stage, currentItem);
     }
+  }
+
+  /* =========================================================================
+     GRID VIEW: ALL 15 CARDS OVERVIEW IN ONE RESPONSIVE MODAL
+     ========================================================================= */
+  renderGridView() {
+    this.modalEl.innerHTML = `
+      <div class="w-full max-w-4xl bg-cyber-deep/98 border border-cyan-500/40 rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[94vh] overflow-y-auto">
+        <div class="flex items-center justify-between pb-3 border-b border-cyber-border/40">
+          <div>
+            <h2 class="text-sm sm:text-base font-black text-white font-mono flex items-center gap-2">
+              <span>📋 Огляд 15 опорних слів (Anchor Words Matrix)</span>
+            </h2>
+            <div class="text-[11px] text-slate-400 font-sans">
+              Натисніть на картку або 🔊, щоб почути вимову, або «Тренувати це слово», щоб перейти до тренажера.
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="arena-grid-back-btn" class="px-3 py-1.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono font-bold text-xs flex items-center gap-1.5 shadow-md transition-all active:scale-95">
+              <span>🎯 До тренажера</span>
+            </button>
+            <button id="arena-grid-close-btn" class="w-8 h-8 rounded-lg bg-rose-500/10 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 hover:text-white flex items-center justify-center text-xs font-bold transition-all">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          ${this.queue.slice(0, 15).map((item, idx) => `
+            <div class="p-3.5 rounded-2xl bg-black/60 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between space-y-2 group shadow-md">
+              <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                  <span class="text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">${item.icon}</span>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-base font-black font-mono text-white group-hover:text-cyan-300 transition-colors">
+                        ${item.word}
+                      </span>
+                      <span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                        ${item.gender}
+                      </span>
+                    </div>
+                    <span class="text-xs font-mono text-slate-400 block">${item.ipa}</span>
+                  </div>
+                </div>
+
+                <button class="arena-grid-play-btn w-7 h-7 rounded-lg bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/30 text-cyan-300 hover:text-black flex items-center justify-center transition-all flex-shrink-0" data-word="${item.word}" title="Слухати">
+                  🔊
+                </button>
+              </div>
+
+              <div class="text-xs text-slate-200 border-t border-slate-800/80 pt-2 flex items-center justify-between">
+                <span class="text-slate-400 text-[11px]">Значення:</span>
+                <span class="text-cyan-300 font-bold">${item.uk}</span>
+              </div>
+
+              <div class="p-2 rounded-lg bg-cyber-deep/80 border border-slate-800 text-[10px] space-y-0.5">
+                <div class="font-mono text-emerald-300 font-bold">«${item.sentence_v2}»</div>
+                <div class="text-slate-400 text-[9px]">${item.sentence_trans}</div>
+              </div>
+
+              <button class="arena-grid-select-btn w-full py-1.5 rounded-lg bg-cyber-deep hover:bg-cyan-500 border border-cyan-500/40 text-cyan-300 hover:text-black font-mono font-bold text-[11px] transition-all flex items-center justify-center gap-1" data-index="${idx}">
+                <span>⚡ Тренувати це слово (#${idx + 1})</span>
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    const backBtn = this.modalEl.querySelector('#arena-grid-back-btn');
+    if (backBtn) backBtn.addEventListener('click', () => {
+      this.viewMode = 'focus';
+      this.render();
+    });
+
+    const closeBtn = this.modalEl.querySelector('#arena-grid-close-btn');
+    if (closeBtn) closeBtn.addEventListener('click', () => this.close());
+
+    this.modalEl.querySelectorAll('.arena-grid-play-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const word = btn.dataset.word;
+        audioEngine.play(word, btn);
+      });
+    });
+
+    this.modalEl.querySelectorAll('.arena-grid-select-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        this.jumpToWord(idx);
+      });
+    });
   }
 
   /* =========================================================================
@@ -272,8 +465,12 @@ export class DailyFocusArena {
           <div class="text-[11px] text-slate-400">${item.sentence_trans}</div>
         </div>
 
-        <div class="pt-2">
-          <button id="arena-p1-next-btn" class="w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono font-black text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 flex items-center justify-center gap-1.5">
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-2 gap-2 pt-2">
+          <button id="arena-p1-skip-next-btn" class="py-2.5 rounded-xl bg-black/60 hover:bg-black border border-slate-700 text-slate-300 font-mono font-bold text-xs transition-all active:scale-95">
+            Наступне слово ▶
+          </button>
+          <button id="arena-p1-next-btn" class="py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono font-black text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 flex items-center justify-center gap-1.5">
             <span>Перейти до тесту ➔</span>
           </button>
         </div>
@@ -283,7 +480,6 @@ export class DailyFocusArena {
     const speakBtn = stage.querySelector('#arena-p1-speak-btn');
     if (speakBtn) {
       speakBtn.addEventListener('click', () => audioEngine.play(item.word, speakBtn));
-      // Auto-play immediately under gesture
       setTimeout(() => audioEngine.play(item.word, speakBtn), 150);
     }
 
@@ -292,6 +488,13 @@ export class DailyFocusArena {
       nextBtn.addEventListener('click', () => {
         item.phase = 2;
         this.render();
+      });
+    }
+
+    const skipBtn = stage.querySelector('#arena-p1-skip-next-btn');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', () => {
+        this.nextWord();
       });
     }
   }
@@ -309,7 +512,7 @@ export class DailyFocusArena {
       <div class="space-y-4">
         <div class="text-center space-y-2 py-2">
           <div class="text-xs text-slate-300 font-sans">
-            Уважно прослухайте вимову носія мови:
+            Уважно прослухайте вимову носія мови та оберіть переклад:
           </div>
           <button id="arena-p2-play-btn" class="px-5 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400 text-cyan-300 font-mono font-black text-sm shadow-md transition-all active:scale-95 inline-flex items-center gap-2">
             <span>🔊</span> <span>Слухати аудіо</span>
@@ -361,7 +564,7 @@ export class DailyFocusArena {
           fb.className = 'p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
           fb.innerHTML = `
             <div><strong>🎉 Чудово!</strong> «${item.word}» [${item.ipa}] = ${item.uk}.</div>
-            <button id="arena-p2-next" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs">Далі ➔</button>
+            <button id="arena-p2-next" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs">До фази 3 ➔</button>
           `;
           fb.querySelector('#arena-p2-next').addEventListener('click', () => {
             item.phase = 3;
@@ -376,8 +579,7 @@ export class DailyFocusArena {
             <button id="arena-p2-retry" class="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-mono font-bold text-xs">Зрозуміло ➔</button>
           `;
           fb.querySelector('#arena-p2-retry').addEventListener('click', () => {
-            this.currentIndex++;
-            this.render();
+            this.nextWord();
           });
         }
       });
@@ -410,10 +612,14 @@ export class DailyFocusArena {
           `).join('')}
         </div>
 
-        <!-- Available Scrambled Letter Tiles -->
-        <div class="text-center text-[11px] text-slate-400">
-          Складіть слово, натискаючи літери по порядку:
+        <!-- Available Scrambled Letter Tiles & Reset -->
+        <div class="flex items-center justify-between text-[11px] text-slate-400 px-2">
+          <span>Складіть слово з літер:</span>
+          <button id="speller-reset-btn" class="text-amber-400 hover:text-amber-300 font-mono font-bold flex items-center gap-1">
+            <span>↺</span> <span>Очистити</span>
+          </button>
         </div>
+
         <div id="speller-tiles-pool" class="flex items-center justify-center gap-1.5 flex-wrap py-1">
           ${scrambledTiles.map((tile, idx) => `
             <button class="speller-tile-btn w-10 h-11 sm:w-11 sm:h-12 rounded-xl bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/40 hover:border-cyan-400 text-white hover:text-black font-black font-mono text-base sm:text-lg transition-all shadow-md active:scale-90" data-char="${tile.char}">
@@ -430,6 +636,13 @@ export class DailyFocusArena {
     const slots = stage.querySelectorAll('.speller-slot');
     const poolBtns = stage.querySelectorAll('.speller-tile-btn');
     const fb = stage.querySelector('#arena-p3-feedback');
+    const resetBtn = stage.querySelector('#speller-reset-btn');
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        this.renderPhase3Constructor(stage, item);
+      });
+    }
 
     poolBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -475,8 +688,7 @@ export class DailyFocusArena {
               <button id="arena-p3-retry" class="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-mono font-bold text-xs">Зрозуміло ➔</button>
             `;
             fb.querySelector('#arena-p3-retry').addEventListener('click', () => {
-              this.currentIndex++;
-              this.render();
+              this.nextWord();
             });
           }
         }
@@ -556,8 +768,7 @@ export class DailyFocusArena {
             <button id="arena-p4-next" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs">Наступне слово ➔</button>
           `;
           fb.querySelector('#arena-p4-next').addEventListener('click', () => {
-            this.currentIndex++;
-            this.render();
+            this.nextWord();
           });
         } else {
           // Trap-Recycler Trigger with Step-Down
@@ -568,8 +779,7 @@ export class DailyFocusArena {
             <button id="arena-p4-retry" class="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-mono font-bold text-xs">Зрозуміло ➔</button>
           `;
           fb.querySelector('#arena-p4-retry').addEventListener('click', () => {
-            this.currentIndex++;
-            this.render();
+            this.nextWord();
           });
         }
       });

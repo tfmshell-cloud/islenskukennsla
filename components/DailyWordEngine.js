@@ -4,12 +4,12 @@
  * 
  * Phases:
  * Phase 1: Interactive Cards + Gender + IPA + Native Baritone Audio (Gunnar)
- * Phase 2: Audio Discrimination Test (Listen ➔ Match Icon/Ukrainian)
- * Phase 3: Letter Spelling Constructor (Click scrambled tiles to assemble word)
- * Phase 4: V2 Syntax Inserter (Verb-second sentence integration)
+ * Phase 2: Audio Discrimination Test (Listen ➔ Match Icon/Ukrainian) + 15-Word Switcher
+ * Phase 3: Letter Spelling Constructor (Click scrambled tiles to assemble word) + Reset + 15-Word Switcher
+ * Phase 4: V2 Syntax Inserter (Verb-second sentence integration) + 15-Word Switcher
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.5';
+import { audioEngine } from './AudioEngine.js?v=5.6';
 import { gameState } from './GameState.js';
 
 export class DailyWordEngine {
@@ -34,6 +34,40 @@ export class DailyWordEngine {
     this.render();
   }
 
+  renderWordRibbon(currentIndex, onSelect) {
+    return `
+      <div class="space-y-1 mb-3">
+        <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 px-0.5">
+          <span>Оберіть слово (1..15):</span>
+          <span class="text-cyan-400 font-bold">${currentIndex + 1} / ${this.words.length}</span>
+        </div>
+        <div class="flex items-center gap-1 overflow-x-auto py-1 scrollbar-thin">
+          ${this.words.map((w, idx) => {
+            const isActive = idx === currentIndex;
+            return `
+              <button 
+                class="srs-ribbon-pill px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold border transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer ${isActive ? 'bg-cyan-500 text-black border-cyan-300 shadow-md shadow-cyan-500/30 scale-105' : 'bg-black/50 text-slate-300 border-slate-800 hover:border-cyan-500/50 hover:text-white'}" 
+                data-index="${idx}"
+                title="${idx + 1}. ${w.word} (${w.uk})">
+                <span class="text-[9px] opacity-75">${idx + 1}.</span>
+                <span>${w.word}</span>
+              </button>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  bindRibbonEvents(mount, onSelect) {
+    mount.querySelectorAll('.srs-ribbon-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.index, 10);
+        onSelect(idx);
+      });
+    });
+  }
+
   render() {
     this.container.innerHTML = `
       <div class="space-y-4 max-w-4xl mx-auto">
@@ -53,16 +87,16 @@ export class DailyWordEngine {
 
           <!-- Phase Navigation Tabs -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 font-mono text-[11px]">
-            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all ${this.activePhase === 1 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="1">
+            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all cursor-pointer ${this.activePhase === 1 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="1">
               1. Картки (15)
             </button>
-            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all ${this.activePhase === 2 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="2">
+            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all cursor-pointer ${this.activePhase === 2 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="2">
               2. Аудіо-тест
             </button>
-            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all ${this.activePhase === 3 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="3">
+            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all cursor-pointer ${this.activePhase === 3 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="3">
               3. Конструктор
             </button>
-            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all ${this.activePhase === 4 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="4">
+            <button class="srs-phase-btn px-2.5 py-1.5 rounded-lg border text-center transition-all cursor-pointer ${this.activePhase === 4 ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold shadow-sm' : 'bg-black/40 border-slate-800 text-slate-400 hover:text-white'}" data-phase="4">
               4. Синтаксис V2
             </button>
           </div>
@@ -203,24 +237,34 @@ export class DailyWordEngine {
     const options = [targetWord, ...shuffledOthers].sort(() => Math.random() - 0.5);
 
     mount.innerHTML = `
-      <div class="max-w-xl mx-auto p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-4 shadow-xl">
-        <div class="flex items-center justify-between text-xs font-mono">
+      <div class="max-w-xl mx-auto p-4 sm:p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-3.5 shadow-xl">
+        ${this.renderWordRibbon(this.p2Index, (idx) => {
+          this.p2Index = idx;
+          this.renderPhase2AudioTest(mount);
+        })}
+
+        <div class="flex items-center justify-between text-xs font-mono pt-1">
+          <button id="p2-prev-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1 ${this.p2Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p2Index === 0 ? 'disabled' : ''}>
+            ◀ Попереднє
+          </button>
           <span class="text-slate-400">Слово ${this.p2Index + 1} / ${this.words.length}</span>
-          <span class="text-cyan-400 font-bold">Бали: ${this.p2Score} XP</span>
+          <button id="p2-skip-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1">
+            Наступне ▶
+          </button>
         </div>
 
-        <div class="text-center py-4 space-y-2">
+        <div class="text-center py-3 space-y-2">
           <div class="text-xs text-slate-300 font-sans">
             Уважно прослухайте вимову носія та оберіть відповідне значення:
           </div>
-          <button id="p2-listen-btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-mono font-black text-sm shadow-lg transition-all active:scale-95 inline-flex items-center gap-2">
+          <button id="p2-listen-btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-mono font-black text-sm shadow-lg transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer">
             <span>🔊</span> <span>Прослухати слово</span>
           </button>
         </div>
 
         <div id="p2-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           ${options.map((opt, idx) => `
-            <button class="p2-opt-btn p-3 rounded-xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-left transition-all flex items-center gap-3 group" data-word-id="${opt.id}">
+            <button class="p2-opt-btn p-3 rounded-xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-left transition-all flex items-center gap-3 group cursor-pointer" data-word-id="${opt.id}">
               <span class="text-2xl">${opt.icon}</span>
               <div>
                 <div class="font-bold text-white text-xs group-hover:text-cyan-300">${opt.uk}</div>
@@ -234,12 +278,30 @@ export class DailyWordEngine {
       </div>
     `;
 
+    this.bindRibbonEvents(mount, (idx) => {
+      this.p2Index = idx;
+      this.renderPhase2AudioTest(mount);
+    });
+
+    const prevBtn = mount.querySelector('#p2-prev-word-btn');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      if (this.p2Index > 0) {
+        this.p2Index--;
+        this.renderPhase2AudioTest(mount);
+      }
+    });
+
+    const skipBtn = mount.querySelector('#p2-skip-word-btn');
+    if (skipBtn) skipBtn.addEventListener('click', () => {
+      this.p2Index++;
+      this.renderPhase2AudioTest(mount);
+    });
+
     const playBtn = mount.querySelector('#p2-listen-btn');
     if (playBtn) {
       playBtn.addEventListener('click', () => {
         audioEngine.play(targetWord.word, playBtn);
       });
-      // Play automatically on load
       setTimeout(() => audioEngine.play(targetWord.word, playBtn), 250);
     }
 
@@ -315,10 +377,20 @@ export class DailyWordEngine {
       .sort(() => Math.random() - 0.5);
 
     mount.innerHTML = `
-      <div class="max-w-xl mx-auto p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-4 shadow-xl">
-        <div class="flex items-center justify-between text-xs font-mono">
+      <div class="max-w-xl mx-auto p-4 sm:p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-3.5 shadow-xl">
+        ${this.renderWordRibbon(this.p3Index, (idx) => {
+          this.p3Index = idx;
+          this.renderPhase3Constructor(mount);
+        })}
+
+        <div class="flex items-center justify-between text-xs font-mono pt-1">
+          <button id="p3-prev-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1 ${this.p3Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p3Index === 0 ? 'disabled' : ''}>
+            ◀ Попереднє
+          </button>
           <span class="text-slate-400">Слово ${this.p3Index + 1} / ${this.words.length}</span>
-          <span class="text-cyan-400 font-bold">Бали: ${this.p3Score} XP</span>
+          <button id="p3-skip-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1">
+            Наступне ▶
+          </button>
         </div>
 
         <div class="text-center py-2 space-y-1">
@@ -336,13 +408,17 @@ export class DailyWordEngine {
           `).join('')}
         </div>
 
-        <!-- Available Scrambled Letter Tiles -->
-        <div class="text-center text-[11px] text-slate-400 pt-1">
-          Натискайте на літери по порядку:
+        <!-- Available Scrambled Letter Tiles & Reset -->
+        <div class="flex items-center justify-between text-[11px] text-slate-400 px-2 pt-1">
+          <span>Натискайте на літери по порядку:</span>
+          <button id="p3-clear-btn" class="text-amber-400 hover:text-amber-300 font-mono font-bold flex items-center gap-1 cursor-pointer">
+            <span>↺</span> <span>Очистити</span>
+          </button>
         </div>
+
         <div id="p3-tiles-pool" class="flex items-center justify-center gap-2 flex-wrap py-2">
           ${scrambledTiles.map((tile, idx) => `
-            <button class="p3-tile-btn w-11 h-12 rounded-xl bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/40 hover:border-cyan-400 text-white hover:text-black font-black font-mono text-lg transition-all shadow-md active:scale-90" data-char="${tile.char}" data-pool-idx="${idx}">
+            <button class="p3-tile-btn w-11 h-12 rounded-xl bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/40 hover:border-cyan-400 text-white hover:text-black font-black font-mono text-lg transition-all shadow-md active:scale-90 cursor-pointer" data-char="${tile.char}">
               ${tile.char}
             </button>
           `).join('')}
@@ -351,6 +427,30 @@ export class DailyWordEngine {
         <div id="p3-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
       </div>
     `;
+
+    this.bindRibbonEvents(mount, (idx) => {
+      this.p3Index = idx;
+      this.renderPhase3Constructor(mount);
+    });
+
+    const prevBtn = mount.querySelector('#p3-prev-word-btn');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      if (this.p3Index > 0) {
+        this.p3Index--;
+        this.renderPhase3Constructor(mount);
+      }
+    });
+
+    const skipBtn = mount.querySelector('#p3-skip-word-btn');
+    if (skipBtn) skipBtn.addEventListener('click', () => {
+      this.p3Index++;
+      this.renderPhase3Constructor(mount);
+    });
+
+    const clearBtn = mount.querySelector('#p3-clear-btn');
+    if (clearBtn) clearBtn.addEventListener('click', () => {
+      this.renderPhase3Constructor(mount);
+    });
 
     this.p3Assembled = [];
     const slots = mount.querySelectorAll('.p3-slot');
@@ -444,10 +544,20 @@ export class DailyWordEngine {
     const options = [targetWord, ...shuffledOthers].sort(() => Math.random() - 0.5);
 
     mount.innerHTML = `
-      <div class="max-w-xl mx-auto p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-4 shadow-xl">
-        <div class="flex items-center justify-between text-xs font-mono">
+      <div class="max-w-xl mx-auto p-4 sm:p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-3.5 shadow-xl">
+        ${this.renderWordRibbon(this.p4Index, (idx) => {
+          this.p4Index = idx;
+          this.renderPhase4SyntaxV2(mount);
+        })}
+
+        <div class="flex items-center justify-between text-xs font-mono pt-1">
+          <button id="p4-prev-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1 ${this.p4Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p4Index === 0 ? 'disabled' : ''}>
+            ◀ Попереднє
+          </button>
           <span class="text-slate-400">Речення ${this.p4Index + 1} / ${this.words.length}</span>
-          <span class="text-cyan-400 font-bold">Бали: ${this.p4Score} XP</span>
+          <button id="p4-skip-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1">
+            Наступне ▶
+          </button>
         </div>
 
         <div class="p-4 rounded-xl bg-black/60 border border-slate-800 text-center space-y-2">
@@ -468,7 +578,7 @@ export class DailyWordEngine {
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
           ${options.map(opt => `
-            <button class="p4-opt-btn p-3 rounded-xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-center transition-all group" data-word-id="${opt.id}">
+            <button class="p4-opt-btn p-3 rounded-xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-center transition-all group cursor-pointer" data-word-id="${opt.id}">
               <div class="text-xl mb-1">${opt.icon}</div>
               <div class="font-bold text-white text-xs group-hover:text-cyan-300 font-mono">${opt.word}</div>
               <div class="text-[10px] text-slate-400">${opt.uk}</div>
@@ -479,6 +589,25 @@ export class DailyWordEngine {
         <div id="p4-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
       </div>
     `;
+
+    this.bindRibbonEvents(mount, (idx) => {
+      this.p4Index = idx;
+      this.renderPhase4SyntaxV2(mount);
+    });
+
+    const prevBtn = mount.querySelector('#p4-prev-word-btn');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      if (this.p4Index > 0) {
+        this.p4Index--;
+        this.renderPhase4SyntaxV2(mount);
+      }
+    });
+
+    const skipBtn = mount.querySelector('#p4-skip-word-btn');
+    if (skipBtn) skipBtn.addEventListener('click', () => {
+      this.p4Index++;
+      this.renderPhase4SyntaxV2(mount);
+    });
 
     mount.querySelectorAll('.p4-opt-btn').forEach(btn => {
       btn.addEventListener('click', () => {
