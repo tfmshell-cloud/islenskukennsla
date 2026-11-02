@@ -10,9 +10,9 @@
  * - 100% Success-Gated Session Exit (+50 XP, +5 Gems, Streak Shield)
  */
 
-import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js';
-import { audioEngine } from './AudioEngine.js?v=5.7';
-import { gameState } from './GameState.js';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=5.8';
+import { audioEngine } from './AudioEngine.js?v=5.8';
+import { gameState } from './GameState.js?v=5.8';
 
 export class DailyFocusArena {
   constructor(onCompleted = null) {
@@ -181,7 +181,7 @@ export class DailyFocusArena {
     const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
     this.modalEl.innerHTML = `
-      <div class="modal-3d-glass w-full max-w-5xl xl:max-w-6xl rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[94vh] overflow-y-auto">
+      <div class="modal-3d-glass w-full rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[94vh] overflow-y-auto" style="width: min(96vw, 1180px) !important; max-width: 1180px !important;">
         
         <!-- Top HUD Header -->
         <div class="flex items-center justify-between pb-3 border-b border-cyan-500/20 gap-3">
@@ -230,8 +230,8 @@ export class DailyFocusArena {
             <span class="text-cyan-400 font-bold">Обрано: #${this.currentIndex + 1} «${currentItem.word}»</span>
           </div>
 
-          <!-- 15-Col Grid on Desktop, 8-Col on Tablet, 5-Col on Mobile -->
-          <div class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-15 gap-1.5">
+          <!-- 15-Col Master Responsive Grid: Guaranteed zero horizontal scroll -->
+          <div class="arena-15-ribbon-grid">
             ${this.queue.slice(0, 15).map((w, idx) => {
               const isActive = idx === this.currentIndex;
               return `
@@ -343,7 +343,7 @@ export class DailyFocusArena {
      ========================================================================= */
   renderGridView() {
     this.modalEl.innerHTML = `
-      <div class="modal-3d-glass w-full max-w-5xl xl:max-w-6xl rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[94vh] overflow-y-auto">
+      <div class="modal-3d-glass w-full rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[94vh] overflow-y-auto" style="width: min(96vw, 1180px) !important; max-width: 1180px !important;">
         <div class="flex items-center justify-between pb-3 border-b border-cyan-500/20">
           <div>
             <h2 class="text-base sm:text-lg font-black text-white font-mono flex items-center gap-2">

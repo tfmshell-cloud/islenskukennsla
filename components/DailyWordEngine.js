@@ -9,8 +9,8 @@
  * Phase 4: V2 Syntax Inserter (Verb-second sentence integration) + 15-Word Grid Ribbon
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.7';
-import { gameState } from './GameState.js';
+import { audioEngine } from './AudioEngine.js?v=5.8';
+import { gameState } from './GameState.js?v=5.8';
 
 export class DailyWordEngine {
   constructor(container, engineData) {
@@ -41,8 +41,8 @@ export class DailyWordEngine {
           <span>Швидкий вибір слова (1..15 без прокручування):</span>
           <span class="text-cyan-400 font-bold">${currentIndex + 1} / ${this.words.length}</span>
         </div>
-        <!-- 15-Column Responsive Grid: 1 single row on desktop, 2 neat rows on mobile -->
-        <div class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-15 gap-1.5">
+        <!-- 15-Column Responsive Grid: Guaranteed zero horizontal scroll -->
+        <div class="arena-15-ribbon-grid">
           ${this.words.map((w, idx) => {
             const isActive = idx === currentIndex;
             return `

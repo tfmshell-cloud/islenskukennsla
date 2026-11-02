@@ -6,23 +6,23 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js';
-import { AlphabetSoundboard } from './AlphabetSoundboard.js';
-import { RaddstafirHub } from './RaddstafirHub.js';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js';
-import { MinimalPairDuel } from './MinimalPairDuel.js';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js';
-import { SpeechEtiquette } from './SpeechEtiquette.js';
-import { InteractiveDrillEngine } from './InteractiveDrillEngine.js';
-import { DailyWordEngine } from './DailyWordEngine.js';
-import { DailyFocusArena } from './DailyFocusArena.js';
-import { LocalAITutorPanel } from './LocalAITutorPanel.js';
-import { Kafli1App } from './Kafli1App.js';
-import { SagaRoadmap } from './SagaRoadmap.js';
-import { DropsFlexionLab } from './DropsFlexionLab.js';
-import { gameState } from './GameState.js';
-import { binAuraSystem } from './BinAuraSystem.js';
-import { audioEngine } from './AudioEngine.js?v=5.7';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=5.8';
+import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=5.8';
+import { RaddstafirHub } from './RaddstafirHub.js?v=5.8';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=5.8';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=5.8';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=5.8';
+import { SpeechEtiquette } from './SpeechEtiquette.js?v=5.8';
+import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=5.8';
+import { DailyWordEngine } from './DailyWordEngine.js?v=5.8';
+import { DailyFocusArena } from './DailyFocusArena.js?v=5.8';
+import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=5.8';
+import { Kafli1App } from './Kafli1App.js?v=5.8';
+import { SagaRoadmap } from './SagaRoadmap.js?v=5.8';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=5.8';
+import { gameState } from './GameState.js?v=5.8';
+import { binAuraSystem } from './BinAuraSystem.js?v=5.8';
+import { audioEngine } from './AudioEngine.js?v=5.8';
 
 export class Modull0App {
   constructor(rootElement) {
