@@ -1123,6 +1123,126 @@
     body.theme-light ::-webkit-scrollbar-thumb:hover {
       background: #0284C7;
     }
+
+    /* =========================================================================
+       GLOBAL 3D DEPTH, TACTILE LIFT & NEON HOVER GLOW SYSTEM
+       ========================================================================= */
+
+    /* 3D Glass Modals with Ambient Neon Depth */
+    .modal-3d-glass {
+      background: rgba(10, 6, 20, 0.96) !important;
+      backdrop-filter: blur(28px) saturate(160%) !important;
+      -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
+      border: 1px solid rgba(0, 229, 255, 0.45) !important;
+      box-shadow: 
+        0 30px 80px -15px rgba(0, 0, 0, 0.85),
+        0 0 40px rgba(0, 229, 255, 0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+      transform-style: preserve-3d;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.theme-light .modal-3d-glass {
+      background: rgba(255, 255, 255, 0.97) !important;
+      border-color: rgba(2, 132, 199, 0.4) !important;
+      box-shadow: 
+        0 25px 70px -10px rgba(15, 23, 42, 0.18),
+        0 0 30px rgba(2, 132, 199, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* 3D Elevation & Neon Rim Glow on Interactive Cards */
+    .flip-card-front,
+    .srs-word-card,
+    .arena-p2-opt,
+    .arena-p4-opt,
+    .drill-option-card,
+    .duel-card,
+    .raddstafir-card,
+    .trap-acoustic-card {
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.2s ease, 
+                  background-color 0.2s ease !important;
+      will-change: transform, box-shadow;
+    }
+
+    .flip-card-front:hover,
+    .srs-word-card:hover,
+    .arena-p2-opt:hover,
+    .arena-p4-opt:hover {
+      transform: translateY(-4px) scale(1.015) !important;
+      box-shadow: 
+        0 14px 30px -5px rgba(0, 0, 0, 0.75), 
+        0 0 20px rgba(0, 229, 255, 0.45) !important;
+      border-color: #00E5FF !important;
+    }
+
+    body.theme-light .flip-card-front:hover,
+    body.theme-light .srs-word-card:hover,
+    body.theme-light .arena-p2-opt:hover,
+    body.theme-light .arena-p4-opt:hover {
+      transform: translateY(-4px) scale(1.015) !important;
+      box-shadow: 
+        0 14px 28px -5px rgba(15, 23, 42, 0.15), 
+        0 0 18px rgba(2, 132, 199, 0.25) !important;
+      border-color: #0284C7 !important;
+    }
+
+    /* Tactile 3D Letter Tiles & Buttons */
+    .speller-tile-btn,
+    .p3-tile-btn {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  box-shadow 0.2s ease, 
+                  border-color 0.15s ease !important;
+      will-change: transform, box-shadow;
+    }
+    .speller-tile-btn:hover,
+    .p3-tile-btn:hover {
+      transform: translateY(-3px) scale(1.08) !important;
+      box-shadow: 0 8px 22px rgba(0, 229, 255, 0.5), 0 0 12px rgba(0, 230, 118, 0.3) !important;
+      border-color: #00E5FF !important;
+    }
+    .speller-tile-btn:active,
+    .p3-tile-btn:active {
+      transform: translateY(1px) scale(0.95) !important;
+    }
+
+    /* 3D Ribbon Pills */
+    .arena-word-pill,
+    .srs-ribbon-pill {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  box-shadow 0.2s ease, 
+                  border-color 0.15s ease !important;
+      will-change: transform, box-shadow;
+    }
+    .arena-word-pill:hover,
+    .srs-ribbon-pill:hover {
+      transform: translateY(-2px) scale(1.06) !important;
+      box-shadow: 0 6px 16px rgba(0, 229, 255, 0.4) !important;
+      border-color: #00E5FF !important;
+    }
+
+    /* Universal 3D Button Pop & Tactile Click */
+    button:not(:disabled):hover {
+      filter: brightness(1.05);
+    }
+    button:not(:disabled):active {
+      transform: scale(0.96) translateY(1px);
+    }
+
+    /* Ambient Hero Glow Pulse */
+    @keyframes neonAmbientGlow {
+      0%, 100% {
+        box-shadow: 0 0 25px rgba(0, 229, 255, 0.2), inset 0 0 15px rgba(0, 229, 255, 0.05);
+      }
+      50% {
+        box-shadow: 0 0 40px rgba(0, 229, 255, 0.35), inset 0 0 25px rgba(0, 230, 118, 0.1);
+      }
+    }
+    .neon-ambient-glow {
+      animation: neonAmbientGlow 4s infinite ease-in-out;
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -1141,7 +1261,7 @@
 
   <!-- Main ES Module Bootstrapper -->
   <script type="module">
-    import { Modull0App } from './components/Modull0App.js?v=5.6';
+    import { Modull0App } from './components/Modull0App.js?v=5.7';
 
     function initApp() {
       const root = document.getElementById('app');

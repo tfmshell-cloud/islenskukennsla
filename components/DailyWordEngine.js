@@ -4,12 +4,12 @@
  * 
  * Phases:
  * Phase 1: Interactive Cards + Gender + IPA + Native Baritone Audio (Gunnar)
- * Phase 2: Audio Discrimination Test (Listen ➔ Match Icon/Ukrainian) + 15-Word Switcher
- * Phase 3: Letter Spelling Constructor (Click scrambled tiles to assemble word) + Reset + 15-Word Switcher
- * Phase 4: V2 Syntax Inserter (Verb-second sentence integration) + 15-Word Switcher
+ * Phase 2: Audio Discrimination Test (Listen ➔ Match Icon/Ukrainian) + 15-Word Non-Scroll Grid Ribbon
+ * Phase 3: Letter Spelling Constructor (Click scrambled tiles to assemble word) + Reset + 15-Word Grid Ribbon
+ * Phase 4: V2 Syntax Inserter (Verb-second sentence integration) + 15-Word Grid Ribbon
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.6';
+import { audioEngine } from './AudioEngine.js?v=5.7';
 import { gameState } from './GameState.js';
 
 export class DailyWordEngine {
@@ -36,21 +36,22 @@ export class DailyWordEngine {
 
   renderWordRibbon(currentIndex, onSelect) {
     return `
-      <div class="space-y-1 mb-3">
-        <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 px-0.5">
-          <span>Оберіть слово (1..15):</span>
+      <div class="space-y-1.5 p-2 rounded-2xl bg-black/40 border border-slate-800/80 mb-3.5">
+        <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 px-1">
+          <span>Швидкий вибір слова (1..15 без прокручування):</span>
           <span class="text-cyan-400 font-bold">${currentIndex + 1} / ${this.words.length}</span>
         </div>
-        <div class="flex items-center gap-1 overflow-x-auto py-1 scrollbar-thin">
+        <!-- 15-Column Responsive Grid: 1 single row on desktop, 2 neat rows on mobile -->
+        <div class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-15 gap-1.5">
           ${this.words.map((w, idx) => {
             const isActive = idx === currentIndex;
             return `
               <button 
-                class="srs-ribbon-pill px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold border transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer ${isActive ? 'bg-cyan-500 text-black border-cyan-300 shadow-md shadow-cyan-500/30 scale-105' : 'bg-black/50 text-slate-300 border-slate-800 hover:border-cyan-500/50 hover:text-white'}" 
+                class="srs-ribbon-pill px-1.5 py-1.5 rounded-xl font-mono text-[11px] font-bold border transition-all flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none ${isActive ? 'bg-cyan-500 text-black border-cyan-300 shadow-[0_0_14px_rgba(0,229,255,0.6)] scale-105 z-10' : 'bg-black/60 text-slate-300 border-slate-800 hover:border-cyan-400 hover:text-white'}" 
                 data-index="${idx}"
                 title="${idx + 1}. ${w.word} (${w.uk})">
-                <span class="text-[9px] opacity-75">${idx + 1}.</span>
-                <span>${w.word}</span>
+                <span class="text-[9px] opacity-75 leading-none">#${idx + 1}</span>
+                <span class="truncate max-w-full font-bold leading-tight">${w.word}</span>
               </button>
             `;
           }).join('')}
@@ -70,7 +71,7 @@ export class DailyWordEngine {
 
   render() {
     this.container.innerHTML = `
-      <div class="space-y-4 max-w-4xl mx-auto">
+      <div class="space-y-4 max-w-5xl mx-auto">
         <!-- SRS Engine Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-cyber-border/30">
           <div>
@@ -103,7 +104,7 @@ export class DailyWordEngine {
         </div>
 
         <!-- Phase Content Mount Point -->
-        <div id="srs-phase-content" class="min-h-[320px]"></div>
+        <div id="srs-phase-content" class="min-h-[340px]"></div>
       </div>
     `;
 
@@ -150,7 +151,7 @@ export class DailyWordEngine {
           <span class="font-mono text-cyan-400 font-bold">${this.words.length} слів</span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
           ${this.words.map((w, idx) => {
             let genderBadge = 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30';
             if (w.gender === 'm.') genderBadge = 'bg-sky-500/15 text-sky-300 border-sky-500/40';
@@ -159,18 +160,18 @@ export class DailyWordEngine {
 
             return `
               <div 
-                class="srs-word-card p-3.5 rounded-xl bg-cyber-deep/90 hover:bg-cyber-deep border border-slate-800 hover:border-cyan-500/50 shadow-md transition-all cursor-pointer group flex flex-col justify-between space-y-2.5 active:scale-[0.99]"
+                class="srs-word-card p-4 rounded-2xl bg-cyber-deep/90 hover:bg-cyber-deep border border-slate-800 hover:border-cyan-500/50 shadow-md transition-all cursor-pointer group flex flex-col justify-between space-y-2.5 active:scale-[0.99]"
                 data-word="${w.word}">
                 
                 <div class="flex items-start justify-between gap-2">
                   <div class="flex items-center gap-2.5">
-                    <span class="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">${w.icon || '🏷️'}</span>
+                    <span class="text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">${w.icon || '🏷️'}</span>
                     <div>
                       <div class="flex items-center gap-1.5">
                         <span class="text-base font-black font-mono text-white group-hover:text-cyan-300 transition-colors">
                           ${w.word}
                         </span>
-                        <span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border ${genderBadge}">
+                        <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold border ${genderBadge}">
                           ${w.gender}
                         </span>
                       </div>
@@ -178,7 +179,7 @@ export class DailyWordEngine {
                     </div>
                   </div>
 
-                  <button class="srs-card-play-btn w-8 h-8 rounded-lg bg-black/40 hover:bg-cyan-500 border border-slate-700 hover:border-cyan-400 text-cyan-300 hover:text-black flex items-center justify-center transition-all flex-shrink-0 shadow-sm" data-word="${w.word}" title="Слухати вимову">
+                  <button class="srs-card-play-btn w-8 h-8 rounded-xl bg-black/40 hover:bg-cyan-500 border border-slate-700 hover:border-cyan-400 text-cyan-300 hover:text-black flex items-center justify-center transition-all flex-shrink-0 shadow-sm cursor-pointer" data-word="${w.word}" title="Слухати вимову">
                     🔊
                   </button>
                 </div>
@@ -190,9 +191,9 @@ export class DailyWordEngine {
                 </div>
 
                 <!-- V2 Sentence Context -->
-                <div class="p-2 rounded-lg bg-black/40 border border-slate-800/60 text-[11px] space-y-0.5 font-sans">
+                <div class="p-2.5 rounded-xl bg-black/40 border border-slate-800/60 text-xs space-y-0.5 font-sans">
                   <div class="font-mono text-emerald-300 font-bold">«${w.sentence_v2}»</div>
-                  <div class="text-[10px] text-slate-400 leading-tight">${w.sentence_trans}</div>
+                  <div class="text-[11px] text-slate-400 leading-tight">${w.sentence_trans}</div>
                 </div>
               </div>
             `;
@@ -237,44 +238,44 @@ export class DailyWordEngine {
     const options = [targetWord, ...shuffledOthers].sort(() => Math.random() - 0.5);
 
     mount.innerHTML = `
-      <div class="max-w-xl mx-auto p-4 sm:p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-3.5 shadow-xl">
+      <div class="max-w-3xl mx-auto p-4 sm:p-6 rounded-3xl bg-cyber-deep/90 border border-cyber-border/40 space-y-4 shadow-xl">
         ${this.renderWordRibbon(this.p2Index, (idx) => {
           this.p2Index = idx;
           this.renderPhase2AudioTest(mount);
         })}
 
         <div class="flex items-center justify-between text-xs font-mono pt-1">
-          <button id="p2-prev-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1 ${this.p2Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p2Index === 0 ? 'disabled' : ''}>
+          <button id="p2-prev-word-btn" class="px-3 py-1.5 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer ${this.p2Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p2Index === 0 ? 'disabled' : ''}>
             ◀ Попереднє
           </button>
-          <span class="text-slate-400">Слово ${this.p2Index + 1} / ${this.words.length}</span>
-          <button id="p2-skip-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1">
+          <span class="text-slate-400 font-bold">Слово ${this.p2Index + 1} / ${this.words.length}</span>
+          <button id="p2-skip-word-btn" class="px-3 py-1.5 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer">
             Наступне ▶
           </button>
         </div>
 
         <div class="text-center py-3 space-y-2">
-          <div class="text-xs text-slate-300 font-sans">
+          <div class="text-xs sm:text-sm text-slate-300 font-sans">
             Уважно прослухайте вимову носія та оберіть відповідне значення:
           </div>
-          <button id="p2-listen-btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-mono font-black text-sm shadow-lg transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer">
-            <span>🔊</span> <span>Прослухати слово</span>
+          <button id="p2-listen-btn" class="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-mono font-black text-sm shadow-lg transition-all active:scale-95 inline-flex items-center gap-2 cursor-pointer">
+            <span>🔊</span> <span>Прослухати слово (Gunnar)</span>
           </button>
         </div>
 
-        <div id="p2-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div id="p2-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           ${options.map((opt, idx) => `
-            <button class="p2-opt-btn p-3 rounded-xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-left transition-all flex items-center gap-3 group cursor-pointer" data-word-id="${opt.id}">
-              <span class="text-2xl">${opt.icon}</span>
+            <button class="p2-opt-btn p-4 rounded-2xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-left transition-all flex items-center gap-3.5 group cursor-pointer shadow-md" data-word-id="${opt.id}">
+              <span class="text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">${opt.icon}</span>
               <div>
-                <div class="font-bold text-white text-xs group-hover:text-cyan-300">${opt.uk}</div>
-                <div class="font-mono text-[10px] text-slate-400">${opt.gender_name || opt.gender}</div>
+                <div class="font-bold text-white text-sm group-hover:text-cyan-300">${opt.uk}</div>
+                <div class="font-mono text-xs text-slate-400 mt-0.5">${opt.gender_name || opt.gender}</div>
               </div>
             </button>
           `).join('')}
         </div>
 
-        <div id="p2-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
+        <div id="p2-feedback" class="hidden p-3.5 rounded-2xl border text-xs sm:text-sm font-sans"></div>
       </div>
     `;
 
@@ -327,20 +328,20 @@ export class DailyWordEngine {
           this.p2Score += 15;
           gameState.addXP(15);
           gameState.playVictorySound();
-          fb.className = 'p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
+          fb.className = 'p-4 rounded-2xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
           fb.innerHTML = `
             <div>
               <strong>🎉 Rétt!</strong> «${targetWord.word}» [${targetWord.ipa}] = ${targetWord.uk}. (+15 XP)
             </div>
-            <button id="p2-next-btn" class="px-3 py-1 rounded-lg bg-emerald-500 text-black font-bold font-mono text-xs">Далі ➔</button>
+            <button id="p2-next-btn" class="px-4 py-2 rounded-xl bg-emerald-500 text-black font-bold font-mono text-xs cursor-pointer shadow-md">Далі ➔</button>
           `;
         } else {
-          fb.className = 'p-3 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
+          fb.className = 'p-4 rounded-2xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
           fb.innerHTML = `
             <div>
               <strong>❌ Ekki alveg.</strong> Правильно: «${targetWord.word}» [${targetWord.ipa}] = ${targetWord.uk}.
             </div>
-            <button id="p2-next-btn" class="px-3 py-1 rounded-lg bg-cyan-500 text-black font-bold font-mono text-xs">Далі ➔</button>
+            <button id="p2-next-btn" class="px-4 py-2 rounded-xl bg-cyan-500 text-black font-bold font-mono text-xs cursor-pointer">Далі ➔</button>
           `;
         }
 
@@ -377,54 +378,54 @@ export class DailyWordEngine {
       .sort(() => Math.random() - 0.5);
 
     mount.innerHTML = `
-      <div class="max-w-xl mx-auto p-4 sm:p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-3.5 shadow-xl">
+      <div class="max-w-3xl mx-auto p-4 sm:p-6 rounded-3xl bg-cyber-deep/90 border border-cyber-border/40 space-y-4 shadow-xl">
         ${this.renderWordRibbon(this.p3Index, (idx) => {
           this.p3Index = idx;
           this.renderPhase3Constructor(mount);
         })}
 
         <div class="flex items-center justify-between text-xs font-mono pt-1">
-          <button id="p3-prev-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1 ${this.p3Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p3Index === 0 ? 'disabled' : ''}>
+          <button id="p3-prev-word-btn" class="px-3 py-1.5 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer ${this.p3Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p3Index === 0 ? 'disabled' : ''}>
             ◀ Попереднє
           </button>
-          <span class="text-slate-400">Слово ${this.p3Index + 1} / ${this.words.length}</span>
-          <button id="p3-skip-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1">
+          <span class="text-slate-400 font-bold">Слово ${this.p3Index + 1} / ${this.words.length}</span>
+          <button id="p3-skip-word-btn" class="px-3 py-1.5 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer">
             Наступне ▶
           </button>
         </div>
 
         <div class="text-center py-2 space-y-1">
-          <div class="text-4xl">${targetWord.icon}</div>
-          <div class="text-base font-bold text-white font-sans">«${targetWord.uk}»</div>
+          <div class="text-5xl">${targetWord.icon}</div>
+          <div class="text-lg font-bold text-white font-sans">«${targetWord.uk}»</div>
           <div class="text-xs font-mono text-slate-400">${targetWord.gender_name || targetWord.gender} &bull; ${targetWord.ipa}</div>
         </div>
 
         <!-- Target Slot Holders -->
-        <div class="flex items-center justify-center gap-2 py-2">
+        <div class="flex items-center justify-center gap-2 sm:gap-2.5 py-2 flex-wrap">
           ${Array.from({ length: targetLength }).map((_, idx) => `
-            <div id="p3-slot-${idx}" class="p3-slot w-11 h-12 rounded-xl bg-black/60 border-2 border-slate-700 flex items-center justify-center text-lg font-black font-mono text-cyan-300 shadow-inner">
+            <div id="p3-slot-${idx}" class="p3-slot w-12 h-14 sm:w-16 sm:h-18 rounded-2xl bg-black/60 border-2 border-slate-700 flex items-center justify-center text-xl sm:text-2xl font-black font-mono text-cyan-300 shadow-inner">
               _
             </div>
           `).join('')}
         </div>
 
         <!-- Available Scrambled Letter Tiles & Reset -->
-        <div class="flex items-center justify-between text-[11px] text-slate-400 px-2 pt-1">
+        <div class="flex items-center justify-between text-xs text-slate-400 px-2 pt-1">
           <span>Натискайте на літери по порядку:</span>
           <button id="p3-clear-btn" class="text-amber-400 hover:text-amber-300 font-mono font-bold flex items-center gap-1 cursor-pointer">
             <span>↺</span> <span>Очистити</span>
           </button>
         </div>
 
-        <div id="p3-tiles-pool" class="flex items-center justify-center gap-2 flex-wrap py-2">
+        <div id="p3-tiles-pool" class="flex items-center justify-center gap-2 sm:gap-2.5 flex-wrap py-2">
           ${scrambledTiles.map((tile, idx) => `
-            <button class="p3-tile-btn w-11 h-12 rounded-xl bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/40 hover:border-cyan-400 text-white hover:text-black font-black font-mono text-lg transition-all shadow-md active:scale-90 cursor-pointer" data-char="${tile.char}">
+            <button class="p3-tile-btn w-12 h-14 sm:w-16 sm:h-18 rounded-2xl bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/40 hover:border-cyan-400 text-white hover:text-black font-black font-mono text-xl sm:text-2xl transition-all shadow-md active:scale-90 cursor-pointer" data-char="${tile.char}">
               ${tile.char}
             </button>
           `).join('')}
         </div>
 
-        <div id="p3-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
+        <div id="p3-feedback" class="hidden p-4 rounded-2xl border text-xs sm:text-sm font-sans"></div>
       </div>
     `;
 
@@ -485,20 +486,20 @@ export class DailyWordEngine {
             gameState.playVictorySound();
             audioEngine.play(targetWord.word);
 
-            fb.className = 'p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
+            fb.className = 'p-4 rounded-2xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
             fb.innerHTML = `
               <div>
                 <strong>🎉 Бездоганно!</strong> «${targetWord.word}» [${targetWord.ipa}] зібрано вірно! (+20 XP)
               </div>
-              <button id="p3-next-btn" class="px-3 py-1 rounded-lg bg-emerald-500 text-black font-bold font-mono text-xs">Далі ➔</button>
+              <button id="p3-next-btn" class="px-4 py-2 rounded-xl bg-emerald-500 text-black font-bold font-mono text-xs cursor-pointer shadow-md">Далі ➔</button>
             `;
           } else {
-            fb.className = 'p-3 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
+            fb.className = 'p-4 rounded-2xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
             fb.innerHTML = `
               <div>
                 <strong>❌ Помилка в порядку.</strong> Правильно: «${targetWord.word}». Спробуйте знову.
               </div>
-              <button id="p3-retry-btn" class="px-3 py-1 rounded-lg bg-rose-500 text-white font-bold font-mono text-xs">Скинути ↺</button>
+              <button id="p3-retry-btn" class="px-4 py-2 rounded-xl bg-rose-500 text-white font-bold font-mono text-xs cursor-pointer">Скинути ↺</button>
             `;
             const retryBtn = fb.querySelector('#p3-retry-btn');
             if (retryBtn) {
@@ -544,49 +545,49 @@ export class DailyWordEngine {
     const options = [targetWord, ...shuffledOthers].sort(() => Math.random() - 0.5);
 
     mount.innerHTML = `
-      <div class="max-w-xl mx-auto p-4 sm:p-5 rounded-2xl bg-cyber-deep/90 border border-cyber-border/40 space-y-3.5 shadow-xl">
+      <div class="max-w-3xl mx-auto p-4 sm:p-6 rounded-3xl bg-cyber-deep/90 border border-cyber-border/40 space-y-4 shadow-xl">
         ${this.renderWordRibbon(this.p4Index, (idx) => {
           this.p4Index = idx;
           this.renderPhase4SyntaxV2(mount);
         })}
 
         <div class="flex items-center justify-between text-xs font-mono pt-1">
-          <button id="p4-prev-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1 ${this.p4Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p4Index === 0 ? 'disabled' : ''}>
+          <button id="p4-prev-word-btn" class="px-3 py-1.5 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer ${this.p4Index === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.p4Index === 0 ? 'disabled' : ''}>
             ◀ Попереднє
           </button>
-          <span class="text-slate-400">Речення ${this.p4Index + 1} / ${this.words.length}</span>
-          <button id="p4-skip-word-btn" class="px-2.5 py-1 rounded-lg bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1">
+          <span class="text-slate-400 font-bold">Речення ${this.p4Index + 1} / ${this.words.length}</span>
+          <button id="p4-skip-word-btn" class="px-3 py-1.5 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer">
             Наступне ▶
           </button>
         </div>
 
-        <div class="p-4 rounded-xl bg-black/60 border border-slate-800 text-center space-y-2">
-          <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+        <div class="p-5 rounded-2xl bg-black/60 border border-amber-500/40 text-center space-y-2 shadow-lg">
+          <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
             Закон другого дієслова (V2-Regla)
           </span>
-          <div class="text-base sm:text-lg font-black font-mono text-cyan-300 tracking-wide">
+          <div class="text-xl sm:text-2xl font-black font-mono text-cyan-300 tracking-wide mt-2">
             «${blankedSentence}»
           </div>
-          <div class="text-xs text-slate-300 font-sans">
+          <div class="text-xs sm:text-sm text-slate-300 font-sans">
             🇺🇦 Переклад: ${targetWord.sentence_trans}
           </div>
         </div>
 
-        <div class="text-xs text-slate-400 text-center font-sans">
+        <div class="text-xs sm:text-sm text-slate-400 text-center font-sans">
           Оберіть правильне слово, щоб завершити речення:
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           ${options.map(opt => `
-            <button class="p4-opt-btn p-3 rounded-xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-center transition-all group cursor-pointer" data-word-id="${opt.id}">
-              <div class="text-xl mb-1">${opt.icon}</div>
-              <div class="font-bold text-white text-xs group-hover:text-cyan-300 font-mono">${opt.word}</div>
-              <div class="text-[10px] text-slate-400">${opt.uk}</div>
+            <button class="p4-opt-btn p-4 rounded-2xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-center transition-all group cursor-pointer shadow-md" data-word-id="${opt.id}">
+              <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">${opt.icon}</div>
+              <div class="font-bold text-white text-sm group-hover:text-cyan-300 font-mono">${opt.word}</div>
+              <div class="text-xs text-slate-400 mt-0.5">${opt.uk}</div>
             </button>
           `).join('')}
         </div>
 
-        <div id="p4-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
+        <div id="p4-feedback" class="hidden p-4 rounded-2xl border text-xs sm:text-sm font-sans"></div>
       </div>
     `;
 
@@ -633,20 +634,20 @@ export class DailyWordEngine {
           gameState.playVictorySound();
           audioEngine.play(targetWord.word);
 
-          fb.className = 'p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
+          fb.className = 'p-4 rounded-2xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
           fb.innerHTML = `
             <div>
               <strong>🎉 Чудово!</strong> «${targetWord.sentence_v2}» правильно заповнено! (+20 XP)
             </div>
-            <button id="p4-next-btn" class="px-3 py-1 rounded-lg bg-emerald-500 text-black font-bold font-mono text-xs">Далі ➔</button>
+            <button id="p4-next-btn" class="px-4 py-2 rounded-xl bg-emerald-500 text-black font-bold font-mono text-xs cursor-pointer shadow-md">Далі ➔</button>
           `;
         } else {
-          fb.className = 'p-3 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
+          fb.className = 'p-4 rounded-2xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
           fb.innerHTML = `
             <div>
               <strong>❌ Неправильне слово.</strong> Правильний варіант: «${targetWord.word}» [${targetWord.sentence_v2}].
             </div>
-            <button id="p4-next-btn" class="px-3 py-1 rounded-lg bg-cyan-500 text-black font-bold font-mono text-xs">Далі ➔</button>
+            <button id="p4-next-btn" class="px-4 py-2 rounded-xl bg-cyan-500 text-black font-bold font-mono text-xs cursor-pointer">Далі ➔</button>
           `;
         }
 
@@ -664,27 +665,27 @@ export class DailyWordEngine {
   renderPhaseSummary(mount, phaseTitle, score, maxScore, onRestart) {
     const percent = Math.round((score / maxScore) * 100);
     mount.innerHTML = `
-      <div class="p-6 rounded-2xl bg-cyber-deep/95 border border-cyan-500/40 shadow-xl max-w-md mx-auto text-center space-y-4">
-        <div class="text-4xl">🏆</div>
+      <div class="p-6 sm:p-8 rounded-3xl bg-cyber-deep/95 border border-cyan-500/40 shadow-xl max-w-md mx-auto text-center space-y-4">
+        <div class="text-5xl">🏆</div>
         <div class="space-y-1">
-          <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+          <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
             Фазу завершено!
           </span>
-          <h3 class="text-lg font-black text-white font-mono mt-1">${phaseTitle}</h3>
+          <h3 class="text-xl font-black text-white font-mono mt-1">${phaseTitle}</h3>
         </div>
 
-        <div class="p-3 rounded-xl bg-black/60 border border-slate-800 font-mono flex items-center justify-around">
+        <div class="p-4 rounded-2xl bg-black/60 border border-slate-800 font-mono flex items-center justify-around">
           <div>
-            <div class="text-[10px] text-slate-400 uppercase">Успішність</div>
-            <div class="text-lg font-black text-white">${percent}%</div>
+            <div class="text-xs text-slate-400 uppercase">Успішність</div>
+            <div class="text-2xl font-black text-white">${percent}%</div>
           </div>
           <div>
-            <div class="text-[10px] text-slate-400 uppercase">Отримано XP</div>
-            <div class="text-lg font-black text-cyan-400">+${score} XP</div>
+            <div class="text-xs text-slate-400 uppercase">Отримано XP</div>
+            <div class="text-2xl font-black text-cyan-400">+${score} XP</div>
           </div>
         </div>
 
-        <button id="srs-restart-phase-btn" class="px-5 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold font-mono text-xs uppercase shadow-md transition-all active:scale-95">
+        <button id="srs-restart-phase-btn" class="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold font-mono text-xs uppercase shadow-md transition-all active:scale-95 cursor-pointer">
           🔄 Повторити фазу
         </button>
       </div>
