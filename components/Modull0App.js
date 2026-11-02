@@ -20,7 +20,7 @@ import { SagaRoadmap } from './SagaRoadmap.js';
 import { DropsFlexionLab } from './DropsFlexionLab.js';
 import { gameState } from './GameState.js';
 import { binAuraSystem } from './BinAuraSystem.js';
-import { audioEngine } from './AudioEngine.js?v=5.1';
+import { audioEngine } from './AudioEngine.js?v=5.2';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -109,8 +109,8 @@ export class Modull0App {
                   <span id="theme-toggle-icon">${s.theme === 'light' ? '☀️' : '🌙'}</span>
                 </button>
 
-                <!-- Quick AI Tutor Button -->
-                <button data-chapter="ai_tutor" class="chapter-nav-btn px-2.5 py-1 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-extrabold text-[11px] font-mono shadow-sm flex items-center gap-1 transition-all transform hover:scale-105 active:scale-95">
+                <!-- In-Context Quick AI Tutor Modal Trigger Button -->
+                <button id="header-open-ai-btn" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-extrabold text-[11px] font-mono shadow-sm flex items-center gap-1 transition-all transform hover:scale-105 active:scale-95 cursor-pointer" title="Відкрити ШІ-Тьютора Árnastofnun">
                   <span>🤖</span><span>ШІ-Коуч</span>
                 </button>
               </div>
@@ -293,12 +293,26 @@ export class Modull0App {
             <!-- Populated by SagaRoadmap -->
           </div>
 
-          <!-- ================= TAB 5: ШІ-ТЬЮТОР (GEMMA 2) ================= -->
-          <div id="chapter-container-ai_tutor" class="chapter-view ${this.activeChapter === 'ai_tutor' ? '' : 'hidden'}">
-            <!-- Populated by LocalAITutorPanel -->
-          </div>
-
         </main>
+
+        <!-- Floating Quick-Access Button for AI Coach -->
+        <button id="floating-ai-tutor-btn" class="fixed bottom-5 right-5 z-40 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-500 text-black font-mono font-black text-xs shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border border-cyan-300 cursor-pointer" title="Відкрити ШІ-Тьютора Árnastofnun">
+          <span class="text-base">🤖</span>
+          <span class="hidden sm:inline">ШІ-Коуч Árnastofnun</span>
+          <span class="sm:hidden font-bold">ШІ</span>
+        </button>
+
+        <!-- ================= IN-CONTEXT FULLSCREEN / LARGE POPUP MODAL FOR AI TUTOR ================= -->
+        <div id="ai-tutor-modal-overlay" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md transition-all">
+          <!-- Clickable backdrop to dismiss and return to exact lesson position -->
+          <div id="ai-modal-backdrop-dismiss" class="absolute inset-0 cursor-pointer" title="Натисніть на фон, щоб повернутися до уроку"></div>
+          
+          <!-- Modal Window Container -->
+          <div class="relative w-full max-w-4xl h-[92vh] sm:h-[86vh] max-h-[820px] bg-cyber-deep/98 border border-cyan-500/50 rounded-2xl shadow-2xl flex flex-col overflow-hidden z-10 ring-1 ring-cyan-500/30">
+            <div id="ai-modal-tutor-mount" class="w-full h-full flex flex-col overflow-hidden"></div>
+          </div>
+        </div>
+
       </div>
     `;
   }
@@ -399,10 +413,10 @@ export class Modull0App {
       this.components.dropsLab.render();
     }
 
-    // 5. Mount Global AI Tutor
-    const aiContainer = this.root.querySelector('#chapter-container-ai_tutor');
-    if (aiContainer) {
-      this.components.ai_tutor = new LocalAITutorPanel(aiContainer);
+    // 5. Mount In-Context AI Tutor Modal
+    const aiMount = this.root.querySelector('#ai-modal-tutor-mount');
+    if (aiMount) {
+      this.components.ai_tutor = new LocalAITutorPanel(aiMount, () => this.closeAiTutorModal());
       this.components.ai_tutor.render();
       this.components.ai_tutor.setChapter(this.activeChapter === 'kafli_1' ? 'kafli_1' : 'modull_0');
     }
@@ -437,6 +451,32 @@ export class Modull0App {
   }
 
   bindGlobalEvents() {
+    // In-Context AI Tutor Modal Triggers
+    const headerAiBtn = this.root.querySelector('#header-open-ai-btn');
+    if (headerAiBtn) {
+      headerAiBtn.addEventListener('click', () => this.openAiTutorModal());
+    }
+
+    const floatingAiBtn = this.root.querySelector('#floating-ai-tutor-btn');
+    if (floatingAiBtn) {
+      floatingAiBtn.addEventListener('click', () => this.openAiTutorModal());
+    }
+
+    const backdropDismiss = this.root.querySelector('#ai-modal-backdrop-dismiss');
+    if (backdropDismiss) {
+      backdropDismiss.addEventListener('click', () => this.closeAiTutorModal());
+    }
+
+    // Close Modal on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = this.root.querySelector('#ai-tutor-modal-overlay');
+        if (modal && !modal.classList.contains('hidden')) {
+          this.closeAiTutorModal();
+        }
+      }
+    });
+
     // Chapter switcher buttons (including the 2-row navigation panel)
     this.root.querySelectorAll('.chapter-nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -464,6 +504,27 @@ export class Modull0App {
         if (label) label.innerText = newTheme === 'light' ? 'Світла' : 'Темна';
       });
     }
+  }
+
+  openAiTutorModal() {
+    const modal = this.root.querySelector('#ai-tutor-modal-overlay');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+
+    if (this.components.ai_tutor) {
+      this.components.ai_tutor.setChapter(this.activeChapter === 'kafli_1' ? 'kafli_1' : 'modull_0');
+    }
+
+    const input = modal.querySelector('#ai-chat-input');
+    if (input) setTimeout(() => input.focus(), 60);
+  }
+
+  closeAiTutorModal() {
+    const modal = this.root.querySelector('#ai-tutor-modal-overlay');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
   }
 
   switchChapter(chapterId) {
@@ -503,10 +564,6 @@ export class Modull0App {
         case 'saga_map':
           heroBadge.innerText = 'МАПА САГИ • HRINGVEGUR 1';
           heroTitle.innerText = 'Мапа Саги: Кільцева дорога Ісландії (Roadmap)';
-          break;
-        case 'ai_tutor':
-          heroBadge.innerText = 'ШІ-ТЬЮТОР • ÁRNASTOFNUN GEMMA 2';
-          heroTitle.innerText = 'ШІ-Тьютор: Персональний лінгвістичний коуч (Gemma 2 на localhost:1235)';
           break;
       }
     }

@@ -85,10 +85,11 @@ export class AudioEngine {
     if (!key) return null;
 
     // 1. Direct audio file URL or relative path
-    if (key.endsWith('.mp3') || key.endsWith('.wav') || key.endsWith('.ogg') ||
+    if (key.endsWith('.mp3') || key.endsWith('.wav') || key.endsWith('.ogg') || key.endsWith('.m4a') ||
         key.includes('/dialogue/') || key.includes('/words/') ||
+        key.startsWith('./audio/') || key.startsWith('audio/') ||
         /^https?:\/\//i.test(key) || /^data:audio/i.test(key)) {
-      return key;
+      return key.startsWith('audio/') ? `./${key}` : key;
     }
 
     // 2. Exact Icelandic letter uppercase match
@@ -97,10 +98,13 @@ export class AudioEngine {
       return this.nativeAudioBank[upper];
     }
 
-    // 3. Multi-character letter token (e.g. "A a", "I i / Y y", "Á á")
+    // 3. Multi-character letter token (e.g. "A a", "I i / Y y", "Á á", "Ypsilon")
     const firstToken = key.split(/[\s/]+/)[0].toUpperCase();
     if (this.nativeAudioBank[firstToken]) {
       return this.nativeAudioBank[firstToken];
+    }
+    if (firstToken === 'YPSILON' || firstToken === 'UFSILON') {
+      return this.nativeAudioBank['Y'];
     }
 
     // 4. Sanitize word / phrase to match high-fidelity word bank

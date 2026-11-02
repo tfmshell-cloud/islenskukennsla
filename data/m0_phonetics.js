@@ -22,7 +22,7 @@ export const M0_DATA = {
       "example_word": "Afi",
       "word_ipa": "['avɪ]",
       "ukrainian_translation": "дідусь",
-      "audio_file": "audio/a.m4a",
+      "audio_file": "audio/a.mp3",
       "category": "monophthong",
       "has_acute": false
     },
@@ -39,7 +39,7 @@ export const M0_DATA = {
       "example_word": "Á",
       "word_ipa": "[auː]",
       "ukrainian_translation": "річка / на (прийменник)",
-      "audio_file": "audio/a_acute.m4a",
+      "audio_file": "audio/a_acute.mp3",
       "category": "diphthong",
       "has_acute": true
     },
@@ -56,7 +56,7 @@ export const M0_DATA = {
       "example_word": "Bók",
       "word_ipa": "[pouk]",
       "ukrainian_translation": "книга",
-      "audio_file": "audio/b.m4a",
+      "audio_file": "audio/b.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -73,7 +73,7 @@ export const M0_DATA = {
       "example_word": "Dagur",
       "word_ipa": "['takʏr]",
       "ukrainian_translation": "день",
-      "audio_file": "audio/d.m4a",
+      "audio_file": "audio/d.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -90,7 +90,7 @@ export const M0_DATA = {
       "example_word": "Maður",
       "word_ipa": "['maðʏr]",
       "ukrainian_translation": "чоловік",
-      "audio_file": "audio/ed.m4a",
+      "audio_file": "audio/ed.mp3",
       "category": "special_icelandic",
       "has_acute": false
     },
@@ -107,7 +107,7 @@ export const M0_DATA = {
       "example_word": "Epli",
       "word_ipa": "['ɛplɪ]",
       "ukrainian_translation": "яблуко",
-      "audio_file": "audio/e.m4a",
+      "audio_file": "audio/e.mp3",
       "category": "monophthong",
       "has_acute": false
     },
@@ -124,7 +124,7 @@ export const M0_DATA = {
       "example_word": "Ég",
       "word_ipa": "[jɛːɣ]",
       "ukrainian_translation": "я",
-      "audio_file": "audio/e_acute.m4a",
+      "audio_file": "audio/e_acute.mp3",
       "category": "diphthong",
       "has_acute": true
     },
@@ -141,7 +141,7 @@ export const M0_DATA = {
       "example_word": "Faðir",
       "word_ipa": "['favɪr]",
       "ukrainian_translation": "батько",
-      "audio_file": "audio/f.m4a",
+      "audio_file": "audio/f.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -158,7 +158,7 @@ export const M0_DATA = {
       "example_word": "Gata",
       "word_ipa": "['kata]",
       "ukrainian_translation": "вулиця",
-      "audio_file": "audio/g.m4a",
+      "audio_file": "audio/g.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -175,7 +175,7 @@ export const M0_DATA = {
       "example_word": "Hús",
       "word_ipa": "[huːs]",
       "ukrainian_translation": "будинок",
-      "audio_file": "audio/h.m4a",
+      "audio_file": "audio/h.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -192,7 +192,7 @@ export const M0_DATA = {
       "example_word": "Is",
       "word_ipa": "[ɪs]",
       "ukrainian_translation": "є (дієслово)",
-      "audio_file": "audio/i.m4a",
+      "audio_file": "audio/i.mp3",
       "category": "monophthong",
       "has_acute": false
     },
@@ -209,7 +209,7 @@ export const M0_DATA = {
       "example_word": "Ís",
       "word_ipa": "[iːs]",
       "ukrainian_translation": "лід / морозиво",
-      "audio_file": "audio/i_acute.m4a",
+      "audio_file": "audio/i_acute.mp3",
       "category": "monophthong",
       "has_acute": true
     },
@@ -226,7 +226,7 @@ export const M0_DATA = {
       "example_word": "Já",
       "word_ipa": "[jau]",
       "ukrainian_translation": "так",
-      "audio_file": "audio/j.m4a",
+      "audio_file": "audio/j.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -243,7 +243,7 @@ export const M0_DATA = {
       "example_word": "Kaffi",
       "word_ipa": "['kʰaffɪ]",
       "ukrainian_translation": "кава",
-      "audio_file": "audio/k.m4a",
+      "audio_file": "audio/k.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -260,7 +260,7 @@ export const M0_DATA = {
       "example_word": "Land",
       "word_ipa": "[lant]",
       "ukrainian_translation": "країна / земля",
-      "audio_file": "audio/l.m4a",
+      "audio_file": "audio/l.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -277,7 +277,7 @@ export const M0_DATA = {
       "example_word": "Matur",
       "word_ipa": "['matʏr]",
       "ukrainian_translation": "їжа",
-      "audio_file": "audio/m.m4a",
+      "audio_file": "audio/m.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -294,7 +294,7 @@ export const M0_DATA = {
       "example_word": "Nafn",
       "word_ipa": "[napn]",
       "ukrainian_translation": "ім'я",
-      "audio_file": "audio/n.m4a",
+      "audio_file": "audio/n.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -311,7 +311,7 @@ export const M0_DATA = {
       "example_word": "Orð",
       "word_ipa": "[ɔrð]",
       "ukrainian_translation": "слово",
-      "audio_file": "audio/o.m4a",
+      "audio_file": "audio/o.mp3",
       "category": "monophthong",
       "has_acute": false
     },
@@ -328,7 +328,7 @@ export const M0_DATA = {
       "example_word": "Ókeypis",
       "word_ipa": "['ouːceipɪs]",
       "ukrainian_translation": "безкоштовно",
-      "audio_file": "audio/o_acute.m4a",
+      "audio_file": "audio/o_acute.mp3",
       "category": "diphthong",
       "has_acute": true
     },
@@ -345,7 +345,7 @@ export const M0_DATA = {
       "example_word": "Penni",
       "word_ipa": "['pʰɛnnɪ]",
       "ukrainian_translation": "ручка",
-      "audio_file": "audio/p.m4a",
+      "audio_file": "audio/p.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -362,7 +362,7 @@ export const M0_DATA = {
       "example_word": "Rigning",
       "word_ipa": "['rɪknɪŋk]",
       "ukrainian_translation": "дощ",
-      "audio_file": "audio/r.m4a",
+      "audio_file": "audio/r.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -379,7 +379,7 @@ export const M0_DATA = {
       "example_word": "Sól",
       "word_ipa": "[soul]",
       "ukrainian_translation": "сонце",
-      "audio_file": "audio/s.m4a",
+      "audio_file": "audio/s.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -396,7 +396,7 @@ export const M0_DATA = {
       "example_word": "Takk",
       "word_ipa": "[tʰahk]",
       "ukrainian_translation": "дякую",
-      "audio_file": "audio/t.m4a",
+      "audio_file": "audio/t.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -413,7 +413,7 @@ export const M0_DATA = {
       "example_word": "Ungur",
       "word_ipa": "['ʏŋkʏr]",
       "ukrainian_translation": "молодий",
-      "audio_file": "audio/u.m4a",
+      "audio_file": "audio/u.mp3",
       "category": "monophthong",
       "has_acute": false
     },
@@ -430,7 +430,7 @@ export const M0_DATA = {
       "example_word": "Úr",
       "word_ipa": "[uːr]",
       "ukrainian_translation": "годинник",
-      "audio_file": "audio/u_acute.m4a",
+      "audio_file": "audio/u_acute.mp3",
       "category": "monophthong",
       "has_acute": true
     },
@@ -447,7 +447,7 @@ export const M0_DATA = {
       "example_word": "Vatn",
       "word_ipa": "[vahtn]",
       "ukrainian_translation": "вода",
-      "audio_file": "audio/v.m4a",
+      "audio_file": "audio/v.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -464,7 +464,7 @@ export const M0_DATA = {
       "example_word": "Lax",
       "word_ipa": "[laks]",
       "ukrainian_translation": "лосось",
-      "audio_file": "audio/x.m4a",
+      "audio_file": "audio/x.mp3",
       "category": "consonant",
       "has_acute": false
     },
@@ -481,7 +481,7 @@ export const M0_DATA = {
       "example_word": "Yfir",
       "word_ipa": "['ɪvɪr]",
       "ukrainian_translation": "над / понад",
-      "audio_file": "audio/y.m4a",
+      "audio_file": "audio/y.mp3",
       "category": "monophthong",
       "has_acute": false
     },
@@ -498,7 +498,7 @@ export const M0_DATA = {
       "example_word": "Ýta",
       "word_ipa": "['iːta]",
       "ukrainian_translation": "штовхати",
-      "audio_file": "audio/y_acute.m4a",
+      "audio_file": "audio/y_acute.mp3",
       "category": "monophthong",
       "has_acute": true
     },
@@ -515,7 +515,7 @@ export const M0_DATA = {
       "example_word": "Þak",
       "word_ipa": "[θak]",
       "ukrainian_translation": "дах",
-      "audio_file": "audio/thorn.m4a",
+      "audio_file": "audio/thorn.mp3",
       "category": "special_icelandic",
       "has_acute": false
     },
@@ -532,7 +532,7 @@ export const M0_DATA = {
       "example_word": "Ævisaga",
       "word_ipa": "['aivɪsaka]",
       "ukrainian_translation": "біографія / життєпис",
-      "audio_file": "audio/ae.m4a",
+      "audio_file": "audio/ae.mp3",
       "category": "diphthong",
       "has_acute": false
     },
@@ -549,7 +549,7 @@ export const M0_DATA = {
       "example_word": "Öld",
       "word_ipa": "[œlt]",
       "ukrainian_translation": "століття / епоха",
-      "audio_file": "audio/o_umlaut.m4a",
+      "audio_file": "audio/o_umlaut.mp3",
       "category": "monophthong",
       "has_acute": false
     }
@@ -772,7 +772,7 @@ export const M0_DATA = {
         "word": "ís",
         "ipa": "[iːs]",
         "meaning": "лід / морозиво",
-        "audio": "audio/i_acute.m4a",
+        "audio": "audio/i_acute.mp3",
         "duration_ms": 380,
         "wave_color": "#00E5FF",
         "acoustic_desc": "Довге напружене [iː] у широкій посмішці. F2 ~2500 Гц."
@@ -781,7 +781,7 @@ export const M0_DATA = {
         "word": "is",
         "ipa": "[ɪs]",
         "meaning": "є (дієслово vera)",
-        "audio": "audio/i.m4a",
+        "audio": "audio/i.mp3",
         "duration_ms": 190,
         "wave_color": "#FFD600",
         "acoustic_desc": "Коротке ненапружене [ɪ] (близьке до укр. «и»)."
@@ -796,7 +796,7 @@ export const M0_DATA = {
         "word": "taka",
         "ipa": "['taːka]",
         "meaning": "брати (інфінітив)",
-        "audio": "audio/t.m4a",
+        "audio": "audio/t.mp3",
         "duration_ms": 420,
         "wave_color": "#00E676",
         "acoustic_desc": "Відкритий склад, чистий довгий [aː] без видиху."
@@ -805,7 +805,7 @@ export const M0_DATA = {
         "word": "takk",
         "ipa": "[tʰahk]",
         "meaning": "дякую",
-        "audio": "audio/t.m4a",
+        "audio": "audio/t.mp3",
         "duration_ms": 310,
         "wave_color": "#FF0055",
         "acoustic_desc": "Короткий [a] + гортанний видих повітря [h] перед kk."
@@ -820,7 +820,7 @@ export const M0_DATA = {
         "word": "bát",
         "ipa": "[pauːt]",
         "meaning": "човен (Знахідний відмінок)",
-        "audio": "audio/b.m4a",
+        "audio": "audio/b.mp3",
         "duration_ms": 390,
         "wave_color": "#00E5FF",
         "acoustic_desc": "Закінчується чистим проривним [t]."
@@ -829,7 +829,7 @@ export const M0_DATA = {
         "word": "bátt",
         "ipa": "[pauht]",
         "meaning": "погано (прислівник)",
-        "audio": "audio/b.m4a",
+        "audio": "audio/b.mp3",
         "duration_ms": 320,
         "wave_color": "#FF5E00",
         "acoustic_desc": "Містить глухий придих [h] перед коротким [t]."
@@ -844,7 +844,7 @@ export const M0_DATA = {
         "word": "bú",
         "ipa": "[puː]",
         "meaning": "ферма / господарство",
-        "audio": "audio/b.m4a",
+        "audio": "audio/b.mp3",
         "duration_ms": 360,
         "wave_color": "#00E676",
         "acoustic_desc": "Чистий відкритий довгий голосний [uː]."
@@ -853,7 +853,7 @@ export const M0_DATA = {
         "word": "búð",
         "ipa": "[puːð]",
         "meaning": "крамниця / магазин",
-        "audio": "audio/b.m4a",
+        "audio": "audio/b.mp3",
         "duration_ms": 410,
         "wave_color": "#FFD600",
         "acoustic_desc": "Звук завершується тертям язика між зубами [ð]."
@@ -868,7 +868,7 @@ export const M0_DATA = {
         "word": "fínn",
         "ipa": "[fitn]",
         "meaning": "чудовий / гарний",
-        "audio": "audio/f.m4a",
+        "audio": "audio/f.mp3",
         "duration_ms": 370,
         "wave_color": "#00E5FF",
         "acoustic_desc": "Після довгого í подвійне nn перетворюється на [tn]."
@@ -877,7 +877,7 @@ export const M0_DATA = {
         "word": "penni",
         "ipa": "['pʰɛnnɪ]",
         "meaning": "ручка (для письма)",
-        "audio": "audio/p.m4a",
+        "audio": "audio/p.mp3",
         "duration_ms": 340,
         "wave_color": "#B026FF",
         "acoustic_desc": "Після простого короткого e подвійне nn лишається [nn]."
@@ -892,7 +892,7 @@ export const M0_DATA = {
         "word": "Sæll",
         "ipa": "[saitl]",
         "meaning": "привіт! (до чоловіка)",
-        "audio": "audio/s.m4a",
+        "audio": "audio/s.mp3",
         "duration_ms": 380,
         "wave_color": "#00E5FF",
         "acoustic_desc": "ll дає яскравий боковий клацаючий вибух [tl]."
@@ -901,7 +901,7 @@ export const M0_DATA = {
         "word": "Sæl",
         "ipa": "[sail]",
         "meaning": "привіт! (до жінки)",
-        "audio": "audio/s.m4a",
+        "audio": "audio/s.mp3",
         "duration_ms": 330,
         "wave_color": "#FF2A6D",
         "acoustic_desc": "Закінчується м'яким одиночним європейським [l]."

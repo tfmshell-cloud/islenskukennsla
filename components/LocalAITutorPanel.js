@@ -1,16 +1,18 @@
 /**
  * LocalAITutorPanel.js - Árnastofnun AI Linguistics & Phonetics Coach
+ * Fullscreen / Modal-optimized architecture
  * Supports:
- * 1. Cloud AI (Google Gemini API via user key or direct HTTPS) - Works 100% on GitHub Pages
+ * 1. Cloud AI (Google Gemini API via user key) - Works 100% on GitHub Pages over HTTPS
  * 2. Local AI (LM Studio Gemma 2 at http://localhost:1235) - Active on local environment
  * 3. Deep Offline Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.1';
+import { audioEngine } from './AudioEngine.js?v=5.2';
 
 export class LocalAITutorPanel {
-  constructor(container) {
+  constructor(container, onClose = null) {
     this.container = container;
+    this.onClose = onClose;
     this.endpoint = 'http://localhost:1235/v1/chat/completions';
     this.model = 'gemma-2-9b-it';
     this.geminiApiKey = localStorage.getItem('isl_gemini_api_key') || '';
@@ -69,7 +71,6 @@ export class LocalAITutorPanel {
       return;
     }
 
-    // Only test localhost if on http: protocol (avoids browser Mixed Content console warnings on HTTPS)
     if (window.location.protocol === 'http:') {
       try {
         const res = await fetch('http://localhost:1235/v1/models', { method: 'GET', signal: AbortSignal.timeout(1800) });
@@ -102,57 +103,61 @@ export class LocalAITutorPanel {
 
   render() {
     this.container.innerHTML = `
-      <div class="p-4 sm:p-5 rounded-xl bg-cyber-deep/95 border border-cyan-500/40 shadow-xl space-y-3.5 max-w-3xl mx-auto">
-        <!-- AI Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-cyber-border/30">
+      <div class="h-full flex flex-col p-3.5 sm:p-5 space-y-3 bg-cyber-deep/95 select-none-text">
+        <!-- AI Header with Close Button -->
+        <div class="flex items-center justify-between pb-2.5 border-b border-cyber-border/30 flex-shrink-0">
           <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-emerald-500/20 border border-cyan-400 flex items-center justify-center text-lg shadow-sm">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-cyan-500/20 to-emerald-500/20 border border-cyan-400 flex items-center justify-center text-lg sm:text-xl shadow-sm flex-shrink-0">
               🤖
             </div>
             <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-sm sm:text-base font-black text-white font-mono leading-none">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="text-xs sm:text-sm font-black text-white font-mono leading-none">
                   Árnastofnun AI Лінгвістичний Коуч
                 </h3>
                 <span id="ai-server-status" class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
                   Зв'язок...
                 </span>
               </div>
-              <span id="ai-chapter-badge" class="text-[10px] text-slate-400 font-sans">
+              <span id="ai-chapter-badge" class="text-[10px] text-slate-400 font-sans block mt-0.5">
                 Контекст: ${this.currentChapter === 'kafli_1' ? 'Kafli 1 (Hver ert þú?)' : 'Módúll 0 (Stafrófið)'}
               </span>
             </div>
           </div>
 
-          <div class="flex items-center gap-1.5 self-start sm:self-auto">
-            <button id="ai-config-key-btn" class="px-2.5 py-1 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-mono transition-colors flex items-center gap-1">
-              <span>⚙️</span> <span>${this.geminiApiKey ? 'API Ключ ✓' : '+ Додати Gemini API'}</span>
+          <!-- Actions: Gemini Key, Clear, Close Modal -->
+          <div class="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+            <button id="ai-config-key-btn" class="px-2 sm:px-2.5 py-1 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-mono transition-colors flex items-center gap-1">
+              <span>⚙️</span> <span class="hidden sm:inline">${this.geminiApiKey ? 'API Ключ ✓' : '+ Gemini API'}</span>
             </button>
-            <button id="ai-clear-btn" class="px-2.5 py-1 rounded-lg bg-black/40 hover:bg-black/80 border border-slate-800 text-slate-400 hover:text-white text-[10px] font-mono transition-colors">
+            <button id="ai-clear-btn" class="px-2 sm:px-2.5 py-1 rounded-lg bg-black/40 hover:bg-black/80 border border-slate-800 text-slate-400 hover:text-white text-[10px] font-mono transition-colors">
               Очистити
+            </button>
+            <button id="ai-close-modal-btn" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-500/10 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 hover:text-rose-100 text-xs sm:text-sm font-bold flex items-center justify-center transition-all ml-1 shadow-sm active:scale-90" title="Закрити вікно (Esc)">
+              ✕
             </button>
           </div>
         </div>
 
         <!-- Quick Prompts Pills -->
-        <div id="ai-quick-prompts-container" class="flex items-center gap-1.5 flex-wrap text-xs"></div>
+        <div id="ai-quick-prompts-container" class="flex items-center gap-1.5 flex-wrap text-xs flex-shrink-0"></div>
 
-        <!-- Chat Messages Container -->
-        <div id="ai-messages-container" class="space-y-2.5 max-h-72 overflow-y-auto p-3 rounded-lg bg-black/60 border border-slate-800/80 pr-1.5 text-xs"></div>
+        <!-- Chat Messages Container (Expands to fill vertical space) -->
+        <div id="ai-messages-container" class="flex-grow overflow-y-auto p-3 sm:p-4 rounded-xl bg-black/60 border border-slate-800/80 space-y-3 text-xs pr-2 min-h-0"></div>
 
-        <!-- Chat Input Form -->
-        <form id="ai-chat-form" class="flex items-center gap-2">
+        <!-- Chat Input Form (Anchored at bottom) -->
+        <form id="ai-chat-form" class="flex items-center gap-2 pt-1 flex-shrink-0">
           <input
             id="ai-chat-input"
             type="text"
             placeholder="Запитайте про «heiti», «að vera», вимову чи правила..."
-            class="flex-grow bg-black/80 border border-slate-700 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-colors font-sans"
+            class="flex-grow bg-black/80 border border-slate-700 focus:border-cyan-400 rounded-xl px-3 sm:px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-colors font-sans shadow-inner"
             autocomplete="off"
           />
           <button
             type="submit"
             id="ai-send-btn"
-            class="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-xs font-mono shadow-sm transition-all flex items-center gap-1 flex-shrink-0"
+            class="px-3.5 sm:px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-xs font-mono shadow-md transition-all flex items-center gap-1 flex-shrink-0 active:scale-95"
           >
             <span>Надіслати ➔</span>
           </button>
@@ -220,16 +225,16 @@ export class LocalAITutorPanel {
           <div class="w-6 h-6 rounded ${isUser ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'} flex items-center justify-center text-xs font-bold flex-shrink-0">
             ${isUser ? '🧑' : '🇮🇸'}
           </div>
-          <div class="max-w-[88%] p-2.5 rounded-xl ${isUser ? 'bg-amber-500/10 border border-amber-500/30 text-slate-100 rounded-tr-none' : 'bg-cyber-deep border border-cyan-500/30 text-slate-200 rounded-tl-none'} space-y-1 font-sans text-xs leading-relaxed">
+          <div class="max-w-[88%] p-2.5 rounded-xl ${isUser ? 'bg-amber-500/10 border border-amber-500/30 text-slate-100 rounded-tr-none' : 'bg-cyber-deep border border-cyan-500/30 text-slate-200 rounded-tl-none'} space-y-1 font-sans text-xs leading-relaxed shadow-sm">
             <div class="flex items-center justify-between text-[9px] font-mono ${isUser ? 'text-amber-400' : 'text-cyan-400'}">
               <span>${isUser ? 'Ви' : 'Árnastofnun Коуч'}</span>
               ${!isUser ? `
-                <button class="ai-msg-speak-btn px-1 py-0.2 rounded bg-black/40 hover:bg-black text-[9px] text-cyan-300 font-mono transition-colors" data-msg-idx="${idx}" title="Слухати">
+                <button class="ai-msg-speak-btn px-1.5 py-0.2 rounded bg-black/40 hover:bg-black text-[9px] text-cyan-300 font-mono transition-colors" data-msg-idx="${idx}" title="Слухати">
                   🔊 Озвучити
                 </button>
               ` : ''}
             </div>
-            <div class="whitespace-pre-wrap">${this.formatMessageContent(m.content)}</div>
+            <div class="whitespace-pre-wrap leading-relaxed">${this.formatMessageContent(m.content)}</div>
           </div>
         </div>
       `;
@@ -253,6 +258,7 @@ export class LocalAITutorPanel {
     const input = this.container.querySelector('#ai-chat-input');
     const clearBtn = this.container.querySelector('#ai-clear-btn');
     const configKeyBtn = this.container.querySelector('#ai-config-key-btn');
+    const closeBtn = this.container.querySelector('#ai-close-modal-btn');
 
     if (form) {
       form.addEventListener('submit', async (e) => {
@@ -271,6 +277,12 @@ export class LocalAITutorPanel {
       });
     }
 
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        if (this.onClose) this.onClose();
+      });
+    }
+
     if (configKeyBtn) {
       configKeyBtn.addEventListener('click', () => {
         const curKey = this.geminiApiKey || '';
@@ -281,7 +293,7 @@ export class LocalAITutorPanel {
           localStorage.setItem('isl_gemini_api_key', cleanKey);
           this.isGeminiActive = Boolean(cleanKey);
           this.updateStatusBadge();
-          configKeyBtn.innerHTML = `<span>⚙️</span> <span>${cleanKey ? 'API Ключ ✓' : '+ Додати Gemini API'}</span>`;
+          configKeyBtn.innerHTML = `<span>⚙️</span> <span class="hidden sm:inline">${cleanKey ? 'API Ключ ✓' : '+ Gemini API'}</span>`;
           alert(cleanKey ? '✅ Gemini API ключ успішно збережено!' : 'ℹ️ Gemini API ключ видалено. Працює локальна база знань.');
         }
       });
@@ -309,12 +321,20 @@ export class LocalAITutorPanel {
     this.isLoading = true;
     this.renderMessages();
 
+    const input = this.container.querySelector('#ai-chat-input');
+    const sendBtn = this.container.querySelector('#ai-send-btn');
+    if (input) input.disabled = true;
+    if (sendBtn) {
+      sendBtn.disabled = true;
+      sendBtn.classList.add('opacity-50');
+    }
+
     const box = this.container.querySelector('#ai-messages-container');
     if (box) {
       const loader = document.createElement('div');
       loader.id = 'ai-typing-indicator';
-      loader.className = 'flex items-center gap-1.5 text-[11px] font-mono text-cyan-400 p-1.5';
-      loader.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> Árnastofnun аналізує запит...`;
+      loader.className = 'flex items-center gap-1.5 text-[11px] font-mono text-cyan-400 p-2';
+      loader.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Árnastofnun аналізує запит...`;
       box.appendChild(loader);
       box.scrollTop = box.scrollHeight;
     }
@@ -346,6 +366,14 @@ export class LocalAITutorPanel {
       this.isLoading = false;
       const loader = this.container.querySelector('#ai-typing-indicator');
       if (loader) loader.remove();
+      if (input) {
+        input.disabled = false;
+        input.focus();
+      }
+      if (sendBtn) {
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('opacity-50');
+      }
       this.renderMessages();
     }
   }
@@ -368,7 +396,7 @@ export class LocalAITutorPanel {
             { role: 'user', parts: [{ text: userText }] }
           ]
         }),
-        signal: AbortSignal.timeout(12000)
+        signal: AbortSignal.timeout(15000)
       });
 
       if (res.ok) {
@@ -395,7 +423,7 @@ export class LocalAITutorPanel {
           max_tokens: 420,
           temperature: 0.3
         }),
-        signal: AbortSignal.timeout(10000)
+        signal: AbortSignal.timeout(25000)
       });
 
       if (res.ok) {
