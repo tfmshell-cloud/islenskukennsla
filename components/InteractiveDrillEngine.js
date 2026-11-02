@@ -3,7 +3,7 @@
  * High density, visual grading, detailed feedback, and score tracking.
  */
 
-import { audioEngine } from './AudioEngine.js?v=4.9';
+import { audioEngine } from './AudioEngine.js?v=5.1';
 import { gameState } from './GameState.js';
 
 export class InteractiveDrillEngine {

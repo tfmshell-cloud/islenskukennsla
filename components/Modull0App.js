@@ -20,7 +20,7 @@ import { SagaRoadmap } from './SagaRoadmap.js';
 import { DropsFlexionLab } from './DropsFlexionLab.js';
 import { gameState } from './GameState.js';
 import { binAuraSystem } from './BinAuraSystem.js';
-import { audioEngine } from './AudioEngine.js?v=4.9';
+import { audioEngine } from './AudioEngine.js?v=5.1';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -72,149 +72,132 @@ export class Modull0App {
         <div class="fixed bottom-0 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-[140px] pointer-events-none -z-10"></div>
 
         <!-- ================= TOP HEADER (Consolidated) ================= -->
-        <!-- ================= UNIFIED TWO-TIER STICKY HEADER (Compact & Pinned) ================= -->
-        <header id="app-sticky-header" class="sticky top-0 z-50 shadow-md transition-all">
+        <!-- ================= UNIFIED 3-TIER STICKY HEADER ================= -->
+        <header id="app-sticky-header" class="sticky top-0 z-50 shadow-md backdrop-blur-md transition-all">
           
-          <!-- TIER 1: Brand + Inline Course Switcher + Utilities (46px) -->
-          <div class="max-w-7xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between gap-2.5">
-            
-            <!-- Left: Logo & Level Badge -->
-            <a href="index.html" class="flex items-center gap-2 group flex-shrink-0">
-              <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 via-emerald-400 to-amber-400 flex items-center justify-center text-sm font-black text-black shadow-md group-hover:scale-105 transition-transform">
-                🇮🇸
-              </span>
-              <span class="header-logo-title text-xs sm:text-sm font-black font-mono tracking-tight text-white">ÍSLENSKA</span>
-              <span class="platform-badge text-[9px] px-1.5 py-0.2 rounded font-mono font-bold uppercase tracking-wider hidden sm:inline">A1</span>
-            </a>
-
-            <!-- Center: Inline Lessons Switcher (Zero wasted vertical space) -->
-            <div class="flex items-center gap-1 overflow-x-auto scrollbar-none font-mono text-xs py-0.5">
-              <button data-chapter="modull_0" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_0' ? 'active' : ''}">
-                🔤 Урок 0: Абетка
-              </button>
-              <button data-chapter="kafli_1" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_1' ? 'active' : ''}">
-                🌟 Урок 1: Хто ти?
-              </button>
-              <button data-chapter="drops_lab" class="chapter-nav-btn nav-btn ${this.activeChapter === 'drops_lab' ? 'active' : ''}">
-                ☕ Урок 2: Кав'ярня 🟢
-              </button>
-              <button data-chapter="modull_3" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_3' ? 'active' : ''}">
-                ⏰ Урок 3: Рутина
-              </button>
-              <button data-chapter="saga_map" class="chapter-nav-btn nav-btn nav-btn-saga ${this.activeChapter === 'saga_map' ? 'active' : ''}">
-                🗺️ Мапа Саги
-              </button>
-            </div>
-
-            <!-- Right: Micro HUD & Quick Actions -->
-            <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <!-- ================= BLOCK 1 (TOP): BRAND DASHBOARD & USER HUD ================= -->
+          <div id="block1-brand-dashboard" class="border-b border-slate-800/80 bg-cyber-void/95">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 h-11 flex items-center justify-between gap-2.5">
               
-              <!-- Local AI Pill -->
-              <div id="header-ai-status" class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 border border-slate-700 text-slate-400 font-mono text-[10px] font-bold" title="Локальний ШІ Gemma 2 на порту 1235">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span class="hidden md:inline">1235</span>
+              <!-- Left: Brand Logo & Title -->
+              <a href="index.html" class="flex items-center gap-2 group flex-shrink-0">
+                <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 via-emerald-400 to-amber-400 flex items-center justify-center text-sm font-black text-black shadow-md group-hover:scale-105 transition-transform">
+                  🇮🇸
+                </span>
+                <span class="header-logo-title text-xs sm:text-sm font-black font-mono tracking-tight text-white">ÍSLENSKA</span>
+                <span class="platform-badge text-[9px] px-1.5 py-0.2 rounded font-mono font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">A1</span>
+              </a>
+
+              <!-- Right: AI Indicator, Player HUD, Theme Switcher & AI Tutor -->
+              <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                
+                <!-- AI Status Pill -->
+                <div id="header-ai-status" class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 border border-slate-700 text-slate-400 font-mono text-[10px] font-bold" title="Статус ШІ">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span class="hidden md:inline">ШІ-Тьютор</span>
+                </div>
+
+                <!-- HUD: XP, Streak, Gems -->
+                <div id="hud-container" class="flex items-center gap-1.5 bg-black/70 px-2 py-0.5 rounded-lg border border-slate-800 text-[11px] font-mono shadow-sm">
+                  <span class="text-cyan-400 font-bold" title="Досвід (XP)">⚡ <span id="hud-xp-val">${s.xp}</span></span>
+                  <span class="text-amber-400 font-bold hidden sm:inline" title="Серія днів">🔥 <span id="hud-streak-val">${s.streak}</span></span>
+                  <span class="text-emerald-400 font-bold hidden sm:inline" title="Кристали">💎 <span id="hud-gems-val">${s.gems}</span></span>
+                </div>
+
+                <!-- Light/Dark Theme Switcher -->
+                <button id="theme-toggle-btn" class="px-2 py-0.5 rounded-lg border border-slate-800 font-mono text-[10px] font-bold flex items-center bg-black/50 hover:bg-black transition-all" title="Тема оформлення">
+                  <span id="theme-toggle-icon">${s.theme === 'light' ? '☀️' : '🌙'}</span>
+                </button>
+
+                <!-- Quick AI Tutor Button -->
+                <button data-chapter="ai_tutor" class="chapter-nav-btn px-2.5 py-1 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-extrabold text-[11px] font-mono shadow-sm flex items-center gap-1 transition-all transform hover:scale-105 active:scale-95">
+                  <span>🤖</span><span>ШІ-Коуч</span>
+                </button>
               </div>
-
-              <!-- HUD: XP, Streak, Gems -->
-              <div id="hud-container" class="flex items-center gap-1.5 bg-black/70 px-2 py-0.5 rounded-lg border border-slate-800 text-[11px] font-mono shadow-sm">
-                <span class="text-cyan-400 font-bold" title="Досвід (XP)">⚡ <span id="hud-xp-val">${s.xp}</span></span>
-                <span class="text-amber-400 font-bold hidden sm:inline" title="Серія днів">🔥 <span id="hud-streak-val">${s.streak}</span></span>
-                <span class="text-emerald-400 font-bold hidden sm:inline" title="Кристали">💎 <span id="hud-gems-val">${s.gems}</span></span>
-              </div>
-
-              <!-- BÍN X-Ray Switcher -->
-              <button class="bin-xray-toggle-btn px-2 py-0.5 rounded-lg border font-mono text-[10px] font-bold flex items-center gap-1 transition-all ${s.binAuraActive ? 'active' : ''}" title="BÍN 4 відмінки">
-                ${s.binAuraActive 
-                  ? `<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span><span class="hidden sm:inline">BÍN</span>`
-                  : `<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span><span class="hidden sm:inline">BÍN</span>`
-                }
-              </button>
-
-              <!-- Light/Dark Theme Switcher -->
-              <button id="theme-toggle-btn" class="px-2 py-0.5 rounded-lg font-mono text-[10px] font-bold flex items-center transition-all" title="Тема">
-                <span id="theme-toggle-icon">${s.theme === 'light' ? '☀️' : '🌙'}</span>
-              </button>
-
-              <!-- Quick AI Tutor Button -->
-              <button data-chapter="ai_tutor" class="chapter-nav-btn px-2.5 py-1 rounded-lg bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-extrabold text-[11px] font-mono shadow-sm flex items-center gap-1 transition-all transform hover:scale-105 active:scale-95">
-                <span>🤖</span><span class="hidden sm:inline">Тьютор</span>
-              </button>
             </div>
           </div>
 
-          <!-- TIER 2: PINNED SUB-NAVIGATION & TOPIC RIBBON (Sticky with Header, 40px) -->
-          <div id="tier2-sticky-ribbon" class="px-3 sm:px-6 py-1 transition-all">
-            <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
+          <!-- ================= BLOCK 2 (MIDDLE): LESSONS SELECTOR + BÍN CASES & X-RAY ================= -->
+          <div id="block2-lessons-bar" class="border-b border-slate-800/80 bg-cyber-deep/95">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 h-10 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
               
-              <!-- Context Breadcrumb & BÍN 4-Case Micro-Pills -->
-              <div class="flex items-center gap-2 flex-shrink-0 text-xs font-mono">
-                <span id="hero-curriculum-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-black uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm">
-                  A1 • УРОК 0
-                </span>
-                <span id="hero-curriculum-title" class="text-xs font-bold font-mono text-white hidden xl:inline truncate max-w-[190px]">
-                  Stafrófið & Framburður
-                </span>
-                
+              <!-- Left: Lessons 0, 1, 2, 3 + Saga Map -->
+              <div class="flex items-center gap-1 font-mono text-xs py-0.5 flex-nowrap flex-shrink-0">
+                <button data-chapter="modull_0" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_0' ? 'active' : ''}">
+                  🔤 Урок 0: Абетка
+                </button>
+                <button data-chapter="kafli_1" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_1' ? 'active' : ''}">
+                  🌟 Урок 1: Хто ти?
+                </button>
+                <button data-chapter="drops_lab" class="chapter-nav-btn nav-btn ${this.activeChapter === 'drops_lab' ? 'active' : ''}">
+                  ☕ Урок 2: Кав'ярня 🟢
+                </button>
+                <button data-chapter="modull_3" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_3' ? 'active' : ''}">
+                  ⏰ Урок 3: Рутина
+                </button>
+                <button data-chapter="saga_map" class="chapter-nav-btn nav-btn nav-btn-saga ${this.activeChapter === 'saga_map' ? 'active' : ''}">
+                  🗺️ Мапа Саги
+                </button>
+              </div>
+
+              <!-- Right: BÍN 4 Cases & X-Ray Switcher (Neat & Compact) -->
+              <div class="flex items-center gap-1.5 flex-shrink-0 text-[10px] font-mono">
+                <!-- BÍN X-Ray Switcher -->
+                <button class="bin-xray-toggle-btn px-2 py-0.5 rounded-lg border font-mono text-[10px] font-bold flex items-center gap-1 transition-all ${s.binAuraActive ? 'active' : ''}" title="BÍN 4 відмінки">
+                  ${s.binAuraActive 
+                    ? `<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span><span>BÍN Рентген</span>`
+                    : `<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span><span>BÍN Рентген</span>`
+                  }
+                </button>
+
                 <!-- BÍN 4 Cases inline legend -->
-                <div class="flex items-center gap-1 text-[9px] font-mono font-bold bg-black/60 px-1.5 py-0.5 rounded border border-slate-800" title="BÍN 4 відмінки">
-                  <span class="px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40" title="Nefnifall (Називний)">NF</span>
-                  <span class="px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40" title="Þolfall (Знахідний)">ÞF</span>
-                  <span class="px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40" title="Þágufall (Давальний)">ÞGF</span>
-                  <span class="px-1 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40" title="Eignarfall (Родовий)">EF</span>
+                <div class="flex items-center gap-0.5 bg-black/60 px-1.5 py-0.5 rounded border border-slate-800" title="BÍN 4 відмінки">
+                  <span class="px-1 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold" title="Nefnifall (Називний)">NF</span>
+                  <span class="px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-bold" title="Þolfall (Знахідний)">ÞF</span>
+                  <span class="px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[9px] font-bold" title="Þágufall (Давальний)">ÞGF</span>
+                  <span class="px-1 py-0.2 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[9px] font-bold" title="Eignarfall (Родовий)">EF</span>
                 </div>
               </div>
 
-              <!-- Pinned 7 Sub-tabs Ribbon (Always visible upon scrolling!) -->
-              <div id="m0-subnav-bar" class="flex items-center gap-1 overflow-x-auto scrollbar-none text-xs font-mono py-0.5">
-                <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
-                  🔤 1. Матриця (32)
+            </div>
+          </div>
+
+          <!-- ================= BLOCK 3 (BOTTOM PINNED): ALL 7 M0 SUB-TABS (SINGLE ROW, NO SCROLL) ================= -->
+          <div id="block3-subnav-ribbon" class="px-2 sm:px-6 py-1 bg-black/90 border-b border-cyan-500/20 ${this.activeChapter === 'modull_0' ? '' : 'hidden'}">
+            <div class="max-w-7xl mx-auto">
+              <div id="m0-subnav-bar" class="grid grid-cols-7 gap-1 sm:gap-1.5 text-center font-mono">
+                <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
+                  1. Матриця (32)
                 </button>
-                <button data-m0-sub="raddstafir" class="m0-sub-btn sub-tab-btn ${this.activeM0SubTab === 'raddstafir' ? 'active' : ''}">
-                  🌊 2. Голосні
+                <button data-m0-sub="raddstafir" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'raddstafir' ? 'active' : ''}">
+                  2. Голосні
                 </button>
-                <button data-m0-sub="traps" class="m0-sub-btn sub-tab-btn ${this.activeM0SubTab === 'traps' ? 'active' : ''}">
-                  🧩 3. Пастки (5)
+                <button data-m0-sub="traps" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'traps' ? 'active' : ''}">
+                  3. Пастки (5)
                 </button>
-                <button data-m0-sub="duel" class="m0-sub-btn sub-tab-btn ${this.activeM0SubTab === 'duel' ? 'active' : ''}">
-                  ⚔️ 4. Дуель
+                <button data-m0-sub="duel" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'duel' ? 'active' : ''}">
+                  4. Дуель
                 </button>
-                <button data-m0-sub="builder" class="m0-sub-btn sub-tab-btn ${this.activeM0SubTab === 'builder' ? 'active' : ''}">
-                  🏗️ 5. Конструктор
+                <button data-m0-sub="builder" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'builder' ? 'active' : ''}">
+                  5. Конструктор
                 </button>
-                <button data-m0-sub="dialogue" class="m0-sub-btn sub-tab-btn ${this.activeM0SubTab === 'dialogue' ? 'active' : ''}">
-                  💬 6. Симулятор
+                <button data-m0-sub="dialogue" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'dialogue' ? 'active' : ''}">
+                  6. Симулятор
                 </button>
-                <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
-                  🎯 7. Тренажер (10)
+                <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
+                  7. Тренажер (10)
                 </button>
               </div>
-
-              <!-- Visual Pronunciation Toast (compact inline) -->
-              <div id="visual-pill-toast" class="hidden px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-mono text-[10px] font-bold animate-pulse flex items-center gap-1 flex-shrink-0">
-                <span>👄</span> <span id="visual-pill-text">[a]</span>
-              </div>
-
             </div>
           </div>
         </header>
 
-        <!-- ================= MAIN WORKSPACE (Content starts immediately without bulk) ================= -->
+        <!-- ================= MAIN WORKSPACE ================= -->
         <main class="max-w-7xl mx-auto px-3 sm:px-6 py-3 space-y-3">
           
           <!-- ================= TAB 0: УРОК 0 (АБЕТКА ТА ЗВУКИ) ================= -->
           <div id="chapter-container-modull_0" class="chapter-view ${this.activeChapter === 'modull_0' ? '' : 'hidden'} space-y-3">
-            
             <!-- M0 Sub-Sections (7 Dedicated Containers) -->
-            <div id="m0-sec-soundboard" class="m0-view ${this.activeM0SubTab === 'soundboard' ? '' : 'hidden'}"></div>
-            <div id="m0-sec-raddstafir" class="m0-view ${this.activeM0SubTab === 'raddstafir' ? '' : 'hidden'}"></div>
-            <div id="m0-sec-traps" class="m0-view ${this.activeM0SubTab === 'traps' ? '' : 'hidden'}"></div>
-            <div id="m0-sec-duel" class="m0-view ${this.activeM0SubTab === 'duel' ? '' : 'hidden'}"></div>
-            <div id="m0-sec-builder" class="m0-view ${this.activeM0SubTab === 'builder' ? '' : 'hidden'}"></div>
-            <div id="m0-sec-dialogue" class="m0-view ${this.activeM0SubTab === 'dialogue' ? '' : 'hidden'}"></div>
-            <div id="m0-sec-drills" class="m0-view ${this.activeM0SubTab === 'drills' ? '' : 'hidden'}"></div>
-          </div>
-
-            <!-- M0 Sub-Sections (7 Containers) -->
             <div id="m0-sec-soundboard" class="m0-view ${this.activeM0SubTab === 'soundboard' ? '' : 'hidden'}"></div>
             <div id="m0-sec-raddstafir" class="m0-view ${this.activeM0SubTab === 'raddstafir' ? '' : 'hidden'}"></div>
             <div id="m0-sec-traps" class="m0-view ${this.activeM0SubTab === 'traps' ? '' : 'hidden'}"></div>
@@ -526,6 +509,12 @@ export class Modull0App {
           heroTitle.innerText = 'ШІ-Тьютор: Персональний лінгвістичний коуч (Gemma 2 на localhost:1235)';
           break;
       }
+    }
+
+    // Toggle Block 3 ribbon (only visible for Lesson 0)
+    const block3Ribbon = this.root.querySelector('#block3-subnav-ribbon');
+    if (block3Ribbon) {
+      block3Ribbon.classList.toggle('hidden', chapterId !== 'modull_0');
     }
 
     // Toggle chapter containers
