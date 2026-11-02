@@ -20,7 +20,7 @@ import { SagaRoadmap } from './SagaRoadmap.js';
 import { DropsFlexionLab } from './DropsFlexionLab.js';
 import { gameState } from './GameState.js';
 import { binAuraSystem } from './BinAuraSystem.js';
-import { audioEngine } from './AudioEngine.js?v=5.2';
+import { audioEngine } from './AudioEngine.js?v=5.3';
 
 export class Modull0App {
   constructor(rootElement) {

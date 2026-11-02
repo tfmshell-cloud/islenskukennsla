@@ -3,7 +3,7 @@
  * Step 0.4: 6 Acoustic Minimal Pairs with Oscilloscope Waveform & Interactive Sound Discrimination Duel (+15 XP)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.2';
+import { audioEngine } from './AudioEngine.js?v=5.3';
 import { gameState } from './GameState.js';
 
 export class MinimalPairDuel {

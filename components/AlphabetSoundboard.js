@@ -3,7 +3,7 @@
  * 50% card size reduction with lightweight 3D-flip mnemonics and zero vertical scrolling.
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.2';
+import { audioEngine } from './AudioEngine.js?v=5.3';
 
 export class AlphabetSoundboard {
   constructor(container, alphabetData, raddstafirData) {
@@ -89,7 +89,7 @@ export class AlphabetSoundboard {
             <!-- Compact Inspector Audio Actions -->
             <div class="flex items-center gap-2 w-full md:w-auto justify-end flex-shrink-0">
               <button id="inspector-play-letter-btn" class="px-3.5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center gap-1.5 shadow-md transition-all active:scale-95">
-                <span>🔊 Літера [${this.selectedLetter.upper}]</span>
+                <span>🔊 ${this.selectedLetter.upper === 'Y' ? 'Назва: [Ufsilon y]' : this.selectedLetter.upper === 'Ý' ? 'Назва: [Ufsilon ý]' : `Літера [${this.selectedLetter.upper}]`}</span>
               </button>
               <button id="inspector-play-word-btn" class="px-3 py-2 rounded-lg bg-cyber-deep border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95">
                 <span>🗣️ <span id="inspector-word-label">${this.selectedLetter.example_word}</span></span>
@@ -304,7 +304,20 @@ export class AlphabetSoundboard {
     if (wordIpa) wordIpa.innerText = item.word_ipa;
     if (wordTrans) wordTrans.innerText = item.ukrainian_translation;
     if (wordLabel) wordLabel.innerText = item.example_word;
-    if (guide) guide.innerHTML = `👄 <strong>Артикуляція:</strong> ${item.articulation_guide}`;
-    if (playLetterBtn) playLetterBtn.innerHTML = `<span>🔊 Літера [${item.upper}]</span>`;
+    
+    let guideHtml = `👄 <strong>Артикуляція:</strong> ${item.articulation_guide}`;
+    if (item.upper === 'Y' || item.upper === 'Ý') {
+      guideHtml += ` <span class="inline-block mt-0.5 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">⚡ Правило близнюків: звук [${item.ipa}] тотожний ${item.upper === 'Y' ? 'I' : 'Í'}, але назва літери в абетці — «${item.letter_name}»!</span>`;
+    }
+    if (guide) guide.innerHTML = guideHtml;
+    
+    if (playLetterBtn) {
+      const btnTitle = item.upper === 'Y' 
+        ? '🔊 Назва: [Ufsilon y]' 
+        : item.upper === 'Ý' 
+          ? '🔊 Назва: [Ufsilon ý]' 
+          : `🔊 Літера [${item.upper}]`;
+      playLetterBtn.innerHTML = `<span>${btnTitle}</span>`;
+    }
   }
 }

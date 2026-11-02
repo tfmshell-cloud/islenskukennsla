@@ -104,7 +104,7 @@ export class AudioEngine {
       return this.nativeAudioBank[firstToken];
     }
     if (firstToken === 'YPSILON' || firstToken === 'UFSILON') {
-      return this.nativeAudioBank['Y'];
+      return (key.includes('ý') || key.includes('Ý')) ? this.nativeAudioBank['Ý'] : this.nativeAudioBank['Y'];
     }
 
     // 4. Sanitize word / phrase to match high-fidelity word bank
