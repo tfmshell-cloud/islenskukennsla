@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="is" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Íslenskukennsla: Gagnvirkt málfræðinámskeið (A1–B2) | Frá Stafrófi til Meistaraprófs</title>
+
+  <!-- Typography: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            arctic: {
+              950: '#020617',
+              900: '#0F172A',
+              850: '#141E33',
+              800: '#1E293B',
+              700: '#334155',
+            },
+            // Official BÍN Case Spectrum
+            bin: {
+              nf: '#3B82F6',   // Nefnifall - Neon Blue
+              tf: '#10B981',   // Þolfall - Emerald Green
+              tgf: '#F59E0B',  // Þágufall - Amber Gold
+              ef: '#EF4444',   // Eignarfall - Ruby Red
+            },
+            // CEFR Level Spectrum Badges
+            cefr: {
+              a11: '#06B6D4',  // A1.1 Alphabet & Basics (Cyan)
+              a12: '#3B82F6',  // A1.2 Dialogues & Present (Blue)
+              a2: '#10B981',   // A2 Situational & Cases (Emerald)
+              b1: '#F59E0B',   // B1 Strong Verbs & Past (Amber)
+              b2: '#A855F7',   // B2 Subjunctive & BÍN (Purple)
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 45%, #020617 100%);
+      color: #F8FAFC;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.70);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 16px;
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .glass-nav {
+      background: rgba(15, 23, 42, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    /* BÍN Case Glowing Shadows */
+    .glow-nf:hover {
+      box-shadow: 0 12px 30px -10px rgba(59, 130, 246, 0.35);
+      border-color: rgba(59, 130, 246, 0.45);
+    }
+    .glow-tf:hover {
+      box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.35);
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .glow-tgf:hover {
+      box-shadow: 0 12px 30px -10px rgba(245, 158, 11, 0.35);
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+    .glow-ef:hover {
+      box-shadow: 0 12px 30px -10px rgba(239, 68, 68, 0.35);
+      border-color: rgba(239, 68, 68, 0.45);
+    }
+    .glow-cyan:hover {
+      box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.35);
+      border-color: rgba(6, 182, 212, 0.45);
+    }
+    .glow-b2:hover {
+      box-shadow: 0 12px 30px -10px rgba(168, 85, 247, 0.35);
+      border-color: rgba(168, 85, 247, 0.45);
+    }
+
+    /* Tactile 3D Buttons */
+    .btn-3d {
+      box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.35);
+      transition: all 0.15s ease-in-out;
+    }
+    .btn-3d:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.35);
+    }
+
+    /* Letter Audio Soundboard Tile */
+    .letter-tile {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .letter-tile:hover {
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(96, 165, 250, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px -4px rgba(59, 130, 246, 0.4);
+    }
+    .letter-tile:active {
+      transform: scale(0.95);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    .bg-grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-arctic-950 font-sans antialiased text-slate-100 bg-grid-pattern min-h-screen relative selection:bg-cyan-600 selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. FIXED HEADER & NAVIGATION                                              -->
+  <!-- ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-arctic-900 rounded-[10px] flex items-center justify-center font-bold text-lg text-cyan-400 tracking-wider">
+            ÍS
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg tracking-tight text-white group-hover:text-cyan-300 transition-colors">Íslenskukennsla 🇮🇸</span>
+            <span class="text-xs px-2 py-0.5 rounded-full font-mono font-medium bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">A1–B2</span>
+          </div>
+          <span class="text-[11px] font-mono tracking-widest uppercase text-slate-400" data-i18n="nav_sub">Gagnvirkt námskeið: Frá stafrófi til B2</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-full border border-slate-700/50 shadow-inner text-xs font-semibold">
+        <a href="#hero" class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800 transition-all" data-i18n="nav_home">Forsíða</a>
+        <a href="#unit1" class="px-3.5 py-1.5 rounded-full text-cyan-300 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-1.5">
+          <span data-i18n="nav_alphabet">Stafrófið & Framburður</span>
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        </a>
+        <a href="#curriculum" class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800 transition-all" data-i18n="nav_curriculum">Námskrá A1-B2</a>
+        <a href="#dialogues" class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800 transition-all" data-i18n="nav_dialogues">Gagnvirkar Dæmisögur</a>
+        <a href="#teachers" class="px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white hover:bg-slate-800 transition-all" data-i18n="nav_teachers">Kennarasvæði</a>
+      </nav>
+
+      <!-- Right Bar: Language Switcher & Badge -->
+      <div class="flex items-center gap-3">
+        <!-- Institutional Badge -->
+        <div class="hidden xl:flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Íslenska fyrir alla 1–4</span>
+        </div>
+
+        <!-- Language Pill Switcher [IS | UK | EN] -->
+        <div class="flex items-center bg-slate-900/80 border border-slate-700/60 rounded-xl p-1 text-xs font-mono">
+          <button id="lang-is" onclick="setLanguage('is')" class="lang-btn px-2.5 py-1 rounded-lg font-bold text-white bg-cyan-600 transition-all shadow-sm">IS</button>
+          <button id="lang-uk" onclick="setLanguage('uk')" class="lang-btn px-2.5 py-1 rounded-lg font-medium text-slate-400 hover:text-white transition-all">UK</button>
+          <button id="lang-en" onclick="setLanguage('en')" class="lang-btn px-2.5 py-1 rounded-lg font-medium text-slate-400 hover:text-white transition-all">EN</button>
+        </div>
+
+        <!-- Start CTA -->
+        <a href="#unit1" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition-all btn-3d">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span data-i18n="cta_start">Byrja núna</span>
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white" aria-label="Valmynd">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden px-4 pt-2 pb-4 bg-arctic-900/95 border-b border-slate-800 space-y-2 text-sm font-medium">
+      <a href="#hero" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800" data-i18n="nav_home">Forsíða</a>
+      <a href="#unit1" class="block px-3 py-2 rounded-lg text-cyan-300 hover:bg-slate-800" data-i18n="nav_alphabet">Stafrófið & Framburður (Eining 1)</a>
+      <a href="#curriculum" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800" data-i18n="nav_curriculum">Námskrá A1-B2</a>
+      <a href="#dialogues" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800" data-i18n="nav_dialogues">Gagnvirkar Dæmisögur</a>
+      <a href="#teachers" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-800" data-i18n="nav_teachers">Kennarasvæði</a>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HERO SECTION WITH 3D CANVAS & PEDAGOGICAL BADGE                         -->
+  <!-- ========================================================================= -->
+  <section id="hero" class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden min-h-[85vh] flex flex-col justify-center">
+    
+    <!-- 3D Canvas Letter Cosmos -->
+    <canvas id="cosmos-canvas" class="absolute inset-0 pointer-events-none z-0 w-full h-full opacity-60"></canvas>
+    
+    <!-- Ambient glowing gradients -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-cyan-600/15 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute top-1/3 left-1/4 w-[400px] h-[300px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <!-- Top Level Badge -->
+      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/70 shadow-lg mb-8 backdrop-blur-md">
+        <span class="flex h-2 w-2 rounded-full bg-cyan-400"></span>
+        <span class="text-xs sm:text-sm font-medium text-cyan-300" data-i18n="hero_pill">
+          Byrjaðu frá grunni: Stafrófið, framburður og samtal
+        </span>
+        <span class="text-xs px-2 py-0.5 rounded font-mono bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30">A1.1 &rarr; B2</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-[1.15] mb-6">
+        <span class="block" data-i18n="hero_title_1">Lærðu íslensku frá</span>
+        <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent" data-i18n="hero_title_2">
+          stafrófinu til meistaraprófs
+        </span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="max-w-3xl mx-auto text-base sm:text-lg md:text-xl text-slate-300 mb-10 leading-relaxed font-normal" data-i18n="hero_desc">
+        Gagnvirkt námskeið með hljóðæfingum fyrir stafrófið (Þ, Æ, Ð, Ö), samtölum úr daglegu lífi á Íslandi og traustri málfræði byggðri á BÍN.
+      </p>
+
+      <!-- Primary Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="#unit1" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold text-base shadow-xl shadow-cyan-600/25 transition-all btn-3d flex items-center justify-center gap-3">
+          <span class="text-lg">🔤</span>
+          <span data-i18n="hero_cta_alphabet">Byrja á Stafrófinu (Eining 1)</span>
+        </a>
+        <a href="#curriculum" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel hover:bg-slate-800/80 border border-slate-700/80 text-slate-200 hover:text-white font-semibold text-base transition-all flex items-center justify-center gap-2">
+          <span class="text-lg">📚</span>
+          <span data-i18n="hero_cta_curriculum">Skoða alla námskrá (A1–B2)</span>
+        </a>
+      </div>
+
+      <!-- Quick Learning Stats Ribbon -->
+      <div class="max-w-4xl mx-auto glass-card p-4 sm:p-5 border border-slate-700/60 shadow-2xl">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div class="p-2 border-r border-slate-800 last:border-none">
+            <div class="text-2xl font-extrabold text-cyan-400 font-mono">32</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-400 font-mono mt-1" data-i18n="stat_letters">Bókstafir í stafrófi</div>
+          </div>
+          <div class="p-2 border-r border-slate-800 last:border-none">
+            <div class="text-2xl font-extrabold text-blue-400 font-mono">10</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-400 font-mono mt-1" data-i18n="stat_units">Námskeiðseiningar</div>
+          </div>
+          <div class="p-2 border-r border-slate-800 last:border-none">
+            <div class="text-2xl font-extrabold text-emerald-400 font-mono">4</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-400 font-mono mt-1" data-i18n="stat_cases">Málföll (NF, ÞF, ÞGF, EF)</div>
+          </div>
+          <div class="p-2">
+            <div class="text-2xl font-extrabold text-purple-400 font-mono">100%</div>
+            <div class="text-[11px] uppercase tracking-wider text-slate-400 font-mono mt-1" data-i18n="stat_bin">BÍN Samhæft</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 3. UNIT 1 SPOTLIGHT (STAFRÓFIÐ & FRAMBURÐUR - DAY 1)                      -->
+  <!-- ========================================================================= -->
+  <section id="unit1" class="py-24 relative z-10 border-t border-slate-800/80 bg-slate-900/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono uppercase tracking-wider mb-3">
+            Eining 1 &bull; Byrjendastig A1.1 &bull; Dagur 1
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight" data-i18n="unit1_heading">
+            Íslenska Stafrófið & Framburðarlyklar
+          </h2>
+          <p class="mt-2 text-slate-400 text-sm sm:text-base max-w-2xl" data-i18n="unit1_sub">
+            Smelltu á stafina til að hlusta á hljóðin, lærðu hljóðritun (IPA) og kynntu þér séríslensku stafina Þ, Æ, Ð og Ö.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800 text-xs font-mono text-cyan-400">
+          <span class="animate-pulse">🔊</span>
+          <span data-i18n="sound_hint">Smelltu á staf til að heyra framburð</span>
+        </div>
+      </div>
+
+      <!-- 32-Letter Interactive Soundboard Grid -->
+      <div class="glass-card p-6 md:p-8 rounded-2xl border border-slate-700/80 shadow-2xl mb-12">
+        <h3 class="text-sm font-bold uppercase tracking-wider font-mono text-slate-400 mb-6 flex items-center justify-between">
+          <span data-i18n="alphabet_title">Stafrófið: 32 Bókstafir</span>
+          <span class="text-xs text-cyan-400 font-normal">Hljóðæfing / Sound Keys</span>
+        </h3>
+
+        <!-- Soundboard grid -->
+        <div id="alphabet-grid" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2.5 sm:gap-3 font-mono">
+          <!-- Dynamically populated by JS -->
+        </div>
+
+        <!-- Currently selected letter info bar -->
+        <div id="letter-detail-banner" class="mt-6 p-4 rounded-xl bg-slate-950/70 border border-cyan-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <span id="detail-letter" class="text-4xl font-bold text-cyan-400 font-mono">A a</span>
+            <div>
+              <div id="detail-ipa" class="text-sm font-mono text-emerald-400">[a] eða [aː]</div>
+              <div id="detail-example" class="text-xs text-slate-300">Dæmi: <strong class="text-white">afi</strong> (afi / grandfather)</div>
+            </div>
+          </div>
+          <button onclick="speakCurrentLetter()" class="px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition-all flex items-center gap-2 shadow-md">
+            <span>🔊 Spila hljóð</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Special Characters & Phonetic Trap Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        
+        <!-- Thorn Þ & Eth Ð -->
+        <div class="glass-card glow-cyan p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center font-mono font-bold text-xl mb-4">
+              Þ / Ð
+            </div>
+            <h4 class="text-base font-bold text-white mb-2">Þorn & Eð</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4" data-i18n="trap_th_desc">
+              <strong>Þ</strong> kemur AÐEINS fyrir í upphafi orðs og er óraddað [θ] (eins og enska <em>think</em>).<br>
+              <strong>Ð</strong> kemur ALDREI fyrir í upphafi orðs og er raddað [ð] (eins og enska <em>this</em>).
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-cyan-300">
+            <code>þing [θiŋk] &bull; maður [maːðʏr]</code>
+          </div>
+        </div>
+
+        <!-- ll -> [tl] trap -->
+        <div class="glass-card glow-nf p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center font-mono font-bold text-xl mb-4">
+              ll &rarr; [tl]
+            </div>
+            <h4 class="text-base font-bold text-white mb-2">Tvöfalt L (Hliðarhljóð)</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4" data-i18n="trap_ll_desc">
+              Tvöfalt <em>ll</em> er borið fram með sérstöku órödduðu lokhljóði [tl] en ekki sem venjulegt enskt eða úkraínskt l.
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-blue-300">
+            <code>Eyjafjallajökull &bull; Kolla [kʰɔt-la]</code>
+          </div>
+        </div>
+
+        <!-- nn -> [tn] trap -->
+        <div class="glass-card glow-tf p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-mono font-bold text-xl mb-4">
+              nn &rarr; [tn]
+            </div>
+            <h4 class="text-base font-bold text-white mb-2">Tvöfalt N eftir hljóðvörp</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4" data-i18n="trap_nn_desc">
+              Eftir sérhljóða með kommu (á, ó, ú, é, í, ý) og tvíhljóða (ei, ey) er <em>nn</em> borið fram sem [tn].
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-emerald-300">
+            <code>einn [eitn] &bull; steinn [steitn]</code>
+          </div>
+        </div>
+
+        <!-- Preaspiration [h] -->
+        <div class="glass-card glow-tgf p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center font-mono font-bold text-xl mb-4">
+              [ʰk / ʰt]
+            </div>
+            <h4 class="text-base font-bold text-white mb-2">Aðblástur (Preaspiration)</h4>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4" data-i18n="trap_preasp_desc">
+              Á undan tvöföldum lokhljóðum (pp, tt, kk) kemur lítið andvarp eða [h] hljóð áður en lokhljóðið er myndað.
+            </p>
+          </div>
+          <div class="bg-slate-950/60 p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono text-amber-300">
+            <code>takk [tʰaʰk] &bull; ætla [aiʰtla]</code>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Interactive Greetings & First Meeting Dialogue -->
+      <div id="dialogues" class="glass-card p-6 md:p-8 rounded-2xl border border-slate-700/80 shadow-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
+          <div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold uppercase">Samtal 1.1</span>
+            <h3 class="text-xl font-bold text-white mt-1" data-i18n="dialogue_title">Fyrsta samtalið: Kveðjur og kynning</h3>
+          </div>
+          <div class="text-xs text-slate-400 font-mono">
+            Smelltu á setningu til að hlusta
+          </div>
+        </div>
+
+        <!-- Dialogue Bubbles -->
+        <div class="space-y-4 max-w-3xl mx-auto">
+          
+          <!-- Line 1 -->
+          <div onclick="playDialogueLine(0)" class="p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-800/80 border border-slate-800 cursor-pointer transition-all flex items-start gap-3 group">
+            <div class="w-9 h-9 rounded-full bg-cyan-600/30 border border-cyan-500/40 text-cyan-300 flex items-center justify-center font-bold text-xs flex-shrink-0">
+              JÓN
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                  „Sæl! Hvað heitir þú?“
+                </span>
+                <span class="text-xs text-slate-500 font-mono">🔊 0:02</span>
+              </div>
+              <div class="text-xs text-slate-400 mt-1" data-i18n="dia_trans_1">
+                (Привіт! Як тебе звати? / Hi! What is your name?)
+              </div>
+            </div>
+          </div>
+
+          <!-- Line 2 -->
+          <div onclick="playDialogueLine(1)" class="p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-800/80 border border-slate-800 cursor-pointer transition-all flex items-start gap-3 group ml-4 sm:ml-8">
+            <div class="w-9 h-9 rounded-full bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 flex items-center justify-center font-bold text-xs flex-shrink-0">
+              OLENA
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-white group-hover:text-indigo-300 transition-colors">
+                  „Sæll! Ég heiti Olena. Hvað heitir þú?“
+                </span>
+                <span class="text-xs text-slate-500 font-mono">🔊 0:03</span>
+              </div>
+              <div class="text-xs text-slate-400 mt-1" data-i18n="dia_trans_2">
+                (Привіт! Мене звати Олена. А як звати тебе? / Hello! My name is Olena. What is your name?)
+              </div>
+            </div>
+          </div>
+
+          <!-- Line 3 -->
+          <div onclick="playDialogueLine(2)" class="p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-800/80 border border-slate-800 cursor-pointer transition-all flex items-start gap-3 group">
+            <div class="w-9 h-9 rounded-full bg-cyan-600/30 border border-cyan-500/40 text-cyan-300 flex items-center justify-center font-bold text-xs flex-shrink-0">
+              JÓN
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                  „Ég heiti Jón. Hvaðan ert þú?“
+                </span>
+                <span class="text-xs text-slate-500 font-mono">🔊 0:02</span>
+              </div>
+              <div class="text-xs text-slate-400 mt-1" data-i18n="dia_trans_3">
+                (Мене звати Йон. Звідки ти? / My name is Jón. Where are you from?)
+              </div>
+            </div>
+          </div>
+
+          <!-- Line 4 -->
+          <div onclick="playDialogueLine(3)" class="p-4 rounded-2xl bg-slate-900/80 hover:bg-slate-800/80 border border-slate-800 cursor-pointer transition-all flex items-start gap-3 group ml-4 sm:ml-8">
+            <div class="w-9 h-9 rounded-full bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 flex items-center justify-center font-bold text-xs flex-shrink-0">
+              OLENA
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-white group-hover:text-indigo-300 transition-colors">
+                  „Ég er frá Úkraínu en ég bý í Reykjavík núna. Gaman að kynnast þér!“
+                </span>
+                <span class="text-xs text-slate-500 font-mono">🔊 0:04</span>
+              </div>
+              <div class="text-xs text-slate-400 mt-1" data-i18n="dia_trans_4">
+                (Я з України, але зараз живу в Рейк'явіку. Приємно познайомитися! / I am from Ukraine but I live in Reykjavík now. Nice to meet you!)
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 4. FULL COURSE CURRICULUM GRID (A1.1 – B2)                                -->
+  <!-- ========================================================================= -->
+  <section id="curriculum" class="py-24 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Title & Dynamic Filter Pills -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-mono uppercase tracking-wider mb-3">
+            Námskrá Námskeiðsins (10 Einingar)
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight" data-i18n="curriculum_heading">
+            Gagnvirkt Námskeið A1.1 &rarr; B2
+          </h2>
+          <p class="mt-2 text-slate-400 text-sm sm:text-base max-w-2xl" data-i18n="curriculum_sub">
+            Kerfisbundin framvinda frá grunnorðaforða og kveðjum upp í flókna setningafræði og BÍN greiningu.
+          </p>
+        </div>
+
+        <!-- Level Filter Tabs -->
+        <div class="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-2xl border border-slate-800 self-start md:self-auto overflow-x-auto max-w-full">
+          <button onclick="filterCurriculum('all')" id="btn-curr-all" class="curr-filter-btn active-curr px-4 py-2 rounded-xl text-xs font-bold bg-cyan-600 text-white shadow-md transition-all">
+            Sýna allt (10)
+          </button>
+          <button onclick="filterCurriculum('A1.1')" id="btn-curr-A1.1" class="curr-filter-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            A1.1 Grunnur
+          </button>
+          <button onclick="filterCurriculum('A1.2')" id="btn-curr-A1.2" class="curr-filter-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            A1.2 Samtöl
+          </button>
+          <button onclick="filterCurriculum('A2')" id="btn-curr-A2" class="curr-filter-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            A2 Aðstæður
+          </button>
+          <button onclick="filterCurriculum('B1B2')" id="btn-curr-B1B2" class="curr-filter-btn px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
+            B1 & B2 Hástig
+          </button>
+        </div>
+      </div>
+
+      <!-- 10 Progressive Modules Grid -->
+      <div id="curriculum-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- EINING 1 [A1.1] -->
+        <div class="curriculum-card glass-card glow-cyan p-6 rounded-2xl flex flex-col justify-between" data-level="A1.1">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">CEFR A1.1</span>
+              <span class="text-xs font-mono text-slate-400">EINING 01</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Stafrófið, Framburður & Kveðjur</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e1_desc">
+              Allir 32 bókstafirnir, sérhljóðar, tvíhljóðar, hliðarhljóð (ll &rarr; [tl]), aðblástur og helstu kurteisisorð.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-cyan-300">
+              <div>&bull; Þ / Ð greinarmunur</div>
+              <div>&bull; Sæll / Sæl, Bless, Takk</div>
+              <div>&bull; Hvað segirðu gott?</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u1')" class="w-full py-2.5 rounded-xl bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white border border-cyan-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 2 [A1.1] -->
+        <div class="curriculum-card glass-card glow-cyan p-6 rounded-2xl flex flex-col justify-between" data-level="A1.1">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">CEFR A1.1</span>
+              <span class="text-xs font-mono text-slate-400">EINING 02</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Fyrsta samtalið: Nafn & Uppruni</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e2_desc">
+              Kynning á sjálfum sér, lönd, þjóðerni og beyging sagnanna <em>að vera</em> (ég er, þú ert) og <em>að heita</em>.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-slate-300">
+              <div>Ég heiti... / Hvað heitir þú?</div>
+              <div>Ég er frá Úkraínu / Íslandi</div>
+              <div>Ég tala úkraínsku og ensku</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u2')" class="w-full py-2.5 rounded-xl bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white border border-cyan-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 3 [A1.2] -->
+        <div class="curriculum-card glass-card glow-nf p-6 rounded-2xl flex flex-col justify-between" data-level="A1.2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40">CEFR A1.2</span>
+              <span class="text-xs font-mono text-slate-400">EINING 03</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Á kaffihúsi: Panta & Tölur 1–4</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e3_desc">
+              Panta kaffi og bakkelsi í bakaríi eða kaffihúsi. Beyging talnanna 1–4 (einn, tveir, þrír, fjórir) eftir kyni.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-blue-300">
+              <div>„Einn kaffi og eina samloku, takk!“</div>
+              <div>Hvað kostar það? &bull; Má bjóða þér...</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u3')" class="w-full py-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 4 [A1.2] -->
+        <div class="curriculum-card glass-card glow-nf p-6 rounded-2xl flex flex-col justify-between" data-level="A1.2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/40">CEFR A1.2</span>
+              <span class="text-xs font-mono text-slate-400">EINING 04</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Fólk & Fjölskylda: Nafnorð & Greinir</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e4_desc">
+              Nafnorð í 3 kynjum (KK, KVK, HK), fleirtölumyndun og viðskeyttur ákveðinn greinir (-inn, -in, -ið).
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-slate-300">
+              <div>KK: maður &rarr; maður<span class="text-blue-400 font-bold">-inn</span></div>
+              <div>KVK: kona &rarr; kona<span class="text-emerald-400 font-bold">-n</span></div>
+              <div>HK: barn &rarr; barn<span class="text-amber-400 font-bold">-ið</span></div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u4')" class="w-full py-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 5 [A2] -->
+        <div class="curriculum-card glass-card glow-tf p-6 rounded-2xl flex flex-col justify-between" data-level="A2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">CEFR A2</span>
+              <span class="text-xs font-mono text-slate-400">EINING 05</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Daglegt líf: V2 Orðaröð & Neitun</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e5_desc">
+              Sögn í 2. sæti (Verb-Second), umhverfing orðaraðar við tímatengiliði og staðsetning neitunarorðsins <em>ekki</em>.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-emerald-300">
+              <div>„Í dag <span class="font-bold underline">fer</span> ég í sund.“</div>
+              <div>„Ég borða <span class="text-red-400 font-bold">ekki</span> kjöt.“</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u5')" class="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 6 [A2] -->
+        <div class="curriculum-card glass-card glow-tf p-6 rounded-2xl flex flex-col justify-between" data-level="A2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">CEFR A2</span>
+              <span class="text-xs font-mono text-slate-400">EINING 06</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Í búðinni: Þolfall (ÞF) & Krónur</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e6_desc">
+              Beint andlag í þolfalli (ÞF) með sögnum eins og <em>kaupa, eiga, vilja, fá</em> ásamt íslenskum krónum og verðlagi.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-slate-300">
+              <div>Ég ætla að kaupa <span class="text-emerald-400 font-bold">mjólk [ÞF]</span></div>
+              <div>Þetta kostar tvö þúsund krónur</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u6')" class="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 7 [A2] -->
+        <div class="curriculum-card glass-card glow-tgf p-6 rounded-2xl flex flex-col justify-between" data-level="A2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">CEFR A2</span>
+              <span class="text-xs font-mono text-slate-400">EINING 07</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Hjá lækninum: Óbeint frumlag</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e7_desc">
+              Líðan og ópersónulegar sagnir með frumlag í þágufalli eða þolfalli (*Mér finnst, Mér er illt, Mig langar*).
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-amber-300">
+              <div>„<span class="font-bold">Mér er</span> illt í höfðinu.“ [ÞGF]</div>
+              <div>„<span class="font-bold">Mig verkjar</span> í hálsinn.“ [ÞF]</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u7')" class="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 8 [A2] -->
+        <div class="curriculum-card glass-card glow-tgf p-6 rounded-2xl flex flex-col justify-between" data-level="A2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">CEFR A2</span>
+              <span class="text-xs font-mono text-slate-400">EINING 08</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Ferðalög: Í / Á Forsetningar</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e8_desc">
+              Munurinn á hreyfingu (stýrir þolfalli ÞF) og dvöl/staðsetningu (stýrir þágufalli ÞGF) með forsetningunum <em>í</em> og <em>á</em>.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-slate-300">
+              <div>Dvöl: „Ég er <span class="text-amber-400 font-bold">í skólanum [ÞGF]</span>.“</div>
+              <div>Hreyfing: „Ég fer <span class="text-emerald-400 font-bold">í skólann [ÞF]</span>.“</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u8')" class="w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 9 [B1] -->
+        <div class="curriculum-card glass-card glow-tgf p-6 rounded-2xl flex flex-col justify-between" data-level="B1B2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">CEFR B1</span>
+              <span class="text-xs font-mono text-slate-400">EINING 09</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Fortíð: Kennimyndir sterkra sagna</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e9_desc">
+              8 hljóðskiptaflokkar sterkra sagna og 4 kennimyndir sem byggja tíðakerfi málsins: fara &rarr; fór &rarr; fóru &rarr; farið.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-amber-300">
+              <div>1. bíða - beið - biðum - beðið</div>
+              <div>2. bjóða - bauð - buðum - boðið</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u9')" class="w-full py-2.5 rounded-xl bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-white border border-amber-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+        <!-- EINING 10 [B2] -->
+        <div class="curriculum-card glass-card glow-b2 p-6 rounded-2xl flex flex-col justify-between" data-level="B1B2">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40">CEFR B2</span>
+              <span class="text-xs font-mono text-slate-400">EINING 10</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Viðtengingarháttur & BÍN Reader</h3>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed" data-i18n="e10_desc">
+              Viðtengingarháttur í nútíð og þátíð (*Ef ég væri...*), miðmyndarsagnir á *-st* og fræðilegur lestur með BÍN greiningu.
+            </p>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 font-mono text-xs mb-4 space-y-1 text-purple-300">
+              <div>„Ef ég væri ríkur, færi ég til Íslands.“</div>
+              <div>BÍN Lemma & Interlinear Tagging</div>
+            </div>
+          </div>
+          <button onclick="launchCurriculumUnit('u10')" class="w-full py-2.5 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/40 text-xs font-bold transition-all btn-3d flex items-center justify-center gap-2">
+            <span>Byrja einingu</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5. TEACHERS & SCHOOLS WORKSPACE (Kennarasvæði)                            -->
+  <!-- ========================================================================= -->
+  <section id="teachers" class="py-24 relative z-10 bg-slate-900/50 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-mono uppercase tracking-wider mb-3">
+          Kennarastuðningur & Námsmat
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight" data-i18n="teachers_title">
+          Kennarasvæði & Námsáætlanir
+        </h2>
+        <p class="mt-2 text-slate-400 text-sm sm:text-base" data-i18n="teachers_sub">
+          Samræmt opinberu námsefnislínunni <em>Íslenska fyrir alla 1–4</em> og Evrópurammanum (CEFR).
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Sheet 1 -->
+        <div class="glass-card p-6 rounded-2xl border border-slate-700/80 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">A1.1 STAFRÓFSÆFING</span>
+            <h4 class="text-base font-bold text-white mt-3 mb-1">Vinnublað: Framburður og Sérstafir</h4>
+            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+              Æfingablað fyrir byrjendur um greinarmun á Þ og Ð, tvöfalt ll og aðblástur með hljóðritunarverkefnum.
+            </p>
+          </div>
+          <button onclick="downloadWorksheet('Stafrófið A1.1')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors flex items-center justify-center gap-2">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span>Prenta verkefnablað (PDF)</span>
+          </button>
+        </div>
+
+        <!-- Sheet 2 -->
+        <div class="glass-card p-6 rounded-2xl border border-slate-700/80 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-bold">A1–A2 SAMTALSÞJÁLFUN</span>
+            <h4 class="text-base font-bold text-white mt-3 mb-1">Hlutverkaleikir: Í búðinni og á kaffihúsi</h4>
+            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+              Leiðbeiningar fyrir kennara með 12 raunverulegum samtölum, orðaforðalista og spurningum til að þjálfa talfærni.
+            </p>
+          </div>
+          <button onclick="downloadWorksheet('Samtöl A1-A2')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors flex items-center justify-center gap-2">
+            <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span>Prenta verkefnablað (PDF)</span>
+          </button>
+        </div>
+
+        <!-- Sheet 3 -->
+        <div class="glass-card p-6 rounded-2xl border border-slate-700/80 flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">B1–B2 PRÓFBLAÐ</span>
+            <h4 class="text-base font-bold text-white mt-3 mb-1">Málfræðipróf: Kennimyndir & Viðtengingarháttur</h4>
+            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+              Heildstætt prófskjal með 50 atriðum, réttum svörum og einkunnakvarða samkvæmt BÍN kerfinu.
+            </p>
+          </div>
+          <button onclick="downloadWorksheet('Málfræðipróf B1-B2')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition-colors flex items-center justify-center gap-2">
+            <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span>Prenta verkefnablað (PDF)</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 6. INTERACTIVE CURRICULUM UNIT DRILL MODAL                                 -->
+  <!-- ========================================================================= -->
+  <div id="unit-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="relative w-full max-w-2xl glass-card border border-slate-700/80 shadow-2xl overflow-hidden p-6 md:p-8">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+        <div class="flex items-center gap-3">
+          <span id="modal-level-tag" class="px-2.5 py-0.5 rounded font-mono text-xs font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+            A1.1
+          </span>
+          <h3 id="modal-unit-title" class="text-lg md:text-xl font-bold text-white">
+            Einingarheiti
+          </h3>
+        </div>
+        <button onclick="closeUnitModal()" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="modal-body-container" class="space-y-6">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pt-6 border-t border-slate-800 flex items-center justify-between mt-6">
+        <div class="text-xs font-mono text-slate-400 flex items-center gap-2">
+          <span>Stigafjöldi:</span>
+          <span id="modal-unit-score" class="text-cyan-400 font-bold text-sm">0 / 0</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="closeUnitModal()" class="px-4 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+            Loka
+          </button>
+          <button id="modal-unit-next-btn" onclick="nextUnitQuestion()" class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold transition-all shadow-md">
+            Næsta spurning &rarr;
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 7. ACADEMIC FOOTER                                                        -->
+  <!-- ========================================================================= -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/90 py-16 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div class="md:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center font-bold text-white text-sm">ÍS</div>
+            <span class="font-bold text-base text-white">Íslenskukennsla: Gagnvirkt málfræðinámskeið</span>
+          </div>
+          <p class="text-slate-400 text-xs leading-relaxed max-w-md">
+            Gagnvirkur námsvettvangur frá stafrófinu (A1.1) til færniprófa (B2). Byggt á viðurkenndri málfræðihefð og samræmt við opinbera námskrá <em>Íslenska fyrir alla</em>.
+          </p>
+          <div class="flex items-center gap-3 text-slate-500 font-mono text-[11px]">
+            <span>Stofnun Árna Magnússonar</span> &bull; 
+            <span>Háskóli Íslands</span> &bull; 
+            <span>BÍN Samhæft</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px] font-mono">Námsþrep</h4>
+          <ul class="space-y-2">
+            <li><a href="#unit1" class="hover:text-white transition-colors">Stafrófið & Framburður (A1.1)</a></li>
+            <li><a href="#curriculum" class="hover:text-white transition-colors">Fyrstu samtölin (A1.2)</a></li>
+            <li><a href="#curriculum" class="hover:text-white transition-colors">Málföll & V2 Orðaröð (A2)</a></li>
+            <li><a href="#curriculum" class="hover:text-white transition-colors">Sterkar sagnir & Viðtenging (B1–B2)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px] font-mono">Gagnasafn</h4>
+          <p class="text-slate-500 text-[11px] leading-relaxed mb-3">
+            Yfir 32 hljóðfærslur, 10 gagnvirkar einingar og yfir 50 prófspurningar með tafarlausu endurgjöfarkerfi.
+          </p>
+          <span class="inline-block px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-400 font-mono text-[10px]">
+            Version 4.0 Course Edition
+          </span>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
+        <p>&copy; 2026 Íslenskukennsla &bull; Allur réttur áskilinn &bull; Stofnun Árna Magnússonar í íslenskum fræðum.</p>
+        <div class="flex items-center gap-4">
+          <a href="#hero" class="text-cyan-400 hover:text-cyan-300 font-bold">Fara efst &uarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT: 3D LETTER COSMOS, AUDIO ENGINE, CURRICULUM TRAINERS & I18N    -->
+  <!-- ========================================================================= -->
+  <script>
+    /* =========================================================================
+       1. 3D ICELANDIC LETTER COSMOS (HERO CANVAS ANIMATION)
+       ========================================================================= */
+    const canvas = document.getElementById('cosmos-canvas');
+    const ctx = canvas.getContext('2d');
+    let letters = [];
+    const icelandicAlphabetChars = ['Þ', 'Æ', 'Ð', 'Ö', 'Ý', 'Á', 'É', 'Ó', 'Ú', 'Í'];
+    const letterColors = [
+      'rgba(6, 182, 212, 0.50)',   // Cyan (A1.1)
+      'rgba(59, 130, 246, 0.50)',   // Blue (NF)
+      'rgba(16, 185, 129, 0.50)',   // Emerald (ÞF)
+      'rgba(245, 158, 11, 0.50)',   // Amber (ÞGF)
+      'rgba(168, 85, 247, 0.50)',   // Purple (B2)
+    ];
+
+    let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class CosmosLetter {
+      constructor() { this.reset(true); }
+      reset(init = false) {
+        this.char = icelandicAlphabetChars[Math.floor(Math.random() * icelandicAlphabetChars.length)];
+        this.x = (Math.random() - 0.5) * canvas.width * 1.5;
+        this.y = (Math.random() - 0.5) * canvas.height * 1.5;
+        this.z = init ? Math.random() * 800 + 50 : 800;
+        this.vx = (Math.random() - 0.5) * 0.35;
+        this.vy = (Math.random() - 0.5) * 0.35;
+        this.vz = -(Math.random() * 1.2 + 0.6);
+        this.color = letterColors[Math.floor(Math.random() * letterColors.length)];
+        this.rotation = Math.random() * Math.PI * 2;
+        this.vRot = (Math.random() - 0.5) * 0.015;
+        this.baseSize = Math.random() * 28 + 22;
+      }
+      update() {
+        this.z += this.vz;
+        this.x += this.vx + (mouseX * 0.0003 * this.z);
+        this.y += this.vy + (mouseY * 0.0003 * this.z);
+        this.rotation += this.vRot;
+        if (this.z < 20 || Math.abs(this.x) > canvas.width || Math.abs(this.y) > canvas.height) {
+          this.reset(false);
+        }
+      }
+      draw() {
+        const fov = 400;
+        const scale = fov / (fov + this.z);
+        const screenX = canvas.width / 2 + this.x * scale;
+        const screenY = canvas.height / 2 + this.y * scale;
+        if (screenX < -50 || screenX > canvas.width + 50 || screenY < -50 || screenY > canvas.height + 50) return;
+
+        const alpha = Math.min(1, Math.max(0, (1 - this.z / 800) * 0.85));
+        const fontSize = Math.max(12, this.baseSize * scale * 1.8);
+
+        ctx.save();
+        ctx.translate(screenX, screenY);
+        ctx.rotate(this.rotation);
+        ctx.font = `bold ${fontSize}px "JetBrains Mono", monospace`;
+        ctx.fillStyle = this.color.replace('0.50', alpha.toFixed(2));
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 12 * scale;
+        ctx.fillText(this.char, 0, 0);
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 40; i++) letters.push(new CosmosLetter());
+
+    window.addEventListener('mousemove', (e) => {
+      targetMouseX = e.clientX - window.innerWidth / 2;
+      targetMouseY = e.clientY - window.innerHeight / 2;
+    });
+
+    function animateCosmos() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      mouseX += (targetMouseX - mouseX) * 0.05;
+      mouseY += (targetMouseY - mouseY) * 0.05;
+      letters.forEach(letter => { letter.update(); letter.draw(); });
+      requestAnimationFrame(animateCosmos);
+    }
+    animateCosmos();
+
+    /* =========================================================================
+       2. 32-LETTER ICELANDIC ALPHABET SOUNDBOARD & PHONETIC DATA
+       ========================================================================= */
+    const icelandicAlphabet = [
+      { upper: 'A', lower: 'a', ipa: '[a] eða [aː]', example: 'afi', trans: 'grandfather' },
+      { upper: 'Á', lower: 'á', ipa: '[au]', example: 'álfur', trans: 'elf' },
+      { upper: 'B', lower: 'b', ipa: '[p]', example: 'bók', trans: 'book' },
+      { upper: 'D', lower: 'd', ipa: '[t]', example: 'dagur', trans: 'day' },
+      { upper: 'Ð', lower: 'ð', ipa: '[ð] (raddað)', example: 'maður', trans: 'person/man' },
+      { upper: 'E', lower: 'e', ipa: '[ɛ] eða [ɛː]', example: 'eldur', trans: 'fire' },
+      { upper: 'É', lower: 'é', ipa: '[jɛ]', example: 'ég', trans: 'I' },
+      { upper: 'F', lower: 'f', ipa: '[f] eða [v]', example: 'fara', trans: 'to go' },
+      { upper: 'G', lower: 'g', ipa: '[k] eða [ɣ]', example: 'góður', trans: 'good' },
+      { upper: 'H', lower: 'h', ipa: '[h]', example: 'hestur', trans: 'horse' },
+      { upper: 'I', lower: 'i', ipa: '[ɪ]', example: 'íslenska', trans: 'Icelandic' },
+      { upper: 'Í', lower: 'í', ipa: '[iː]', example: 'ís', trans: 'ice/ice-cream' },
+      { upper: 'J', lower: 'j', ipa: '[j]', example: 'já', trans: 'yes' },
+      { upper: 'K', lower: 'k', ipa: '[kʰ] (aðblástur)', example: 'kaffi', trans: 'coffee' },
+      { upper: 'L', lower: 'l', ipa: '[l]', example: 'land', trans: 'country/land' },
+      { upper: 'M', lower: 'm', ipa: '[m]', example: 'mamma', trans: 'mom' },
+      { upper: 'N', lower: 'n', ipa: '[n]', example: 'nafn', trans: 'name' },
+      { upper: 'O', lower: 'o', ipa: '[ɔ]', example: 'orð', trans: 'word' },
+      { upper: 'Ó', lower: 'ó', ipa: '[ou]', example: 'ólífa', trans: 'olive' },
+      { upper: 'P', lower: 'p', ipa: '[pʰ]', example: 'panna', trans: 'pan' },
+      { upper: 'R', lower: 'r', ipa: '[r] (rúllandi)', example: 'rigning', trans: 'rain' },
+      { upper: 'S', lower: 's', ipa: '[s]', example: 'sól', trans: 'sun' },
+      { upper: 'T', lower: 't', ipa: '[tʰ]', example: 'tala', trans: 'to speak' },
+      { upper: 'U', lower: 'u', ipa: '[ʏ]', example: 'ugla', trans: 'owl' },
+      { upper: 'Ú', lower: 'ú', ipa: '[uː]', example: 'út', trans: 'out' },
+      { upper: 'V', lower: 'v', ipa: '[v]', example: 'vatn', trans: 'water' },
+      { upper: 'X', lower: 'x', ipa: '[xs]', example: 'lax', trans: 'salmon' },
+      { upper: 'Y', lower: 'y', ipa: '[ɪ] (eins og i)', example: 'yfir', trans: 'over' },
+      { upper: 'Ý', lower: 'ý', ipa: '[iː] (eins og í)', example: 'ýsa', trans: 'haddock' },
+      { upper: 'Þ', lower: 'þ', ipa: '[θ] (óraddað)', example: 'þak', trans: 'roof' },
+      { upper: 'Æ', lower: 'æ', ipa: '[ai]', example: 'bær', trans: 'town/farm' },
+      { upper: 'Ö', lower: 'ö', ipa: '[œ]', example: 'börn', trans: 'children' }
+    ];
+
+    let currentSelectedLetter = icelandicAlphabet[0];
+
+    function renderAlphabetGrid() {
+      const grid = document.getElementById('alphabet-grid');
+      grid.innerHTML = '';
+      icelandicAlphabet.forEach((item, index) => {
+        const isSpecial = ['Þ', 'Ð', 'Æ', 'Ö', 'Á', 'É', 'Ó', 'Ú', 'Ý', 'Í'].includes(item.upper);
+        const card = document.createElement('button');
+        card.className = `letter-tile p-3 rounded-xl flex flex-col items-center justify-center cursor-pointer ${isSpecial ? 'border-cyan-500/40 bg-cyan-950/20' : ''}`;
+        card.innerHTML = `
+          <div class="text-xl sm:text-2xl font-bold ${isSpecial ? 'text-cyan-300' : 'text-white'}">${item.upper} ${item.lower}</div>
+          <div class="text-[10px] text-slate-400 font-mono mt-1">${item.ipa}</div>
+        `;
+        card.onclick = () => selectLetter(item);
+        grid.appendChild(card);
+      });
+    }
+
+    function selectLetter(item) {
+      currentSelectedLetter = item;
+      document.getElementById('detail-letter').innerText = `${item.upper} ${item.lower}`;
+      document.getElementById('detail-ipa').innerText = item.ipa;
+      document.getElementById('detail-example').innerHTML = `Dæmi: <strong class="text-white">${item.example}</strong> (${item.trans})`;
+      speakCurrentLetter();
+    }
+
+    // Audio synthesizer with SpeechSynthesis & Web Audio fallback
+    function speakCurrentLetter() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(currentSelectedLetter.example);
+        utterance.lang = 'is-IS';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        // Fallback acoustic chime tone
+        playBeepTone(440, 0.15);
+      }
+    }
+
+    function playBeepTone(freq, duration) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.log('AudioContext not supported');
+      }
+    }
+
+    // Dialogue audio playback
+    const dialogueLines = [
+      "Sæl! Hvað heitir þú?",
+      "Sæll! Ég heiti Olena. Hvað heitir þú?",
+      "Ég heiti Jón. Hvaðan ert þú?",
+      "Ég er frá Úkraínu en ég bý í Reykjavík núna. Gaman að kynnast þér!"
+    ];
+
+    function playDialogueLine(idx) {
+      const text = dialogueLines[idx];
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'is-IS';
+        utterance.rate = 0.88;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        playBeepTone(520, 0.2);
+      }
+    }
+
+    renderAlphabetGrid();
+
+    /* =========================================================================
+       3. CURRICULUM LEVEL FILTERING
+       ========================================================================= */
+    function filterCurriculum(level) {
+      document.querySelectorAll('.curr-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-600', 'text-white', 'shadow-md');
+        btn.classList.add('text-slate-300');
+      });
+
+      const activeBtn = document.getElementById('btn-curr-' + level);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-300');
+        activeBtn.classList.add('bg-cyan-600', 'text-white', 'shadow-md');
+      }
+
+      document.querySelectorAll('.curriculum-card').forEach(card => {
+        const cardLevel = card.getAttribute('data-level');
+        if (level === 'all' || cardLevel === level) {
+          card.style.display = 'flex';
+          card.style.opacity = '0';
+          setTimeout(() => {
+            card.style.transition = 'opacity 0.3s ease-in-out';
+            card.style.opacity = '1';
+          }, 10);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    /* =========================================================================
+       4. INTERACTIVE UNIT DRILL EXERCISES DATABASE & MODAL ENGINE
+       ========================================================================= */
+    const unitExercises = {
+      u1: {
+        title: "Eining 1: Stafrófið, Framburður & Kveðjur",
+        level: "A1.1",
+        questions: [
+          {
+            prompt: "Hver er munurinn á bókstöfunum <strong>Þ</strong> og <strong>Ð</strong>?",
+            options: [
+              { text: "Þ kemur aðeins fyrir í upphafi orðs; Ð kemur aldrei fyrir í upphafi orðs.", correct: true, explanation: "Rétt! Þ er óraddað upphafshljóð [θ], en Ð er raddað [ð] inni í eða aftast í orðum." },
+              { text: "Ð er alltaf borið fram eins og D; Þ er alltaf borið fram eins og T.", correct: false, explanation: "Rangt: Bæði eru sérstök tannhljóð (eins og í ensku 'think' og 'this')." },
+              { text: "Þeir eru nákvæmlega eins og hægt er að nota þá jafnt.", correct: false, explanation: "Rangt: Íslensk réttritun gerir skýran greinarmun." }
+            ]
+          },
+          {
+            prompt: "Hvernig er orðið <em>Eyjafjallajökull</em> eða <em>Kolla</em> borið fram vegna <strong>ll</strong>?",
+            options: [
+              { text: "Með sérstöku lokhljóði [tl] (t.d. [kʰɔt-la])", correct: true, explanation: "Hárrétt! Tvöfalt ll myndar [tl] hliðarfrísku." },
+              { text: "Eins og venjulegt langt l: [l:]", correct: false, explanation: "Rangt: Ekki í íslensku máli." }
+            ]
+          }
+        ]
+      },
+      u2: {
+        title: "Eining 2: Fyrsta samtalið: Nafn & Uppruni",
+        level: "A1.1",
+        questions: [
+          {
+            prompt: "Veldu rétt form sagnarinnar <em>að vera</em> fyrir <strong>ég</strong>:<br><span class='text-cyan-300 font-bold'>Ég _____ frá Úkraínu.</span>",
+            options: [
+              { text: "er", correct: true, explanation: "Rétt! Ég er, þú ert, hann/hún er." },
+              { text: "ert", correct: false, explanation: "Rangt: 'Ert' er notað með þú (þú ert)." },
+              { text: "eru", correct: false, explanation: "Rangt: 'Eru' er fleirtala (við/þið/þau eru)." }
+            ]
+          }
+        ]
+      },
+      u3: {
+        title: "Eining 3: Á kaffihúsi: Panta & Tölur 1–4",
+        level: "A1.2",
+        questions: [
+          {
+            prompt: "Hvernig pantar þú <strong>1 kaffi (KK)</strong> og <strong>1 samloku (KVK)</strong>?",
+            options: [
+              { text: "Einn kaffi og eina samloku, takk!", correct: true, explanation: "Glæsilegt! 'Einn' er karlkyn og 'eina' er kvenkyn í þolfalli." },
+              { text: "Eitt kaffi og einn samloku, takk!", correct: false, explanation: "Rangt: Kaffi er karlkynsnafnorð og samloka er kvenkyns." }
+            ]
+          }
+        ]
+      },
+      u4: {
+        title: "Eining 4: Fólk & Fjölskylda: Greinir",
+        level: "A1.2",
+        questions: [
+          {
+            prompt: "Hver er ákveðinn greinir kvenkynsnafnorðsins <strong>kona</strong> í nefnifalli eintölu?",
+            options: [
+              { text: "konan (-n)", correct: true, explanation: "Rétt! Veik kvenkynsnafnorð sem enda á -a fá viðskeytið -n (konan)." },
+              { text: "konain", correct: false, explanation: "Rangt: Ekki rétt beygingarform." }
+            ]
+          }
+        ]
+      },
+      u5: {
+        title: "Eining 5: Daglegt líf: V2 Orðaröð",
+        level: "A2",
+        questions: [
+          {
+            prompt: "Endurraðaðu í rétta V2 orðaröð: <em>Í dag / ég / fer / í vinnuna</em>",
+            options: [
+              { text: "Í dag fer ég í vinnuna", correct: true, explanation: "Rétt! Sögnin 'fer' verður alltaf að vera í 2. sæti eftir atviksliðnum 'Í dag'." },
+              { text: "Í dag ég fer í vinnuna", correct: false, explanation: "Rangt: V2 reglan krefst umhverfingar þegar setning byrjar á atvikslið!" }
+            ]
+          }
+        ]
+      },
+      u6: {
+        title: "Eining 6: Í búðinni: Þolfall (ÞF)",
+        level: "A2",
+        questions: [
+          {
+            prompt: "Veldu rétt form nafnorðsins <em>hestur</em> eða <em>bíll</em> í þolfalli:<br><span class='text-emerald-300 font-bold'>Ég ætla að kaupa _____ (bíllinn).</span>",
+            options: [
+              { text: "bílinn [ÞF]", correct: true, explanation: "Rétt! Sögnin 'að kaupa' stýrir þolfalli: bíll &rarr; bíl &rarr; bílinn." },
+              { text: "bíllinn [NF]", correct: false, explanation: "Rangt: Bíllinn er nefnifall." },
+              { text: "bílnum [ÞGF]", correct: false, explanation: "Rangt: Bílnum er þágufall." }
+            ]
+          }
+        ]
+      },
+      u7: {
+        title: "Eining 7: Hjá lækninum: Óbeint frumlag",
+        level: "A2",
+        questions: [
+          {
+            prompt: "Fylltu inn í eyðuna: <span class='text-amber-300 font-bold'>_____ (ég) er illt í maganum.</span>",
+            options: [
+              { text: "Mér [ÞGF]", correct: true, explanation: "Rétt! Líðanarsagnir taka frumlag í þágufalli: Mér er illt / Mér er kalt." },
+              { text: "Ég [NF]", correct: false, explanation: "Rangt: 'Ég' er nefnifall og gengur ekki með 'er illt'." },
+              { text: "Mig [ÞF]", correct: false, explanation: "Rangt: 'Mig' er þolfall." }
+            ]
+          }
+        ]
+      },
+      u8: {
+        title: "Eining 8: Ferðalög: Í / Á Forsetningar",
+        level: "A2",
+        questions: [
+          {
+            prompt: "Ef þú ert <strong>á hreyfingu</strong> inn í hús, hvaða fall stýrir forsetningin <em>í</em>?",
+            options: [
+              { text: "Þolfalli (ÞF) — 'Ég geng í húsið'", correct: true, explanation: "Hárrétt! Hreyfing inn í eða á eitthvað tekur þolfall (ÞF)." },
+              { text: "Þágufalli (ÞGF) — 'Ég er í húsinu'", correct: false, explanation: "Rangt: Þágufall sýnir kyrrstöðu eða dvöl." }
+            ]
+          }
+        ]
+      },
+      u9: {
+        title: "Eining 9: Fortíð: Kennimyndir sterkra sagna",
+        level: "B1",
+        questions: [
+          {
+            prompt: "Hverjar eru 4 kennimyndir sagnarinnar <strong>að fara</strong>?",
+            options: [
+              { text: "fara - fór - fóru - farið", correct: true, explanation: "Frábært! 6. hljóðskiptaflokkur: a - ó - ó - a." },
+              { text: "fara - fariði - fórum - farið", correct: false, explanation: "Rangt: Fara er sterk sögn með kennimyndirnar fór - fóru." }
+            ]
+          }
+        ]
+      },
+      u10: {
+        title: "Eining 10: Viðtengingarháttur & BÍN Reader",
+        level: "B2",
+        questions: [
+          {
+            prompt: "Hvernig er réttur viðtengingarháttur þátíðar í skilyrðissetningu:<br><span class='text-purple-300 font-bold'>Ef hún _____ (koma) á morgun, yrði ég glaður.</span>",
+            options: [
+              { text: "kæmi [VH.ÞT]", correct: true, explanation: "Hárrétt! Viðtengingarháttur þátíðar af 'koma' er 'kæmi'." },
+              { text: "kom [FH.ÞT]", correct: false, explanation: "Rangt: 'Kom' er framsöguháttur." }
+            ]
+          }
+        ]
+      }
+    };
+
+    let activeUnitData = null;
+    let activeQuestionIndex = 0;
+    let activeUnitScore = 0;
+
+    function launchCurriculumUnit(uKey) {
+      const data = unitExercises[uKey];
+      if (!data) return;
+
+      activeUnitData = data;
+      activeQuestionIndex = 0;
+      activeUnitScore = 0;
+
+      document.getElementById('modal-unit-title').innerText = data.title;
+      document.getElementById('modal-level-tag').innerText = data.level;
+      
+      updateUnitScoreBadge();
+      renderCurrentUnitQuestion();
+
+      document.getElementById('unit-modal').classList.remove('hidden');
+    }
+
+    function closeUnitModal() {
+      document.getElementById('unit-modal').classList.add('hidden');
+    }
+
+    function updateUnitScoreBadge() {
+      document.getElementById('modal-unit-score').innerText = `${activeUnitScore} / ${activeUnitData.questions.length}`;
+    }
+
+    function renderCurrentUnitQuestion() {
+      const q = activeUnitData.questions[activeQuestionIndex];
+      const container = document.getElementById('modal-body-container');
+      
+      let html = `
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-sm md:text-base text-slate-100 font-sans leading-relaxed">
+            ${q.prompt}
+          </div>
+          <div class="space-y-2.5">
+      `;
+
+      q.options.forEach((opt, idx) => {
+        html += `
+          <button onclick="checkUnitAnswer(${idx})" id="unit-opt-${idx}" class="w-full text-left p-3.5 rounded-xl bg-slate-950/70 hover:bg-slate-800/80 border border-slate-800 text-xs sm:text-sm font-medium text-slate-200 transition-all flex items-center justify-between group">
+            <span>${opt.text}</span>
+            <span class="w-5 h-5 rounded-full border border-slate-700 flex items-center justify-center text-[10px] group-hover:border-cyan-400 font-mono">
+              ${idx + 1}
+            </span>
+          </button>
+        `;
+      });
+
+      html += `
+          </div>
+          <div id="unit-feedback-box" class="hidden p-4 rounded-xl text-xs sm:text-sm leading-relaxed border"></div>
+        </div>
+      `;
+
+      container.innerHTML = html;
+      document.getElementById('modal-unit-next-btn').style.display = (activeQuestionIndex < activeUnitData.questions.length - 1) ? 'inline-block' : 'none';
+    }
+
+    function checkUnitAnswer(idx) {
+      const q = activeUnitData.questions[activeQuestionIndex];
+      const opt = q.options[idx];
+      const fb = document.getElementById('unit-feedback-box');
+
+      q.options.forEach((_, i) => {
+        const btn = document.getElementById('unit-opt-' + i);
+        if (btn) btn.disabled = true;
+      });
+
+      fb.classList.remove('hidden');
+      if (opt.correct) {
+        activeUnitScore++;
+        updateUnitScoreBadge();
+        fb.className = "p-4 rounded-xl text-xs sm:text-sm leading-relaxed border bg-emerald-500/15 border-emerald-500/40 text-emerald-300";
+        fb.innerHTML = `<strong>Rétt!</strong> ${opt.explanation}`;
+        document.getElementById('unit-opt-' + idx).classList.add('bg-emerald-600/30', 'border-emerald-500');
+      } else {
+        fb.className = "p-4 rounded-xl text-xs sm:text-sm leading-relaxed border bg-red-500/15 border-red-500/40 text-red-300";
+        fb.innerHTML = `<strong>Ekki rétt:</strong> ${opt.explanation}`;
+        document.getElementById('unit-opt-' + idx).classList.add('bg-red-600/30', 'border-red-500');
+      }
+    }
+
+    function nextUnitQuestion() {
+      if (activeQuestionIndex < activeUnitData.questions.length - 1) {
+        activeQuestionIndex++;
+        renderCurrentUnitQuestion();
+      }
+    }
+
+    function downloadWorksheet(title) {
+      alert(`[Íslenskukennsla Kennarasvæði]\nPrentvænt verkefnablað: "${title}" er tilbúið.`);
+      window.print();
+    }
+
+    /* =========================================================================
+       5. MULTI-LANGUAGE TRANSLATION DICTIONARY [IS | UK | EN]
+       ========================================================================= */
+    const courseTranslations = {
+      is: {
+        nav_sub: "Gagnvirkt námskeið: Frá stafrófi til B2",
+        nav_home: "Forsíða",
+        nav_alphabet: "Stafrófið & Framburður",
+        nav_curriculum: "Námskrá A1-B2",
+        nav_dialogues: "Gagnvirkar Dæmisögur",
+        nav_teachers: "Kennarasvæði",
+        cta_start: "Byrja núna",
+        hero_pill: "Byrjaðu frá grunni: Stafrófið, framburður og samtal",
+        hero_title_1: "Lærðu íslensku frá",
+        hero_title_2: "stafrófinu til meistaraprófs",
+        hero_desc: "Gagnvirkt námskeið með hljóðæfingum fyrir stafrófið (Þ, Æ, Ð, Ö), samtölum úr daglegu lífi á Íslandi og traustri málfræði byggðri á BÍN.",
+        hero_cta_alphabet: "Byrja á Stafrófinu (Eining 1)",
+        hero_cta_curriculum: "Skoða alla námskrá (A1–B2)",
+        stat_letters: "Bókstafir í stafrófi",
+        stat_units: "Námskeiðseiningar",
+        stat_cases: "Málföll (NF, ÞF, ÞGF, EF)",
+        stat_bin: "BÍN Samhæft",
+        unit1_heading: "Íslenska Stafrófið & Framburðarlyklar",
+        unit1_sub: "Smelltu á stafina til að hlusta á hljóðin, lærðu hljóðritun (IPA) og kynntu þér séríslensku stafina Þ, Æ, Ð og Ö.",
+        sound_hint: "Smelltu á staf til að heyra framburð",
+        alphabet_title: "Stafrófið: 32 Bókstafir",
+        dialogue_title: "Fyrsta samtalið: Kveðjur og kynning",
+        curriculum_heading: "Gagnvirkt Námskeið A1.1 → B2",
+        curriculum_sub: "Kerfisbundin framvinda frá grunnorðaforða og kveðjum upp í flókna setningafræði og BÍN greiningu.",
+        teachers_title: "Kennarasvæði & Námsáætlanir",
+        teachers_sub: "Samræmt opinberu námsefnislínunni Íslenska fyrir alla 1–4 og Evrópurammanum (CEFR)."
+      },
+      uk: {
+        nav_sub: "Інтерактивний курс: Від алфавіту до B2",
+        nav_home: "Головна",
+        nav_alphabet: "Алфавіт та вимова",
+        nav_curriculum: "Програма A1-B2",
+        nav_dialogues: "Діалоги",
+        nav_teachers: "Для викладачів",
+        cta_start: "Почати навчання",
+        hero_pill: "Почніть з нуля: Алфавіт, вимова та перші розмови",
+        hero_title_1: "Вивчайте ісландську мову від",
+        hero_title_2: "алфавіту до рівня вільного володіння",
+        hero_desc: "Інтерактивний курс з аудіотренажером алфавіту (Þ, Æ, Ð, Ö), живими діалогами та граматикою на базі системи BÍN.",
+        hero_cta_alphabet: "Почати з алфавіту (Модуль 1)",
+        hero_cta_curriculum: "Переглянути програму (A1–B2)",
+        stat_letters: "Букв в алфавіті",
+        stat_units: "Навчальних модулів",
+        stat_cases: "Відмінки (NF, ÞF, ÞGF, EF)",
+        stat_bin: "Стандарт BÍN",
+        unit1_heading: "Ісландський алфавіт та фонетичні ключі",
+        unit1_sub: "Натискайте на букви, слухайте вимову, вивчайте транскрипцію IPA та особливі ісландські літери Þ, Æ, Ð та Ö.",
+        sound_hint: "Натисніть на букву для озвучення",
+        alphabet_title: "Алфавіт: 32 літери",
+        dialogue_title: "Перший діалог: Вітання та знайомство",
+        curriculum_heading: "Інтерактивний курс A1.1 → B2",
+        curriculum_sub: "Послідовний прогрес від базової лексики та вітань до складного синтаксису й розбору BÍN.",
+        teachers_title: "Кабінет викладача та робочі плани",
+        teachers_sub: "Повна синхронізація з державною програмою Íslenska fyrir alla 1–4 та стандартами CEFR."
+      },
+      en: {
+        nav_sub: "Interactive Course: From Alphabet to B2",
+        nav_home: "Home",
+        nav_alphabet: "Alphabet & Phonetics",
+        nav_curriculum: "Syllabus A1-B2",
+        nav_dialogues: "Dialogues",
+        nav_teachers: "Teachers Space",
+        cta_start: "Start Now",
+        hero_pill: "Start from scratch: Alphabet, phonetics, and dialogue",
+        hero_title_1: "Master Icelandic from the",
+        hero_title_2: "alphabet to advanced fluency",
+        hero_desc: "Interactive curriculum featuring sound-enabled alphabet training (Þ, Æ, Ð, Ö), authentic daily survival dialogues, and BÍN morphology.",
+        hero_cta_alphabet: "Start with Alphabet (Unit 1)",
+        hero_cta_curriculum: "Explore Full Syllabus (A1–B2)",
+        stat_letters: "Letters in alphabet",
+        stat_units: "Course modules",
+        stat_cases: "Cases (NF, ÞF, ÞGF, EF)",
+        stat_bin: "BÍN Compatible",
+        unit1_heading: "Icelandic Alphabet & Phonetic Keys",
+        unit1_sub: "Click on letters to hear pronunciation, explore IPA transcriptions, and master unique letters Þ, Æ, Ð, and Ö.",
+        sound_hint: "Click any letter to trigger sound",
+        alphabet_title: "The Alphabet: 32 Letters",
+        dialogue_title: "First Dialogue: Greetings & Introduction",
+        curriculum_heading: "Interactive Course A1.1 → B2",
+        curriculum_sub: "Systematic progression from survival basics to complex syntax and BÍN interlinear reading.",
+        teachers_title: "Teachers Space & Curricula",
+        teachers_sub: "Aligned with the official textbook series Íslenska fyrir alla 1–4 and CEFR guidelines."
+      }
+    };
+
+    function setLanguage(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-600', 'text-white', 'font-bold');
+        btn.classList.add('text-slate-400', 'font-medium');
+      });
+
+      const activeBtn = document.getElementById('lang-' + lang);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400', 'font-medium');
+        activeBtn.classList.add('bg-cyan-600', 'text-white', 'font-bold');
+      }
+
+      const dict = courseTranslations[lang] || courseTranslations.is;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerHTML = dict[key];
+        }
+      });
+    }
+
+    // Mobile nav toggle
+    const mobBtn = document.getElementById('mobile-menu-btn');
+    const mobMenu = document.getElementById('mobile-menu');
+    if (mobBtn && mobMenu) {
+      mobBtn.addEventListener('click', () => {
+        mobMenu.classList.toggle('hidden');
+      });
+    }
+  </script>
+</body>
+</html>

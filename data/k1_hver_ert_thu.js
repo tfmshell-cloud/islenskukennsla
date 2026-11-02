@@ -1,0 +1,902 @@
+// Production-grade decoupled dataset for Kafli 1: Hver ert þú?
+// Árnastofnun & Bara tala standard for Ukrainian learners
+
+export const K1_DATA = {
+  "module_meta": {
+    "id": "kafli_1",
+    "title_is": "Kafli 1: Hver ert þú?",
+    "title_uk": "Розділ 1: Хто ти? (Знайомство, країни, професії та дієслово «að vera»)",
+    "level": "A1.1 Grunnstig",
+    "standard": "Árnastofnun / Bara tala AI / Ylhýra",
+    "theme": "Dark Obsidian & Neon Cyberpunk",
+    "version": "1.0-production"
+  },
+  "countries_and_nationalities": [
+    {
+      "id": 1,
+      "country": "Úkraína",
+      "gender": "f",
+      "gender_label": "Kvenkyn (жін. рід)",
+      "nationality_m": "Úkraínumaður",
+      "nationality_f": "Úkraínukona",
+      "ipa": "[ˈuːkraiːna] • [ˈuːkraiːnʏˌmaːðʏr]",
+      "translation": "Україна • українець / українка",
+      "dative_fra": "frá Úkraínu",
+      "dative_rule": "Жіночий рід: закінчення -a переходить у -u",
+      "flag": "🇺🇦"
+    },
+    {
+      "id": 2,
+      "country": "Ísland",
+      "gender": "n",
+      "gender_label": "Hvorugkyn (сер. рід)",
+      "nationality_m": "Íslendingur",
+      "nationality_f": "Íslendingur",
+      "ipa": "[ˈistlant] • [ˈistlɛntiŋkʏr]",
+      "translation": "Ісландія • ісландець / ісландка",
+      "dative_fra": "frá Íslandi",
+      "dative_rule": "Середній рід: додається закінчення -i",
+      "flag": "🇮🇸"
+    },
+    {
+      "id": 3,
+      "country": "Pólland",
+      "gender": "n",
+      "gender_label": "Hvorugkyn (сер. рід)",
+      "nationality_m": "Pólverji",
+      "nationality_f": "Pólverji",
+      "ipa": "[ˈpʰoutlant] • [ˈpʰoulvɛrjɪ]",
+      "translation": "Польща • поляк / полька",
+      "dative_fra": "frá Póllandi",
+      "dative_rule": "Середній рід: додається закінчення -i",
+      "flag": "🇵🇱"
+    },
+    {
+      "id": 4,
+      "country": "Bandaríkin",
+      "gender": "n.pl",
+      "gender_label": "Hvorugkyn fleirtala (сер. рід множина)",
+      "nationality_m": "Bandaríkjamaður",
+      "nationality_f": "Bandaríkjakona",
+      "ipa": "[ˈpantariːcɪn]",
+      "translation": "США • американець / американка",
+      "dative_fra": "frá Bandaríkjunum",
+      "dative_rule": "Множина з означеним артиклем: закінчення -unum",
+      "flag": "🇺🇸"
+    },
+    {
+      "id": 5,
+      "country": "Þýskaland",
+      "gender": "n",
+      "gender_label": "Hvorugkyn (сер. рід)",
+      "nationality_m": "Þjóðverji",
+      "nationality_f": "Þjóðverji",
+      "ipa": "[ˈθiːskalant] • [ˈθjouːðvɛrjɪ]",
+      "translation": "Німеччина • німець / німкеня",
+      "dative_fra": "frá Þýskalandi",
+      "dative_rule": "Середній рід: додається закінчення -i",
+      "flag": "🇩🇪"
+    },
+    {
+      "id": 6,
+      "country": "Bretland",
+      "gender": "n",
+      "gender_label": "Hvorugkyn (сер. рід)",
+      "nationality_m": "Breti",
+      "nationality_f": "Breti",
+      "ipa": "[ˈprɛhtlant] • [ˈprɛːtɪ]",
+      "translation": "Велика Британія • британець / британка",
+      "dative_fra": "frá Bretlandi",
+      "dative_rule": "Середній рід: додається закінчення -i",
+      "flag": "🇬🇧"
+    },
+    {
+      "id": 7,
+      "country": "Frakkland",
+      "gender": "n",
+      "gender_label": "Hvorugkyn (сер. рід)",
+      "nationality_m": "Frakki",
+      "nationality_f": "Frakki",
+      "ipa": "[ˈfrahtlant] • [ˈfrahcɪ]",
+      "translation": "Франція • француз / француженка",
+      "dative_fra": "frá Frakklandi",
+      "dative_rule": "Середній рід: додається закінчення -i",
+      "flag": "🇫🇷"
+    },
+    {
+      "id": 8,
+      "country": "Spánn",
+      "gender": "m",
+      "gender_label": "Karlkyn (чол. рід)",
+      "nationality_m": "Spánverji",
+      "nationality_f": "Spánverji",
+      "ipa": "[spauːtn̥] • [ˈspauːnvɛrjɪ]",
+      "translation": "Іспанія • іспанець / іспанка",
+      "dative_fra": "frá Spáni",
+      "dative_rule": "Чоловічий рід: закінчення -i, nn скорочується до n",
+      "flag": "🇪🇸"
+    },
+    {
+      "id": 9,
+      "country": "Noregur",
+      "gender": "m",
+      "gender_label": "Karlkyn (чол. рід)",
+      "nationality_m": "Norðmaður",
+      "nationality_f": "Norðmaður",
+      "ipa": "[ˈnɔːrɛɣʏr] • [ˈnɔrðmaːðʏr]",
+      "translation": "Норвегія • норвежець / норвежка",
+      "dative_fra": "frá Noregi",
+      "dative_rule": "Чоловічий рід: суфікс -ur змінюється на -i",
+      "flag": "🇳🇴"
+    },
+    {
+      "id": 10,
+      "country": "Svíþjóð",
+      "gender": "f",
+      "gender_label": "Kvenkyn (жін. рід)",
+      "nationality_m": "Svíi",
+      "nationality_f": "Svíi",
+      "ipa": "[ˈsviːθjouːð] • [ˈsviːɪ]",
+      "translation": "Швеція • швед / шведка",
+      "dative_fra": "frá Svíþjóð",
+      "dative_rule": "Жіночий рід на приголосний: нульове закінчення",
+      "flag": "🇸🇪"
+    }
+  ],
+  "professions": [
+    {
+      "id": 1,
+      "term": "læknir",
+      "gender": "kk",
+      "ipa": "[ˈlaiːknɪr]",
+      "mnemonic_hook": "🩺 Лікар (læknir), що призначає ліки! Зверніть увагу: перед сполученням kn чується преаспіраційний гортанний подих [hkn].",
+      "translation": "лікар",
+      "example_sentence": "Ég er læknir á Landspítalanum.",
+      "example_translation": "Я лікар у Національній лікарні."
+    },
+    {
+      "id": 2,
+      "term": "kennari",
+      "gender": "kk",
+      "ipa": "[ˈcʰɛnːarɪ]",
+      "mnemonic_hook": "🎓 Кенарі навчає знанням (kenna). Буква k перед переднім голосним e пом'якшується у піднебінне [cʰ]!",
+      "translation": "вчитель / викладач",
+      "example_sentence": "Hún er kennari í grunnskóla.",
+      "example_translation": "Вона вчителька у початковій школі."
+    },
+    {
+      "id": 3,
+      "term": "þjónn",
+      "gender": "kk",
+      "ipa": "[θjouːtn̥]",
+      "mnemonic_hook": "☕ Офіціант у кав'ярні: ініціальна літера Þ [θ] + подвійне nn після дифтонга ó [ou] дає пре-носовий вибух [tn]!",
+      "translation": "офіціант",
+      "example_sentence": "Hann er þjónn á Kaffi Rúrek.",
+      "example_translation": "Він офіціант у кав'ярні Рурек."
+    },
+    {
+      "id": 4,
+      "term": "sendill",
+      "gender": "kk",
+      "ipa": "[ˈsɛntɪtl̥]",
+      "mnemonic_hook": "🛵 Кур'єр доставки (senda = відправляти): подвійне ll вибухає як [tl] наприкінці слова!",
+      "translation": "кур'єр / доставник",
+      "example_sentence": "Ég vinn sem sendill í Reykjavík.",
+      "example_translation": "Я працюю кур'єром у Рейк'явіку."
+    },
+    {
+      "id": 5,
+      "term": "forritari",
+      "gender": "kk",
+      "ipa": "[ˈfɔrːɪtarɪ]",
+      "mnemonic_hook": "💻 Програміст IT: forrit (комп'ютерна програма) + -ari (діяч). Творець цифрового коду.",
+      "translation": "програміст",
+      "example_sentence": "Paweł er forritari hjá hugbúnaðarfyrirtæki.",
+      "example_translation": "Павел — програміст у компанії програмного забезпечення."
+    },
+    {
+      "id": 6,
+      "term": "verkfræðingur",
+      "gender": "kk",
+      "ipa": "[ˈvɛr̥kfraiðiŋkʏr]",
+      "mnemonic_hook": "🏗️ Інженер: поєднання verk (робота/витвір) та fræði (наука/теорія).",
+      "translation": "інженер",
+      "example_sentence": "Kateryna er verkfræðingur frá Úkraínu.",
+      "example_translation": "Катерина — інженер з України."
+    },
+    {
+      "id": 7,
+      "term": "hjúkrunarfræðingur",
+      "gender": "kk",
+      "ipa": "[ˈçuːkrʏnarˌfraiðiŋkʏr]",
+      "mnemonic_hook": "💉 Медична сестра / медбрат: від давнього hjúkra (турбуватися, доглядати хворих).",
+      "translation": "медична сестра / медбрат",
+      "example_sentence": "María er hjúkrunarfræðingur á bráðamóttöku.",
+      "example_translation": "Марія — медсестра у відділенні невідкладної допомоги."
+    },
+    {
+      "id": 8,
+      "term": "bílstjóri",
+      "gender": "kk",
+      "ipa": "[ˈpistjouːrɪ]",
+      "mnemonic_hook": "🚌 Водій: bíll (автомобіль) + stjóri (керманич/директор руху). b звучить глухо як [p].",
+      "translation": "водій",
+      "example_sentence": "Hann er bílstjóri hjá Strætó.",
+      "example_translation": "Він водій міського автобуса Strætó."
+    },
+    {
+      "id": 9,
+      "term": "smiður",
+      "gender": "kk",
+      "ipa": "[ˈsmɪːðʏr]",
+      "mnemonic_hook": "🪚 Будівельник / тесляр: м'який міжзубний звук ð [ð] усередині слова.",
+      "translation": "тесляр / будівельник",
+      "example_sentence": "Jón er smiður og byggir hús.",
+      "example_translation": "Йон — будівельник і будує будинки."
+    },
+    {
+      "id": 10,
+      "term": "kokkur",
+      "gender": "kk",
+      "ipa": "[ˈkʰɔhkʏr]",
+      "mnemonic_hook": "🍳 Кухар: подвоєне kk створює енергійну преаспірацію [h] перед розмиканням [kʰɔ-hk-ʏr]!",
+      "translation": "шеф-кухар / кухар",
+      "example_sentence": "Olena er kokkur á sjávarréttastað.",
+      "example_translation": "Олена — кухар у рибному ресторані."
+    },
+    {
+      "id": 11,
+      "term": "lögfræðingur",
+      "gender": "kk",
+      "ipa": "[ˈlœxfr̥aiðiŋkʏr]",
+      "mnemonic_hook": "⚖️ Юрист / адвокат: lög (закони) + fræði (наука). g перед f переходить у звук [x].",
+      "translation": "юрист / адвокат",
+      "example_sentence": "Hann er lögfræðingur hjá ráðuneytinu.",
+      "example_translation": "Він юрист у міністерстві."
+    },
+    {
+      "id": 12,
+      "term": "nemi / stúdent",
+      "gender": "kk",
+      "ipa": "[ˈnɛːmɪ] / [ˈstuːtɛnt]",
+      "mnemonic_hook": "🎒 Студент / учень: від дієслова nema (сприймати, вивчати).",
+      "translation": "студент / учень",
+      "example_sentence": "Ég er nemi í íslensku við Háskóla Íslands.",
+      "example_translation": "Я студент ісландської мови в Університеті Ісландії."
+    }
+  ],
+  "languages_and_proficiency": {
+    "languages": [
+      {
+        "name": "íslenska",
+        "ipa": "[ˈistlɛnska]",
+        "meaning": "ісландська мова",
+        "flag": "🇮🇸"
+      },
+      {
+        "name": "úkraínska",
+        "ipa": "[ˈuːkraiːnska]",
+        "meaning": "українська мова",
+        "flag": "🇺🇦"
+      },
+      {
+        "name": "enska",
+        "ipa": "[ˈɛnska]",
+        "meaning": "англійська мова",
+        "flag": "🇬🇧"
+      },
+      {
+        "name": "pólska",
+        "ipa": "[ˈpʰoulska]",
+        "meaning": "польська мова",
+        "flag": "🇵🇱"
+      },
+      {
+        "name": "spænska",
+        "ipa": "[ˈspainska]",
+        "meaning": "іспанська мова",
+        "flag": "🇪🇸"
+      },
+      {
+        "name": "þýska",
+        "ipa": "[ˈθiːska]",
+        "meaning": "німецька мова",
+        "flag": "🇩🇪"
+      },
+      {
+        "name": "franska",
+        "ipa": "[ˈfranska]",
+        "meaning": "французька мова",
+        "flag": "🇫🇷"
+      },
+      {
+        "name": "danska",
+        "ipa": "[ˈtanska]",
+        "meaning": "данська мова",
+        "flag": "🇩🇰"
+      }
+    ],
+    "proficiency_adverbs": [
+      {
+        "term": "reiprennandi",
+        "ipa": "[ˈreiːpˌrɛnːantɪ]",
+        "meaning": "вільно / як по маслу (рідний або C1-C2 рівень)",
+        "example": "Ég tala ensku reiprennandi.",
+        "example_uk": "Я вільно розмовляю англійською."
+      },
+      {
+        "term": "svolítið",
+        "ipa": "[ˈsvɔːliːtɪð]",
+        "meaning": "трохи / трішки (A1-A2 базовий рівень)",
+        "example": "Ég tala svolítið íslensku.",
+        "example_uk": "Я трохи розмовляю ісландською."
+      },
+      {
+        "term": "ekkert",
+        "ipa": "[ˈɛhkɛr̥t]",
+        "meaning": "зовсім ні / анітрохи (нульовий рівень з преаспірацією перед kk)",
+        "example": "Ég tala ekkert spænsku.",
+        "example_uk": "Я зовсім не розмовляю іспанською."
+      }
+    ]
+  },
+  "grammar_system": {
+    "vera_conjugation": {
+      "title": "Teyging sagnarinnar «að vera» (Дієвідмінювання «бути» у теперішньому часі)",
+      "pedagogical_note": "В українській мові ми зазвичай опускаємо дієслово «бути» у теперішньому часі («Я Катерина», «Він лікар»). В ісландській мові форма дієслова «vera» є СУВОРО ОБОВ'ЯЗКОВОЮ у кожному реченні! Речення без дієслова є грубою помилкою (*Ég læknir ❌ ➔ Ég er læknir ✅).",
+      "forms": [
+        {
+          "pronoun": "ég",
+          "form": "er",
+          "ipa": "[jɛːx ɛːr]",
+          "trans": "я є",
+          "person": "1 ос. одн."
+        },
+        {
+          "pronoun": "þú",
+          "form": "ert",
+          "ipa": "[θuː ɛr̥t]",
+          "trans": "ти є",
+          "person": "2 ос. одн."
+        },
+        {
+          "pronoun": "hann",
+          "form": "er",
+          "ipa": "[hanː ɛːr]",
+          "trans": "він є",
+          "person": "3 ос. одн. (чол.)"
+        },
+        {
+          "pronoun": "hún",
+          "form": "er",
+          "ipa": "[huːn ɛːr]",
+          "trans": "вона є",
+          "person": "3 ос. одн. (жін.)"
+        },
+        {
+          "pronoun": "það",
+          "form": "er",
+          "ipa": "[θaːð ɛːr]",
+          "trans": "воно є",
+          "person": "3 ос. одн. (сер.)"
+        },
+        {
+          "pronoun": "við",
+          "form": "erum",
+          "ipa": "[vɪːð ˈɛːrʏm]",
+          "trans": "ми є",
+          "person": "1 ос. мн."
+        },
+        {
+          "pronoun": "þið",
+          "form": "eruð",
+          "ipa": "[θɪːð ˈɛːrʏð]",
+          "trans": "ви є (до групи)",
+          "person": "2 ос. мн."
+        },
+        {
+          "pronoun": "þeir",
+          "form": "eru",
+          "ipa": "[θeiːr ˈɛːrʏ]",
+          "trans": "вони є (чоловіки)",
+          "person": "3 ос. мн. (чол.)"
+        },
+        {
+          "pronoun": "þær",
+          "form": "eru",
+          "ipa": "[θaiːr ˈɛːrʏ]",
+          "trans": "вони є (жінки)",
+          "person": "3 ос. мн. (жін.)"
+        },
+        {
+          "pronoun": "þau",
+          "form": "eru",
+          "ipa": "[θœyː ˈɛːrʏ]",
+          "trans": "вони є (змішана група)",
+          "person": "3 ос. мн. (сер./зміш.)"
+        }
+      ]
+    },
+    "dative_preposition_fra": {
+      "title": "Forsetningin «frá» + Þágufall (Прийменник «frá» + Давальний відмінок ÞGF 🟡)",
+      "rule_description": "Прийменник 'frá' (з, від) завжди вимагає давального відмінка. Правила зміни закінчень назв країн:",
+      "rules": [
+        {
+          "category": "Країни жін. роду на -a",
+          "shift": "-a ➔ -u",
+          "example_nom": "Úkraína",
+          "example_dat": "frá Úkraínu",
+          "note": "Також: Danmörk ➔ frá Danmörku"
+        },
+        {
+          "category": "Країни сер. та чол. роду на приголосний",
+          "shift": "+ -i",
+          "example_nom": "Ísland, Pólland",
+          "example_dat": "frá Íslandi, frá Póllandi",
+          "note": "Також: Þýskaland ➔ frá Þýskalandi"
+        },
+        {
+          "category": "Чоловічий рід на -ur / -nn",
+          "shift": "-ur ➔ -i / -nn ➔ -ni",
+          "example_nom": "Noregur, Spánn",
+          "example_dat": "frá Noregi, frá Spáni",
+          "note": "Кореневе чергування голосних"
+        },
+        {
+          "category": "Множина з означеним артиклем",
+          "shift": "+ -unum",
+          "example_nom": "Bandaríkin",
+          "example_dat": "frá Bandaríkjunum",
+          "note": "США у давальному відмінку множини"
+        }
+      ]
+    },
+    "question_words": [
+      {
+        "word": "Hver",
+        "ipa": "[kʰvɛːr]",
+        "meaning": "Хто?",
+        "example": "Hver ert þú?",
+        "example_trans": "Хто ти?"
+      },
+      {
+        "word": "Hvaðan",
+        "ipa": "[ˈkʰvaːðan]",
+        "meaning": "Звідки?",
+        "example": "Hvaðan ert þú?",
+        "example_trans": "Звідки ти?"
+      },
+      {
+        "word": "Hvaða",
+        "ipa": "[ˈkʰvaːða]",
+        "meaning": "Який? Яка? Які?",
+        "example": "Hvaða tungumál talar þú?",
+        "example_trans": "Якими мовами ти розмовляєш?"
+      },
+      {
+        "word": "Hvað",
+        "ipa": "[kʰvaːð]",
+        "meaning": "Що? Як?",
+        "example": "Hvað heitir þú?",
+        "example_trans": "Як тебе звати?"
+      }
+    ],
+    "negation_ekki_syntax": {
+      "title": "Neitunin «ekki» og V2-reglan (Заперечення «ekki» та правило дієслова на другій позиції)",
+      "rule": "В ісландській мові дієслово ЗАВЖДИ займає 2-гу позицію в стверджувальних реченнях (Verb-Second / V2). Частка заперечення 'ekki' ставиться ОДРАЗУ ПІСЛЯ дієслова!",
+      "formula_direct": "Підмет (S) + Дієслово (V) + ekki + Додаток",
+      "formula_inverted": "Обставина (Adv) + Дієслово (V) + Підмет (S) + ekki",
+      "examples": [
+        {
+          "sentence": "Ég er ekki læknir.",
+          "trans": "Я не лікар (S + V + ekki)."
+        },
+        {
+          "sentence": "Hann talar ekki íslensku.",
+          "trans": "Він не розмовляє ісландською."
+        },
+        {
+          "sentence": "Í dag er ég ekki heima.",
+          "trans": "Сьогодні я не вдома (Інверсія: Adv + V + S + ekki)."
+        }
+      ]
+    }
+  },
+  "bara_tala_acoustics": {
+    "target_words": [
+      {
+        "word": "læknir",
+        "ipa": "[ˈlaiːknɪr]",
+        "acoustic_focus": "Преаспірація перед kn [hkn]",
+        "note": "У слові 'læknir' перед звукосполученням kn утворюється гортанний придих [h] — слово звучить як [lai-hknɪr]."
+      },
+      {
+        "word": "sendill",
+        "ipa": "[ˈsɛntɪtl̥]",
+        "acoustic_focus": "Боковий вибух подвійного ll ➔ [tl]",
+        "note": "Закінчення -ill у слові 'sendill' вибухає альвеолярним клацанням язика [tl̥]."
+      },
+      {
+        "word": "kennari",
+        "ipa": "[ˈcʰɛnːarɪ]",
+        "acoustic_focus": "Піднебінний придиховий проривний [cʰ]",
+        "note": "Літера k перед голосним переднього ряду e стає палатальною [cʰ] з сильним подихом."
+      },
+      {
+        "word": "þjónn",
+        "ipa": "[θjouːtn̥]",
+        "acoustic_focus": "Міжзубний Þ [θ] + дифтонг ó + пре-носовий вибух [tn]",
+        "note": "Починається з глухого англійського think, після чого дифтонг [ou] розривається переходом nn ➔ [tn]."
+      }
+    ],
+    "minimal_pairs": [
+      {
+        "pair_name": "er vs ert (Довгий чистий тон проти закритого приголосного кластера)",
+        "word_a": {
+          "word": "er",
+          "ipa": "[ɛːr]",
+          "desc": "довгий відкритий голосний [ɛː] + плавний сонор [r] (380 мс)"
+        },
+        "word_b": {
+          "word": "ert",
+          "ipa": "[ɛr̥t]",
+          "desc": "короткий склад + глухе [r̥] з різким закриттям [t] (220 мс)"
+        },
+        "insight": "У формі 'þú ert' кластер rt повністю глухий, що скорочує тривалість складу майже вдвічі порівняно з 'ég er'."
+      },
+      {
+        "pair_name": "frá vs Franska (Дифтонг [au] проти короткого монофтонга [a])",
+        "word_a": {
+          "word": "frá",
+          "ipa": "[frauː]",
+          "desc": "чистий довгий дифтонг [auː] з підвищенням тону"
+        },
+        "word_b": {
+          "word": "Franska",
+          "ipa": "[ˈfranska]",
+          "desc": "короткий відкритий монофтонг [a] перед потрійним кластером nsk"
+        },
+        "insight": "Значок (´) над á у слові 'frá' створює повноцінний дифтонг [au], тоді як у 'Franska' звичайна літера a є монофтонгом."
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "scenario_1",
+      "title": "Afgreiðsla hjá Útlendingastofnun (Імміграційна служба)",
+      "location": "Reykjavík • Útlendingastofnun",
+      "context": "Катерина Коваленко реєструється в імміграційній службі Ісландії та оформлює документи.",
+      "speakers": [
+        "Starfsmaður",
+        "Kateryna"
+      ],
+      "dialogue": [
+        {
+          "speaker": "Starfsmaður",
+          "role": "Співробітник служби",
+          "avatar": "🧑‍💼",
+          "is": "Góðan daginn! Hvað heitir þú?",
+          "ipa": "[ˈkouːðan ˈtaiːjɪn! kʰvaːð ˈheiːtɪr θuː?]",
+          "uk": "Доброго дня! Як вас звати?",
+          "note": "Góðan daginn — універсальне ввічливе привітання в офіційних установах."
+        },
+        {
+          "speaker": "Kateryna",
+          "role": "Катерина (інженер)",
+          "avatar": "👩‍🔬",
+          "is": "Góðan daginn. Ég heiti Kateryna Kovalenko.",
+          "ipa": "[ˈkouːðan ˈtaiːjɪn. jɛːx ˈheiːtɪ Kateryna Kovalenko.]",
+          "uk": "Доброго дня. Мене звати Катерина Коваленко.",
+          "note": "Ég heiti — конструкція для назви власного імені."
+        },
+        {
+          "speaker": "Starfsmaður",
+          "role": "Співробітник служби",
+          "avatar": "🧑‍💼",
+          "is": "Hvaðan ert þú, Kateryna?",
+          "ipa": "[ˈkʰvaːðan ɛr̥t θuː, Kateryna?]",
+          "uk": "Звідки ви, Катерино?",
+          "note": "Питальне слово 'Hvaðan' вимагає дієслова 'ert' для займенника 'þú'."
+        },
+        {
+          "speaker": "Kateryna",
+          "role": "Катерина (інженер)",
+          "avatar": "👩‍🔬",
+          "is": "Ég er frá Úkraínu. Ég bý í Reykjavík núna.",
+          "ipa": "[jɛːx ɛːr frauː ˈuːkraiːnʏ. jɛːx piː iː ˈreiːcaˌviːk ˈnuːna.]",
+          "uk": "Я з України. Зараз я живу в Рейк'явіку.",
+          "note": "frá + Úkraínu (Давальний відмінок ÞGF 🟡: -a ➔ -u)."
+        },
+        {
+          "speaker": "Starfsmaður",
+          "role": "Співробітник служби",
+          "avatar": "🧑‍💼",
+          "is": "Hvað ert þú að atvinnu?",
+          "ipa": "[kʰvaːð ɛr̥t θuː að ˈaːtˌvɪnːʏ?]",
+          "uk": "Хто ви за фахом?",
+          "note": "Стандартний офіційний вираз про професію."
+        },
+        {
+          "speaker": "Kateryna",
+          "role": "Катерина (інженер)",
+          "avatar": "👩‍🔬",
+          "is": "Ég er verkfræðingur. Ég tala úkraínsku og ensku reiprennandi, og svolítið íslensku.",
+          "ipa": "[jɛːx ɛːr ˈvɛr̥kfraiðiŋkʏr. jɛːx ˈtʰaːla ˈuːkraiːnskʏ ɔɣ ˈɛnskʏ ˈreiːpˌrɛnːantɪ, ɔɣ ˈsvɔːliːtɪð ˈistlɛnskʏ.]",
+          "uk": "Я інженер. Я вільно розмовляю українською та англійською, і трохи ісландською.",
+          "note": "reiprennandi = вільно; svolítið = трохи."
+        },
+        {
+          "speaker": "Starfsmaður",
+          "role": "Співробітник служби",
+          "avatar": "🧑‍💼",
+          "is": "Frábært! Velkomin til Íslands.",
+          "ipa": "[ˈfrauːpaitl̥t! ˈvɛlˌkʰɔmɪn tʰɪl ˈistlants.]",
+          "uk": "Чудово! Ласкаво просимо до Ісландії.",
+          "note": "Velkomin узгоджується у жіночому роді однини."
+        }
+      ]
+    },
+    {
+      "id": "scenario_2",
+      "title": "Á nýjum vinnustað (У технологічній компанії)",
+      "location": "Kópavogur • Tæknifyrirtæki",
+      "context": "Йон знайомиться з новим програмістом Павелом із Польщі під час першого робочого дня.",
+      "speakers": [
+        "Jón",
+        "Paweł"
+      ],
+      "dialogue": [
+        {
+          "speaker": "Jón",
+          "role": "Йон (Team Lead)",
+          "avatar": "👨‍💻",
+          "is": "Sæll! Ert þú nýi forritarinn?",
+          "ipa": "[saitl̥! ɛr̥t θuː ˈniːjɪ ˈfɔrːɪtarɪn?]",
+          "uk": "Привіт! Ти новий програміст?",
+          "note": "Sæll — вітання до чоловіка з боковим вибухом [saitl]."
+        },
+        {
+          "speaker": "Paweł",
+          "role": "Павел (програміст)",
+          "avatar": "🧑‍💻",
+          "is": "Sæll! Já, ég heiti Paweł. Gaman að hitta þig.",
+          "ipa": "[saitl̥! jauː, jɛːx ˈheiːtɪ Paweł. ˈkaːman að ˈhɪhta θɪx.]",
+          "uk": "Привіт! Так, мене звати Павел. Приємно познайомитися.",
+          "note": "Gaman að hitta þig — приємно познайомитися (преаспірація в hitta)."
+        },
+        {
+          "speaker": "Jón",
+          "role": "Йон (Team Lead)",
+          "avatar": "👨‍💻",
+          "is": "Sömuleiðis. Hvaðan ert þú?",
+          "ipa": "[ˈsœːmʏˌleiːðɪs. ˈkʰvaːðan ɛr̥t θuː?]",
+          "uk": "Навзаєм. Звідки ти?",
+          "note": "Sömuleiðis — навзаєм."
+        },
+        {
+          "speaker": "Paweł",
+          "role": "Павел (програміст)",
+          "avatar": "🧑‍💻",
+          "is": "Ég er frá Póllandi. En þú, ert þú verkfræðingur?",
+          "ipa": "[jɛːx ɛːr frauː ˈpʰoutlantɪ. ɛn θuː, ɛr̥t θuː ˈvɛr̥kfraiðiŋkʏr?]",
+          "uk": "Я з Польщі. А ти, ти інженер?",
+          "note": "frá + Póllandi (Давальний відмінок ÞGF 🟡: +i)."
+        },
+        {
+          "speaker": "Jón",
+          "role": "Йон (Team Lead)",
+          "avatar": "👨‍💻",
+          "is": "Nei, ég er ekki verkfræðingur, ég er líka forritari.",
+          "ipa": "[neiː, jɛːx ɛːr ˈɛhkɪ ˈvɛr̥kfraiðiŋkʏr, jɛːx ɛːr ˈliːka ˈfɔrːɪtarɪ.]",
+          "uk": "Ні, я не інженер, я також програміст.",
+          "note": "Правило заперечення: 'er ekki' (дієслово перед запереченням)."
+        }
+      ]
+    },
+    {
+      "id": "scenario_3",
+      "title": "Á kaffihúsi í Miðbænum (У кав'ярні в центрі)",
+      "location": "Reykjavík • Miðbær",
+      "context": "Анна та Марія зустрічають Олену, яка працює кухарем в ісландському ресторані.",
+      "speakers": [
+        "Anna",
+        "María",
+        "Olena"
+      ],
+      "dialogue": [
+        {
+          "speaker": "Anna",
+          "role": "Анна",
+          "avatar": "👩",
+          "is": "Sælar, stelpur! Þetta er vinkona mín, Olena.",
+          "ipa": "[ˈsaiːlar, ˈstɛlpʏr! ˈθɛhta ɛːr ˈvɪŋkɔna miːn, Olena.]",
+          "uk": "Привіт, дівчата! Це моя подруга, Олена.",
+          "note": "Sælar — вітання до кількох жінок (множина жіночого роду)."
+        },
+        {
+          "speaker": "María",
+          "role": "Марія",
+          "avatar": "👩‍⚕️",
+          "is": "Hæ Olena! Hvaðan ert þú?",
+          "ipa": "[haiː Olena! ˈkʰvaːðan ɛr̥t θuː?]",
+          "uk": "Привіт, Олено! Звідки ти?",
+          "note": "Hæ — неформальне повсякденне привітання."
+        },
+        {
+          "speaker": "Olena",
+          "role": "Олена (кухар)",
+          "avatar": "👩‍🍳",
+          "is": "Hæ! Ég er frá Úkraínu, frá Odesu. Ég er kokkur.",
+          "ipa": "[haiː! jɛːx ɛːr frauː ˈuːkraiːnʏ, frauː Odesu. jɛːx ɛːr ˈkʰɔhkʏr.]",
+          "uk": "Привіт! Я з України, з Одеси. Я кухар.",
+          "note": "Odesa ➔ frá Odesu (Давальний відмінок ÞGF 🟡)."
+        },
+        {
+          "speaker": "María",
+          "role": "Марія",
+          "avatar": "👩‍⚕️",
+          "is": "Gaman að kynnast þér! Talar þú íslensku?",
+          "ipa": "[ˈkaːman að ˈcʰɪnːast θjɛːr! ˈtʰaːlar θuː ˈistlɛnskʏ?]",
+          "uk": "Приємно познайомитися! Ти говориш ісландською?",
+          "note": "Gaman að kynnast þér — приємно познайомитися з тобою."
+        },
+        {
+          "speaker": "Olena",
+          "role": "Олена (кухар)",
+          "avatar": "👩‍🍳",
+          "is": "Já, ég læri íslensku á hverjum degi. Ég tala svolítið núna!",
+          "ipa": "[jauː, jɛːx ˈlaiːrɪ ˈistlɛnskʏ auː ˈkʰvɛrjʏm ˈtɛijɪ. jɛːx ˈtʰaːla ˈsvɔːliːtɪð ˈnuːna!]",
+          "uk": "Так, я вчу ісландську щодня. Зараз я вже трохи розмовляю!",
+          "note": "svolítið = трохи, небагато."
+        }
+      ]
+    }
+  ],
+  "drill_suite": [
+    {
+      "id": 1,
+      "category": "vera_conjugation",
+      "category_uk": "Дієвідмінювання vera",
+      "prompt": "Оберіть правильну форму дієслова «að vera» для речення: «Við _____ frá Úkraínu.» (Ми з України):",
+      "options": [
+        "eru",
+        "erum",
+        "eruð",
+        "ert"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Við erum»! Для 1-ї особи множини (ми / við) дієслово «að vera» завжди має закінчення -um: «Við erum frá Úkraínu»."
+    },
+    {
+      "id": 2,
+      "category": "dative_fra",
+      "category_uk": "Прийменник frá + Давальний відмінок",
+      "prompt": "Як правильно сказати ісландською «Вона з України» з дотриманням правила давального відмінка (ÞGF 🟡)?",
+      "options": [
+        "Hún er frá Úkraína",
+        "Hún er frá Úkraínu",
+        "Hún er frá Úkraíni",
+        "Hún er af Úkraínu"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Hún er frá Úkraínu»! Прийменник 'frá' вимагає давального відмінка (Þágufall). Іменники жіночого роду на -a змінюють закінчення на -u (Úkraína ➔ Úkraínu)."
+    },
+    {
+      "id": 3,
+      "category": "dative_fra",
+      "category_uk": "США у давальному відмінку",
+      "prompt": "Як правильно сказати: «Джон родом зі Сполучених Штатів (Bandaríkin)»?",
+      "options": [
+        "John er frá Bandaríkin",
+        "John er frá Bandaríkjum",
+        "John er frá Bandaríkjunum",
+        "John er í Bandaríkin"
+      ],
+      "correct_index": 2,
+      "explanation": "Правильно: «frá Bandaríkjunum»! Назва 'Bandaríkin' є множиною середнього роду з означеним артиклем, тому в давальному відмінку отримує форму 'Bandaríkjunum' (-unum)."
+    },
+    {
+      "id": 4,
+      "category": "v2_syntax",
+      "category_uk": "Синтаксис заперечення ekki",
+      "prompt": "Яке речення побудовано граматично правильно відповідно до правила другого дієслова (V2)?",
+      "options": [
+        "Hann ekki er læknir.",
+        "Hann er ekki læknir.",
+        "Ekki hann er læknir.",
+        "Hann læknir ekki er."
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Hann er ekki læknir.» В ісландській мові дієслово завжди стоїть на другій позиції (V2), а частка заперечення 'ekki' ставиться одразу після дієслова!"
+    },
+    {
+      "id": 5,
+      "category": "question_words",
+      "category_uk": "Питальні слова",
+      "prompt": "Яке питальне слово слід підставити у речення про країну походження: «_____ ert þú?» (Звідки ти?):",
+      "options": [
+        "Hver",
+        "Hvaðan",
+        "Hvaða",
+        "Hvað"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Hvaðan» означає «Звідки?» (Hvaðan ert þú? = Звідки ти?). Слово 'Hver' означає 'Хто', а 'Hvað' — 'Що'."
+    },
+    {
+      "id": 6,
+      "category": "question_words",
+      "category_uk": "Питання про особу",
+      "prompt": "Як запитати «Хто він?» ісландською мовою?",
+      "options": [
+        "Hvaðan er hann?",
+        "Hvað er hann?",
+        "Hver er hann?",
+        "Hvaða er hann?"
+      ],
+      "correct_index": 2,
+      "explanation": "Правильно: «Hver er hann?» Питальне слово «Hver» вживається для запитання про особу (Хто?)."
+    },
+    {
+      "id": 7,
+      "category": "acoustics_phonetics",
+      "category_uk": "Фонетика Bara tala",
+      "prompt": "Яка особливість вимови слова «læknir» (лікар) за стандартом Árnastofnun?",
+      "options": [
+        "Буква k не вимовляється взагалі",
+        "Перед звукосполученням kn чується преаспіраційний видих [h]: [ˈlaiːhknɪr]",
+        "Буква æ звучить як відкрите українське [е]",
+        "Звук r у кінці слова вимовляється як французьке горлове [ʁ]"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно! У сполученні 'kn' перед приголосним виникає характерна для ісландської преаспірація або гортанне стиснення [hkn]."
+    },
+    {
+      "id": 8,
+      "category": "vera_conjugation",
+      "category_uk": "Дієвідмінювання vera",
+      "prompt": "Ви звертаєтеся до групи людей: «Ви (двоє чи більше) вчителі». Яку форму обрати?",
+      "options": [
+        "Þið eruð kennarar.",
+        "Þeir eru kennarar.",
+        "Þið erum kennarar.",
+        "Þú ert kennarar."
+      ],
+      "correct_index": 0,
+      "explanation": "Правильно: «Þið eruð kennarar.» Займенник 2-ї особи множини 'þið' (ви) вимагає форми дієслова 'eruð'."
+    },
+    {
+      "id": 9,
+      "category": "question_words",
+      "category_uk": "Питання про мови",
+      "prompt": "Як правильно запитати «Якими мовами ти розмовляєш?»:",
+      "options": [
+        "Hver tungumál talar þú?",
+        "Hvaða tungumál talar þú?",
+        "Hvaðan tungumál talar þú?",
+        "Hvernig tungumál talar þú?"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Hvaða tungumál talar þú?» Питальний займенник «Hvaða» означає «Який / Які саме?» перед іменником."
+    },
+    {
+      "id": 10,
+      "category": "proficiency_adverbs",
+      "category_uk": "Прислівники володіння мовою",
+      "prompt": "Якщо людина говорить «Ég tala ensku reiprennandi», це означає, що вона говорить:",
+      "options": [
+        "Зовсім трішки зі словником",
+        "Вільно, як рідною мовою (як по маслу)",
+        "Лише письмовими фразами",
+        "З сильним акцентом"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно! Ісландський ідіоматичний прислівник «reiprennandi» походить від образу ковзання по мотузці й означає «вільно, без жодних перешкод»."
+    }
+  ]
+};
+
+// Global fallback for legacy environments
+if (typeof window !== 'undefined') {
+  window.K1_DATA = K1_DATA;
+}
