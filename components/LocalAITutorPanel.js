@@ -1,7 +1,9 @@
 /**
- * LocalAITutorPanel.js - Dynamic AI Phonetics & Grammar Coach
- * Connected to local Gemma 2 server at http://localhost:1235/v1/chat/completions
- * Supports dynamic context injection for Módúll 0 & Kafli 1 (Hver ert þú?)
+ * LocalAITutorPanel.js - Árnastofnun AI Linguistics & Phonetics Coach
+ * Supports:
+ * 1. Cloud AI (Google Gemini API via user key or direct HTTPS) - Works 100% on GitHub Pages
+ * 2. Local AI (LM Studio Gemma 2 at http://localhost:1235) - Active on local environment
+ * 3. Deep Offline Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
  */
 
 import { audioEngine } from './AudioEngine.js?v=4.9';
@@ -11,14 +13,16 @@ export class LocalAITutorPanel {
     this.container = container;
     this.endpoint = 'http://localhost:1235/v1/chat/completions';
     this.model = 'gemma-2-9b-it';
+    this.geminiApiKey = localStorage.getItem('isl_gemini_api_key') || '';
     this.isOnline = false;
+    this.isGeminiActive = Boolean(this.geminiApiKey);
     this.isLoading = false;
     this.currentChapter = 'modull_0'; // 'modull_0' or 'kafli_1'
 
     this.messages = [
       {
         role: 'assistant',
-        content: 'Blessuð / Sælir! Я ваш віртуальний лінгвістичний коуч Árnastofnun & Bara tala. Запитуйте про ісландську вимову, фонологічні пастки, дієслово «að vera», відмінки чи життєві діалоги.'
+        content: 'Blessuð / Sælir! Я ваш лінгвістичний коуч Árnastofnun & Bara tala. Запитуйте про ісландську вимову, дієслово «að heita», фонологічні пастки, дієслово «að vera» чи відмінки.'
       }
     ];
 
@@ -32,67 +36,74 @@ export class LocalAITutorPanel {
   }
 
   updateSystemPrompt() {
-    const basePrompt = `Ти — висококваліфікований фонетичний коуч і викладач ісландської мови Інституту Арні Маґнуссона (Stofnun Árna Magnússonar í íslenskum fræðum) та дослідницького проєкту Bara tala для україномовних студентів.
+    const basePrompt = `Ти — кваліфікований лінгвістичний коуч Інституту Арні Маґнуссона (Stofnun Árna Magnússonar í íslenskum fræðum) та дослідницького проєкту Bara tala для україномовних студентів.
 Твої правила:
-1. Завжди відповідай чистою, професійною, але дружньою українською мовою.
-2. Використовуй терміни артикуляційної фонетики та завжди надавай точну транскрипцію в Міжнародному фонетичному алфавіті (IPA) у квадратних дужках, наприклад: [tʰahk], [fjatl̥], [ˈlaiːknɪr].
-3. Для слів пояснюй точне положення губ/язика та наводь когнітивні мнемоніки (у стилі Drops та Ylhýra).
-4. Застерігай від типових помилок україномовних.`;
+1. Завжди відповідай живою, академічно точною, але дружньою українською мовою.
+2. Використовуй міжнародну фонетичну транскрипцію (IPA) у квадратних дужках: [tʰahk], [fjatl̥], [ˈheiːtɪr].
+3. Пояснюй граматичну різницю між особами (наприклад: ég heiti vs þú heitir), відмінками та формами.
+4. Наводь чіткі приклади і порівняння з українською фонетикою.`;
 
     if (this.currentChapter === 'kafli_1') {
       this.systemPrompt = `${basePrompt}
 Поточний модуль: «Kafli 1: Hver ert þú? (Хто ти?)»
-Твої ключові теми:
-- Дієслово «að vera» (ég er, þú ert, hann/hún/það er, við erum, þið eruð, þeir/þær/þau eru). Пояснюй, чому дієслово «є» ніколи не випадає в ісландській мові!
-- Прийменник «frá» + Давальний відмінок (ÞGF 🟡): frá Úkraínu, frá Íslandi, frá Bandaríkjunum.
-- Професії (læknir, kennari, þjónn, sendill, forritari, verkfræðingur, kokkur).
-- Питальні слова: Hver (хто), Hvaðan (звідки), Hvaða (який/які), Hvað (що/як).
-- Заперечення «ekki» та правило дієслова на 2-й позиції (V2-reglan).`;
+Ключові теми:
+- Дієслово «að vera» (ég er, þú ert, hann/hún er, við erum, þið eruð, þeir/þær/þau eru).
+- Дієслово «að heita» (ég heiti, þú heitir, hann/hún heitir).
+- Прийменник «frá» + Давальний відмінок (ÞGF): frá Úkraínu, frá Íslandi.
+- Заперечення «ekki» та закон дієслова на другій позиції (V2).`;
     } else {
       this.systemPrompt = `${basePrompt}
-Поточний модуль: «Módúll 0: Stafrófið & Framburður (Абетка, фонетика та мовний етикет)»
-База знань (78 джерел Árnastofnun, Bara tala, Ylhýra):
-1. 32 літери абетки: знак акута (´) позначає якісно іншу фонему (a ➔ á [au], e ➔ é [jɛ], o ➔ ó [ou], i [ɪ] ➔ í [iː], u [ʏ] ➔ ú [uː]).
-2. 5 фонетичних пасток:
-   - Преаспірація перед pp, tt, kk: мікропауза з гортанним видихом [h] (takk [tʰahk], stopp [stɔhp]).
-   - Боковий вибух ll ➔ [tl] (fjall [fjatl]) та nn ➔ [tn] після дифтонгів (steinn [steitn]), але після простих голосних — [nn] (penni).
-   - Міжзубні: Þorn [θ] ТІЛЬКИ на початку слів (þak), Eð [ð] ТІЛЬКИ всередині та в кінці слів (maður, blað).
-   - hv ➔ [kv] (hvað [kvað]), fn ➔ [pn] (nafn [napn]), fl ➔ [pl] (Keflavík).
-   - 4 стани літери G: перед a/o/u ➔ [k] (gata), перед e/i ➔ [c] (gefa), між голосними ➔ [ɣ] (saga), у кінці ➔ [x] (ég).
-3. 6 мінімальних пар Bara tala: ís [iːs] vs is [ɪs]; taka ['taːka] vs takk [tʰahk]; bát [pauːt] vs bátt [pauht]; bú [puː] vs búð [puːð]; fínn [fitn] vs penni ['pɛnnɪ]; Sæll [saitl] vs Sæl [sail].
-4. Етикет:
-   - Sæll [saitl] — виключно до чоловіка; Sæl [sail] — виключно до жінки.
-   - Рівність: звертання виключно на «ти» (þú) до всіх людей.
-   - Патроніми: ім'я батька в Ef. + -son / -dóttir.`;
+Поточний модуль: «Módúll 0: Stafrófið & Framburður (Абетка, звуки, діалог)»
+Ключові теми:
+- 32 літери абетки, різниця між простими голосними та голосними з акутом (a/á, e/é, i/í, o/ó, u/ú).
+- 5 фонетичних пасток: преаспірація (takk, stopp), латеральний вибух ll/nn (fjall, steinn), міжзубні літери (Þorn тільки на початку слів, Eð тільки всередині/кінці), 4 стани літери G, лабіовеляри hv ➔ [kv].
+- Симулятор діалогу: звертання до чоловіка (Sæll [saitl]) та жінки (Sæl [sail]). Походження: Úkraínumaður (чол.) / Úkraínukona (жін.).
+- Значення слів «heiti» (ім'я/назва) та «heita» (називатися).`;
     }
   }
 
   async checkServerHealth() {
-    try {
-      const res = await fetch('http://localhost:1235/v1/models', { method: 'GET', signal: AbortSignal.timeout(2000) });
-      this.isOnline = res.ok;
-    } catch (e) {
+    if (this.geminiApiKey) {
+      this.isGeminiActive = true;
+      this.updateStatusBadge();
+      return;
+    }
+
+    // Only test localhost if on http: protocol (avoids browser Mixed Content console warnings on HTTPS)
+    if (window.location.protocol === 'http:') {
+      try {
+        const res = await fetch('http://localhost:1235/v1/models', { method: 'GET', signal: AbortSignal.timeout(1800) });
+        this.isOnline = res.ok;
+      } catch (e) {
+        this.isOnline = false;
+      }
+    } else {
       this.isOnline = false;
     }
+
     this.updateStatusBadge();
   }
 
   updateStatusBadge() {
     const badge = this.container.querySelector('#ai-server-status');
     if (!badge) return;
-    if (this.isOnline) {
-      badge.className = 'px-2 py-0.2 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1';
-      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Gemma 2 (Online)`;
+
+    if (this.isGeminiActive) {
+      badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40 flex items-center gap-1';
+      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span> Gemini AI (Хмара)`;
+    } else if (this.isOnline) {
+      badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1';
+      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Gemma 2 (Local:1235)`;
     } else {
-      badge.className = 'px-2 py-0.2 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1';
-      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Смарт-режим`;
+      badge.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center gap-1';
+      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> Árnastofnun База`;
     }
   }
 
   render() {
     this.container.innerHTML = `
       <div class="p-4 sm:p-5 rounded-xl bg-cyber-deep/95 border border-cyan-500/40 shadow-xl space-y-3.5 max-w-3xl mx-auto">
-        <!-- AI Header (Compact) -->
+        <!-- AI Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-cyber-border/30">
           <div class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-emerald-500/20 border border-cyan-400 flex items-center justify-center text-lg shadow-sm">
@@ -103,37 +114,38 @@ export class LocalAITutorPanel {
                 <h3 class="text-sm sm:text-base font-black text-white font-mono leading-none">
                   Árnastofnun AI Лінгвістичний Коуч
                 </h3>
-                <span id="ai-server-status" class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
+                <span id="ai-server-status" class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-slate-800 text-slate-400 border border-slate-700">
                   Зв'язок...
                 </span>
               </div>
               <span id="ai-chapter-badge" class="text-[10px] text-slate-400 font-sans">
-                Контекст: ${this.currentChapter === 'kafli_1' ? 'Kafli 1 (Hver ert þú?)' : 'Módúll 0 (Stafrófið)'} • Gemma 2 (:1235)
+                Контекст: ${this.currentChapter === 'kafli_1' ? 'Kafli 1 (Hver ert þú?)' : 'Módúll 0 (Stafrófið)'}
               </span>
             </div>
           </div>
 
-          <button id="ai-clear-btn" class="px-2.5 py-1 rounded-lg bg-black/40 hover:bg-black/80 border border-slate-800 text-slate-400 hover:text-white text-[10px] font-mono transition-colors self-start sm:self-auto">
-            Очистити чат
-          </button>
+          <div class="flex items-center gap-1.5 self-start sm:self-auto">
+            <button id="ai-config-key-btn" class="px-2.5 py-1 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 text-[10px] font-mono transition-colors flex items-center gap-1">
+              <span>⚙️</span> <span>${this.geminiApiKey ? 'API Ключ ✓' : '+ Додати Gemini API'}</span>
+            </button>
+            <button id="ai-clear-btn" class="px-2.5 py-1 rounded-lg bg-black/40 hover:bg-black/80 border border-slate-800 text-slate-400 hover:text-white text-[10px] font-mono transition-colors">
+              Очистити
+            </button>
+          </div>
         </div>
 
-        <!-- Dynamic Quick Prompts Pills -->
-        <div id="ai-quick-prompts-container" class="flex items-center gap-1.5 flex-wrap text-xs">
-          <!-- Populated by renderQuickPrompts() -->
-        </div>
+        <!-- Quick Prompts Pills -->
+        <div id="ai-quick-prompts-container" class="flex items-center gap-1.5 flex-wrap text-xs"></div>
 
         <!-- Chat Messages Container -->
-        <div id="ai-messages-container" class="space-y-2.5 max-h-72 overflow-y-auto p-3 rounded-lg bg-black/60 border border-slate-800/80 pr-1.5 text-xs">
-          <!-- Rendered messages -->
-        </div>
+        <div id="ai-messages-container" class="space-y-2.5 max-h-72 overflow-y-auto p-3 rounded-lg bg-black/60 border border-slate-800/80 pr-1.5 text-xs"></div>
 
         <!-- Chat Input Form -->
         <form id="ai-chat-form" class="flex items-center gap-2">
           <input
             id="ai-chat-input"
             type="text"
-            placeholder="Запитайте про вимову, að vera, країни чи граматику..."
+            placeholder="Запитайте про «heiti», «að vera», вимову чи правила..."
             class="flex-grow bg-black/80 border border-slate-700 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none transition-colors font-sans"
             autocomplete="off"
           />
@@ -158,29 +170,29 @@ export class LocalAITutorPanel {
     const box = this.container.querySelector('#ai-quick-prompts-container');
     const badge = this.container.querySelector('#ai-chapter-badge');
     if (badge) {
-      badge.innerText = `Контекст: ${this.currentChapter === 'kafli_1' ? 'Kafli 1 (Hver ert þú?)' : 'Módúll 0 (Stafrófið)'} • Gemma 2 (:1235)`;
+      badge.innerText = `Контекст: ${this.currentChapter === 'kafli_1' ? 'Kafli 1 (Hver ert þú?)' : 'Módúll 0 (Stafrófið)'}`;
     }
     if (!box) return;
 
     let prompts = [];
     if (this.currentChapter === 'kafli_1') {
       prompts = [
-        'Як відмінюється дієслово «að vera»?',
+        'Різниця між «heiti» та «heitir»?',
+        'Як відмінюється «að vera»?',
         'Чому «frá Úkraínu», а не «frá Úkraína»?',
-        'Як побудувати заперечення з «ekki»?',
-        'Як вимовити слово «læknir»?'
+        'Як побудувати заперечення з «ekki»?'
       ];
     } else {
       prompts = [
-        'Як вимовити «Eyjafjallajökull»?',
+        'Різниця між «heiti» та «heitir»?',
+        'Коли кажуть «Sæll!», а коли «Sæl!»?',
         'Чому ll звучить як [tl]?',
-        'Різниця між Þ та Ð?',
         'Преаспірація в слові «takk»'
       ];
     }
 
     box.innerHTML = `
-      <span class="text-[10px] font-mono text-slate-500">Швидкі теми:</span>
+      <span class="text-[10px] font-mono text-slate-500">Підказки:</span>
       ${prompts.map(p => `
         <button class="ai-quick-prompt px-2 py-0.5 rounded bg-black/60 hover:bg-cyan-500/20 border border-slate-800 hover:border-cyan-400 text-slate-300 hover:text-cyan-300 text-[11px] font-sans transition-all">
           ${p}
@@ -240,6 +252,7 @@ export class LocalAITutorPanel {
     const form = this.container.querySelector('#ai-chat-form');
     const input = this.container.querySelector('#ai-chat-input');
     const clearBtn = this.container.querySelector('#ai-clear-btn');
+    const configKeyBtn = this.container.querySelector('#ai-config-key-btn');
 
     if (form) {
       form.addEventListener('submit', async (e) => {
@@ -255,6 +268,22 @@ export class LocalAITutorPanel {
       clearBtn.addEventListener('click', () => {
         this.messages = [this.messages[0]];
         this.renderMessages();
+      });
+    }
+
+    if (configKeyBtn) {
+      configKeyBtn.addEventListener('click', () => {
+        const curKey = this.geminiApiKey || '';
+        const userKey = prompt('Введіть ваш Google Gemini API Key (або залиште порожнім для скидання):', curKey);
+        if (userKey !== null) {
+          const cleanKey = userKey.trim();
+          this.geminiApiKey = cleanKey;
+          localStorage.setItem('isl_gemini_api_key', cleanKey);
+          this.isGeminiActive = Boolean(cleanKey);
+          this.updateStatusBadge();
+          configKeyBtn.innerHTML = `<span>⚙️</span> <span>${cleanKey ? 'API Ключ ✓' : '+ Додати Gemini API'}</span>`;
+          alert(cleanKey ? '✅ Gemini API ключ успішно збережено!' : 'ℹ️ Gemini API ключ видалено. Працює локальна база знань.');
+        }
       });
     }
 
@@ -285,44 +314,32 @@ export class LocalAITutorPanel {
       const loader = document.createElement('div');
       loader.id = 'ai-typing-indicator';
       loader.className = 'flex items-center gap-1.5 text-[11px] font-mono text-cyan-400 p-1.5';
-      loader.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> Gemma 2 аналізує (${this.currentChapter})...`;
+      loader.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span> Árnastofnun аналізує запит...`;
       box.appendChild(loader);
       box.scrollTop = box.scrollHeight;
     }
 
     try {
       let botResponse = '';
-      if (this.isOnline) {
-        const res = await fetch(this.endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: this.model,
-            messages: [
-              { role: 'system', content: this.systemPrompt },
-              ...this.messages.slice(-5)
-            ],
-            max_tokens: 380,
-            temperature: 0.3
-          }),
-          signal: AbortSignal.timeout(10000)
-        });
 
-        if (res.ok) {
-          const data = await res.json();
-          if (data.choices && data.choices[0] && data.choices[0].message) {
-            botResponse = data.choices[0].message.content.trim();
-          }
-        }
+      // 1. Try Google Gemini API if user configured key (Works 100% on GitHub Pages HTTPS)
+      if (this.geminiApiKey) {
+        botResponse = await this.queryGeminiApi(userText);
       }
 
+      // 2. Try Local LM Studio Gemma 2 (if on localhost:8000)
+      if (!botResponse && window.location.protocol === 'http:' && this.isOnline) {
+        botResponse = await this.queryLocalLmStudio(userText);
+      }
+
+      // 3. Fallback to Deep Linguistic Rule Engine
       if (!botResponse) {
         botResponse = this.generateFallbackResponse(userText);
       }
 
       this.messages.push({ role: 'assistant', content: botResponse });
     } catch (err) {
-      console.warn('AI Tutor fallback:', err);
+      console.warn('AI Tutor fallback triggered:', err);
       const fallback = this.generateFallbackResponse(userText);
       this.messages.push({ role: 'assistant', content: fallback });
     } finally {
@@ -333,62 +350,208 @@ export class LocalAITutorPanel {
     }
   }
 
+  async queryGeminiApi(userText) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.geminiApiKey}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: this.systemPrompt }]
+          },
+          contents: [
+            ...this.messages.slice(-6).map(m => ({
+              role: m.role === 'user' ? 'user' : 'model',
+              parts: [{ text: m.content }]
+            })),
+            { role: 'user', parts: [{ text: userText }] }
+          ]
+        }),
+        signal: AbortSignal.timeout(12000)
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+      }
+    } catch (e) {
+      console.warn('Gemini API call failed:', e);
+    }
+    return '';
+  }
+
+  async queryLocalLmStudio(userText) {
+    try {
+      const res = await fetch(this.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: this.model,
+          messages: [
+            { role: 'system', content: this.systemPrompt },
+            ...this.messages.slice(-5)
+          ],
+          max_tokens: 420,
+          temperature: 0.3
+        }),
+        signal: AbortSignal.timeout(10000)
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content?.trim() || '';
+      }
+    } catch (e) {
+      console.warn('LM Studio local call failed:', e);
+    }
+    return '';
+  }
+
+  /**
+   * Deep Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
+   * Resolves exact student queries with targeted, accurate explanations.
+   */
   generateFallbackResponse(query) {
     const q = query.toLowerCase();
 
-    // Kafli 1 answers
-    if (q.includes('vera') || q.includes('відміню')) {
-      return `Дієвідмінювання дієслова **að vera** (бути) у теперішньому часі:
-• **ég er** [jɛːx ɛːr] (я є)
-• **þú ert** [θuː ɛr̥t] (ти є)
-• **hann / hún / það er** (він/вона/воно є)
-• **við erum** [vɪːð ˈɛːrʏm] (ми є)
-• **þið eruð** [θɪːð ˈɛːrʏð] (ви є)
-• **þeir / þær / þau eru** [ˈɛːrʏ] (вони є)
-⚠️ **Правило для українців:** в ісландській мові форма дієслова є обов'язковою в кожному реченні: *«Ég er verkfræðingur»* (Я інженер), казати *«Ég verkfræðingur»* не можна!`;
+    // 1. «heiti» vs «heitir» (verb að heita & noun heiti)
+    if (q.includes('heiti') || q.includes('heita') || q.includes('heitir')) {
+      return `🌟 **Розбір слова «heiti» та дієслова «að heita»:**
+
+В ісландській мові це два дуже важливі, взаємопов'язані поняття:
+
+1. **Іменник «heiti» [ˈheiːtɪ] (середній рід):**
+• Означає: **«ім'я»**, **«назва»**, **«найменування»**.
+• Наприклад: *«Þetta heiti»* — «Ця назва / це ім'я».
+
+2. **Дієслово «að heita» [auð ˈheiːta] (зватися / мати ім'я):**
+Це дієслово теперішнього часу змінюється за особами:
+• **Ég heiti** [jɛːx ˈheiːtɪ] — «Мене звати» (1-ша особа однини, закінчення **-i**)
+• **Þú heitir** [θuː ˈheiːtɪr] — «Тебе звати» (2-га особа однини, закінчення **-ir**)
+• **Hann / Hún heitir** [ˈheiːtɪr] — «Його / Її звати» (3-тя особа однини, закінчення **-ir**)
+• **Hvað heitir þú?** [kʰvaːð ˈheiːtɪr θuː] — «Як тебе звати?»
+
+💡 **Чому в одних фразах «heiti», а в інших «heitir»?**
+- Коли кажете про **себе**: **«Ég heiti Anna»** [ˈheiːtɪ].
+- Коли запитуєте співрозмовника (**ти**) або говорите про когось третього (**він/вона**): **«Hvað heitir þú?»** [ˈheiːtɪr].
+*(Якщо ви мали на увазі форму «suð» — це ісландське слово «suð» [sʏːð] «гудіння/південь», а у запитанні «як тебе звати» нормативною фразою є саме «Hvað heitir þú?»).*`;
     }
 
+    // 2. Gender greetings: Sæll vs Sæl
+    if (q.includes('sæll') || q.includes('sæl') || (q.includes('привіт') && (q.includes('чоловік') || q.includes('жінк')))) {
+      return `🌟 **Соціолінгвістичне правило вітання: Sæll vs Sæl**
+
+В ісландській мові форма привітання залежить від граматичного роду **співрозмовника** (того, до кого ви звертаєтесь!):
+
+1. **Sæll!** [saitl̥] — звертання виключно до **ЧОЛОВІКА**:
+• Фонетика: подвоєне **ll** вимовляється як латеральний вибух **[tl̥]**!
+• Наприклад: *«Sæll, Jón!»*
+
+2. **Sæl!** [sail] — звертання виключно до **ЖІНКИ**:
+• Фонетика: одиночне **l** вимовляється м'яко і гладко **[l]** без вибуху!
+• Наприклад: *«Sæl, Anna!»*
+
+3. **Sælir!** [ˈsaiːlɪr] — звертання до групи чоловіків.
+4. **Sælar!** [ˈsaiːlar] — звертання до групи жінок.
+5. **Sæl verið þið!** — до змішаної компанії.`;
+    }
+
+    // 3. Preaspiration (takk, stopp, bátt)
+    if (q.includes('takk') || q.includes('преаспірац') || q.includes('stopp') || q.includes('bátt')) {
+      return `🌬️ **Ісландська преаспірація (Aðblástur):**
+
+Преаспірація — це коротке гортанне придихання **[h]** перед здвоєними глухими приголосними **pp, tt, kk**:
+
+1. **Takk** ➔ вимовляється як **[tʰahk]** (не «такк», а короткий голосний + різкий видих повітря [h] перед звуком [k]).
+2. **Stopp** ➔ **[stɔhp]**.
+3. **Bátt** ➔ **[pauht]** (порівняйте з «Bát» [pauːt], де голосний довгий і видиху немає).
+
+👄 **Як вимовляти українцю:** уявіть, що ви раптово завмираєте на долю секунди перед [к/т/п] і робите різкий видих у гортані.`;
+    }
+
+    // 4. Lateral explosion (ll, nn, fjall, steinn)
+    if (q.includes('ll') || q.includes('боков') || q.includes('латеральн') || q.includes('fjall') || q.includes('steinn')) {
+      return `⚡ **Боковий вибух (Hliðarsprenging) для «ll» та «nn»:**
+
+1. **Сполучення «ll» ➔ [tl̥]:**
+• Кінчик язика впирається в альвеоли як для звуку [т], а бокові краї язика різко пропускають потік повітря зі звуком [л].
+• **Fjall** (гора) ➔ **[fjatl̥]** (не «фьялл»!).
+• **Eyjafjallajökull** ➔ **[ˈeiːjaˌfjatlaˌjœːkʏtl̥]**.
+
+2. **Сполучення «nn» після дифтонгів/довгих голосних ➔ [tn]:**
+• **Steinn** (камінь) ➔ **[steitn]**.
+• **Fínn** (чудовий) ➔ **[fitn]**.
+• Але після простих коротких голосних «nn» лишається [n]: **penni** [ˈpʰɛnːɪ].`;
+    }
+
+    // 5. Interdentals: Þorn vs Eð (Strict word boundary match)
+    if (/\b(þ|ð|þorn|eð)\b/i.test(q) || (q.includes('міжзуб') && (q.includes('букв') || q.includes('літер')))) {
+      return `🦷 **Суворе правило міжзубних літер: Þ (Þorn) та Ð (Eð):**
+
+1. **Þ (Þorn)** [θ]: глухий міжзубний звук (як англ. *thin / think*).
+• ⚠️ **Правило:** зустрічається **ТІЛЬКИ на початку слів**!
+• Приклади: **Þak** [θaːk] (дах), **Þú** [θuː] (ти), **Þing** [θiŋk] (парламент).
+
+2. **Ð (Eð)** [ð]: дзвінкий міжзубний звук (як англ. *this / brother*).
+• ⚠️ **Правило:** ніколи не буває на початку слова! Тільки **в середині або в кінці**!
+• Приклади: **Maður** [ˈmaːðʏr] (чоловік), **Blað** [plaːð] (газета), **Hvað** [kʰvaːð] (що).`;
+    }
+
+    // 6. Preposition «frá» + Dative (ÞGF)
     if (q.includes('frá') || q.includes('країн') || q.includes('давальн') || q.includes('úkraínu')) {
-      return `Прийменник **frá** (з, від) ЗАВЖДИ вимагає **давального відмінка (ÞGF 🟡)**:
-1. Жіночий рід на -a: **-a ➔ -u** (*frá Úkraínu*, *frá Danmörku*).
-2. Сер./чол. на приголосний: **+ -i** (*frá Íslandi*, *frá Póllandi*, *frá Þýskalandi*).
-3. Чоловічий рід: *Noregur* ➔ *frá Noregi*, *Spánn* ➔ *frá Spáni*.
-4. Множина: *Bandaríkin* ➔ *frá Bandaríkjunum* (-unum).`;
+      return `🗺️ **Прийменник «frá» (звідки) + Давальний відмінок (ÞGF 🟡):**
+
+Прийменник **frá** завжди вимагає після себе форми давального відмінка:
+1. **Жіночий рід на -a ➔ закінчення -u:**
+• *Úkraína* ➔ **frá Úkraínu** [frau ˈuːkraiːnʏ] (не «frá Úkraína»!).
+• *Danmörk* ➔ **frá Danmörku**.
+2. **Середній рід на приголосний ➔ закінчення -i:**
+• *Ísland* ➔ **frá Íslandi** [frau ˈistlantɪ].
+• *Pólland* ➔ **frá Póllandi**.
+3. **Чоловічий рід:**
+• *Noregur* ➔ **frá Noregi**.
+4. **Множина (-unum):**
+• *Bandaríkin* ➔ **frá Bandaríkjunum**.`;
     }
 
-    if (q.includes('ekki') || q.includes('v2') || q.includes('запереч')) {
-      return `Правило заперечення **«ekki»** та закон **V2**:
-В ісландській мові дієслово завжди стоїть на **другій позиції (V2)**, а частка заперечення **ekki** йде одразу ПІСЛЯ дієслова:
-• Прямий порядок: **Підмет + Дієслово + ekki** (*Ég er ekki læknir* — Я не лікар).
-• Інверсія: **Обставина + Дієслово + Підмет + ekki** (*Núna er hann ekki heima* — Зараз він не вдома).`;
+    // 7. Verb «að vera»
+    if (q.includes('vera') || (q.includes('бути') && q.includes('дієслов'))) {
+      return `📘 **Дієвідмінювання дієслова «að vera» (бути) у теперішньому часі:**
+
+• **Ég er** [jɛːx ɛːr] — Я є
+• **Þú ert** [θuː ɛr̥t] — Ти є
+• **Hann / Hún / Það er** [ɛːr] — Він / Вона / Воно є
+• **Við erum** [vɪːð ˈɛːrʏm] — Ми є
+• **Þið eruð** [θɪːð ˈɛːrʏð] — Ви є
+• **Þeir / Þær / Þau eru** [ˈɛːrʏ] — Вони є
+
+⚠️ **Закон для українців:** в ісландській мові зв'язку «є» не можна опускати!
+Кажемо: *«Ég er forritari»* (Я є програміст). Речення *«Ég forritari»* є грубою помилкою.`;
     }
 
-    if (q.includes('læknir')) {
-      return `Вимова слова **læknir** (лікар): **[ˈlaiːknɪr]**!
-Зверніть увагу на сполучення **kn**: перед ним виникає характерна для ісландської гортанна мікропауза (преаспірація) **[hkn]**, ніби ви робите короткий видих перед [k]: *«лай-гкнір»*.`;
+    // 8. 4 States of G
+    if (q.includes('літер g') || q.includes('букв g') || q.includes('стани g') || q.includes('ég')) {
+      return `🎭 **4 стани літери G в ісландській мові:**
+
+1. **На початку перед a, o, u ➔ глухий [k]:**
+• **Gata** [ˈkaːta] (вулиця).
+2. **На початку перед e, i, y, æ ➔ м'який піднебінний [c] (як «кь»):**
+• **Gefa** [ˈcɛːva] (давати).
+3. **Між голосними всередині слова ➔ дзвінкий велярний фрикатив [ɣ]:**
+• **Saga** [ˈsaːɣa] (історія/сага).
+4. **У кінці слова після голосного ➔ глухий фрикатив [x] (як «х»):**
+• **Ég** [jɛːx] (я), **Dag** [taːx] (день).`;
     }
 
-    // Módúll 0 answers
-    if (q.includes('eyjafjallajökull') || q.includes('вулкан')) {
-      return `Вимова вулкана **Eyjafjallajökull**: [ˈeiːjaˌfjatlaˌjœːkʏtl̥]!
-1. **Eyja-** [ˈeiːja-] — «острови»
-2. **-fjalla-** [-fjatla-] — «гір» (ll ➔ [tl]!)
-3. **-jökull** [-jœːkʏtl̥] — «льодовик» (ö як [œ], в кінці [tl]).`;
-    }
-    if (q.includes('ll') || q.includes('боков')) {
-      return `Сполучення **ll** дає **боковий вибух** [tl̥] (hliðarsprenging).
-👄 **Артикуляція:** кінчик язика на альвеолах [т], боки різко пропускають повітря [л]. Приклади: **Fjall** [fjatl̥], **Sæll** [saitl̥].`;
-    }
-    if (q.includes('þ') || q.includes('ð') || q.includes('міжзуб')) {
-      return `Правило міжзубних літер:
-1. **Þ (Þorn)** [θ]: глухий (англ. 'think'). Тільки на **ПОЧАТКУ** слів! (**Þing**, **Þú**).
-2. **Ð (Eð)** [ð]: дзвінкий (англ. 'this'). Тільки в **СЕРЕДИНІ або КІНЦІ** слів! (**Maður**, **Blað**).`;
-    }
+    // Default pedagogical response
+    return `💡 **Лінгвістична довідка Árnastofnun:**
 
-    return `Цікаве запитання! В ісландській мові основними є принципи:
-1. **Наголос ЗАВЖДИ на 1-му складі**.
-2. **Дієслово завжди на 2-й позиції (V2)**.
-3. **Прийменник frá керує давальним відмінком ÞGF**.
-Запитайте про будь-яку конкретну граматичну тему чи вимову слова!`;
+Ваше запитання стосується ісландської граматики або фонетики. Ось ключові орієнтири:
+1. **Наголос:** завжди на першому складі слова.
+2. **Дієслово:** стоїть на 2-й позиції у розповідному реченні (V2-правило).
+3. **Особи:** «Ég heiti» (я звуся) vs «Þú heitir» (ти звешся).
+
+Уточніть, будь ласка, яке конкретне слово, звук чи граматичну конструкцію ви хочете детально розібрати!`;
   }
 }
