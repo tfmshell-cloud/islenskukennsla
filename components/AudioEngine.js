@@ -43,14 +43,20 @@ export class AudioEngine {
     };
 
     this.wordAudioSet = new Set([
-      'afi', 'blað', 'bát', 'bátt', 'bók', 'bú', 'búð', 'dagur', 'drottning',
-      'en_þú', 'epli', 'faðir', 'fjall', 'fínn', 'gaman_að_kynnast_þér',
-      'gata', 'gefa', 'hvað', 'hvað_heitir_þú', 'hvaðan_ert_þú', 'hús',
-      'is', 'já', 'kaffi', 'keflavík', 'land', 'lax', 'matur', 'maður',
-      'nafn', 'orð', 'penni', 'rigning', 'saga', 'steinn', 'stopp',
-      'sæl', 'sæll', 'sól', 'sömuleiðis', 'taka', 'takk', 'ungur',
-      'vatn', 'vinna', 'yfir', 'á', 'ævisaga', 'ég', 'ég_er_frá_íslandi',
-      'ég_er_frá_úkraínu', 'ég_heiti_anna', 'ís', 'ókeypis', 'öld',
+      // Module 0
+      'afi', 'á', 'bók', 'dagur', 'maður', 'epli', 'faðir', 'gata', 'hús', 'ís', 'kaffi', 'land', 'matur', 'nafn', 'sól',
+      // Module 1
+      'nemandi', 'kennari', 'verkfræðingur', 'læknir', 'tölvunarfræðingur', 'sjúkraliði', 'þjónn', 'smiður',
+      'úkraína', 'ísland', 'pólland', 'þýskaland', 'enska', 'íslenska', 'úkraínska',
+      // Module 2
+      'samloka', 'kaka', 'pönnukaka', 'snúður', 'súpa', 'vatn', 'te', 'bjór', 'mjólk', 'ostur', 'skinka', 'brauð', 'bolli', 'flaska', 'reikningur',
+      // Module 3
+      'vakna', 'fara', 'borða', 'vinna', 'sofa', 'koma', 'morgunn', 'kvöld', 'snemma', 'seint', 'ekki', 'klukka', 'hádegi', 'nótt',
+      // Additional core phonetics & dialogue words
+      'blað', 'bát', 'bátt', 'bú', 'búð', 'drottning', 'en_þú', 'fjall', 'fínn', 'gaman_að_kynnast_þér',
+      'gefa', 'hvað', 'hvað_heitir_þú', 'hvaðan_ert_þú', 'is', 'já', 'keflavík', 'lax',
+      'orð', 'penni', 'rigning', 'saga', 'steinn', 'stopp', 'sæl', 'sæll', 'sömuleiðis', 'taka', 'takk', 'ungur',
+      'yfir', 'ævisaga', 'ég', 'ég_er_frá_íslandi', 'ég_er_frá_úkraínu', 'ég_heiti_anna', 'ókeypis', 'öld',
       'úr', 'ýta', 'þak'
     ]);
 

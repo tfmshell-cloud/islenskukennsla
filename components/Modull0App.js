@@ -15,13 +15,14 @@ import { IpaSoundBuilder } from './IpaSoundBuilder.js';
 import { SpeechEtiquette } from './SpeechEtiquette.js';
 import { InteractiveDrillEngine } from './InteractiveDrillEngine.js';
 import { DailyWordEngine } from './DailyWordEngine.js';
+import { DailyFocusArena } from './DailyFocusArena.js';
 import { LocalAITutorPanel } from './LocalAITutorPanel.js';
 import { Kafli1App } from './Kafli1App.js';
 import { SagaRoadmap } from './SagaRoadmap.js';
 import { DropsFlexionLab } from './DropsFlexionLab.js';
 import { gameState } from './GameState.js';
 import { binAuraSystem } from './BinAuraSystem.js';
-import { audioEngine } from './AudioEngine.js?v=5.4';
+import { audioEngine } from './AudioEngine.js?v=5.5';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -31,12 +32,14 @@ export class Modull0App {
     this.activeM0SubTab = 'soundboard'; // 'soundboard', 'acoustics', 'dialogue', 'drills'
     this.components = {};
     this.isAiOnline = false;
+    this.focusArena = new DailyFocusArena(() => this.updateDagsamningurBadge());
   }
 
   init() {
     this.renderLayout();
     this.mountComponents();
     this.bindGlobalEvents();
+    this.updateDagsamningurBadge();
     this.setupVisualPillNotification();
     this.setupGameStateSubscription();
     this.checkAiStatus();
@@ -80,14 +83,19 @@ export class Modull0App {
           <div id="block1-brand-dashboard" class="border-b border-slate-800/80 bg-cyber-void/95">
             <div class="max-w-7xl mx-auto px-3 sm:px-6 h-11 flex items-center justify-between gap-2.5">
               
-              <!-- Left: Brand Logo & Title -->
-              <a href="index.html" class="flex items-center gap-2 group flex-shrink-0">
-                <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 via-emerald-400 to-amber-400 flex items-center justify-center text-sm font-black text-black shadow-md group-hover:scale-105 transition-transform">
-                  🇮🇸
-                </span>
-                <span class="header-logo-title text-xs sm:text-sm font-black font-mono tracking-tight text-white">ÍSLENSKA</span>
-                <span class="platform-badge text-[9px] px-1.5 py-0.2 rounded font-mono font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">A1</span>
-              </a>
+              <!-- Left: Brand Logo, Title & Dagsamningur Beacon -->
+              <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <a href="index.html" class="flex items-center gap-2 group flex-shrink-0">
+                  <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 via-emerald-400 to-amber-400 flex items-center justify-center text-sm font-black text-black shadow-md group-hover:scale-105 transition-transform">
+                    🇮🇸
+                  </span>
+                  <span class="header-logo-title text-xs sm:text-sm font-black font-mono tracking-tight text-white">ÍSLENSKA</span>
+                  <span class="platform-badge text-[9px] px-1.5 py-0.2 rounded font-mono font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">A1</span>
+                </a>
+
+                <!-- Dagsamningur Red/Green Beacon Mount -->
+                <div id="header-dagsamningur-mount" class="flex items-center flex-shrink-0"></div>
+              </div>
 
               <!-- Right: AI Indicator, Player HUD, Theme Switcher & AI Tutor -->
               <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
@@ -475,6 +483,42 @@ export class Modull0App {
     binAuraSystem.bindEvents(this.root);
   }
 
+  updateDagsamningurBadge() {
+    const mount = this.root.querySelector('#header-dagsamningur-mount');
+    if (!mount || !this.focusArena) return;
+
+    const isDone = this.focusArena.isCompletedToday();
+
+    if (isDone) {
+      mount.innerHTML = `
+        <button id="header-dagsamningur-btn" class="px-2 sm:px-2.5 py-1 rounded-xl font-mono text-[10px] sm:text-[11px] font-bold bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 shadow-sm flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 cursor-pointer" title="Денний таск виконано! Натисніть для повторення">
+          <span>🟢</span>
+          <span>Dagsamningur ✓</span>
+          <span class="hidden md:inline text-[9px] text-emerald-400 font-sans font-normal">(Виконано)</span>
+        </button>
+      `;
+    } else {
+      mount.innerHTML = `
+        <button id="header-dagsamningur-btn" class="px-2 sm:px-2.5 py-1 rounded-xl font-mono text-[10px] sm:text-[11px] font-extrabold bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/70 text-rose-300 shadow-[0_0_14px_rgba(244,63,94,0.5)] flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 animate-pulse cursor-pointer" title="Денна норма 15 слів! Натисніть, щоб захистити стрік">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-ping"></span>
+          <span>🔴 Dagsamningur (0/15)</span>
+          <span class="hidden md:inline text-[9px] text-amber-300 font-sans font-normal">• Захисти стрік!</span>
+        </button>
+      `;
+    }
+
+    const btn = mount.querySelector('#header-dagsamningur-btn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        let currentMod = 'modull_0';
+        if (this.activeChapter === 'kafli_1') currentMod = 'kafli_1';
+        else if (this.activeChapter === 'drops_lab') currentMod = 'drops_lab';
+        else if (this.activeChapter === 'modull_3') currentMod = 'modull_3';
+        this.focusArena.open(currentMod);
+      });
+    }
+  }
+
   setupGameStateSubscription() {
     gameState.subscribe(state => {
       const xpEl = this.root.querySelector('#hud-xp-val');
@@ -647,8 +691,9 @@ export class Modull0App {
       this.components.ai_tutor.setChapter(chapterId === 'kafli_1' ? 'kafli_1' : 'modull_0');
     }
 
-    // Re-bind BÍN aura events
+    // Re-bind BÍN aura events & Dagsamningur badge
     binAuraSystem.bindEvents(this.root);
+    this.updateDagsamningurBadge();
   }
 
   switchM0SubTab(subTabId) {
@@ -681,7 +726,8 @@ export class Modull0App {
       this.components.traps.render();
     }
 
-    // Re-bind BÍN aura events
+    // Re-bind BÍN aura events & Dagsamningur badge
     binAuraSystem.bindEvents(this.root);
+    this.updateDagsamningurBadge();
   }
 }

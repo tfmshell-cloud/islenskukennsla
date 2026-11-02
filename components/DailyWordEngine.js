@@ -9,7 +9,7 @@
  * Phase 4: V2 Syntax Inserter (Verb-second sentence integration)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.4';
+import { audioEngine } from './AudioEngine.js?v=5.5';
 import { gameState } from './GameState.js';
 
 export class DailyWordEngine {

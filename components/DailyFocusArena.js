@@ -1,0 +1,662 @@
+/**
+ * DailyFocusArena.js - 5-Minute Daily Hub & Trap-Recycler Engine
+ * Implements NotebookLM Master Specification:
+ * - 300s Countdown Timer
+ * - 4-Phase Multimodal Pipeline (Exposure -> Recognition -> Speller -> V2 Anchoring)
+ * - Two-tier Trap-Recycler Engine (In-session 2-card re-queue + Next-day SRS priority)
+ * - 100% Success-Gated Session Exit (+50 XP, +5 Gems, Streak Shield)
+ */
+
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js';
+import { audioEngine } from './AudioEngine.js?v=5.5';
+import { gameState } from './GameState.js';
+
+export class DailyFocusArena {
+  constructor(onCompleted = null) {
+    this.onCompleted = onCompleted;
+    this.activeModule = 'modull_0'; // default
+    this.timerSeconds = 300; // 5 minutes
+    this.timerInterval = null;
+    this.queue = [];
+    this.currentIndex = 0;
+    this.currentPhase = 1; // 1: Card, 2: Audio, 3: Constructor, 4: V2
+    this.trapsToday = new Set();
+    this.assembledLetters = [];
+    this.score = 0;
+    this.isAnswered = false;
+    this.modalEl = null;
+
+    this.createModalDom();
+  }
+
+  createModalDom() {
+    let modal = document.getElementById('daily-focus-arena-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'daily-focus-arena-modal';
+      modal.className = 'fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 select-none-text';
+      document.body.appendChild(modal);
+    }
+    this.modalEl = modal;
+  }
+
+  isCompletedToday() {
+    const today = new Date().toISOString().slice(0, 10);
+    return localStorage.getItem('isl_dagsamningur_completed_date') === today;
+  }
+
+  setCompletedToday() {
+    const today = new Date().toISOString().slice(0, 10);
+    localStorage.setItem('isl_dagsamningur_completed_date', today);
+  }
+
+  getSavedTraps() {
+    try {
+      const data = localStorage.getItem('isl_srs_traps');
+      return data ? JSON.parse(data) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  saveTraps(trapWords) {
+    try {
+      localStorage.setItem('isl_srs_traps', JSON.stringify([...trapWords]));
+    } catch (e) {}
+  }
+
+  open(moduleKey = 'modull_0') {
+    this.activeModule = moduleKey;
+    this.timerSeconds = 300;
+    this.score = 0;
+    this.trapsToday.clear();
+    this.initSessionQueue();
+
+    this.modalEl.classList.remove('hidden');
+    this.startTimer();
+    this.render();
+  }
+
+  close() {
+    this.stopTimer();
+    if (this.modalEl) {
+      this.modalEl.classList.add('hidden');
+    }
+  }
+
+  startTimer() {
+    this.stopTimer();
+    this.timerInterval = setInterval(() => {
+      this.timerSeconds--;
+      const timerDisplay = this.modalEl.querySelector('#arena-timer-display');
+      if (timerDisplay) {
+        const mins = Math.floor(Math.max(0, this.timerSeconds) / 60);
+        const secs = Math.max(0, this.timerSeconds) % 60;
+        timerDisplay.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        if (this.timerSeconds <= 60) {
+          timerDisplay.classList.add('text-rose-400', 'animate-pulse');
+        }
+      }
+      if (this.timerSeconds <= 0) {
+        this.stopTimer();
+      }
+    }, 1000);
+  }
+
+  stopTimer() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  initSessionQueue() {
+    const pool = ANCHOR_WORDS_MASTER[this.activeModule] || ANCHOR_WORDS_MASTER.modull_0;
+    const savedTraps = this.getSavedTraps();
+    
+    // 1. Separate priority trap words
+    const trapItems = pool.filter(w => savedTraps.includes(w.word)).map(w => ({
+      ...w,
+      isTrap: true,
+      phase: 1
+    }));
+
+    // 2. Fresh items
+    const freshItems = pool.filter(w => !savedTraps.includes(w.word)).map(w => ({
+      ...w,
+      isTrap: false,
+      phase: 1
+    }));
+
+    // 3. Assemble: Traps first (up to 4), then fresh words
+    this.queue = [...trapItems.slice(0, 4), ...freshItems];
+    this.currentIndex = 0;
+  }
+
+  render() {
+    if (this.currentIndex >= this.queue.length) {
+      this.renderVictoryCelebration();
+      return;
+    }
+
+    const currentItem = this.queue[this.currentIndex];
+    const totalGoal = 15;
+    const progressCount = Math.min(totalGoal, this.currentIndex + 1);
+    const progressPercent = Math.round((this.currentIndex / totalGoal) * 100);
+
+    const mins = Math.floor(Math.max(0, this.timerSeconds) / 60);
+    const secs = Math.max(0, this.timerSeconds) % 60;
+    const timeStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+    this.modalEl.innerHTML = `
+      <div class="w-full max-w-xl bg-cyber-deep/95 border border-cyan-500/40 rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
+        <!-- Top HUD Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-cyber-border/40">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-black text-white font-mono uppercase tracking-wider">
+                  Dagsamningur • Focus Arena
+                </span>
+                ${currentItem.isTrap ? `
+                  <span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                    🪤 Пастка
+                  </span>
+                ` : ''}
+              </div>
+              <span class="text-[10px] text-slate-400 font-sans">
+                Слово ${progressCount} з ${totalGoal} &bull; 4 фази засвоєння
+              </span>
+            </div>
+          </div>
+
+          <!-- Timer & Close -->
+          <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-black/60 border border-slate-800 text-xs font-mono font-bold">
+              <span>⏱️</span>
+              <span id="arena-timer-display" class="${this.timerSeconds <= 60 ? 'text-rose-400 animate-pulse' : 'text-cyan-300'}">${timeStr}</span>
+            </div>
+            <button id="arena-close-btn" class="w-7 h-7 rounded-lg bg-rose-500/10 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 hover:text-white flex items-center justify-center text-xs font-bold transition-all shadow-sm active:scale-90" title="Закрити арену">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- Sleek Progress Bar -->
+        <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden border border-slate-800">
+          <div class="bg-gradient-to-r from-rose-500 via-amber-400 to-emerald-400 h-1.5 rounded-full transition-all duration-300" style="width: ${progressPercent}%;"></div>
+        </div>
+
+        <!-- Phase Navigation Indicator -->
+        <div class="grid grid-cols-4 gap-1 text-[10px] font-mono">
+          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 1 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
+            1. Експозиція
+          </div>
+          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 2 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
+            2. Слух
+          </div>
+          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 3 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
+            3. Конструктор
+          </div>
+          <div class="p-1 rounded text-center transition-all ${currentItem.phase === 4 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' : 'bg-black/30 text-slate-500 border border-slate-800'}">
+            4. V2-Контекст
+          </div>
+        </div>
+
+        <!-- Dynamic Phase Stage Container -->
+        <div id="arena-stage-container" class="min-h-[290px] flex flex-col justify-center"></div>
+      </div>
+    `;
+
+    // Bind Close Button
+    const closeBtn = this.modalEl.querySelector('#arena-close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => this.close());
+    }
+
+    const stage = this.modalEl.querySelector('#arena-stage-container');
+    if (!stage) return;
+
+    switch (currentItem.phase) {
+      case 1:
+        this.renderPhase1Exposure(stage, currentItem);
+        break;
+      case 2:
+        this.renderPhase2AudioRecognition(stage, currentItem);
+        break;
+      case 3:
+        this.renderPhase3Constructor(stage, currentItem);
+        break;
+      case 4:
+        this.renderPhase4ContextV2(stage, currentItem);
+        break;
+      default:
+        this.renderPhase1Exposure(stage, currentItem);
+    }
+  }
+
+  /* =========================================================================
+     PHASE 1: PASSIVE EXPOSURE (Card + Gender + IPA + Native Audio + Translation)
+     ========================================================================= */
+  renderPhase1Exposure(stage, item) {
+    stage.innerHTML = `
+      <div class="p-5 rounded-2xl bg-black/60 border border-slate-800 space-y-4 text-center">
+        <div class="text-5xl my-1 animate-bounce duration-1000">${item.icon}</div>
+        
+        <div>
+          <div class="flex items-center justify-center gap-2">
+            <h2 class="text-2xl sm:text-3xl font-black font-mono text-white tracking-wide">
+              ${item.word}
+            </h2>
+            <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+              ${item.gender_name || item.gender}
+            </span>
+          </div>
+          <span class="text-sm font-mono text-slate-400 mt-1 block">${item.ipa}</span>
+        </div>
+
+        <div class="py-1">
+          <button id="arena-p1-speak-btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-black font-mono font-extrabold text-xs shadow-lg transition-all active:scale-95 inline-flex items-center gap-2">
+            <span>🔊</span> <span>Вимова носія (Gunnar)</span>
+          </button>
+        </div>
+
+        <div class="text-base font-bold text-cyan-300 font-sans border-t border-slate-800/80 pt-3">
+          🇺🇦 «${item.uk}»
+        </div>
+
+        <!-- V2 Sentence Context Preview -->
+        <div class="p-3 rounded-xl bg-cyber-deep/80 border border-slate-800 text-left text-xs font-sans space-y-1">
+          <div class="font-mono text-emerald-300 font-bold">«${item.sentence_v2}»</div>
+          <div class="text-[11px] text-slate-400">${item.sentence_trans}</div>
+        </div>
+
+        <div class="pt-2">
+          <button id="arena-p1-next-btn" class="w-full py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono font-black text-xs uppercase tracking-wider shadow-md transition-all active:scale-95 flex items-center justify-center gap-1.5">
+            <span>Перейти до тесту ➔</span>
+          </button>
+        </div>
+      </div>
+    `;
+
+    const speakBtn = stage.querySelector('#arena-p1-speak-btn');
+    if (speakBtn) {
+      speakBtn.addEventListener('click', () => audioEngine.play(item.word, speakBtn));
+      // Auto-play immediately under gesture
+      setTimeout(() => audioEngine.play(item.word, speakBtn), 150);
+    }
+
+    const nextBtn = stage.querySelector('#arena-p1-next-btn');
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        item.phase = 2;
+        this.render();
+      });
+    }
+  }
+
+  /* =========================================================================
+     PHASE 2: AUDIO RECOGNITION (Listen Audio -> Choose Matching Translation)
+     ========================================================================= */
+  renderPhase2AudioRecognition(stage, item) {
+    const pool = ANCHOR_WORDS_MASTER[this.activeModule] || ANCHOR_WORDS_MASTER.modull_0;
+    const others = pool.filter(w => w.id !== item.id);
+    const shuffledOthers = [...others].sort(() => Math.random() - 0.5).slice(0, 3);
+    const options = [item, ...shuffledOthers].sort(() => Math.random() - 0.5);
+
+    stage.innerHTML = `
+      <div class="space-y-4">
+        <div class="text-center space-y-2 py-2">
+          <div class="text-xs text-slate-300 font-sans">
+            Уважно прослухайте вимову носія мови:
+          </div>
+          <button id="arena-p2-play-btn" class="px-5 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400 text-cyan-300 font-mono font-black text-sm shadow-md transition-all active:scale-95 inline-flex items-center gap-2">
+            <span>🔊</span> <span>Слухати аудіо</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          ${options.map(opt => `
+            <button class="arena-p2-opt p-3.5 rounded-xl bg-black/60 hover:bg-black/90 border border-slate-800 hover:border-cyan-400 text-left transition-all flex items-center gap-3 group" data-word-id="${opt.id}">
+              <span class="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">${opt.icon}</span>
+              <div>
+                <div class="font-bold text-white text-xs group-hover:text-cyan-300">${opt.uk}</div>
+                <div class="font-mono text-[10px] text-slate-400">${opt.gender_name || opt.gender}</div>
+              </div>
+            </button>
+          `).join('')}
+        </div>
+
+        <div id="arena-p2-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
+      </div>
+    `;
+
+    const playBtn = stage.querySelector('#arena-p2-play-btn');
+    if (playBtn) {
+      playBtn.addEventListener('click', () => audioEngine.play(item.word, playBtn));
+      setTimeout(() => audioEngine.play(item.word, playBtn), 150);
+    }
+
+    stage.querySelectorAll('.arena-p2-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chosenId = parseInt(btn.dataset.wordId, 10);
+        const isCorrect = chosenId === item.id;
+
+        stage.querySelectorAll('.arena-p2-opt').forEach(b => {
+          b.disabled = true;
+          const bId = parseInt(b.dataset.wordId, 10);
+          if (bId === item.id) {
+            b.classList.add('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-200');
+          } else if (bId === chosenId && !isCorrect) {
+            b.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-200');
+          }
+        });
+
+        const fb = stage.querySelector('#arena-p2-feedback');
+        fb.classList.remove('hidden');
+
+        if (isCorrect) {
+          gameState.playVictorySound();
+          fb.className = 'p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
+          fb.innerHTML = `
+            <div><strong>🎉 Чудово!</strong> «${item.word}» [${item.ipa}] = ${item.uk}.</div>
+            <button id="arena-p2-next" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs">Далі ➔</button>
+          `;
+          fb.querySelector('#arena-p2-next').addEventListener('click', () => {
+            item.phase = 3;
+            this.render();
+          });
+        } else {
+          // Trap-Recycler Trigger
+          this.triggerTrapRecycler(item, 2);
+          fb.className = 'p-3 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
+          fb.innerHTML = `
+            <div><strong>❌ Помилка.</strong> Правильно: «${item.word}» = ${item.uk}. Повернемо через 2 картки.</div>
+            <button id="arena-p2-retry" class="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-mono font-bold text-xs">Зрозуміло ➔</button>
+          `;
+          fb.querySelector('#arena-p2-retry').addEventListener('click', () => {
+            this.currentIndex++;
+            this.render();
+          });
+        }
+      });
+    });
+  }
+
+  /* =========================================================================
+     PHASE 3: ACTIVE RECALL / ORTHOGRAPHIC CONSTRUCTOR (Letter Speller)
+     ========================================================================= */
+  renderPhase3Constructor(stage, item) {
+    const letters = item.letters || item.word.split('');
+    const targetLength = letters.length;
+    const scrambledTiles = letters.map((char, originalIndex) => ({ char, originalIndex }))
+      .sort(() => Math.random() - 0.5);
+
+    stage.innerHTML = `
+      <div class="space-y-4">
+        <div class="text-center space-y-1">
+          <div class="text-3xl">${item.icon}</div>
+          <div class="text-sm font-bold text-white font-sans">«${item.uk}»</div>
+          <div class="text-xs font-mono text-cyan-300">${item.gender_name || item.gender} &bull; ${item.ipa}</div>
+        </div>
+
+        <!-- Target Slot Holders -->
+        <div class="flex items-center justify-center gap-1.5 py-1 flex-wrap">
+          ${Array.from({ length: targetLength }).map((_, idx) => `
+            <div id="speller-slot-${idx}" class="speller-slot w-10 h-11 sm:w-11 sm:h-12 rounded-xl bg-black/60 border-2 border-slate-700 flex items-center justify-center text-base sm:text-lg font-black font-mono text-cyan-300 shadow-inner">
+              _
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Available Scrambled Letter Tiles -->
+        <div class="text-center text-[11px] text-slate-400">
+          Складіть слово, натискаючи літери по порядку:
+        </div>
+        <div id="speller-tiles-pool" class="flex items-center justify-center gap-1.5 flex-wrap py-1">
+          ${scrambledTiles.map((tile, idx) => `
+            <button class="speller-tile-btn w-10 h-11 sm:w-11 sm:h-12 rounded-xl bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/40 hover:border-cyan-400 text-white hover:text-black font-black font-mono text-base sm:text-lg transition-all shadow-md active:scale-90" data-char="${tile.char}">
+              ${tile.char}
+            </button>
+          `).join('')}
+        </div>
+
+        <div id="arena-p3-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
+      </div>
+    `;
+
+    this.assembledLetters = [];
+    const slots = stage.querySelectorAll('.speller-slot');
+    const poolBtns = stage.querySelectorAll('.speller-tile-btn');
+    const fb = stage.querySelector('#arena-p3-feedback');
+
+    poolBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (this.assembledLetters.length >= targetLength) return;
+
+        const char = btn.dataset.char;
+        btn.disabled = true;
+        btn.classList.add('opacity-30', 'pointer-events-none');
+
+        const currentPos = this.assembledLetters.length;
+        this.assembledLetters.push({ char, btnRef: btn });
+
+        if (slots[currentPos]) {
+          slots[currentPos].innerText = char;
+          slots[currentPos].classList.add('border-cyan-400', 'bg-cyan-950/40');
+        }
+
+        // When all slots filled: check word
+        if (this.assembledLetters.length === targetLength) {
+          const assembledWord = this.assembledLetters.map(x => x.char).join('');
+          const isCorrect = assembledWord.toLowerCase() === item.word.toLowerCase();
+
+          fb.classList.remove('hidden');
+          if (isCorrect) {
+            gameState.playVictorySound();
+            audioEngine.play(item.word);
+
+            fb.className = 'p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
+            fb.innerHTML = `
+              <div><strong>🎉 Бездоганно!</strong> «${item.word}» зібрано правильно.</div>
+              <button id="arena-p3-next" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs">До контексту V2 ➔</button>
+            `;
+            fb.querySelector('#arena-p3-next').addEventListener('click', () => {
+              item.phase = 4;
+              this.render();
+            });
+          } else {
+            // Trap-Recycler Trigger with Step-Down (Back to Phase 2)
+            this.triggerTrapRecycler(item, 2);
+            fb.className = 'p-3 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
+            fb.innerHTML = `
+              <div><strong>❌ Помилка в орфографії.</strong> Правильно: «${item.word}». Повторимо через 2 картки.</div>
+              <button id="arena-p3-retry" class="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-mono font-bold text-xs">Зрозуміло ➔</button>
+            `;
+            fb.querySelector('#arena-p3-retry').addEventListener('click', () => {
+              this.currentIndex++;
+              this.render();
+            });
+          }
+        }
+      });
+    });
+  }
+
+  /* =========================================================================
+     PHASE 4: CONTEXTUAL V2 ANCHORING (Verb-Second Slot Insertion)
+     ========================================================================= */
+  renderPhase4ContextV2(stage, item) {
+    const regex = new RegExp(`\\b${item.word}\\b`, 'i');
+    const blankedSentence = item.sentence_v2.replace(regex, '_______');
+
+    const pool = ANCHOR_WORDS_MASTER[this.activeModule] || ANCHOR_WORDS_MASTER.modull_0;
+    const others = pool.filter(w => w.id !== item.id);
+    const shuffledOthers = [...others].sort(() => Math.random() - 0.5).slice(0, 2);
+    const options = [item, ...shuffledOthers].sort(() => Math.random() - 0.5);
+
+    stage.innerHTML = `
+      <div class="space-y-4">
+        <div class="p-4 rounded-xl bg-black/60 border border-slate-800 text-center space-y-2">
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">
+            ⚡ Закон V2 (Дієслово на 2-му місці)
+          </span>
+          <div class="text-base sm:text-lg font-black font-mono text-cyan-300 tracking-wide">
+            «${blankedSentence}»
+          </div>
+          <div class="text-xs text-slate-300 font-sans">
+            🇺🇦 ${item.sentence_trans}
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-400 text-center font-sans">
+          Оберіть правильне слово для завершення фрази:
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          ${options.map(opt => `
+            <button class="arena-p4-opt p-3 rounded-xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-center transition-all group" data-word-id="${opt.id}">
+              <div class="text-xl mb-0.5">${opt.icon}</div>
+              <div class="font-bold text-white text-xs group-hover:text-cyan-300 font-mono">${opt.word}</div>
+              <div class="text-[10px] text-slate-400">${opt.uk}</div>
+            </button>
+          `).join('')}
+        </div>
+
+        <div id="arena-p4-feedback" class="hidden p-3 rounded-xl border text-xs font-sans"></div>
+      </div>
+    `;
+
+    stage.querySelectorAll('.arena-p4-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chosenId = parseInt(btn.dataset.wordId, 10);
+        const isCorrect = chosenId === item.id;
+
+        stage.querySelectorAll('.arena-p4-opt').forEach(b => {
+          b.disabled = true;
+          const bId = parseInt(b.dataset.wordId, 10);
+          if (bId === item.id) {
+            b.classList.add('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-200');
+          } else if (bId === chosenId && !isCorrect) {
+            b.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-200');
+          }
+        });
+
+        const fb = stage.querySelector('#arena-p4-feedback');
+        fb.classList.remove('hidden');
+
+        if (isCorrect) {
+          gameState.playVictorySound();
+          audioEngine.play(item.word);
+
+          fb.className = 'p-3 rounded-xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
+          fb.innerHTML = `
+            <div><strong>🎉 Досконало!</strong> «${item.sentence_v2}» правильно зв'язано!</div>
+            <button id="arena-p4-next" class="px-3.5 py-1.5 rounded-lg bg-emerald-500 text-black font-mono font-bold text-xs">Наступне слово ➔</button>
+          `;
+          fb.querySelector('#arena-p4-next').addEventListener('click', () => {
+            this.currentIndex++;
+            this.render();
+          });
+        } else {
+          // Trap-Recycler Trigger with Step-Down
+          this.triggerTrapRecycler(item, 2);
+          fb.className = 'p-3 rounded-xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
+          fb.innerHTML = `
+            <div><strong>❌ Помилка в V2.</strong> Правильно: «${item.word}». Повторимо через 2 картки.</div>
+            <button id="arena-p4-retry" class="px-3.5 py-1.5 rounded-lg bg-rose-500 text-white font-mono font-bold text-xs">Зрозуміло ➔</button>
+          `;
+          fb.querySelector('#arena-p4-retry').addEventListener('click', () => {
+            this.currentIndex++;
+            this.render();
+          });
+        }
+      });
+    });
+  }
+
+  /* =========================================================================
+     TRAP-RECYCLER ENGINE: 2-Card In-Session Re-Queue + Next-Day SRS Priority
+     ========================================================================= */
+  triggerTrapRecycler(item, stepDownPhase = 2) {
+    // 1. Mark for next day
+    this.trapsToday.add(item.word);
+    const saved = new Set(this.getSavedTraps());
+    saved.add(item.word);
+    this.saveTraps(saved);
+
+    // 2. Clone item with step-down phase
+    const recycled = {
+      ...item,
+      phase: stepDownPhase,
+      isTrap: true
+    };
+
+    // 3. Re-queue: 2 cards ahead or at end of queue
+    const insertIndex = Math.min(this.queue.length, this.currentIndex + 3);
+    this.queue.splice(insertIndex, 0, recycled);
+  }
+
+  /* =========================================================================
+     VICTORY CELEBRATION (Success-Gated Exit)
+     ========================================================================= */
+  renderVictoryCelebration() {
+    this.stopTimer();
+    this.setCompletedToday();
+
+    // Reward player: +50 XP, +5 Gems, Streak +1, Fanfare
+    gameState.addXP(50);
+    gameState.addGems(5);
+    gameState.incrementStreak();
+    gameState.playLevelUpFanfare();
+
+    if (this.onCompleted) {
+      this.onCompleted();
+    }
+
+    this.modalEl.innerHTML = `
+      <div class="w-full max-w-md bg-cyber-deep/95 border-2 border-emerald-500/60 rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-5 animate-scale-up">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border-2 border-emerald-400 flex items-center justify-center text-5xl mx-auto shadow-lg">
+          🏆
+        </div>
+
+        <div class="space-y-1">
+          <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            Dagsamningur виконано на 100%!
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black text-white font-mono mt-2">
+            Денну норму закріплено
+          </h2>
+          <p class="text-xs text-slate-300 font-sans">
+            Усі 15 слів пройшли 4 мультимодальні дотики та синтаксис V2.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-black/60 border border-slate-800 font-mono">
+          <div class="text-center">
+            <span class="text-[10px] text-slate-400 uppercase">Нагорода</span>
+            <div class="text-xl font-black text-cyan-400">+50 XP</div>
+          </div>
+          <div class="text-center border-l border-slate-800">
+            <span class="text-[10px] text-slate-400 uppercase">Стрік захищено</span>
+            <div class="text-xl font-black text-amber-400">🔥 +1 день</div>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button id="arena-finish-btn" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-black font-mono font-black text-sm uppercase tracking-wider shadow-xl transition-all active:scale-95">
+            Продовжити навчання ➔
+          </button>
+        </div>
+      </div>
+    `;
+
+    const finishBtn = this.modalEl.querySelector('#arena-finish-btn');
+    if (finishBtn) {
+      finishBtn.addEventListener('click', () => {
+        this.close();
+      });
+    }
+  }
+}

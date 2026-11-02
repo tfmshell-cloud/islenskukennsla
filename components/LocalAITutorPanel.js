@@ -7,7 +7,7 @@
  * 3. Deep Offline Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.4';
+import { audioEngine } from './AudioEngine.js?v=5.5';
 
 export class LocalAITutorPanel {
   constructor(container, onClose = null) {

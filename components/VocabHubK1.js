@@ -3,7 +3,7 @@
  * Professions (12), Countries & Nationalities (10), Languages (8) & Proficiency Adverbs (3)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.4';
+import { audioEngine } from './AudioEngine.js?v=5.5';
 
 export class VocabHubK1 {
   constructor(container, countriesData, professionsData, languagesData) {

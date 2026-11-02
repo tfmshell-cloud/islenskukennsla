@@ -3,7 +3,7 @@
  * Step 0.2: Pure Monophthongs, Diphthongs, and the Semantic Rule of the Acute Accent (Broddur ´)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.4';
+import { audioEngine } from './AudioEngine.js?v=5.5';
 
 export class RaddstafirHub {
   constructor(container, raddstafirData) {
