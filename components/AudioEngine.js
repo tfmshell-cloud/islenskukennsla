@@ -129,6 +129,14 @@ export class AudioEngine {
       return `./audio/words/${rawLower}.mp3`;
     }
 
+    // ASCII Transliterated Fallback (avoids URL percent-encoding mismatches across CDNs)
+    const asciiTrans = san
+      .replace(/á/g, 'a').replace(/é/g, 'e').replace(/í/g, 'i').replace(/ó/g, 'o').replace(/ú/g, 'u').replace(/ý/g, 'y')
+      .replace(/ð/g, 'd').replace(/þ/g, 'th').replace(/æ/g, 'ae').replace(/ö/g, 'o');
+    if (this.wordAudioSet.has(asciiTrans)) {
+      return `./audio/words/${asciiTrans}.mp3`;
+    }
+
     // 5. Fallback: Google Icelandic neural TTS stream
     return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(key)}&tl=is&client=tw-ob`;
   }
