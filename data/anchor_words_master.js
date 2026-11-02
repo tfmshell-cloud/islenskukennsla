@@ -20,7 +20,7 @@ export const ANCHOR_WORDS_MASTER = {
       gender_name: 'Karlkyn (ч.р.)',
       ipa: "['avɪ]",
       uk: 'дідусь',
-      icon: '🥑',
+      icon: '👴',
       sentence_v2: 'Í dag býr afi í Reykjavík.',
       sentence_trans: 'Сьогодні живе [V2] дідусь у Рейк\'явіку.',
       letters: ['a', 'f', 'i']
@@ -98,7 +98,7 @@ export const ANCHOR_WORDS_MASTER = {
       gender_name: 'Karlkyn (ч.р.)',
       ipa: "['favɪr]",
       uk: 'батько',
-      icon: '👨👦',
+      icon: '👨',
       sentence_v2: 'Hér vinnur faðir minn.',
       sentence_trans: 'Тут працює [V2] мій батько.',
       letters: ['f', 'a', 'ð', 'i', 'r']
@@ -111,7 +111,7 @@ export const ANCHOR_WORDS_MASTER = {
       gender_name: 'Kvenkyn (ж.р.)',
       ipa: "['kata]",
       uk: 'вулиця',
-      icon: '🗺️',
+      icon: '🛣️',
       sentence_v2: 'Þar er löng gata.',
       sentence_trans: 'Там є [V2] довга вулиця.',
       letters: ['g', 'a', 't', 'a']

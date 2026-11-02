@@ -3,7 +3,7 @@
  * 50% card size reduction with lightweight 3D-flip mnemonics and zero vertical scrolling.
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.8';
+import { audioEngine } from './AudioEngine.js?v=5.9';
 
 export class AlphabetSoundboard {
   constructor(container, alphabetData, raddstafirData) {

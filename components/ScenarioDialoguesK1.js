@@ -5,7 +5,7 @@
  * 3. Cafe Meeting (Anna, María & Olena from Ukraine)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.8';
+import { audioEngine } from './AudioEngine.js?v=5.9';
 
 export class ScenarioDialoguesK1 {
   constructor(container, scenariosData) {

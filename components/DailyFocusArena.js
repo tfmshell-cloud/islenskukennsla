@@ -1,29 +1,32 @@
 /**
- * DailyFocusArena.js - 5-Minute Daily Hub & Trap-Recycler Engine
+ * DailyFocusArena.js - 5-Minute Daily Hub & Trap-Recycler SRS Engine
  * Implements NotebookLM Master Specification:
  * - 300s Countdown Timer
  * - 4-Phase Multimodal Pipeline (Exposure -> Recognition -> Speller -> V2 Anchoring)
  * - Two-tier Trap-Recycler Engine (In-session 2-card re-queue + Next-day SRS priority)
- * - Full 15-Word Grid Ribbon (All 15 words visible in one view, zero horizontal scrolling on desktop)
- * - Luxury Widescreen 3D Glass Modal Architecture (max-w-5xl / max-w-6xl)
- * - Dual View Modes (Trainer Focus vs 15-Card Grid Overview)
- * - 100% Success-Gated Session Exit (+50 XP, +5 Gems, Streak Shield)
+ * - Success-Gated Error Mastery Round (Unmastered words loop until 100% learned)
+ * - Explicit Review Mode (🔁 Повторення слів anytime)
+ * - 15-Word Non-Scrolling Responsive Grid Ribbon with Status Badges (✓ Mastered, 🪤 Needs Review)
+ * - Full Light/Dark Dual-Theme Support (High Contrast & Crystal Clarity)
+ * - +50 XP, +5 Gems, Streak Shield on 100% Victory
  */
 
-import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=5.8';
-import { audioEngine } from './AudioEngine.js?v=5.8';
-import { gameState } from './GameState.js?v=5.8';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=5.9';
+import { audioEngine } from './AudioEngine.js?v=5.9';
+import { gameState } from './GameState.js?v=5.9';
 
 export class DailyFocusArena {
   constructor(onCompleted = null) {
     this.onCompleted = onCompleted;
-    this.activeModule = 'modull_0'; // default
+    this.activeModule = 'modull_0';
     this.timerSeconds = 300; // 5 minutes
     this.timerInterval = null;
     this.queue = [];
     this.currentIndex = 0;
     this.viewMode = 'focus'; // 'focus' or 'grid'
     this.trapsToday = new Set();
+    this.masteredWords = new Set();
+    this.errorWords = new Set();
     this.assembledLetters = [];
     this.score = 0;
     this.modalEl = null;
@@ -67,13 +70,15 @@ export class DailyFocusArena {
     } catch (e) {}
   }
 
-  open(moduleKey = 'modull_0') {
+  open(moduleKey = 'modull_0', forceReview = false) {
     this.activeModule = moduleKey;
     this.timerSeconds = 300;
     this.score = 0;
     this.viewMode = 'focus';
     this.trapsToday.clear();
-    this.initSessionQueue();
+    this.masteredWords.clear();
+    this.errorWords.clear();
+    this.initSessionQueue(forceReview);
 
     this.modalEl.classList.remove('hidden');
     this.startTimer();
@@ -113,11 +118,11 @@ export class DailyFocusArena {
     }
   }
 
-  initSessionQueue() {
+  initSessionQueue(isReview = false) {
     const pool = ANCHOR_WORDS_MASTER[this.activeModule] || ANCHOR_WORDS_MASTER.modull_0;
     const savedTraps = this.getSavedTraps();
     
-    // 1. Separate priority trap words
+    // 1. Separate priority trap words (SRS macro-loop)
     const trapItems = pool.filter(w => savedTraps.includes(w.word)).map(w => ({
       ...w,
       isTrap: true,
@@ -131,9 +136,19 @@ export class DailyFocusArena {
       phase: 1
     }));
 
-    // 3. Assemble: Traps first (up to 4), then fresh words
+    // 3. Traps first (up to 4), then fresh items to complete 15
     this.queue = [...trapItems.slice(0, 4), ...freshItems];
     this.currentIndex = 0;
+  }
+
+  startErrorMasteryRound(unmasteredWords) {
+    this.queue = unmasteredWords.map(w => ({
+      ...w,
+      isTrap: true,
+      phase: 2 // Start directly with Audio/Speller recognition
+    }));
+    this.currentIndex = 0;
+    this.render();
   }
 
   jumpToWord(index) {
@@ -156,13 +171,75 @@ export class DailyFocusArena {
       this.currentIndex++;
       this.render();
     } else {
+      this.checkSessionCompletion();
+    }
+  }
+
+  checkSessionCompletion() {
+    const pool = ANCHOR_WORDS_MASTER[this.activeModule] || ANCHOR_WORDS_MASTER.modull_0;
+    // Check if any words still have pending errors or remain unmastered
+    const unmastered = pool.filter(w => !this.masteredWords.has(w.word) || this.errorWords.has(w.word));
+
+    if (unmastered.length > 0) {
+      // Trigger Trap-Recycler Mastery Round!
+      this.renderErrorMasteryPrompt(unmastered);
+    } else {
       this.renderVictoryCelebration();
+    }
+  }
+
+  renderErrorMasteryPrompt(unmasteredWords) {
+    this.modalEl.innerHTML = `
+      <div class="modal-3d-glass w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-5 animate-scale-up">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-amber-500/20 to-rose-500/20 border-2 border-amber-400 flex items-center justify-center text-4xl mx-auto shadow-lg">
+          🪤
+        </div>
+
+        <div class="space-y-2">
+          <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+            SRS Trap-Recycler: Закріплення Помилок
+          </span>
+          <h2 class="text-xl sm:text-2xl font-black arena-word-heading font-mono mt-2">
+            Раунд подолання пасток (${unmasteredWords.length} ${unmasteredWords.length === 1 ? 'слово' : 'слова'})
+          </h2>
+          <p class="text-xs text-slate-400 font-sans leading-relaxed">
+            За методикою EdTech, слово не покидає сесію, доки ви не назвете його правильно без помилок. 
+            Повторімо проблемні слова зараз, щоб закрити сесію на 100%!
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl arena-trans-panel text-left space-y-2">
+          <div class="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider">
+            Слова, що потребують повторення:
+          </div>
+          <div class="flex flex-wrap gap-2">
+            ${unmasteredWords.map(w => `
+              <span class="px-2.5 py-1 rounded-xl text-xs font-mono font-bold bg-rose-500/20 border border-rose-500/40 text-rose-300 flex items-center gap-1.5">
+                <span>${w.icon}</span> <span>${w.word}</span> <span class="text-[10px] opacity-75">(${w.uk})</span>
+              </span>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button id="arena-start-mastery-btn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 text-black font-mono font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl transition-all active:scale-95 cursor-pointer">
+            Почати раунд закріплення ➔
+          </button>
+        </div>
+      </div>
+    `;
+
+    const btn = this.modalEl.querySelector('#arena-start-mastery-btn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        this.startErrorMasteryRound(unmasteredWords);
+      });
     }
   }
 
   render() {
     if (this.currentIndex >= this.queue.length) {
-      this.renderVictoryCelebration();
+      this.checkSessionCompletion();
       return;
     }
 
@@ -172,9 +249,10 @@ export class DailyFocusArena {
     }
 
     const currentItem = this.queue[this.currentIndex];
-    const totalGoal = Math.min(15, this.queue.length);
-    const progressCount = Math.min(totalGoal, this.currentIndex + 1);
-    const progressPercent = Math.round((progressCount / totalGoal) * 100);
+    const pool = ANCHOR_WORDS_MASTER[this.activeModule] || ANCHOR_WORDS_MASTER.modull_0;
+    const totalGoal = 15;
+    const masteredCount = pool.filter(w => this.masteredWords.has(w.word) && !this.errorWords.has(w.word)).length;
+    const progressPercent = Math.round((masteredCount / totalGoal) * 100);
 
     const mins = Math.floor(Math.max(0, this.timerSeconds) / 60);
     const secs = Math.max(0, this.timerSeconds) % 60;
@@ -189,30 +267,36 @@ export class DailyFocusArena {
             <span class="w-3 h-3 rounded-full bg-rose-500 animate-ping flex-shrink-0"></span>
             <div class="truncate">
               <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-sm sm:text-base font-black text-white font-mono uppercase tracking-wider">
+                <span class="text-sm sm:text-base font-black arena-word-heading font-mono uppercase tracking-wider">
                   Dagsamningur • Щоденний Тренажер Слів
                 </span>
-                ${currentItem.isTrap ? `
+                ${currentItem.isTrap || this.errorWords.has(currentItem.word) ? `
                   <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
-                    🪤 Пастка
+                    🪤 Повтор помилки
                   </span>
                 ` : ''}
               </div>
               <span class="text-xs text-slate-400 font-sans">
-                Слово ${progressCount} з ${totalGoal} &bull; 4 фази мультимодального закріплення
+                Засвоєно: <strong class="text-emerald-400 font-mono">${masteredCount}/15</strong> слів &bull; 4 фази мультимодального закріплення
               </span>
             </div>
           </div>
 
-          <!-- Timer, View Toggle & Close -->
-          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/60 border border-slate-800 text-xs font-mono font-bold">
+          <!-- Timer, Review Restart, View Toggle & Close -->
+          <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+            <!-- 5-min Countdown Timer -->
+            <div class="arena-hud-box flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono font-bold shadow-sm">
               <span>⏱️</span>
-              <span id="arena-timer-display" class="${this.timerSeconds <= 60 ? 'text-rose-400 animate-pulse' : 'text-cyan-300 font-bold'}">${timeStr}</span>
+              <span id="arena-timer-display" class="${this.timerSeconds <= 60 ? 'text-rose-400 animate-pulse' : 'text-cyan-400 font-bold'}">${timeStr}</span>
             </div>
 
-            <!-- View Toggle Button -->
-            <button id="arena-toggle-view-btn" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm" title="Показати всі 15 карток разом">
+            <!-- Review / Repeat All Words Button -->
+            <button id="arena-restart-btn" class="px-2.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm hidden sm:inline-flex items-center gap-1" title="Почати сесію повторення спочатку">
+              <span>🔁</span> <span>Повторити</span>
+            </button>
+
+            <!-- 15-Cards Grid View Toggle -->
+            <button id="arena-toggle-view-btn" class="px-2.5 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm" title="Показати всі 15 карток разом">
               📋 Всі 15 слів
             </button>
 
@@ -224,22 +308,41 @@ export class DailyFocusArena {
         </div>
 
         <!-- 15-WORD RESPONSIVE GRID RIBBON (ZERO HORIZONTAL SCROLLING ON DESKTOP) -->
-        <div class="space-y-1.5 p-2 rounded-2xl bg-black/40 border border-slate-800/80">
+        <div class="arena-ribbon-container space-y-1.5 p-2 rounded-2xl border">
           <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 px-1">
-            <span>Швидкий перехід до слова (всі 15 доступні в 1 клік):</span>
-            <span class="text-cyan-400 font-bold">Обрано: #${this.currentIndex + 1} «${currentItem.word}»</span>
+            <span>Прогрес слів (всі 15 доступні в 1 клік):</span>
+            <span class="text-cyan-400 font-bold">Поточне: #${this.currentIndex + 1} «${currentItem.word}»</span>
           </div>
 
-          <!-- 15-Col Master Responsive Grid: Guaranteed zero horizontal scroll -->
+          <!-- 15-Col Master Responsive Grid -->
           <div class="arena-15-ribbon-grid">
-            ${this.queue.slice(0, 15).map((w, idx) => {
-              const isActive = idx === this.currentIndex;
+            ${pool.slice(0, 15).map((w, idx) => {
+              const isCurrent = currentItem.word === w.word;
+              const isMastered = this.masteredWords.has(w.word) && !this.errorWords.has(w.word);
+              const hasError = this.errorWords.has(w.word);
+
+              let statusIcon = `#${idx + 1}`;
+              let pillClass = 'arena-word-pill';
+
+              if (isCurrent) {
+                pillClass += ' arena-pill-active bg-cyan-500 text-black border-cyan-300 shadow-[0_0_16px_rgba(0,229,255,0.6)] scale-105 z-10';
+              } else if (hasError) {
+                pillClass += ' bg-rose-500/20 text-rose-300 border-rose-500/60';
+                statusIcon = '🪤';
+              } else if (isMastered) {
+                pillClass += ' bg-emerald-500/20 text-emerald-300 border-emerald-500/60';
+                statusIcon = '✓';
+              } else {
+                pillClass += ' text-slate-400 border-slate-700/60';
+              }
+
               return `
                 <button 
-                  class="arena-word-pill px-1.5 py-1.5 rounded-xl font-mono text-[11px] font-bold border transition-all flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none ${isActive ? 'bg-cyan-500 text-black border-cyan-300 shadow-[0_0_16px_rgba(0,229,255,0.6)] scale-105 z-10' : 'bg-black/60 text-slate-300 border-slate-800 hover:border-cyan-400 hover:text-white'}" 
+                  class="${pillClass} px-1.5 py-1.5 rounded-xl font-mono text-[11px] font-bold border transition-all flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none" 
                   data-index="${idx}"
-                  title="${idx + 1}. ${w.word} (${w.uk})">
-                  <span class="text-[9px] opacity-75 leading-none">#${idx + 1}</span>
+                  data-word="${w.word}"
+                  title="${idx + 1}. ${w.word} (${w.uk})${isMastered ? ' — Засвоєно ✓' : hasError ? ' — Потребує повторення 🪤' : ''}">
+                  <span class="text-[9px] opacity-75 leading-none">${statusIcon}</span>
                   <span class="truncate max-w-full font-bold leading-tight">${w.word}</span>
                 </button>
               `;
@@ -248,38 +351,38 @@ export class DailyFocusArena {
         </div>
 
         <!-- Progress Bar -->
-        <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+        <div class="w-full bg-slate-900/60 rounded-full h-2 overflow-hidden border border-slate-800">
           <div class="bg-gradient-to-r from-rose-500 via-amber-400 to-emerald-400 h-2 rounded-full transition-all duration-300" style="width: ${progressPercent}%;"></div>
         </div>
 
         <!-- Navigation Row: Prev Word | 4-Phase Tabs | Next Word -->
         <div class="flex items-center justify-between gap-2 pt-1">
-          <button id="arena-prev-btn" class="px-3.5 py-2 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white font-mono text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer ${this.currentIndex === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.currentIndex === 0 ? 'disabled' : ''}>
+          <button id="arena-prev-btn" class="arena-nav-btn px-3.5 py-2 rounded-xl border font-mono text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer ${this.currentIndex === 0 ? 'opacity-40 cursor-not-allowed' : ''}" ${this.currentIndex === 0 ? 'disabled' : ''}>
             ◀ Попереднє
           </button>
 
           <!-- Clickable Phase Tabs for Current Word -->
           <div class="grid grid-cols-4 gap-1.5 text-xs font-mono flex-1 max-w-lg">
-            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 1 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'bg-black/40 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="1">
+            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 1 ? 'active-tab bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'border'}" data-phase="1">
               1. Експозиція
             </button>
-            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 2 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'bg-black/40 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="2">
+            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 2 ? 'active-tab bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'border'}" data-phase="2">
               2. Слух
             </button>
-            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 3 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'bg-black/40 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="3">
+            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 3 ? 'active-tab bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'border'}" data-phase="3">
               3. Конструктор
             </button>
-            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 4 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'bg-black/40 text-slate-400 border border-slate-800 hover:text-white'}" data-phase="4">
+            <button class="arena-phase-tab py-1.5 px-2 rounded-xl text-center transition-all cursor-pointer ${currentItem.phase === 4 ? 'active-tab bg-cyan-500/20 text-cyan-300 border border-cyan-400 font-bold shadow-sm' : 'border'}" data-phase="4">
               4. V2-Речення
             </button>
           </div>
 
-          <button id="arena-next-btn" class="px-3.5 py-2 rounded-xl bg-black/60 border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white font-mono text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer">
+          <button id="arena-next-btn" class="arena-nav-btn px-3.5 py-2 rounded-xl border font-mono text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer">
             Наступне ▶
           </button>
         </div>
 
-        <!-- Dynamic Phase Stage Container (Generously Sized) -->
+        <!-- Dynamic Phase Stage Container -->
         <div id="arena-stage-container" class="min-h-[340px] flex flex-col justify-center pt-1"></div>
       </div>
     `;
@@ -287,6 +390,11 @@ export class DailyFocusArena {
     // Bind Global Modal Controls
     const closeBtn = this.modalEl.querySelector('#arena-close-btn');
     if (closeBtn) closeBtn.addEventListener('click', () => this.close());
+
+    const restartBtn = this.modalEl.querySelector('#arena-restart-btn');
+    if (restartBtn) restartBtn.addEventListener('click', () => {
+      this.open(this.activeModule, true);
+    });
 
     const toggleViewBtn = this.modalEl.querySelector('#arena-toggle-view-btn');
     if (toggleViewBtn) toggleViewBtn.addEventListener('click', () => {
@@ -303,8 +411,18 @@ export class DailyFocusArena {
     // Word Pills Click Delegation
     this.modalEl.querySelectorAll('.arena-word-pill').forEach(btn => {
       btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.index, 10);
-        this.jumpToWord(idx);
+        const word = btn.dataset.word;
+        const targetQueueIdx = this.queue.findIndex(item => item.word === word);
+        if (targetQueueIdx !== -1) {
+          this.jumpToWord(targetQueueIdx);
+        } else {
+          // Word was already mastered, jump to it fresh
+          const match = pool.find(item => item.word === word);
+          if (match) {
+            this.queue.push({ ...match, phase: 1, isTrap: false });
+            this.jumpToWord(this.queue.length - 1);
+          }
+        }
       });
     });
 
@@ -342,15 +460,17 @@ export class DailyFocusArena {
      GRID VIEW: ALL 15 CARDS OVERVIEW IN ONE SPACIOUS RESPONSIVE MODAL
      ========================================================================= */
   renderGridView() {
+    const pool = ANCHOR_WORDS_MASTER[this.activeModule] || ANCHOR_WORDS_MASTER.modull_0;
+
     this.modalEl.innerHTML = `
       <div class="modal-3d-glass w-full rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 max-h-[94vh] overflow-y-auto" style="width: min(96vw, 1180px) !important; max-width: 1180px !important;">
         <div class="flex items-center justify-between pb-3 border-b border-cyan-500/20">
           <div>
-            <h2 class="text-base sm:text-lg font-black text-white font-mono flex items-center gap-2">
+            <h2 class="text-base sm:text-lg font-black arena-word-heading font-mono flex items-center gap-2">
               <span>📋 Огляд 15 опорних слів (Anchor Words Matrix)</span>
             </h2>
             <div class="text-xs text-slate-400 font-sans mt-0.5">
-              Натисніть на картку або 🔊, щоб почути вимову, або «Тренувати слово», щоб розпочати 4 фази.
+              Натисніть 🔊 для прослуховування або «Тренувати це слово», щоб перейти в режим фокусу.
             </div>
           </div>
 
@@ -365,44 +485,50 @@ export class DailyFocusArena {
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-          ${this.queue.slice(0, 15).map((item, idx) => `
-            <div class="srs-word-card p-4 rounded-2xl bg-black/60 border border-slate-800 hover:border-cyan-400 transition-all flex flex-col justify-between space-y-2.5 group shadow-lg cursor-pointer">
-              <div class="flex items-start justify-between gap-2">
-                <div class="flex items-center gap-3">
-                  <span class="text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">${item.icon}</span>
-                  <div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-base font-black font-mono text-white group-hover:text-cyan-300 transition-colors">
-                        ${item.word}
-                      </span>
-                      <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-                        ${item.gender}
-                      </span>
+          ${pool.slice(0, 15).map((item, idx) => {
+            const isMastered = this.masteredWords.has(item.word) && !this.errorWords.has(item.word);
+            const hasError = this.errorWords.has(item.word);
+
+            return `
+              <div class="arena-theme-card p-4 rounded-2xl hover:border-cyan-400 transition-all flex flex-col justify-between space-y-2.5 group shadow-lg cursor-pointer">
+                <div class="flex items-start justify-between gap-2">
+                  <div class="flex items-center gap-3">
+                    <span class="text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">${item.icon}</span>
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="text-base font-black font-mono arena-word-heading group-hover:text-cyan-400 transition-colors">
+                          ${item.word}
+                        </span>
+                        <span class="px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+                          ${item.gender}
+                        </span>
+                        ${isMastered ? '<span class="text-emerald-400 text-xs font-bold">✓</span>' : hasError ? '<span class="text-rose-400 text-xs font-bold">🪤</span>' : ''}
+                      </div>
+                      <span class="text-xs font-mono text-slate-400 block">${item.ipa}</span>
                     </div>
-                    <span class="text-xs font-mono text-slate-400 block">${item.ipa}</span>
                   </div>
+
+                  <button class="arena-grid-play-btn w-8 h-8 rounded-lg bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/30 text-cyan-400 hover:text-black flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-sm" data-word="${item.word}" title="Слухати вимову Gunnar">
+                    🔊
+                  </button>
                 </div>
 
-                <button class="arena-grid-play-btn w-8 h-8 rounded-lg bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/30 text-cyan-300 hover:text-black flex items-center justify-center transition-all flex-shrink-0 cursor-pointer shadow-sm" data-word="${item.word}" title="Слухати">
-                  🔊
+                <div class="text-xs border-t border-slate-700/50 pt-2 flex items-center justify-between">
+                  <span class="text-slate-400 text-[11px]">Значення:</span>
+                  <span class="text-cyan-400 font-bold">${item.uk}</span>
+                </div>
+
+                <div class="arena-v2-panel p-2.5 rounded-xl text-xs space-y-0.5">
+                  <div class="font-mono text-emerald-400 font-bold">«${item.sentence_v2}»</div>
+                  <div class="arena-v2-sub text-[10px]">${item.sentence_trans}</div>
+                </div>
+
+                <button class="arena-grid-select-btn w-full py-2 rounded-xl font-mono font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm" data-index="${idx}" data-word="${item.word}">
+                  <span>⚡ Тренувати це слово (#${idx + 1})</span>
                 </button>
               </div>
-
-              <div class="text-xs text-slate-200 border-t border-slate-800/80 pt-2 flex items-center justify-between">
-                <span class="text-slate-400 text-[11px]">Значення:</span>
-                <span class="text-cyan-300 font-bold">${item.uk}</span>
-              </div>
-
-              <div class="p-2.5 rounded-xl bg-cyber-deep/80 border border-slate-800 text-xs space-y-0.5">
-                <div class="font-mono text-emerald-300 font-bold">«${item.sentence_v2}»</div>
-                <div class="text-slate-400 text-[10px]">${item.sentence_trans}</div>
-              </div>
-
-              <button class="arena-grid-select-btn w-full py-2 rounded-xl bg-cyber-deep hover:bg-cyan-500 border border-cyan-500/40 text-cyan-300 hover:text-black font-mono font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm" data-index="${idx}">
-                <span>⚡ Тренувати це слово (#${idx + 1})</span>
-              </button>
-            </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
       </div>
     `;
@@ -426,8 +552,17 @@ export class DailyFocusArena {
 
     this.modalEl.querySelectorAll('.arena-grid-select-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.index, 10);
-        this.jumpToWord(idx);
+        const word = btn.dataset.word;
+        const targetQueueIdx = this.queue.findIndex(item => item.word === word);
+        if (targetQueueIdx !== -1) {
+          this.jumpToWord(targetQueueIdx);
+        } else {
+          const match = pool.find(item => item.word === word);
+          if (match) {
+            this.queue.push({ ...match, phase: 1, isTrap: false });
+            this.jumpToWord(this.queue.length - 1);
+          }
+        }
       });
     });
   }
@@ -437,21 +572,21 @@ export class DailyFocusArena {
      ========================================================================= */
   renderPhase1Exposure(stage, item) {
     stage.innerHTML = `
-      <div class="p-5 sm:p-6 rounded-3xl bg-black/60 border border-slate-800 space-y-5">
+      <div class="arena-theme-card p-5 sm:p-6 rounded-3xl space-y-5">
         
         <!-- Spacious 2-Column Hero Layout -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
           
           <!-- Left Column: Big Visual, Word, IPA, Gender & Audio Play -->
-          <div class="md:col-span-5 text-center p-4 rounded-2xl bg-cyber-deep/80 border border-slate-800 space-y-3">
+          <div class="md:col-span-5 text-center p-4 rounded-2xl arena-trans-panel space-y-3">
             <div class="text-6xl sm:text-7xl animate-bounce duration-1000 my-1">${item.icon}</div>
             
             <div>
               <div class="flex items-center justify-center gap-2">
-                <h2 class="text-3xl sm:text-4xl font-black font-mono text-white tracking-wide">
+                <h2 class="text-3xl sm:text-4xl font-black font-mono arena-word-heading tracking-wide">
                   ${item.word}
                 </h2>
-                <span class="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/40">
+                <span class="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-cyan-500/15 text-cyan-400 border border-cyan-500/40">
                   ${item.gender_name || item.gender}
                 </span>
               </div>
@@ -465,25 +600,25 @@ export class DailyFocusArena {
 
           <!-- Right Column: Ukrainian Translation & V2 Syntax Context Card -->
           <div class="md:col-span-7 space-y-3.5">
-            <div class="p-4 rounded-2xl bg-cyber-deep/80 border border-cyan-500/30 space-y-1">
+            <div class="p-4 rounded-2xl arena-trans-panel space-y-1">
               <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Значення українською:</span>
-              <div class="text-xl sm:text-2xl font-black text-cyan-300 font-sans">
+              <div class="text-xl sm:text-2xl font-black text-cyan-400 font-sans">
                 🇺🇦 «${item.uk}»
               </div>
             </div>
 
             <!-- V2 Syntax Context Card -->
-            <div class="p-4 rounded-2xl bg-cyber-deep/90 border border-emerald-500/40 text-left space-y-1.5 shadow-md">
+            <div class="p-4 rounded-2xl arena-v2-panel text-left space-y-1.5 shadow-md">
               <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1">
+                <span class="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1">
                   <span>⚡</span> <span>V2-Контекст (дієслово на 2-му місці)</span>
                 </span>
-                <span class="text-[10px] font-mono text-emerald-400">Правило V2</span>
+                <span class="text-[10px] font-mono text-emerald-500">Правило V2</span>
               </div>
-              <div class="font-mono text-base text-emerald-300 font-bold leading-relaxed">
+              <div class="font-mono text-base arena-v2-sentence font-bold leading-relaxed">
                 «${item.sentence_v2}»
               </div>
-              <div class="text-xs text-slate-300 font-sans">
+              <div class="text-xs arena-v2-sub font-sans">
                 ${item.sentence_trans}
               </div>
             </div>
@@ -491,8 +626,8 @@ export class DailyFocusArena {
         </div>
 
         <!-- Action Navigation Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 border-t border-slate-800/80">
-          <button id="arena-p1-skip-next-btn" class="py-3 rounded-xl bg-black/60 hover:bg-black border border-slate-700 hover:border-slate-500 text-slate-300 font-mono font-bold text-xs transition-all active:scale-95 cursor-pointer">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 border-t border-slate-700/50">
+          <button id="arena-p1-skip-next-btn" class="arena-nav-btn py-3 rounded-xl border font-mono font-bold text-xs transition-all active:scale-95 cursor-pointer">
             Наступне слово ▶
           </button>
           <button id="arena-p1-next-btn" class="py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono font-black text-xs uppercase tracking-wider shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
@@ -534,23 +669,23 @@ export class DailyFocusArena {
     const options = [item, ...shuffledOthers].sort(() => Math.random() - 0.5);
 
     stage.innerHTML = `
-      <div class="p-5 sm:p-6 rounded-3xl bg-black/60 border border-slate-800 space-y-4">
+      <div class="arena-theme-card p-5 sm:p-6 rounded-3xl space-y-4">
         <div class="text-center space-y-2 py-1">
-          <div class="text-xs sm:text-sm text-slate-300 font-sans">
+          <div class="text-xs sm:text-sm text-slate-400 font-sans">
             Уважно прослухайте вимову носія мови та оберіть переклад:
           </div>
-          <button id="arena-p2-play-btn" class="px-6 py-3 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400 text-cyan-300 font-mono font-black text-sm shadow-md transition-all active:scale-95 inline-flex items-center gap-2.5 cursor-pointer">
+          <button id="arena-p2-play-btn" class="px-6 py-3 rounded-2xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400 text-cyan-400 font-mono font-black text-sm shadow-md transition-all active:scale-95 inline-flex items-center gap-2.5 cursor-pointer">
             <span>🔊</span> <span>Слухати аудіо носія (Gunnar)</span>
           </button>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           ${options.map(opt => `
-            <button class="arena-p2-opt p-4 rounded-2xl bg-black/60 hover:bg-black/90 border border-slate-800 hover:border-cyan-400 text-left transition-all flex items-center gap-3.5 group cursor-pointer shadow-md" data-word-id="${opt.id}">
+            <button class="arena-p2-opt arena-quiz-card p-4 rounded-2xl text-left transition-all flex items-center gap-3.5 group cursor-pointer shadow-md" data-word-id="${opt.id}">
               <span class="text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">${opt.icon}</span>
               <div>
-                <div class="font-bold text-white text-sm group-hover:text-cyan-300">${opt.uk}</div>
-                <div class="font-mono text-xs text-slate-400 mt-0.5">${opt.gender_name || opt.gender}</div>
+                <div class="font-bold text-sm arena-quiz-title group-hover:text-cyan-400">${opt.uk}</div>
+                <div class="font-mono text-xs arena-quiz-sub mt-0.5">${opt.gender_name || opt.gender}</div>
               </div>
             </button>
           `).join('')}
@@ -575,9 +710,9 @@ export class DailyFocusArena {
           b.disabled = true;
           const bId = parseInt(b.dataset.wordId, 10);
           if (bId === item.id) {
-            b.classList.add('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-200');
+            b.classList.add('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-300');
           } else if (bId === chosenId && !isCorrect) {
-            b.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-200');
+            b.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-300');
           }
         });
 
@@ -600,7 +735,7 @@ export class DailyFocusArena {
           this.triggerTrapRecycler(item, 2);
           fb.className = 'p-4 rounded-2xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
           fb.innerHTML = `
-            <div><strong>❌ Помилка.</strong> Правильно: «${item.word}» = ${item.uk}. Повернемо через 2 картки.</div>
+            <div><strong>❌ Помилка.</strong> Правильно: «${item.word}» = ${item.uk}. Повернемо через 2 картки на закріплення.</div>
             <button id="arena-p2-retry" class="px-4 py-2 rounded-xl bg-rose-500 text-white font-mono font-bold text-xs cursor-pointer">Зрозуміло ➔</button>
           `;
           fb.querySelector('#arena-p2-retry').addEventListener('click', () => {
@@ -621,17 +756,17 @@ export class DailyFocusArena {
       .sort(() => Math.random() - 0.5);
 
     stage.innerHTML = `
-      <div class="p-5 sm:p-6 rounded-3xl bg-black/60 border border-slate-800 space-y-5">
+      <div class="arena-theme-card p-5 sm:p-6 rounded-3xl space-y-5">
         <div class="text-center space-y-1">
           <div class="text-4xl">${item.icon}</div>
-          <div class="text-lg font-bold text-white font-sans">«${item.uk}»</div>
-          <div class="text-xs font-mono text-cyan-300">${item.gender_name || item.gender} &bull; ${item.ipa}</div>
+          <div class="text-lg font-bold arena-word-heading font-sans">«${item.uk}»</div>
+          <div class="text-xs font-mono text-cyan-400">${item.gender_name || item.gender} &bull; ${item.ipa}</div>
         </div>
 
         <!-- Target Slot Holders -->
         <div class="flex items-center justify-center gap-2 sm:gap-2.5 py-2 flex-wrap">
           ${Array.from({ length: targetLength }).map((_, idx) => `
-            <div id="speller-slot-${idx}" class="speller-slot w-12 h-14 sm:w-16 sm:h-18 rounded-2xl bg-black/60 border-2 border-slate-700 flex items-center justify-center text-xl sm:text-2xl font-black font-mono text-cyan-300 shadow-inner">
+            <div id="speller-slot-${idx}" class="speller-slot w-12 h-14 sm:w-16 sm:h-18 rounded-2xl border-2 flex items-center justify-center text-xl sm:text-2xl font-black font-mono text-cyan-400 shadow-inner">
               _
             </div>
           `).join('')}
@@ -646,8 +781,8 @@ export class DailyFocusArena {
         </div>
 
         <div id="speller-tiles-pool" class="flex items-center justify-center gap-2 sm:gap-2.5 flex-wrap py-1">
-          ${scrambledTiles.map((tile, idx) => `
-            <button class="speller-tile-btn w-12 h-14 sm:w-16 sm:h-18 rounded-2xl bg-cyan-500/15 hover:bg-cyan-500 border border-cyan-500/40 hover:border-cyan-400 text-white hover:text-black font-black font-mono text-xl sm:text-2xl transition-all shadow-md active:scale-90 cursor-pointer" data-char="${tile.char}">
+          ${scrambledTiles.map((tile) => `
+            <button class="speller-tile-btn w-12 h-14 sm:w-16 sm:h-18 rounded-2xl border font-black font-mono text-xl sm:text-2xl transition-all shadow-md active:scale-90 cursor-pointer" data-char="${tile.char}">
               ${tile.char}
             </button>
           `).join('')}
@@ -682,7 +817,7 @@ export class DailyFocusArena {
 
         if (slots[currentPos]) {
           slots[currentPos].innerText = char;
-          slots[currentPos].classList.add('border-cyan-400', 'bg-cyan-950/40');
+          slots[currentPos].classList.add('border-cyan-400', 'bg-cyan-500/20');
         }
 
         // When all slots filled: check word
@@ -734,15 +869,15 @@ export class DailyFocusArena {
     const options = [item, ...shuffledOthers].sort(() => Math.random() - 0.5);
 
     stage.innerHTML = `
-      <div class="p-5 sm:p-6 rounded-3xl bg-black/60 border border-slate-800 space-y-4">
-        <div class="p-5 rounded-2xl bg-cyber-deep/90 border border-amber-500/40 text-center space-y-2 shadow-lg">
-          <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase tracking-wider">
+      <div class="arena-theme-card p-5 sm:p-6 rounded-3xl space-y-4">
+        <div class="arena-v2-panel p-5 rounded-2xl text-center space-y-2 shadow-lg">
+          <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/40 uppercase tracking-wider">
             ⚡ Закон V2 (Дієслово завжди на 2-му синтаксичному місці)
           </span>
-          <div class="text-xl sm:text-2xl font-black font-mono text-cyan-300 tracking-wide mt-2">
+          <div class="text-xl sm:text-2xl font-black font-mono arena-v2-sentence tracking-wide mt-2">
             «${blankedSentence}»
           </div>
-          <div class="text-sm text-slate-300 font-sans">
+          <div class="text-sm arena-v2-sub font-sans">
             🇺🇦 ${item.sentence_trans}
           </div>
         </div>
@@ -753,10 +888,10 @@ export class DailyFocusArena {
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           ${options.map(opt => `
-            <button class="arena-p4-opt p-4 rounded-2xl bg-black/50 hover:bg-black/80 border border-slate-800 hover:border-cyan-400 text-center transition-all group cursor-pointer shadow-md" data-word-id="${opt.id}">
+            <button class="arena-p4-opt arena-quiz-card p-4 rounded-2xl text-center transition-all group cursor-pointer shadow-md" data-word-id="${opt.id}">
               <div class="text-2xl mb-1 group-hover:scale-110 transition-transform">${opt.icon}</div>
-              <div class="font-bold text-white text-sm group-hover:text-cyan-300 font-mono">${opt.word}</div>
-              <div class="text-xs text-slate-400 mt-0.5">${opt.uk}</div>
+              <div class="font-bold text-sm arena-quiz-title group-hover:text-cyan-400 font-mono">${opt.word}</div>
+              <div class="text-xs arena-quiz-sub mt-0.5">${opt.uk}</div>
             </button>
           `).join('')}
         </div>
@@ -774,9 +909,9 @@ export class DailyFocusArena {
           b.disabled = true;
           const bId = parseInt(b.dataset.wordId, 10);
           if (bId === item.id) {
-            b.classList.add('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-200');
+            b.classList.add('bg-emerald-500/20', 'border-emerald-400', 'text-emerald-300');
           } else if (bId === chosenId && !isCorrect) {
-            b.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-200');
+            b.classList.add('bg-rose-500/20', 'border-rose-500', 'text-rose-300');
           }
         });
 
@@ -787,6 +922,10 @@ export class DailyFocusArena {
           gameState.playVictorySound();
           audioEngine.play(item.word);
 
+          // Mark word as officially mastered!
+          this.masteredWords.add(item.word);
+          this.errorWords.delete(item.word);
+
           fb.className = 'p-4 rounded-2xl border border-emerald-500/50 bg-emerald-950/40 text-emerald-300 flex items-center justify-between';
           fb.innerHTML = `
             <div><strong>🎉 Досконало!</strong> «${item.sentence_v2}» правильно зв'язано!</div>
@@ -796,7 +935,7 @@ export class DailyFocusArena {
             this.nextWord();
           });
         } else {
-          // Trap-Recycler Trigger with Step-Down
+          // Trap-Recycler Trigger with Step-Down to Phase 2
           this.triggerTrapRecycler(item, 2);
           fb.className = 'p-4 rounded-2xl border border-rose-500/50 bg-rose-950/40 text-rose-300 flex items-center justify-between';
           fb.innerHTML = `
@@ -815,20 +954,24 @@ export class DailyFocusArena {
      TRAP-RECYCLER ENGINE: 2-Card In-Session Re-Queue + Next-Day SRS Priority
      ========================================================================= */
   triggerTrapRecycler(item, stepDownPhase = 2) {
-    // 1. Mark for next day
+    // 1. Mark in active session error set
+    this.errorWords.add(item.word);
+    this.masteredWords.delete(item.word);
     this.trapsToday.add(item.word);
+
+    // 2. Persist to localStorage for next-day SRS priority
     const saved = new Set(this.getSavedTraps());
     saved.add(item.word);
     this.saveTraps(saved);
 
-    // 2. Clone item with step-down phase
+    // 3. Clone item with step-down phase
     const recycled = {
       ...item,
       phase: stepDownPhase,
       isTrap: true
     };
 
-    // 3. Re-queue: 2 cards ahead or at end of queue
+    // 4. Re-queue: 2 cards ahead or at end of queue
     const insertIndex = Math.min(this.queue.length, this.currentIndex + 3);
     this.queue.splice(insertIndex, 0, recycled);
   }
@@ -860,28 +1003,32 @@ export class DailyFocusArena {
           <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
             Dagsamningur виконано на 100%!
           </span>
-          <h2 class="text-xl sm:text-2xl font-black text-white font-mono mt-2">
+          <h2 class="text-xl sm:text-2xl font-black arena-word-heading font-mono mt-2">
             Денну норму закріплено
           </h2>
-          <p class="text-xs text-slate-300 font-sans">
-            Усі 15 слів пройшли 4 мультимодальні дотики та синтаксис V2.
+          <p class="text-xs text-slate-400 font-sans">
+            Усі 15 слів пройшли 4 мультимодальні дотики та синтаксис V2 без залишкових помилок.
           </p>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-black/60 border border-slate-800 font-mono">
+        <div class="grid grid-cols-2 gap-3 p-3.5 rounded-2xl arena-trans-panel font-mono">
           <div class="text-center">
             <span class="text-[10px] text-slate-400 uppercase">Нагорода</span>
             <div class="text-xl font-black text-cyan-400">+50 XP</div>
           </div>
-          <div class="text-center border-l border-slate-800">
+          <div class="text-center border-l border-slate-700/50">
             <span class="text-[10px] text-slate-400 uppercase">Стрік захищено</span>
             <div class="text-xl font-black text-amber-400">🔥 +1 день</div>
           </div>
         </div>
 
-        <div class="pt-2">
-          <button id="arena-finish-btn" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-black font-mono font-black text-sm uppercase tracking-wider shadow-xl transition-all active:scale-95 cursor-pointer">
+        <div class="space-y-2 pt-2">
+          <button id="arena-finish-btn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-black font-mono font-black text-sm uppercase tracking-wider shadow-xl transition-all active:scale-95 cursor-pointer">
             Продовжити навчання ➔
+          </button>
+          
+          <button id="arena-review-again-btn" class="w-full py-2.5 rounded-xl border border-slate-700/60 hover:border-cyan-400 text-slate-400 hover:text-cyan-400 font-mono text-xs font-bold transition-all cursor-pointer">
+            🔁 Повторити ще раз 15 слів
           </button>
         </div>
       </div>
@@ -891,6 +1038,13 @@ export class DailyFocusArena {
     if (finishBtn) {
       finishBtn.addEventListener('click', () => {
         this.close();
+      });
+    }
+
+    const reviewAgainBtn = this.modalEl.querySelector('#arena-review-again-btn');
+    if (reviewAgainBtn) {
+      reviewAgainBtn.addEventListener('click', () => {
+        this.open(this.activeModule, true);
       });
     }
   }
