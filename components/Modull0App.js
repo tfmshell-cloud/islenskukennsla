@@ -14,13 +14,14 @@ import { MinimalPairDuel } from './MinimalPairDuel.js';
 import { IpaSoundBuilder } from './IpaSoundBuilder.js';
 import { SpeechEtiquette } from './SpeechEtiquette.js';
 import { InteractiveDrillEngine } from './InteractiveDrillEngine.js';
+import { DailyWordEngine } from './DailyWordEngine.js';
 import { LocalAITutorPanel } from './LocalAITutorPanel.js';
 import { Kafli1App } from './Kafli1App.js';
 import { SagaRoadmap } from './SagaRoadmap.js';
 import { DropsFlexionLab } from './DropsFlexionLab.js';
 import { gameState } from './GameState.js';
 import { binAuraSystem } from './BinAuraSystem.js';
-import { audioEngine } from './AudioEngine.js?v=5.3';
+import { audioEngine } from './AudioEngine.js?v=5.4';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -185,7 +186,7 @@ export class Modull0App {
                   6. Симулятор
                 </button>
                 <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
-                  7. Тренажер (10)
+                  7. Тренажер (20+SRS)
                 </button>
               </div>
             </div>
@@ -389,14 +390,63 @@ export class Modull0App {
       this.components.dialogue.render();
     }
 
-    // Step 0.7: 10 Comprehensive Drills
+    // Step 0.7: 20 Comprehensive Drills & 15-Word 4-Phase SRS Engine
     const drillContainer = this.root.querySelector('#m0-sec-drills');
     if (drillContainer) {
-      this.components.drills = new InteractiveDrillEngine(
-        drillContainer,
-        this.dataM0.drill_suite
-      );
-      this.components.drills.render();
+      drillContainer.innerHTML = `
+        <div class="space-y-4">
+          <!-- Segmented Mode Control (20 Drills vs 15-Word SRS) -->
+          <div class="flex items-center justify-center gap-2 p-1 max-w-md mx-auto rounded-xl bg-black/60 border border-slate-800">
+            <button id="m0-mode-drills-btn" class="flex-1 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-400 shadow-sm">
+              🎯 20 Завдань (NotebookLM)
+            </button>
+            <button id="m0-mode-srs-btn" class="flex-1 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent">
+              🧠 Словник SRS (15 слів • 4 фази)
+            </button>
+          </div>
+
+          <!-- Mount containers -->
+          <div id="m0-drill-mount-20"></div>
+          <div id="m0-drill-mount-srs" class="hidden"></div>
+        </div>
+      `;
+
+      const mountDrills = drillContainer.querySelector('#m0-drill-mount-20');
+      const mountSrs = drillContainer.querySelector('#m0-drill-mount-srs');
+      const btnDrills = drillContainer.querySelector('#m0-mode-drills-btn');
+      const btnSrs = drillContainer.querySelector('#m0-mode-srs-btn');
+
+      if (mountDrills) {
+        this.components.drills = new InteractiveDrillEngine(
+          mountDrills,
+          this.dataM0.drill_suite
+        );
+        this.components.drills.render();
+      }
+
+      if (mountSrs) {
+        this.components.srs = new DailyWordEngine(
+          mountSrs,
+          this.dataM0.daily_word_engine
+        );
+        this.components.srs.render();
+      }
+
+      if (btnDrills && btnSrs && mountDrills && mountSrs) {
+        btnDrills.addEventListener('click', () => {
+          mountDrills.classList.remove('hidden');
+          mountSrs.classList.add('hidden');
+          btnDrills.className = 'flex-1 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-400 shadow-sm';
+          btnSrs.className = 'flex-1 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent';
+        });
+
+        btnSrs.addEventListener('click', () => {
+          mountDrills.classList.add('hidden');
+          mountSrs.classList.remove('hidden');
+          btnSrs.className = 'flex-1 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all bg-amber-500/20 text-amber-300 border border-amber-400 shadow-sm';
+          btnDrills.className = 'flex-1 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent';
+        });
+      }
     }
 
     // 3. Mount Kafli 1 component

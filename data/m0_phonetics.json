@@ -1181,143 +1181,576 @@
   "drill_suite": [
     {
       "id": "drill_1",
-      "type": "multiple_choice",
-      "question": "Як правильно вимовляється перша літера в слові «Hvað» (що)?",
-      "audio_prompt": "hvað",
+      "category": "audio_discrimination",
+      "category_uk": "1. Аудіо-дискримінація",
+      "audio_prompt": "takk",
+      "question": "🎧 Послухайте аудіо [tʰahk]. Яке слово було вимовлене?",
       "options": [
-        "Як англійське [w]",
-        "Як глухий вибуховий звук [kv]",
-        "Як просте українське [х]",
-        "Як дзвінке [в]"
+        "1. taka (брати)",
+        "2. takk (дякую)",
+        "3. tak (рух)"
       ],
       "correct_index": 1,
-      "explanation": "В ісландській мові поєднання 'hv-' на початку слів завжди читається як вибухове [kv]: hvað ➔ [kvaːð]."
+      "explanation": "Наявність придиху [h] та мікропаузи перед вибухом вказує на подвоєну kk у слові takk!"
     },
     {
       "id": "drill_2",
-      "type": "multiple_choice",
-      "question": "Що позначає знак акута (´ - broddur) над ісландськими голосними (Á, É, Ó, Ú, Ý)?",
-      "audio_prompt": "á",
+      "category": "audio_discrimination",
+      "category_uk": "1. Аудіо-дискримінація",
+      "audio_prompt": "sæll",
+      "question": "🎧 Послухайте привітання [saitl]. До кого звертається мовець?",
       "options": [
-        "Лише силу голосу (довжину)",
-        "Якісно іншу фонему (часто дифтонг)",
-        "Пом’якшення приголосного",
-        "Зміну відмінка"
+        "1. До жінки",
+        "2. До чоловіка",
+        "3. До змішаної групи людей"
       ],
       "correct_index": 1,
-      "explanation": "Broddur (´) в ісландській не позначає наголос (він завжди на 1-му складі), а змінює якість звука: A [a] ➔ Á [au], E [ɛ] ➔ É [jɛ], O [ɔ] ➔ Ó [ou]."
+      "explanation": "Латеральний вибух [tl] наприкінці слова належить виключно чоловічій формі привітання Sæll!"
     },
     {
       "id": "drill_3",
-      "type": "multiple_choice",
-      "question": "Як граматично правильно привітатися, якщо ви звертаєтеся до жінки (Анни)?",
-      "audio_prompt": "sæl",
+      "category": "audio_discrimination",
+      "category_uk": "1. Аудіо-дискримінація",
+      "audio_prompt": "fínn",
+      "question": "🎧 Послухайте [fitn]. Яке буквосполучення на письмі стоїть у середині/кінці слова?",
       "options": [
-        "Sæll! [saitl]",
-        "Sæl! [sail]",
-        "Blessaður!",
-        "Góðan dagur!"
+        "1. nn (подвійне)",
+        "2. tn",
+        "3. fn"
       ],
-      "correct_index": 1,
-      "explanation": "Привітання Sæl [sail] з одиночним [l] узгоджується зі статтю адресата: до жінки — Sæl [sail], до чоловіка — Sæll [saitl]."
+      "correct_index": 0,
+      "explanation": "На письмі це подвоєна nn у слові fínn. Після акцентованого дифтонга/довгого í вона вимовляється як [tn]!"
     },
     {
       "id": "drill_4",
-      "type": "multiple_choice",
-      "question": "Яке фонетичне явище виникає у слові «Takk» перед здвоєним «kk»?",
-      "audio_prompt": "takk",
+      "category": "audio_discrimination",
+      "category_uk": "1. Аудіо-дискримінація",
+      "audio_prompt": "hvað",
+      "question": "🎧 Послухайте [kvað]. Яке буквосполучення стоїть на початку слова на письмі?",
       "options": [
-        "Подовження [k:]",
-        "Преаспірація — гортанний видих повітря [h]",
-        "Озвончення у [гг]",
-        "Носовий вибух"
+        "1. kv-",
+        "2. hv-",
+        "3. kvh-"
       ],
       "correct_index": 1,
-      "explanation": "Перед подвоєними глухими pp, tt, kk утворюється мікропауза з сильним гортанним видихом [h] (aflblástur): takk ➔ [tʰahk]."
+      "explanation": "Буквосполучення hv- в ісландській мові завжди вимовляється як [kv] (Hvað [kvað] = що)."
     },
     {
       "id": "drill_5",
-      "type": "multiple_choice",
-      "question": "Яку відмінкову форму приймає слово «Úkraína» після прийменника «frá»?",
-      "audio_prompt": "ég er frá úkraínu",
+      "category": "audio_discrimination",
+      "category_uk": "1. Аудіо-дискримінація",
+      "audio_prompt": "nafn",
+      "question": "🎧 Послухайте [napn] (ім'я). Оберіть правильне графічне написання слова:",
       "options": [
-        "frá Úkraína (Називний NF)",
-        "frá Úkraínu (Давальний ÞGF)",
-        "frá Úkraínar (Родовий EF)",
-        "frá Úkraín (Знахідний ÞF)"
+        "1. napn",
+        "2. nafn",
+        "3. namn"
       ],
       "correct_index": 1,
-      "explanation": "Прийменник 'frá' (з, від) завжди керує Давальним відмінком (Þágufall 🟡). Іменники жіночого роду на -a закінчуються на -u: frá Úkraínu."
+      "explanation": "Сполучення fn перед приголосним реалізується у вимові як глухий вибух [pn] (nafn [napn])."
     },
     {
       "id": "drill_6",
-      "type": "multiple_choice",
-      "question": "Як вимовляється здвоєна «ll» у слові «Fjall» (гора)?",
-      "audio_prompt": "fjall",
+      "category": "trap_dictation",
+      "category_uk": "2. Фонетичний диктант",
+      "audio_prompt": "steinn",
+      "question": "✍️ Заповніть пропуск: «Ég heiti Stei___ (камінь) [steitn]».",
       "options": [
-        "Як довге українське [лл]",
-        "Як глухий боковий вибух [tl̥]",
-        "Як м’яке [ль]",
-        "Не читається взагалі"
+        "1. tn",
+        "2. nn",
+        "3. n"
       ],
       "correct_index": 1,
-      "explanation": "Буквосполучення 'll' в ісландській майже завжди переходить у боковий вибух [tl̥]: кінчик язика на зубах, а повітря вибухає по боках язика (fjall ➔ [fjatl̥])."
+      "explanation": "Слово пишеться як steinn (з подвоєним nn), хоча через дифтонг вимовляється [steitn]."
     },
     {
       "id": "drill_7",
-      "type": "multiple_choice",
-      "question": "Чому в слові «Steinn» (камінь) «nn» звучить як [tn], а в слові «Penni» — як [nn]?",
-      "audio_prompt": "steinn",
+      "category": "trap_dictation",
+      "category_uk": "2. Фонетичний диктант",
+      "audio_prompt": "epli",
+      "question": "✍️ Заповніть пропуск: «Ég borða e___li (яблуко) [ˈɛplɪ]».",
       "options": [
-        "Тому що в steinn воно після дифтонга [ei], а в penni — після простого голосного",
-        "Це виняток без правил",
-        "Залежить від темпу вимови",
-        "Через закінчення на -nn"
+        "1. p (одинарне)",
+        "2. b",
+        "3. pp (подвоєне)"
       ],
       "correct_index": 0,
-      "explanation": "Правило Árnastofnun: 'nn' переходить у [tn] ТІЛЬКИ після дифтонгів (ei, á, ó, ú, æ) або довгих голосних (steinn [steitn]). Після простих голосних звучить [nn] (penni ['pɛnnɪ])."
+      "explanation": "Слово пишеться epli з одинарним p, без подвоєння."
     },
     {
       "id": "drill_8",
-      "type": "multiple_choice",
-      "question": "Яка позиційна різниця між літерами «Þ (Þorn)» та «Ð (Eð)»?",
-      "audio_prompt": "þak",
+      "category": "trap_dictation",
+      "category_uk": "2. Фонетичний диктант",
+      "audio_prompt": "hvað",
+      "question": "✍️ Заповніть пропуск: «___að heitir þú? [kvað] (Як тебе звати?)».",
       "options": [
-        "Þ пишеться в кінці слів, а Ð — на початку",
-        "Þ вживається виключно на ПОЧАТКУ слів, а Ð — ТІЛЬКИ всередині або в кінці",
-        "Вони взаємозамінні",
-        "Ð вживається лише у власних назвах"
+        "1. Kv",
+        "2. Hv",
+        "3. V"
       ],
       "correct_index": 1,
-      "explanation": "В ісландській мові жодне слово ніколи не починається з літери Ð (Eð). Глухий Þorn [θ] стоїть на початку (Þak), а дзвінкий Eð [ð] — всередині чи в кінці (Maður, Blað)."
+      "explanation": "Питальне слово завжди пишеться з літерою H ➔ Hvað."
     },
     {
       "id": "drill_9",
-      "type": "multiple_choice",
-      "question": "Як звучить літера «G» наприкінці слова після голосного (наприклад, у слові «Ég» — я)?",
-      "audio_prompt": "ég",
+      "category": "trap_dictation",
+      "category_uk": "2. Фонетичний диктант",
+      "audio_prompt": "ég_er_frá_íslandi",
+      "question": "✍️ Заповніть граматичне закінчення: «Ég er frá Ísla___i (Я з Ісландії)».",
       "options": [
-        "Як дзвінке українське [ґ]",
-        "Як глухий велярний щілинний звук [x] («є-х»)",
-        "Як піднебінне [j]",
-        "Як глухе [к]"
+        "1. nd (називний NF)",
+        "2. ndi (давальний ÞGF)",
+        "3. ndu"
       ],
       "correct_index": 1,
-      "explanation": "4 стани літери G: у кінці слів після голосного звук оглушується у велярний фрикатив [x]: Ég ➔ [jɛːx]."
+      "explanation": "Прийменник frá завжди вимагає давального відмінка (Þágufall ÞGF 🟡) з закінченням -i ➔ frá Íslandi!"
     },
     {
       "id": "drill_10",
-      "type": "multiple_choice",
-      "question": "У чому різниця між парою слів «Bát» (човен) та «Bátt» (щока човна)?",
-      "audio_prompt": "bát",
+      "category": "trap_dictation",
+      "category_uk": "2. Фонетичний диктант",
+      "audio_prompt": "sæl",
+      "question": "✍️ Заповніть правильну форму: «Sæ___! Hvað heitir þú, Anna?»",
       "options": [
-        "Bát має довгий дифтонг [pauːt], а Bátt має преаспірацію з коротким дифтонгом [pauht]",
-        "Різниця лише на письмі",
-        "Bát має наголос на останній склад",
-        "Bátt вимовляється як [бат]"
+        "1. ll (чоловіча Sæll)",
+        "2. l (жіноча Sæl)",
+        "3. lli"
+      ],
+      "correct_index": 1,
+      "explanation": "При зверненні до жінки Анни вживається виключно форма Sæl з одинарною l [sail]!"
+    },
+    {
+      "id": "drill_11",
+      "category": "rule_detector",
+      "category_uk": "3. Детектор правила",
+      "audio_prompt": "sæll",
+      "question": "🔬 Слово «Sæll» [saitl]: Чому ll вимовляється як клацаючий вибух [tl]?",
+      "options": [
+        "1. Це випадковий виняток із правил",
+        "2. Це закон латерального бокового вибуху (Hliðarsprenging) для подвоєної ll",
+        "3. Бо перед ll стоїть наголошена літера"
+      ],
+      "correct_index": 1,
+      "explanation": "Звукосполучення ll в ісландській мові за законом бокового вибуху завжди вимовляється як [tl]!"
+    },
+    {
+      "id": "drill_12",
+      "category": "rule_detector",
+      "category_uk": "3. Детектор правила",
+      "audio_prompt": "penni",
+      "question": "🔬 Слово «penni» [ˈpʰɛnnɪ]: Чому подвоєне nn ТУТ НЕ перетворюється на [tn]?",
+      "options": [
+        "1. Бо воно стоїть після простого короткого голосного e [ɛ], а не після дифтонга",
+        "2. Бо це запозичене слово",
+        "3. Бо наприкінці є буква i"
       ],
       "correct_index": 0,
-      "explanation": "Контраст Bara tala: одиночний приголосний дає довгий плавний дифтонг (bát [pauːt]), а подвоєний tt викликає гортанну преаспірацію та вкорочує голосний (bátt [pauht])."
+      "explanation": "Правило преназалізації [tn] діє ТІЛЬКИ після дифтонгів та довгих голосних (steinn, fínn). Після короткого e подвоєне nn лишається [nn]!"
+    },
+    {
+      "id": "drill_13",
+      "category": "rule_detector",
+      "category_uk": "3. Детектор правила",
+      "audio_prompt": "þak",
+      "question": "🔬 Слово «Þak» [θak]: Де в ісландському слові може стояти літера Þ (Þorn)?",
+      "options": [
+        "1. У будь-якій позиції слова",
+        "2. Лише на самому початку слова або першого складу",
+        "3. Лише наприкінці слова"
+      ],
+      "correct_index": 1,
+      "explanation": "Суворе орфографічне правило: літера Þ (Þorn) [θ] зустрічається ТІЛЬКИ на початку слів!"
+    },
+    {
+      "id": "drill_14",
+      "category": "rule_detector",
+      "category_uk": "3. Детектор правила",
+      "audio_prompt": "maður",
+      "question": "🔬 Слово «Maður» [ˈmaðʏr]: Чи може літера Ð (Eð) стояти на початку слова?",
+      "options": [
+        "1. Так, у більшості іменників",
+        "2. Ні, ніколи (лише в середині або в кінці слів)",
+        "3. Лише в питальних словах"
+      ],
+      "correct_index": 1,
+      "explanation": "В ісландській мові жодне слово ніколи не починається з літери Ð (Eð)! Вона буває тільки всередині або в кінці."
+    },
+    {
+      "id": "drill_15",
+      "category": "rule_detector",
+      "category_uk": "3. Детектор правила",
+      "audio_prompt": "ég",
+      "question": "🔬 Слово «ég» [jɛːɣ]: Як вимовляється літера G наприкінці слова після м'якої голосної?",
+      "options": [
+        "1. Як глухий проривний [k]",
+        "2. Як м'який фрикативний звук [j] / [ɣ] (схожий на м'яке українське г/й)",
+        "3. Не вимовляється зовсім"
+      ],
+      "correct_index": 1,
+      "explanation": "Після голосних переднього ряду кінцева g послаблюється у м'який фрикатив [j]/[ɣ]."
+    },
+    {
+      "id": "drill_16",
+      "category": "picture_sound",
+      "category_uk": "4. Конструктор за малюнком",
+      "audio_prompt": "kaffi",
+      "question": "☕ (Гаряча кава): Зберіть правильний еталонний фонетичний ряд слова «kaffi»:",
+      "options": [
+        "1. ['kʰ'] + ['a'] + ['ff'] + ['ɪ']",
+        "2. ['k'] + ['a'] + ['f'] + ['i']",
+        "3. ['kʰ'] + ['a'] + ['f'] + ['i']"
+      ],
+      "correct_index": 0,
+      "explanation": "Буква k має сильний придих [kʰ], подвоєне ff дає довгий шум [ff], а кінцеве i звучить як ненапружене [ɪ]."
+    },
+    {
+      "id": "drill_17",
+      "category": "picture_sound",
+      "category_uk": "4. Конструктор за малюнком",
+      "audio_prompt": "hús",
+      "question": "🏡 (Будинок): Зберіть правильний фонетичний ряд слова «hús»:",
+      "options": [
+        "1. ['h'] + ['uː'] + ['s']",
+        "2. ['h'] + ['ʏ'] + ['s']",
+        "3. ['x'] + ['u'] + ['z']"
+      ],
+      "correct_index": 0,
+      "explanation": "Літера ú позначає глибокий довгий звук [uː], кінцеве s завжди глухе [s]."
+    },
+    {
+      "id": "drill_18",
+      "category": "picture_sound",
+      "category_uk": "4. Конструктор за малюнком",
+      "audio_prompt": "ís",
+      "question": "🍦 (Морозиво): Зберіть правильний фонетичний ряд слова «ís»:",
+      "options": [
+        "1. ['iː'] + ['s']",
+        "2. ['ɪ'] + ['s']",
+        "3. ['ai'] + ['s']"
+      ],
+      "correct_index": 0,
+      "explanation": "Ís (лід/морозиво) має довге напружене [iː], на відміну від короткого дієслова is [ɪs]!"
+    },
+    {
+      "id": "drill_19",
+      "category": "picture_sound",
+      "category_uk": "4. Конструктор за малюнком",
+      "audio_prompt": "rigning",
+      "question": "🌧️ (Дощ): Зберіть правильний фонетичний ряд слова «rigning»:",
+      "options": [
+        "1. ['r'] + ['ɪ'] + ['k'] + ['n'] + ['ɪ'] + ['ŋk']",
+        "2. ['r'] + ['i'] + ['g'] + ['n'] + ['i'] + ['n'] + ['g']",
+        "3. ['r'] + ['ɪ'] + ['ɣ'] + ['n'] + ['ɪ'] + ['ŋ']"
+      ],
+      "correct_index": 0,
+      "explanation": "У сполученні -gn- літера g переходить у глухий [k], а кінцеве -ng вимовляється як [ŋk]!"
+    },
+    {
+      "id": "drill_20",
+      "category": "picture_sound",
+      "category_uk": "4. Конструктор за малюнком",
+      "audio_prompt": "afi",
+      "question": "🥑 (Дідусь — afi): Зберіть правильний фонетичний ряд слова «afi»:",
+      "options": [
+        "1. ['a'] + ['v'] + ['ɪ']",
+        "2. ['a'] + ['f'] + ['i']",
+        "3. ['au'] + ['v'] + ['ɪ']"
+      ],
+      "correct_index": 0,
+      "explanation": "Одинарна f між голосними в ісландській мові завжди вимовляється дзвінко як [v] ➔ afi ['avɪ]!"
     }
-  ]
+  ],
+  "daily_word_engine": {
+    "title": "Двигун щоденного запам'ятовування (Daily Word Engine & SRS)",
+    "phases": [
+      {
+        "id": 1,
+        "name": "Фаза 1: Ознайомлення",
+        "desc": "Картка + Рід + IPA + Озвучка носія"
+      },
+      {
+        "id": 2,
+        "name": "Фаза 2: Аудіо-тест",
+        "desc": "Почуй ➔ Обери переклад/малюнок"
+      },
+      {
+        "id": 3,
+        "name": "Фаза 3: Конструктор",
+        "desc": "Склади слово з літер"
+      },
+      {
+        "id": 4,
+        "name": "Фаза 4: Контекст V2",
+        "desc": "Встав слово у речення із законом другого дієслова V2"
+      }
+    ],
+    "anchor_words": [
+      {
+        "id": 1,
+        "word": "afi",
+        "gender": "m.",
+        "gender_name": "Karlkyn (ч.р.)",
+        "ipa": "['avɪ]",
+        "uk": "дідусь",
+        "icon": "🥑",
+        "audio": "audio/words/afi.mp3",
+        "sentence_v2": "Afi er heima.",
+        "sentence_trans": "Дідусь вдома (V2: дієслово er на 2-му місці).",
+        "letters": [
+          "a",
+          "f",
+          "i"
+        ]
+      },
+      {
+        "id": 2,
+        "word": "á",
+        "gender": "f.",
+        "gender_name": "Kvenkyn (ж.р.)",
+        "ipa": "[auː]",
+        "uk": "річка",
+        "icon": "🌊",
+        "audio": "audio/words/á.mp3",
+        "sentence_v2": "Áin er köld.",
+        "sentence_trans": "Річка холодна.",
+        "letters": [
+          "á"
+        ]
+      },
+      {
+        "id": 3,
+        "word": "bók",
+        "gender": "f.",
+        "gender_name": "Kvenkyn (ж.р.)",
+        "ipa": "[pouk]",
+        "uk": "книга",
+        "icon": "📖",
+        "audio": "audio/words/bók.mp3",
+        "sentence_v2": "Hér er bók.",
+        "sentence_trans": "Ось є книга.",
+        "letters": [
+          "b",
+          "ó",
+          "k"
+        ]
+      },
+      {
+        "id": 4,
+        "word": "dagur",
+        "gender": "m.",
+        "gender_name": "Karlkyn (ч.р.)",
+        "ipa": "['takʏr]",
+        "uk": "день",
+        "icon": "☀️",
+        "audio": "audio/words/dagur.mp3",
+        "sentence_v2": "Góður dagur!",
+        "sentence_trans": "Гарний день!",
+        "letters": [
+          "d",
+          "a",
+          "g",
+          "u",
+          "r"
+        ]
+      },
+      {
+        "id": 5,
+        "word": "maður",
+        "gender": "m.",
+        "gender_name": "Karlkyn (ч.р.)",
+        "ipa": "['maðʏr]",
+        "uk": "чоловік / людина",
+        "icon": "🧔",
+        "audio": "audio/words/maður.mp3",
+        "sentence_v2": "Hann er maður.",
+        "sentence_trans": "Він є чоловік.",
+        "letters": [
+          "m",
+          "a",
+          "ð",
+          "u",
+          "r"
+        ]
+      },
+      {
+        "id": 6,
+        "word": "epli",
+        "gender": "n.",
+        "gender_name": "Hvorugkyn (ср.р.)",
+        "ipa": "['ɛplɪ]",
+        "uk": "яблуко",
+        "icon": "🍎",
+        "audio": "audio/words/epli.mp3",
+        "sentence_v2": "Ég borða epli.",
+        "sentence_trans": "Я їм яблуко (V2: borða на 2-му місці).",
+        "letters": [
+          "e",
+          "p",
+          "l",
+          "i"
+        ]
+      },
+      {
+        "id": 7,
+        "word": "faðir",
+        "gender": "m.",
+        "gender_name": "Karlkyn (ч.р.)",
+        "ipa": "['favɪr]",
+        "uk": "батько",
+        "icon": "👨‍👦",
+        "audio": "audio/words/faðir.mp3",
+        "sentence_v2": "Faðir minn er hér.",
+        "sentence_trans": "Мій батько є тут.",
+        "letters": [
+          "f",
+          "a",
+          "ð",
+          "i",
+          "r"
+        ]
+      },
+      {
+        "id": 8,
+        "word": "gata",
+        "gender": "f.",
+        "gender_name": "Kvenkyn (ж.р.)",
+        "ipa": "['kata]",
+        "uk": "вулиця",
+        "icon": "🗺️",
+        "audio": "audio/words/gata.mp3",
+        "sentence_v2": "Þetta er gata.",
+        "sentence_trans": "Це є вулиця.",
+        "letters": [
+          "g",
+          "a",
+          "t",
+          "a"
+        ]
+      },
+      {
+        "id": 9,
+        "word": "hús",
+        "gender": "n.",
+        "gender_name": "Hvorugkyn (ср.р.)",
+        "ipa": "[huːs]",
+        "uk": "будинок",
+        "icon": "🏡",
+        "audio": "audio/words/hús.mp3",
+        "sentence_v2": "Húsið er stórt.",
+        "sentence_trans": "Будинок великий.",
+        "letters": [
+          "h",
+          "ú",
+          "s"
+        ]
+      },
+      {
+        "id": 10,
+        "word": "ís",
+        "gender": "m.",
+        "gender_name": "Karlkyn (ч.р.)",
+        "ipa": "[iːs]",
+        "uk": "лід / морозиво",
+        "icon": "🍦",
+        "audio": "audio/words/ís.mp3",
+        "sentence_v2": "Ís er góður.",
+        "sentence_trans": "Морозиво смачне.",
+        "letters": [
+          "í",
+          "s"
+        ]
+      },
+      {
+        "id": 11,
+        "word": "kaffi",
+        "gender": "n.",
+        "gender_name": "Hvorugkyn (ср.р.)",
+        "ipa": "['kʰaffɪ]",
+        "uk": "кава",
+        "icon": "☕",
+        "audio": "audio/words/kaffi.mp3",
+        "sentence_v2": "Ég drekk kaffi.",
+        "sentence_trans": "Я п'ю каву.",
+        "letters": [
+          "k",
+          "a",
+          "f",
+          "f",
+          "i"
+        ]
+      },
+      {
+        "id": 12,
+        "word": "land",
+        "gender": "n.",
+        "gender_name": "Hvorugkyn (ср.р.)",
+        "ipa": "[lant]",
+        "uk": "країна / земля",
+        "icon": "🗺️",
+        "audio": "audio/words/land.mp3",
+        "sentence_v2": "Ísland er land.",
+        "sentence_trans": "Ісландія є країна.",
+        "letters": [
+          "l",
+          "a",
+          "n",
+          "d"
+        ]
+      },
+      {
+        "id": 13,
+        "word": "matur",
+        "gender": "m.",
+        "gender_name": "Karlkyn (ч.р.)",
+        "ipa": "['matʏr]",
+        "uk": "їжа",
+        "icon": "🍲",
+        "audio": "audio/words/matur.mp3",
+        "sentence_v2": "Maturinn er tilbúinn.",
+        "sentence_trans": "Їжа готова.",
+        "letters": [
+          "m",
+          "a",
+          "t",
+          "u",
+          "r"
+        ]
+      },
+      {
+        "id": 14,
+        "word": "nafn",
+        "gender": "n.",
+        "gender_name": "Hvorugkyn (ср.р.)",
+        "ipa": "[napn]",
+        "uk": "ім'я",
+        "icon": "🏷️",
+        "audio": "audio/words/nafn.mp3",
+        "sentence_v2": "Hvað er nafn þitt?",
+        "sentence_trans": "Яке твоє ім'я?",
+        "letters": [
+          "n",
+          "a",
+          "f",
+          "n"
+        ]
+      },
+      {
+        "id": 15,
+        "word": "sól",
+        "gender": "f.",
+        "gender_name": "Kvenkyn (ж.р.)",
+        "ipa": "[soul]",
+        "uk": "сонце",
+        "icon": "☀️",
+        "audio": "audio/words/sól.mp3",
+        "sentence_v2": "Sólin skín.",
+        "sentence_trans": "Сонце світить (V2: дієслово skín на 2-му місці).",
+        "letters": [
+          "s",
+          "ó",
+          "l"
+        ]
+      }
+    ]
+  }
 }

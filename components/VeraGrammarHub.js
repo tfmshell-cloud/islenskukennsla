@@ -3,7 +3,7 @@
  * Conjugation matrix of "að vera", "frá" + Dative converter, Question words, and Negation V2 syntax
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.3';
+import { audioEngine } from './AudioEngine.js?v=5.4';
 
 export class VeraGrammarHub {
   constructor(container, grammarData) {
