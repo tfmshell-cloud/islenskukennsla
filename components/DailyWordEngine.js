@@ -9,8 +9,8 @@
  * Phase 4: V2 Syntax Inserter (Verb-second sentence integration) + 15-Word Grid Ribbon
  */
 
-import { audioEngine } from './AudioEngine.js?v=6.2';
-import { gameState } from './GameState.js?v=6.2';
+import { audioEngine } from './AudioEngine.js?v=6.3';
+import { gameState } from './GameState.js?v=6.3';
 
 export class DailyWordEngine {
   constructor(container, engineData) {

@@ -6,23 +6,24 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.2';
-import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.2';
-import { RaddstafirHub } from './RaddstafirHub.js?v=6.2';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.2';
-import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.2';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.2';
-import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.2';
-import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.2';
-import { DailyWordEngine } from './DailyWordEngine.js?v=6.2';
-import { DailyFocusArena } from './DailyFocusArena.js?v=6.2';
-import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.2';
-import { Kafli1App } from './Kafli1App.js?v=6.2';
-import { SagaRoadmap } from './SagaRoadmap.js?v=6.2';
-import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.2';
-import { gameState } from './GameState.js?v=6.2';
-import { binAuraSystem } from './BinAuraSystem.js?v=6.2';
-import { audioEngine } from './AudioEngine.js?v=6.2';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.3';
+import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.3';
+import { RaddstafirHub } from './RaddstafirHub.js?v=6.3';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.3';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.3';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.3';
+import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.3';
+import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.3';
+import { DailyWordEngine } from './DailyWordEngine.js?v=6.3';
+import { DailyFocusArena } from './DailyFocusArena.js?v=6.3';
+import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.3';
+import { Kafli1App } from './Kafli1App.js?v=6.3';
+import { SagaRoadmap } from './SagaRoadmap.js?v=6.3';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.3';
+import { Module0Exam } from './Module0Exam.js?v=6.3';
+import { gameState } from './GameState.js?v=6.3';
+import { binAuraSystem } from './BinAuraSystem.js?v=6.3';
+import { audioEngine } from './AudioEngine.js?v=6.3';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -171,10 +172,10 @@ export class Modull0App {
             </div>
           </div>
 
-          <!-- ================= BLOCK 3 (BOTTOM PINNED): ALL 7 M0 SUB-TABS (SINGLE ROW, NO SCROLL) ================= -->
+          <!-- ================= BLOCK 3 (BOTTOM PINNED): ALL 8 M0 SUB-TABS (RESPONSIVE GRID) ================= -->
           <div id="block3-subnav-ribbon" class="px-2 sm:px-6 py-1 bg-black/90 border-b border-cyan-500/20 ${this.activeChapter === 'modull_0' ? '' : 'hidden'}">
             <div class="max-w-7xl mx-auto">
-              <div id="m0-subnav-bar" class="grid grid-cols-7 gap-1 sm:gap-1.5 text-center font-mono">
+              <div id="m0-subnav-bar" class="grid grid-cols-4 sm:grid-cols-8 gap-1 sm:gap-1.5 text-center font-mono">
                 <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
                   1. Матриця (32)
                 </button>
@@ -196,6 +197,9 @@ export class Modull0App {
                 <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
                   7. Тренажер (20+SRS)
                 </button>
+                <button data-m0-sub="exam" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'exam' ? 'active' : ''} text-amber-300 hover:text-amber-200">
+                  🎓 8. Атестація (15 Q)
+                </button>
               </div>
             </div>
           </div>
@@ -206,7 +210,7 @@ export class Modull0App {
           
           <!-- ================= TAB 0: УРОК 0 (АБЕТКА ТА ЗВУКИ) ================= -->
           <div id="chapter-container-modull_0" class="chapter-view ${this.activeChapter === 'modull_0' ? '' : 'hidden'} space-y-3">
-            <!-- M0 Sub-Sections (7 Dedicated Containers) -->
+            <!-- M0 Sub-Sections (8 Dedicated Containers) -->
             <div id="m0-sec-soundboard" class="m0-view ${this.activeM0SubTab === 'soundboard' ? '' : 'hidden'}"></div>
             <div id="m0-sec-raddstafir" class="m0-view ${this.activeM0SubTab === 'raddstafir' ? '' : 'hidden'}"></div>
             <div id="m0-sec-traps" class="m0-view ${this.activeM0SubTab === 'traps' ? '' : 'hidden'}"></div>
@@ -214,6 +218,7 @@ export class Modull0App {
             <div id="m0-sec-builder" class="m0-view ${this.activeM0SubTab === 'builder' ? '' : 'hidden'}"></div>
             <div id="m0-sec-dialogue" class="m0-view ${this.activeM0SubTab === 'dialogue' ? '' : 'hidden'}"></div>
             <div id="m0-sec-drills" class="m0-view ${this.activeM0SubTab === 'drills' ? '' : 'hidden'}"></div>
+            <div id="m0-sec-exam" class="m0-view ${this.activeM0SubTab === 'exam' ? '' : 'hidden'}"></div>
           </div>
 
           <!-- ================= TAB 1: УРОК 1 (ХТО ТИ?) ================= -->
@@ -455,6 +460,15 @@ export class Modull0App {
           btnDrills.className = 'flex-1 px-3 py-1.5 rounded-lg font-mono text-xs font-bold transition-all text-slate-400 hover:text-white border border-transparent';
         });
       }
+    }
+
+    // Mount Module 0 Final Certification Exam
+    const examContainer = this.root.querySelector('#m0-sec-exam');
+    if (examContainer) {
+      this.components.exam = new Module0Exam(examContainer, () => {
+        this.switchChapter('kafli_1');
+      });
+      this.components.exam.render();
     }
 
     // 3. Mount Kafli 1 component
@@ -724,6 +738,8 @@ export class Modull0App {
       this.components.raddstafir.render();
     } else if (subTabId === 'traps' && this.components.traps) {
       this.components.traps.render();
+    } else if (subTabId === 'exam' && this.components.exam) {
+      this.components.exam.render();
     }
 
     // Re-bind BÍN aura events & Dagsamningur badge
