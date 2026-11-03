@@ -747,5 +747,25 @@ export const M0_STUDY_GUIDE_DATA = {
         ]
       }
     ]
+  },
+
+  // Audio Overview (NotebookLM Podcast Deep Dive)
+  podcast: {
+    id: "m0_audio_overview",
+    title: "Прихована логіка ісландської вимови",
+    subtitle: "Аудіоогляд (NotebookLM Deep Dive Podcast)",
+    audioUri: "audio/podcasts/m0_prykhovana_logika_vymovy.m4a",
+    durationSec: 1042,
+    durationText: "17:22",
+    fileSizeText: "8.0 МБ (Оптимізовано зі 33 МБ)",
+    description: "Поглиблений подкаст-діалог про фундаментальні принципи ісландської фонетики: від наголосу на 1-му складі та 'Закону близнюків' до розгадки феномену преаспірації [h] у слові 'takk' та бокового вибуху 'll' [tl].",
+    chapters: [
+      { timeSec: 0, timeText: "00:00", title: "Вступ та особливості 32 літер ісландської абетки" },
+      { timeSec: 195, timeText: "03:15", title: "Залізний закон наголосу на 1-му складі та знак акута (´)" },
+      { timeSec: 400, timeText: "06:40", title: "Закон близнюків: феномен I/Y [ɪ] та Í/Ý [iː]" },
+      { timeSec: 560, timeText: "09:20", title: "Топ-пастки: преаспірація в «takk» та боковий вибух «ll»" },
+      { timeSec: 770, timeText: "12:50", title: "Чотири стани літери G та міжзубні Þ vs Ð" },
+      { timeSec: 910, timeText: "15:10", title: "Соціолінгвістичний етикет: формула вітань та культура Þú" }
+    ]
   }
 };

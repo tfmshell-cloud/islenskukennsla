@@ -1,12 +1,14 @@
 /**
- * Module0StudyGuide.js - Official Study Guide (Конспект) & Mind Map for Module 0
+ * Module0StudyGuide.js - Official Study Guide (Конспект), Mind Map & Audio Overview for Module 0
  * 
  * Based on Árnastofnun, BÍN, Icelandic Online, Bara tala, Ylhýra and NotebookLM Studio.
  * 
  * Features:
- * - Dual view modes:
+ * - 3 Master View Modes:
  *    1. 📖 Текстовий конспект (5 академічних розділів)
  *    2. 🧠 Ментальна карта (Mind Map NotebookLM)
+ *    3. 🎙️ Аудіоогляд (NotebookLM Deep Dive Podcast 17:22)
+ * - Streamable 64kbps AAC Audio Overview with Scrubber, Speed Controls & Clickable Chapters
  * - Interactive Mind Map with audio playback (Gunnar Neural)
  * - High-resolution original NotebookLM diagram preview with full-screen zoom
  * - Live search filter & chapter pills
@@ -15,22 +17,26 @@
  * - Dual-theme support (Dark & Nordic Light)
  */
 
-import { M0_STUDY_GUIDE_DATA } from '../data/m0_study_guide_data.js?v=6.5';
-import { audioEngine } from './AudioEngine.js?v=6.5';
+import { M0_STUDY_GUIDE_DATA } from '../data/m0_study_guide_data.js?v=6.6';
+import { audioEngine } from './AudioEngine.js?v=6.6';
 
 export class Module0StudyGuide {
   constructor(container, onJumpToExam = null) {
     this.container = container;
     this.onJumpToExam = onJumpToExam;
     this.data = M0_STUDY_GUIDE_DATA;
-    this.viewMode = 'text'; // 'text' or 'mindmap'
+    this.viewMode = 'text'; // 'text', 'mindmap', or 'podcast'
     this.mindMapSubMode = 'tree'; // 'tree' or 'original'
     this.activeSection = 'all'; // 'all' or section id
     this.searchQuery = '';
     this.collapsedBranches = {}; // { branchId: boolean }
+    this.audioPlaybackRate = 1.0;
   }
 
   render() {
+    const isPodcast = this.viewMode === 'podcast';
+    const isMindMap = this.viewMode === 'mindmap';
+
     this.container.innerHTML = `
       <div class="space-y-4 max-w-4xl mx-auto select-none-text">
         
@@ -38,7 +44,7 @@ export class Module0StudyGuide {
         <div class="arena-theme-card p-4 sm:p-6 rounded-2xl space-y-4 shadow-xl border border-cyan-500/30">
           <div class="flex items-center justify-between flex-wrap gap-3 pb-3 border-b border-slate-700/50">
             <div class="flex items-center gap-3">
-              <span class="text-3xl sm:text-4xl">${this.viewMode === 'mindmap' ? '🧠' : '📖'}</span>
+              <span class="text-3xl sm:text-4xl">${isPodcast ? '🎙️' : isMindMap ? '🧠' : '📖'}</span>
               <div>
                 <div class="flex items-center gap-2 flex-wrap">
                   <h2 class="text-base sm:text-lg font-black arena-word-heading font-mono">
@@ -63,22 +69,25 @@ export class Module0StudyGuide {
             </div>
           </div>
 
-          <!-- Master View Switcher: Text Guide vs Interactive Mind Map -->
-          <div class="flex items-center justify-center p-1 rounded-xl bg-black/60 border border-slate-800 max-w-md mx-auto">
-            <button id="guide-view-text-btn" class="flex-1 py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'text' ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
-              <span>📖</span><span>Текстовий конспект</span>
+          <!-- Master View Switcher (3 Tabs: Text / Mind Map / Podcast) -->
+          <div class="flex items-center justify-center p-1 rounded-xl bg-black/60 border border-slate-800 max-w-xl mx-auto">
+            <button id="guide-view-text-btn" class="flex-1 py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'text' ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
+              <span>📖</span><span>Конспект</span>
             </button>
-            <button id="guide-view-mindmap-btn" class="flex-1 py-1.5 px-3 rounded-lg font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'mindmap' ? 'bg-purple-500/25 text-purple-300 border border-purple-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
-              <span>🧠</span><span>Ментальна карта</span>
+            <button id="guide-view-mindmap-btn" class="flex-1 py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'mindmap' ? 'bg-purple-500/25 text-purple-300 border border-purple-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
+              <span>🧠</span><span>Карта</span>
+            </button>
+            <button id="guide-view-podcast-btn" class="flex-1 py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'podcast' ? 'bg-amber-500/25 text-amber-300 border border-amber-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
+              <span>🎙️</span><span>Аудіоогляд (17 хв)</span>
             </button>
           </div>
 
-          ${this.viewMode === 'text' ? this.renderTextControls() : this.renderMindMapControls()}
+          ${this.viewMode === 'text' ? this.renderTextControls() : this.viewMode === 'mindmap' ? this.renderMindMapControls() : ''}
         </div>
 
-        <!-- Main Workspace (Text Guide vs Mind Map) -->
+        <!-- Main Workspace (Text Guide vs Mind Map vs Podcast) -->
         <div id="guide-main-content">
-          ${this.viewMode === 'text' ? this.renderTextView() : this.renderMindMapView()}
+          ${this.viewMode === 'text' ? this.renderTextView() : this.viewMode === 'mindmap' ? this.renderMindMapView() : this.renderPodcastView()}
         </div>
 
         <!-- Final Call to Action Card: Jump to Certification Exam -->
@@ -321,6 +330,128 @@ export class Module0StudyGuide {
     `;
   }
 
+  renderPodcastView() {
+    const p = this.data.podcast;
+    if (!p) return `<div class="p-6 text-center text-slate-400">Аудіоогляд наразі відсутній</div>`;
+
+    return `
+      <div class="space-y-4">
+        
+        <!-- Luxury Podcast Player Card -->
+        <div class="arena-theme-card p-4 sm:p-6 rounded-2xl shadow-2xl border border-amber-500/40 space-y-5 bg-gradient-to-b from-amber-950/20 to-cyber-deep">
+          
+          <!-- Top Row: Cover & Track Info -->
+          <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 pb-4 border-b border-slate-800">
+            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-amber-400 via-rose-500 to-purple-600 flex items-center justify-center text-3xl sm:text-4xl shadow-xl flex-shrink-0 border border-amber-300/30">
+              🎙️
+            </div>
+
+            <div class="space-y-1.5 text-center sm:text-left flex-1">
+              <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                  NotebookLM Deep Dive
+                </span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-mono text-slate-400 border border-slate-800">
+                  Тривалість: ${p.durationText}
+                </span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-mono text-emerald-400 border border-emerald-500/30">
+                  ${p.fileSizeText}
+                </span>
+              </div>
+              <h3 class="text-base sm:text-lg font-black text-white font-mono">
+                «${p.title}»
+              </h3>
+              <p class="text-xs text-slate-300 leading-relaxed max-w-xl">
+                ${p.description}
+              </p>
+            </div>
+          </div>
+
+          <!-- HTML5 Hidden Audio Element -->
+          <audio id="podcast-audio-elem" src="${p.audioUri}" preload="metadata"></audio>
+
+          <!-- Custom Player Controls Scrubber -->
+          <div class="space-y-2 p-3 sm:p-4 rounded-xl bg-black/60 border border-slate-800">
+            <!-- Scrubber Track Slider -->
+            <div class="flex items-center gap-3">
+              <span id="podcast-current-time" class="font-mono text-xs text-amber-300 w-12 text-right font-bold">00:00</span>
+              <input 
+                id="podcast-scrubber" 
+                type="range" 
+                min="0" 
+                max="${p.durationSec}" 
+                value="0" 
+                step="1"
+                class="flex-1 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400"
+              />
+              <span id="podcast-total-time" class="font-mono text-xs text-slate-400 w-12">${p.durationText}</span>
+            </div>
+
+            <!-- Controls Row: Play/Pause, Rewind, Fast Forward, Speed, Download -->
+            <div class="flex items-center justify-between flex-wrap gap-3 pt-2">
+              
+              <!-- Quick Skip Buttons & Main Play -->
+              <div class="flex items-center gap-2 sm:gap-3 mx-auto sm:mx-0">
+                <button id="podcast-skip-back-btn" class="w-9 h-9 rounded-xl bg-black/50 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer" title="Назад на 15 секунд">
+                  -15с
+                </button>
+
+                <button id="podcast-play-pause-btn" class="w-12 h-12 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-black text-lg flex items-center justify-center shadow-lg transform hover:scale-105 active:scale-95 transition-all cursor-pointer" title="Відтворити / Пауза">
+                  <span id="podcast-play-icon">▶</span>
+                </button>
+
+                <button id="podcast-skip-fwd-btn" class="w-9 h-9 rounded-xl bg-black/50 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer" title="Вперед на 30 секунд">
+                  +30с
+                </button>
+              </div>
+
+              <!-- Speed Controls & Download Link -->
+              <div class="flex items-center gap-2 mx-auto sm:mx-0 font-mono text-xs">
+                <span class="text-slate-500 text-[10px]">Швидкість:</span>
+                ${[0.8, 1.0, 1.25, 1.5].map(rate => `
+                  <button class="podcast-speed-btn px-2 py-1 rounded-lg border text-[11px] font-bold transition-all ${this.audioPlaybackRate === rate ? 'bg-amber-500/20 text-amber-300 border-amber-400' : 'bg-black/40 text-slate-400 border-slate-800 hover:text-white'}" data-rate="${rate}">
+                    ${rate}x
+                  </button>
+                `).join('')}
+
+                <a href="${p.audioUri}" download class="ml-2 px-2.5 py-1 rounded-lg bg-black/50 hover:bg-slate-800 text-slate-400 hover:text-amber-300 border border-slate-800 hover:border-slate-700 transition-all text-[11px]" title="Завантажити аудіофайл на пристрій">
+                  💾 Завантажити
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Clickable Interactive Chapters List -->
+          <div class="space-y-2 pt-2">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+              <span class="font-bold text-amber-300">📑 Навігація по розділах подкасту (клікніть для перемотки):</span>
+              <span>6 ключових тем</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${p.chapters.map((ch, idx) => `
+                <button class="podcast-chapter-btn p-3 rounded-xl bg-black/40 hover:bg-amber-500/10 border border-slate-800 hover:border-amber-500/40 text-left transition-all flex items-start gap-2.5 group cursor-pointer" data-time-sec="${ch.timeSec}">
+                  <span class="px-2 py-0.5 rounded bg-black/60 border border-slate-700 group-hover:border-amber-400 text-amber-400 font-mono text-[11px] font-bold flex-shrink-0">
+                    ${ch.timeText}
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <div class="text-xs font-bold text-slate-200 group-hover:text-amber-300 transition-colors leading-snug">
+                      ${ch.title}
+                    </div>
+                  </div>
+                  <span class="text-slate-500 group-hover:text-amber-400 text-xs">▶</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  }
+
   populateWordsTable() {
     const tbody = this.container.querySelector('#study-guide-words-tbody');
     if (!tbody) return;
@@ -373,10 +504,11 @@ export class Module0StudyGuide {
   }
 
   bindEvents() {
-    // Mode Switcher: Text vs Mind Map
+    // Mode Switcher: Text vs Mind Map vs Podcast
     const textBtn = this.container.querySelector('#guide-view-text-btn');
     if (textBtn) {
       textBtn.addEventListener('click', () => {
+        this.stopPodcastAudio();
         this.viewMode = 'text';
         this.render();
       });
@@ -385,7 +517,16 @@ export class Module0StudyGuide {
     const mindmapBtn = this.container.querySelector('#guide-view-mindmap-btn');
     if (mindmapBtn) {
       mindmapBtn.addEventListener('click', () => {
+        this.stopPodcastAudio();
         this.viewMode = 'mindmap';
+        this.render();
+      });
+    }
+
+    const podcastBtn = this.container.querySelector('#guide-view-podcast-btn');
+    if (podcastBtn) {
+      podcastBtn.addEventListener('click', () => {
+        this.viewMode = 'podcast';
         this.render();
       });
     }
@@ -476,8 +617,113 @@ export class Module0StudyGuide {
     const examBtn = this.container.querySelector('#guide-go-exam-btn');
     if (examBtn && typeof this.onJumpToExam === 'function') {
       examBtn.addEventListener('click', () => {
+        this.stopPodcastAudio();
         this.onJumpToExam();
       });
+    }
+
+    // Podcast Player Events (if in podcast mode)
+    if (this.viewMode === 'podcast') {
+      this.bindPodcastEvents();
+    }
+  }
+
+  bindPodcastEvents() {
+    const audio = this.container.querySelector('#podcast-audio-elem');
+    const playBtn = this.container.querySelector('#podcast-play-pause-btn');
+    const playIcon = this.container.querySelector('#podcast-play-icon');
+    const scrubber = this.container.querySelector('#podcast-scrubber');
+    const timeDisplay = this.container.querySelector('#podcast-current-time');
+    const totalTimeDisplay = this.container.querySelector('#podcast-total-time');
+    const skipBack = this.container.querySelector('#podcast-skip-back-btn');
+    const skipFwd = this.container.querySelector('#podcast-skip-fwd-btn');
+
+    if (!audio) return;
+
+    audio.playbackRate = this.audioPlaybackRate;
+
+    const formatTime = (secs) => {
+      const s = Math.floor(secs || 0);
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${m < 10 ? '0' : ''}${m}:${rem < 10 ? '0' : ''}${rem}`;
+    };
+
+    if (playBtn) {
+      playBtn.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play().catch(e => console.warn('Podcast play error:', e));
+          if (playIcon) playIcon.innerText = '⏸';
+        } else {
+          audio.pause();
+          if (playIcon) playIcon.innerText = '▶';
+        }
+      });
+    }
+
+    audio.addEventListener('play', () => {
+      if (playIcon) playIcon.innerText = '⏸';
+    });
+    audio.addEventListener('pause', () => {
+      if (playIcon) playIcon.innerText = '▶';
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (scrubber) scrubber.value = Math.floor(audio.currentTime);
+      if (timeDisplay) timeDisplay.innerText = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      if (scrubber) scrubber.max = Math.floor(audio.duration || 1042);
+      if (totalTimeDisplay) totalTimeDisplay.innerText = formatTime(audio.duration || 1042);
+    });
+
+    if (scrubber) {
+      scrubber.addEventListener('input', (e) => {
+        audio.currentTime = parseFloat(e.target.value);
+        if (timeDisplay) timeDisplay.innerText = formatTime(audio.currentTime);
+      });
+    }
+
+    if (skipBack) {
+      skipBack.addEventListener('click', () => {
+        audio.currentTime = Math.max(0, audio.currentTime - 15);
+      });
+    }
+
+    if (skipFwd) {
+      skipFwd.addEventListener('click', () => {
+        audio.currentTime = Math.min(audio.duration || 1042, audio.currentTime + 30);
+      });
+    }
+
+    // Speed buttons
+    this.container.querySelectorAll('.podcast-speed-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rate = parseFloat(btn.dataset.rate);
+        this.audioPlaybackRate = rate;
+        audio.playbackRate = rate;
+        this.container.querySelectorAll('.podcast-speed-btn').forEach(b => {
+          b.className = `podcast-speed-btn px-2 py-1 rounded-lg border text-[11px] font-bold transition-all ${parseFloat(b.dataset.rate) === rate ? 'bg-amber-500/20 text-amber-300 border-amber-400' : 'bg-black/40 text-slate-400 border-slate-800 hover:text-white'}`;
+        });
+      });
+    });
+
+    // Clickable Chapter items
+    this.container.querySelectorAll('.podcast-chapter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetSec = parseFloat(btn.dataset.timeSec);
+        audio.currentTime = targetSec;
+        audio.play().catch(e => console.warn('Play error:', e));
+        if (playIcon) playIcon.innerText = '⏸';
+      });
+    });
+  }
+
+  stopPodcastAudio() {
+    const audio = this.container.querySelector('#podcast-audio-elem');
+    if (audio && !audio.paused) {
+      audio.pause();
     }
   }
 
