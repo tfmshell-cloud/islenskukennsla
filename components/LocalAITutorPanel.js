@@ -7,8 +7,8 @@
  * 3. Deep Offline Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
  */
 
-import { audioEngine } from './AudioEngine.js?v=6.1';
-import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.1';
+import { audioEngine } from './AudioEngine.js?v=6.2';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.2';
 
 export class LocalAITutorPanel {
   constructor(container, onClose = null) {
@@ -454,8 +454,29 @@ export class LocalAITutorPanel {
   }
 
   async discoverModelForKey(key) {
+    const list = await this.discoverModelList(key);
+    if (list.ok && list.candidates.length > 0) {
+      return { ok: true, ...list.candidates[0] };
+    }
+    return { ok: false, error: list.error || 'Не знайдено моделей' };
+  }
+
+  async discoverModelList(key) {
+    // Priority order of preference:
+    // gemini-3.0-flash is Google's newest production model as recommended by Google API
+    const prefs = [
+      'gemini-3.0-flash',
+      'gemini-2.0-flash',
+      'gemini-1.5-flash',
+      'gemini-2.0-flash-exp',
+      'gemini-1.5-flash-latest',
+      'gemini-1.5-pro',
+      'gemini-pro'
+    ];
+
+    let candidates = [];
     let lastErr = '';
-    // Query Google's ModelService directly for models that support generateContent
+
     for (const apiVer of ['v1beta', 'v1']) {
       try {
         const url = `https://generativelanguage.googleapis.com/${apiVer}/models?key=${key}`;
@@ -467,28 +488,24 @@ export class LocalAITutorPanel {
             m.supportedGenerationMethods.includes('generateContent')
           );
 
-          if (list.length > 0) {
-            // Prioritize standard production models
-            const prefs = [
-              'gemini-2.0-flash',
-              'gemini-2.5-flash',
-              'gemini-1.5-flash',
-              'gemini-2.0-flash-exp',
-              'gemini-1.5-flash-latest',
-              'gemini-1.5-pro',
-              'gemini-pro'
-            ];
-
-            let chosen = null;
-            for (const p of prefs) {
-              chosen = list.find(m => m.name.endsWith('/' + p) || m.name === p);
-              if (chosen) break;
+          // Add models based on preferences
+          for (const p of prefs) {
+            const match = list.find(m => m.name.endsWith('/' + p) || m.name === p);
+            if (match) {
+              const modelName = match.name.replace(/^models\//, '');
+              if (!candidates.some(c => c.modelName === modelName)) {
+                candidates.push({ apiVer, modelName });
+              }
             }
-            if (!chosen) chosen = list[0];
+          }
 
-            const modelName = chosen.name.replace(/^models\//, '');
-            console.log(`[Árnastofnun AI] Discovered model: ${modelName} (${apiVer})`);
-            return { ok: true, apiVer, modelName };
+          // Add any remaining models from the list (excluding 2.5 which Google announced as no longer available)
+          for (const m of list) {
+            const modelName = m.name.replace(/^models\//, '');
+            if (modelName.includes('2.5')) continue;
+            if (!candidates.some(c => c.modelName === modelName)) {
+              candidates.push({ apiVer, modelName });
+            }
           }
         } else {
           const errData = await res.json().catch(() => ({}));
@@ -498,109 +515,169 @@ export class LocalAITutorPanel {
         lastErr = e.message || 'Помилка мережі при перевірці моделей';
       }
     }
-    return { ok: false, error: lastErr || 'Не знайдено підтримуваних моделей для цього ключа' };
+
+    // Always ensure current modern fallbacks are in candidate list
+    const defaults = [
+      { apiVer: 'v1beta', modelName: 'gemini-3.0-flash' },
+      { apiVer: 'v1beta', modelName: 'gemini-2.0-flash' },
+      { apiVer: 'v1beta', modelName: 'gemini-1.5-flash' },
+      { apiVer: 'v1', modelName: 'gemini-1.5-flash' }
+    ];
+
+    for (const def of defaults) {
+      if (!candidates.some(c => c.modelName === def.modelName && c.apiVer === def.apiVer)) {
+        candidates.unshift(def);
+      }
+    }
+
+    // If we have a cached working model, prioritize it first
+    if (this.activeModelInfo) {
+      candidates = [
+        this.activeModelInfo,
+        ...candidates.filter(c => c.modelName !== this.activeModelInfo.modelName)
+      ];
+    }
+
+    return { ok: candidates.length > 0, candidates, error: lastErr };
   }
 
   async testGeminiKey(key) {
     if (!key) return { ok: false, error: 'Ключ порожній' };
 
-    // 1. Discover active models directly from Google for this key
-    const modelInfo = await this.discoverModelForKey(key);
-    if (!modelInfo.ok) {
-      return { ok: false, error: modelInfo.error };
+    const disc = await this.discoverModelList(key);
+    if (!disc.ok || disc.candidates.length === 0) {
+      return { ok: false, error: disc.error || 'Не знайдено моделей' };
     }
 
-    // 2. Perform test generateContent call with the discovered model
-    try {
-      const url = `https://generativelanguage.googleapis.com/${modelInfo.apiVer}/models/${modelInfo.modelName}:generateContent?key=${key}`;
-      const payload = {
-        contents: [{ role: 'user', parts: [{ text: 'Halló' }] }]
-      };
-      if (modelInfo.apiVer === 'v1beta') {
-        payload.system_instruction = { parts: [{ text: 'Answer with one word: Sæll' }] };
-      }
+    for (const modelInfo of disc.candidates) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/${modelInfo.apiVer}/models/${modelInfo.modelName}:generateContent?key=${key}`;
+        const payload = {
+          contents: [{ role: 'user', parts: [{ text: 'Halló' }] }]
+        };
+        if (modelInfo.apiVer === 'v1beta') {
+          payload.system_instruction = { parts: [{ text: 'Answer: Sæll' }] };
+        }
 
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(9000)
-      });
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(9000)
+        });
 
-      if (res.ok) {
-        this.activeModelInfo = modelInfo;
-        return { ok: true, model: `${modelInfo.modelName} (${modelInfo.apiVer})` };
-      } else {
-        const errData = await res.json().catch(() => ({}));
-        return { ok: false, error: errData.error?.message || `HTTP ${res.status}` };
+        if (res.ok) {
+          this.activeModelInfo = modelInfo;
+          return { ok: true, model: `${modelInfo.modelName} (${modelInfo.apiVer})` };
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          const errMsg = errData.error?.message || `HTTP ${res.status}`;
+          console.warn(`[Árnastofnun AI Test] Model ${modelInfo.modelName} failed:`, errMsg);
+          if (res.status === 400 && errMsg.toLowerCase().includes('api key')) {
+            return { ok: false, error: errMsg };
+          }
+        }
+      } catch (e) {
+        console.warn(`[Árnastofnun AI Test] Net error for ${modelInfo.modelName}:`, e);
       }
-    } catch (e) {
-      return { ok: false, error: e.message || 'Помилка мережі при тестовому виклику' };
     }
+
+    return { ok: false, error: 'Жодна модель не відповіла успішно на тестовий запит' };
   }
 
   async queryGeminiApi(userText) {
     const key = (this.geminiApiKey || '').trim().replace(/^["'`]|["'`]$/g, '').trim();
     if (!key) return { success: false, error: 'API ключ не вказано' };
 
-    // Resolve model dynamically if not already cached
-    let modelInfo = this.activeModelInfo;
-    if (!modelInfo) {
-      const disc = await this.discoverModelForKey(key);
-      if (disc.ok) {
-        modelInfo = disc;
-        this.activeModelInfo = disc;
-      } else {
-        return { success: false, error: disc.error };
-      }
+    const disc = await this.discoverModelList(key);
+    if (!disc.ok || disc.candidates.length === 0) {
+      return { success: false, error: disc.error || 'Не знайдено доступних моделей' };
     }
 
     const contents = this.buildGeminiContents(userText);
-    const payload = {
-      contents,
-      generationConfig: {
-        temperature: 0.3,
-        maxOutputTokens: 1000
-      }
-    };
+    let lastError = null;
 
-    if (modelInfo.apiVer === 'v1beta') {
-      payload.system_instruction = {
-        parts: [{ text: this.systemPrompt }]
-      };
-    } else {
-      if (contents.length > 0 && contents[0].role === 'user') {
-        contents[0].parts[0].text = `[Інструкція для системи: ${this.systemPrompt}]\n\n` + contents[0].parts[0].text;
-      }
-    }
+    // Try candidate models in order until one succeeds
+    for (const candidate of disc.candidates) {
+      const { apiVer, modelName } = candidate;
 
-    try {
-      const url = `https://generativelanguage.googleapis.com/${modelInfo.apiVer}/models/${modelInfo.modelName}:generateContent?key=${key}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(18000)
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-        if (reply) {
-          return { success: true, text: reply, model: modelInfo.modelName };
+      const payload = {
+        contents,
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 1000
         }
+      };
+
+      if (apiVer === 'v1beta') {
+        payload.system_instruction = {
+          parts: [{ text: this.systemPrompt }]
+        };
       } else {
-        const errData = await res.json().catch(() => ({}));
-        const errMsg = errData.error?.message || `HTTP ${res.status}: ${res.statusText}`;
-        console.warn(`[Árnastofnun AI] Model ${modelInfo.modelName} returned error:`, errMsg);
-        this.activeModelInfo = null; // Clear cache so next attempt rediscovers
-        return { success: false, error: errMsg };
+        if (contents.length > 0 && contents[0].role === 'user') {
+          contents[0].parts[0].text = `[Інструкція для системи: ${this.systemPrompt}]\n\n` + contents[0].parts[0].text;
+        }
       }
-    } catch (err) {
-      return { success: false, error: err.message || 'Помилка мережевого запиту' };
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/${apiVer}/models/${modelName}:generateContent?key=${key}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(18000)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+          if (reply) {
+            this.activeModelInfo = candidate;
+            this.updateStatusBadge(modelName);
+            return { success: true, text: reply, model: modelName };
+          }
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          lastError = errData.error?.message || `HTTP ${res.status}: ${res.statusText}`;
+          console.warn(`[Árnastofnun AI] Model ${modelName} (${apiVer}) returned:`, lastError);
+
+          // If Google recommends a specific newer model in the error (e.g. "use models/gemini-3.0-flash"):
+          const match = lastError.match(/(?:use|to)\s+models\/([a-zA-Z0-9.-]+)/i);
+          if (match && match[1] && match[1] !== modelName) {
+            const suggested = match[1];
+            console.log(`[Árnastofnun AI] Automatically attempting suggested model: ${suggested}`);
+            try {
+              const sugUrl = `https://generativelanguage.googleapis.com/${apiVer}/models/${suggested}:generateContent?key=${key}`;
+              const sugRes = await fetch(sugUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+                signal: AbortSignal.timeout(18000)
+              });
+              if (sugRes.ok) {
+                const sugData = await sugRes.json();
+                const sugReply = sugData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+                if (sugReply) {
+                  this.activeModelInfo = { apiVer, modelName: suggested };
+                  this.updateStatusBadge(suggested);
+                  return { success: true, text: sugReply, model: suggested };
+                }
+              }
+            } catch (sugErr) {
+              console.warn('[Árnastofnun AI] Suggested model error:', sugErr);
+            }
+          }
+
+          if (res.status === 400 && lastError.toLowerCase().includes('api key')) {
+            break;
+          }
+        }
+      } catch (err) {
+        lastError = err.message || 'Помилка мережевого запиту';
+      }
     }
 
-    return { success: false, error: 'Не вдалося отримати відповідь від моделі' };
+    return { success: false, error: lastError || 'Усі доступні моделі повернули помилку' };
   }
 
   async queryLocalLmStudio(userText) {

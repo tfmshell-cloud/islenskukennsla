@@ -7,7 +7,7 @@
  * Category 4: Picture Sound Assembly (5 questions)
  */
 
-import { audioEngine } from './AudioEngine.js?v=6.1';
+import { audioEngine } from './AudioEngine.js?v=6.2';
 import { gameState } from './GameState.js';
 
 export class InteractiveDrillEngine {
