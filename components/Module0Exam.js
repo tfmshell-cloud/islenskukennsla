@@ -19,9 +19,10 @@ import { audioEngine } from './AudioEngine.js?v=6.3';
 import { gameState } from './GameState.js?v=6.3';
 
 export class Module0Exam {
-  constructor(container, onComplete = null) {
+  constructor(container, onComplete = null, onOpenGuide = null) {
     this.container = container;
     this.onComplete = onComplete;
+    this.onOpenGuide = onOpenGuide;
     this.currentIndex = 0;
     this.score = 0;
     this.answers = {}; // { questionId: { chosenIndex, isCorrect } }
@@ -80,6 +81,9 @@ export class Module0Exam {
             </div>
 
             <div class="flex items-center gap-2 font-mono text-xs">
+              <button id="m0-exam-open-guide-btn" class="px-2.5 py-1 rounded-xl border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-[11px] font-mono transition-all cursor-pointer flex items-center gap-1" title="Відкрити офіційний конспект правил">
+                <span>📖</span><span class="hidden sm:inline">Конспект</span>
+              </button>
               <div class="arena-hud-box px-3 py-1 rounded-xl border flex items-center gap-1.5 shadow-sm">
                 <span class="text-slate-400 text-[10px]">Бали:</span>
                 <span class="text-cyan-400 font-bold">${this.score} / ${this.currentIndex}</span>
@@ -226,6 +230,14 @@ export class Module0Exam {
   }
 
   bindEvents(q) {
+    // Open Guide
+    const guideBtn = this.container.querySelector('#m0-exam-open-guide-btn');
+    if (guideBtn && typeof this.onOpenGuide === 'function') {
+      guideBtn.addEventListener('click', () => {
+        this.onOpenGuide();
+      });
+    }
+
     // Restart
     const restartBtn = this.container.querySelector('#m0-exam-restart-btn');
     if (restartBtn) {
@@ -367,13 +379,15 @@ export class Module0Exam {
           ` : ''}
 
           <!-- Action Buttons -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <button id="exam-retry-btn" class="py-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white font-mono font-bold text-xs transition-all active:scale-95 cursor-pointer">
-              🔁 Скласти екзамен ще раз
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
+            <button id="exam-review-guide-btn" class="py-3 rounded-xl border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 font-mono font-bold text-xs transition-all active:scale-95 cursor-pointer">
+              📖 Конспект правил
             </button>
-            
+            <button id="exam-retry-btn" class="py-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-300 hover:text-white font-mono font-bold text-xs transition-all active:scale-95 cursor-pointer">
+              🔁 Скласти ще раз
+            </button>
             <button id="exam-proceed-k1-btn" class="py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-black font-mono font-black text-xs uppercase tracking-wider shadow-xl transition-all active:scale-95 cursor-pointer">
-              ${isPassed ? '🌟 Перейти до Уроку 1 (Hver ert þú?) ➔' : 'Повернутися до матеріалів Модуля 0 ➔'}
+              ${isPassed ? '🌟 До Уроку 1 ➔' : 'Матеріали ➔'}
             </button>
           </div>
 
@@ -381,6 +395,11 @@ export class Module0Exam {
 
       </div>
     `;
+
+    const guideBtn = this.container.querySelector('#exam-review-guide-btn');
+    if (guideBtn && typeof this.onOpenGuide === 'function') {
+      guideBtn.addEventListener('click', () => this.onOpenGuide());
+    }
 
     const retryBtn = this.container.querySelector('#exam-retry-btn');
     if (retryBtn) {

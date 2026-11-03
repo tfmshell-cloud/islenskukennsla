@@ -6,24 +6,25 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.3';
-import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.3';
-import { RaddstafirHub } from './RaddstafirHub.js?v=6.3';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.3';
-import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.3';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.3';
-import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.3';
-import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.3';
-import { DailyWordEngine } from './DailyWordEngine.js?v=6.3';
-import { DailyFocusArena } from './DailyFocusArena.js?v=6.3';
-import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.3';
-import { Kafli1App } from './Kafli1App.js?v=6.3';
-import { SagaRoadmap } from './SagaRoadmap.js?v=6.3';
-import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.3';
-import { Module0Exam } from './Module0Exam.js?v=6.3';
-import { gameState } from './GameState.js?v=6.3';
-import { binAuraSystem } from './BinAuraSystem.js?v=6.3';
-import { audioEngine } from './AudioEngine.js?v=6.3';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.4';
+import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.4';
+import { RaddstafirHub } from './RaddstafirHub.js?v=6.4';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.4';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.4';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.4';
+import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.4';
+import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.4';
+import { DailyWordEngine } from './DailyWordEngine.js?v=6.4';
+import { DailyFocusArena } from './DailyFocusArena.js?v=6.4';
+import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.4';
+import { Kafli1App } from './Kafli1App.js?v=6.4';
+import { SagaRoadmap } from './SagaRoadmap.js?v=6.4';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.4';
+import { Module0Exam } from './Module0Exam.js?v=6.4';
+import { Module0StudyGuide } from './Module0StudyGuide.js?v=6.4';
+import { gameState } from './GameState.js?v=6.4';
+import { binAuraSystem } from './BinAuraSystem.js?v=6.4';
+import { audioEngine } from './AudioEngine.js?v=6.4';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -175,29 +176,32 @@ export class Modull0App {
           <!-- ================= BLOCK 3 (BOTTOM PINNED): ALL 8 M0 SUB-TABS (RESPONSIVE GRID) ================= -->
           <div id="block3-subnav-ribbon" class="px-2 sm:px-6 py-1 bg-black/90 border-b border-cyan-500/20 ${this.activeChapter === 'modull_0' ? '' : 'hidden'}">
             <div class="max-w-7xl mx-auto">
-              <div id="m0-subnav-bar" class="grid grid-cols-4 sm:grid-cols-8 gap-1 sm:gap-1.5 text-center font-mono">
-                <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
+              <div id="m0-subnav-bar" class="grid grid-cols-3 sm:grid-cols-9 gap-1 sm:gap-1.5 text-center font-mono">
+                <button data-m0-sub="guide" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'guide' ? 'active' : ''} text-cyan-300 hover:text-cyan-200">
+                  📖 0. Посібник
+                </button>
+                <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
                   1. Матриця (32)
                 </button>
-                <button data-m0-sub="raddstafir" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'raddstafir' ? 'active' : ''}">
+                <button data-m0-sub="raddstafir" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'raddstafir' ? 'active' : ''}">
                   2. Голосні
                 </button>
-                <button data-m0-sub="traps" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'traps' ? 'active' : ''}">
+                <button data-m0-sub="traps" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'traps' ? 'active' : ''}">
                   3. Пастки (5)
                 </button>
-                <button data-m0-sub="duel" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'duel' ? 'active' : ''}">
+                <button data-m0-sub="duel" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'duel' ? 'active' : ''}">
                   4. Дуель
                 </button>
-                <button data-m0-sub="builder" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'builder' ? 'active' : ''}">
+                <button data-m0-sub="builder" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'builder' ? 'active' : ''}">
                   5. Конструктор
                 </button>
-                <button data-m0-sub="dialogue" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'dialogue' ? 'active' : ''}">
+                <button data-m0-sub="dialogue" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'dialogue' ? 'active' : ''}">
                   6. Симулятор
                 </button>
-                <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
-                  7. Тренажер (20+SRS)
+                <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
+                  7. Тренажер (20)
                 </button>
-                <button data-m0-sub="exam" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[11px] sm:text-xs font-bold ${this.activeM0SubTab === 'exam' ? 'active' : ''} text-amber-300 hover:text-amber-200">
+                <button data-m0-sub="exam" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'exam' ? 'active' : ''} text-amber-300 hover:text-amber-200">
                   🎓 8. Атестація (15 Q)
                 </button>
               </div>
@@ -210,7 +214,8 @@ export class Modull0App {
           
           <!-- ================= TAB 0: УРОК 0 (АБЕТКА ТА ЗВУКИ) ================= -->
           <div id="chapter-container-modull_0" class="chapter-view ${this.activeChapter === 'modull_0' ? '' : 'hidden'} space-y-3">
-            <!-- M0 Sub-Sections (8 Dedicated Containers) -->
+            <!-- M0 Sub-Sections (9 Dedicated Containers) -->
+            <div id="m0-sec-guide" class="m0-view ${this.activeM0SubTab === 'guide' ? '' : 'hidden'}"></div>
             <div id="m0-sec-soundboard" class="m0-view ${this.activeM0SubTab === 'soundboard' ? '' : 'hidden'}"></div>
             <div id="m0-sec-raddstafir" class="m0-view ${this.activeM0SubTab === 'raddstafir' ? '' : 'hidden'}"></div>
             <div id="m0-sec-traps" class="m0-view ${this.activeM0SubTab === 'traps' ? '' : 'hidden'}"></div>
@@ -341,7 +346,16 @@ export class Modull0App {
       this.components.sagaMap.render();
     }
 
-    // 2. Mount Módúll 0 components (All 7 Steps from NotebookLM 78-source specification)
+    // 2. Mount Módúll 0 components
+    // Step 0.0: Study Guide (Офіційний Навчальний посібник Модуля 0 за матеріалами NotebookLM)
+    const guideContainer = this.root.querySelector('#m0-sec-guide');
+    if (guideContainer) {
+      this.components.guide = new Module0StudyGuide(guideContainer, () => {
+        this.switchM0SubTab('exam');
+      });
+      this.components.guide.render();
+    }
+
     // Step 0.1: 32-letter academic matrix with Drops mnemonics & authentic audio
     const sbContainer = this.root.querySelector('#m0-sec-soundboard');
     if (sbContainer) {
@@ -465,9 +479,11 @@ export class Modull0App {
     // Mount Module 0 Final Certification Exam
     const examContainer = this.root.querySelector('#m0-sec-exam');
     if (examContainer) {
-      this.components.exam = new Module0Exam(examContainer, () => {
-        this.switchChapter('kafli_1');
-      });
+      this.components.exam = new Module0Exam(
+        examContainer, 
+        () => this.switchChapter('kafli_1'),
+        () => this.switchM0SubTab('guide')
+      );
       this.components.exam.render();
     }
 
@@ -728,7 +744,9 @@ export class Modull0App {
     }
 
     // Refresh subcomponent state on reveal
-    if (subTabId === 'duel' && this.components.duel) {
+    if (subTabId === 'guide' && this.components.guide) {
+      this.components.guide.render();
+    } else if (subTabId === 'duel' && this.components.duel) {
       this.components.duel.render();
     } else if (subTabId === 'builder' && this.components.builder) {
       this.components.builder.render();
