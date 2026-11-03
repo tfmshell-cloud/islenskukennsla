@@ -6,25 +6,25 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.4';
-import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.4';
-import { RaddstafirHub } from './RaddstafirHub.js?v=6.4';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.4';
-import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.4';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.4';
-import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.4';
-import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.4';
-import { DailyWordEngine } from './DailyWordEngine.js?v=6.4';
-import { DailyFocusArena } from './DailyFocusArena.js?v=6.4';
-import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.4';
-import { Kafli1App } from './Kafli1App.js?v=6.4';
-import { SagaRoadmap } from './SagaRoadmap.js?v=6.4';
-import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.4';
-import { Module0Exam } from './Module0Exam.js?v=6.4';
-import { Module0StudyGuide } from './Module0StudyGuide.js?v=6.4';
-import { gameState } from './GameState.js?v=6.4';
-import { binAuraSystem } from './BinAuraSystem.js?v=6.4';
-import { audioEngine } from './AudioEngine.js?v=6.4';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.5';
+import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.5';
+import { RaddstafirHub } from './RaddstafirHub.js?v=6.5';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.5';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.5';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.5';
+import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.5';
+import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.5';
+import { DailyWordEngine } from './DailyWordEngine.js?v=6.5';
+import { DailyFocusArena } from './DailyFocusArena.js?v=6.5';
+import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.5';
+import { Kafli1App } from './Kafli1App.js?v=6.5';
+import { SagaRoadmap } from './SagaRoadmap.js?v=6.5';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.5';
+import { Module0Exam } from './Module0Exam.js?v=6.5';
+import { Module0StudyGuide } from './Module0StudyGuide.js?v=6.5';
+import { gameState } from './GameState.js?v=6.5';
+import { binAuraSystem } from './BinAuraSystem.js?v=6.5';
+import { audioEngine } from './AudioEngine.js?v=6.5';
 
 export class Modull0App {
   constructor(rootElement) {
