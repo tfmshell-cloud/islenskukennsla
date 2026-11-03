@@ -9,7 +9,7 @@
  * High-contrast dual theme (Obsidian Dark & Nordic Light Paper)
  */
 
-import { audioEngine } from './AudioEngine.js?v=6.0';
+import { audioEngine } from './AudioEngine.js?v=6.1';
 
 export class BaraTalaAcoustics {
   constructor(container, acousticTraps) {
