@@ -6,23 +6,23 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=5.9';
-import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=5.9';
-import { RaddstafirHub } from './RaddstafirHub.js?v=5.9';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=5.9';
-import { MinimalPairDuel } from './MinimalPairDuel.js?v=5.9';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=5.9';
-import { SpeechEtiquette } from './SpeechEtiquette.js?v=5.9';
-import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=5.9';
-import { DailyWordEngine } from './DailyWordEngine.js?v=5.9';
-import { DailyFocusArena } from './DailyFocusArena.js?v=5.9';
-import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=5.9';
-import { Kafli1App } from './Kafli1App.js?v=5.9';
-import { SagaRoadmap } from './SagaRoadmap.js?v=5.9';
-import { DropsFlexionLab } from './DropsFlexionLab.js?v=5.9';
-import { gameState } from './GameState.js?v=5.9';
-import { binAuraSystem } from './BinAuraSystem.js?v=5.9';
-import { audioEngine } from './AudioEngine.js?v=5.9';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.0';
+import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.0';
+import { RaddstafirHub } from './RaddstafirHub.js?v=6.0';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.0';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.0';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.0';
+import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.0';
+import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.0';
+import { DailyWordEngine } from './DailyWordEngine.js?v=6.0';
+import { DailyFocusArena } from './DailyFocusArena.js?v=6.0';
+import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.0';
+import { Kafli1App } from './Kafli1App.js?v=6.0';
+import { SagaRoadmap } from './SagaRoadmap.js?v=6.0';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.0';
+import { gameState } from './GameState.js?v=6.0';
+import { binAuraSystem } from './BinAuraSystem.js?v=6.0';
+import { audioEngine } from './AudioEngine.js?v=6.0';
 
 export class Modull0App {
   constructor(rootElement) {

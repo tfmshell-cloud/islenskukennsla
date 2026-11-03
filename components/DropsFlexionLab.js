@@ -11,7 +11,7 @@
  */
 
 import { gameState } from './GameState.js';
-import { audioEngine } from './AudioEngine.js?v=5.9';
+import { audioEngine } from './AudioEngine.js?v=6.0';
 
 export class DropsFlexionLab {
   constructor(container) {

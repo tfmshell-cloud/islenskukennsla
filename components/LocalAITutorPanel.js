@@ -7,7 +7,8 @@
  * 3. Deep Offline Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
  */
 
-import { audioEngine } from './AudioEngine.js?v=5.9';
+import { audioEngine } from './AudioEngine.js?v=6.0';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.0';
 
 export class LocalAITutorPanel {
   constructor(container, onClose = null) {
@@ -284,17 +285,42 @@ export class LocalAITutorPanel {
     }
 
     if (configKeyBtn) {
-      configKeyBtn.addEventListener('click', () => {
+      configKeyBtn.addEventListener('click', async () => {
         const curKey = this.geminiApiKey || '';
-        const userKey = prompt('Введіть ваш Google Gemini API Key (або залиште порожнім для скидання):', curKey);
+        const userKey = prompt('Введіть ваш Google Gemini API Key (або залиште порожнім для видалення):', curKey);
         if (userKey !== null) {
-          const cleanKey = userKey.trim();
-          this.geminiApiKey = cleanKey;
-          localStorage.setItem('isl_gemini_api_key', cleanKey);
-          this.isGeminiActive = Boolean(cleanKey);
-          this.updateStatusBadge();
-          configKeyBtn.innerHTML = `<span>⚙️</span> <span class="hidden sm:inline">${cleanKey ? 'API Ключ ✓' : '+ Gemini API'}</span>`;
-          alert(cleanKey ? '✅ Gemini API ключ успішно збережено!' : 'ℹ️ Gemini API ключ видалено. Працює локальна база знань.');
+          const cleanKey = userKey.trim().replace(/^["'`]|["'`]$/g, '').trim();
+          if (!cleanKey) {
+            this.geminiApiKey = '';
+            localStorage.removeItem('isl_gemini_api_key');
+            this.isGeminiActive = false;
+            this.updateStatusBadge();
+            configKeyBtn.innerHTML = `<span>⚙️</span> <span class="hidden sm:inline">+ Gemini API</span>`;
+            alert('ℹ️ Gemini API ключ видалено. Працює локальна база знань Árnastofnun.');
+            return;
+          }
+
+          configKeyBtn.innerHTML = `<span>⏳</span> <span class="hidden sm:inline">Перевірка...</span>`;
+          const testRes = await this.testGeminiKey(cleanKey);
+          if (testRes.ok) {
+            this.geminiApiKey = cleanKey;
+            localStorage.setItem('isl_gemini_api_key', cleanKey);
+            this.isGeminiActive = true;
+            this.updateStatusBadge();
+            configKeyBtn.innerHTML = `<span>⚙️</span> <span class="hidden sm:inline">API Ключ ✓</span>`;
+            alert(`✅ Gemini API ключ успішно підтверджено!\nЗв'язок із моделлю (${testRes.model}) встановлено.`);
+          } else {
+            const saveAnyway = confirm(`⚠️ Google Gemini повернув помилку перевірки:\n"${testRes.error}"\n\nМожливо, є обмеження або друкарська помилка.\nВсе одно зберегти цей ключ?`);
+            if (saveAnyway) {
+              this.geminiApiKey = cleanKey;
+              localStorage.setItem('isl_gemini_api_key', cleanKey);
+              this.isGeminiActive = true;
+              this.updateStatusBadge();
+              configKeyBtn.innerHTML = `<span>⚙️</span> <span class="hidden sm:inline">API Ключ ⚠️</span>`;
+            } else {
+              configKeyBtn.innerHTML = `<span>⚙️</span> <span class="hidden sm:inline">${this.geminiApiKey ? 'API Ключ ✓' : '+ Gemini API'}</span>`;
+            }
+          }
         }
       });
     }
@@ -344,7 +370,13 @@ export class LocalAITutorPanel {
 
       // 1. Try Google Gemini API if user configured key (Works 100% on GitHub Pages HTTPS)
       if (this.geminiApiKey) {
-        botResponse = await this.queryGeminiApi(userText);
+        const geminiRes = await this.queryGeminiApi(userText);
+        if (geminiRes && geminiRes.success) {
+          botResponse = geminiRes.text;
+        } else if (geminiRes && geminiRes.error) {
+          console.warn('[Árnastofnun AI] Gemini error:', geminiRes.error);
+          botResponse = `⚠️ **Помилка виклику Google Gemini API:**\n\n> \`${geminiRes.error}\`\n\n💡 **Як вирішити:**\n• Перевірте свій ключ у кнопці **⚙️ API Ключ** угорі (можливо, ключ містить друкарську помилку або не активований у Google AI Studio).\n\n*(Нижче наведено довідку із локальної лінгвістичної бази Árnastofnun)*:\n\n---\n\n` + this.generateFallbackResponse(userText);
+        }
       }
 
       // 2. Try Local LM Studio Gemma 2 (if on localhost:8000)
@@ -378,35 +410,120 @@ export class LocalAITutorPanel {
     }
   }
 
-  async queryGeminiApi(userText) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${this.geminiApiKey}`;
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: this.systemPrompt }]
-          },
-          contents: [
-            ...this.messages.slice(-6).map(m => ({
-              role: m.role === 'user' ? 'user' : 'model',
-              parts: [{ text: m.content }]
-            })),
-            { role: 'user', parts: [{ text: userText }] }
-          ]
-        }),
-        signal: AbortSignal.timeout(15000)
-      });
+  buildGeminiContents(userText) {
+    const validContents = [];
 
-      if (res.ok) {
-        const data = await res.json();
-        return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+    // History excluding initial greeting (index 0) and current user message (last index)
+    const history = this.messages.slice(1, -1);
+
+    for (const m of history) {
+      const role = m.role === 'user' ? 'user' : 'model';
+      // First turn must be user
+      if (validContents.length === 0 && role !== 'user') continue;
+
+      // Strict alternation: merge text if same role consecutively
+      if (validContents.length > 0 && validContents[validContents.length - 1].role === role) {
+        validContents[validContents.length - 1].parts[0].text += '\n\n' + m.content;
+      } else {
+        validContents.push({
+          role,
+          parts: [{ text: m.content }]
+        });
       }
-    } catch (e) {
-      console.warn('Gemini API call failed:', e);
     }
-    return '';
+
+    // Now append the current user text
+    if (validContents.length > 0 && validContents[validContents.length - 1].role === 'user') {
+      validContents[validContents.length - 1].parts[0].text += '\n\n' + userText;
+    } else {
+      validContents.push({
+        role: 'user',
+        parts: [{ text: userText }]
+      });
+    }
+
+    return validContents;
+  }
+
+  async testGeminiKey(key) {
+    if (!key) return { ok: false, error: 'Ключ порожній' };
+    const models = ['gemini-1.5-flash', 'gemini-2.0-flash'];
+    let lastErr = '';
+    for (const m of models) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: 'user', parts: [{ text: 'Halló' }] }]
+          }),
+          signal: AbortSignal.timeout(8000)
+        });
+        if (res.ok) {
+          return { ok: true, model: m };
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          lastErr = errData.error?.message || `HTTP ${res.status}: ${res.statusText}`;
+        }
+      } catch (e) {
+        lastErr = e.message || 'Помилка мережі';
+      }
+    }
+    return { ok: false, error: lastErr };
+  }
+
+  async queryGeminiApi(userText) {
+    const key = (this.geminiApiKey || '').trim().replace(/^["'`]|["'`]$/g, '').trim();
+    if (!key) return { success: false, error: 'API ключ не вказано' };
+
+    const contents = this.buildGeminiContents(userText);
+    const payload = {
+      system_instruction: {
+        parts: [{ text: this.systemPrompt }]
+      },
+      contents,
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 1000
+      }
+    };
+
+    const modelsToTry = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+    let lastError = null;
+
+    for (const model of modelsToTry) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(18000)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+          if (reply) {
+            return { success: true, text: reply, model };
+          }
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          lastError = errData.error?.message || `HTTP ${res.status}: ${res.statusText}`;
+          console.warn(`[Árnastofnun AI] Model ${model} returned error:`, lastError);
+          // If invalid API key, no need to retry other models
+          if (res.status === 400 && lastError.toLowerCase().includes('api key')) {
+            break;
+          }
+        }
+      } catch (err) {
+        lastError = err.message || 'Помилка мережевого запиту';
+        console.warn(`[Árnastofnun AI] Model ${model} fetch exception:`, err);
+      }
+    }
+
+    return { success: false, error: lastError };
   }
 
   async queryLocalLmStudio(userText) {
@@ -442,6 +559,31 @@ export class LocalAITutorPanel {
    */
   generateFallbackResponse(query) {
     const q = query.toLowerCase();
+
+    // 0. Dynamic search across all 60 Anchor Words in ANCHOR_WORDS_MASTER
+    if (typeof ANCHOR_WORDS_MASTER === 'object') {
+      const allWords = [
+        ...(ANCHOR_WORDS_MASTER.modull_0 || []),
+        ...(ANCHOR_WORDS_MASTER.kafli_1 || []),
+        ...(ANCHOR_WORDS_MASTER.drops_lab || []),
+        ...(ANCHOR_WORDS_MASTER.modull_3 || [])
+      ];
+
+      for (const item of allWords) {
+        const wLower = item.word.toLowerCase();
+        // Match word as a distinct word in query
+        const regex = new RegExp(`(^|[\\s.,!?«»"'])${wLower}([\\s.,!?«»"']|$)`, 'i');
+        if (regex.test(q)) {
+          return `📖 **Словникова картка Árnastofnun: «${item.word}»**\n\n` +
+            `• **Значення українською:** ${item.uk}\n` +
+            `• **Вимова (IPA):** ${item.ipa}\n` +
+            `• **Граматична категорія:** ${item.gender_name || item.gender}\n` +
+            `• **Контекст V2:** «${item.sentence_v2}»\n` +
+            `• **Переклад речення:** ${item.sentence_trans}\n\n` +
+            `*(Підказка: Ви також можете прослухати автентичну вимову Gunnar у Щоденному Тренажері «Dagsamningur»)*.`;
+        }
+      }
+    }
 
     // 1. «heiti» vs «heitir» (verb að heita & noun heiti)
     if (q.includes('heiti') || q.includes('heita') || q.includes('heitir')) {
