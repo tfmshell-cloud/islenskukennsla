@@ -136,42 +136,48 @@ export class Modull0App {
 
           <!-- ================= BLOCK 2 (MIDDLE): LESSONS SELECTOR + BÍN CASES & X-RAY ================= -->
           <div id="block2-lessons-bar" class="border-b border-slate-800/80 bg-cyber-deep/95">
-            <div class="max-w-7xl mx-auto px-3 sm:px-6 h-10 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 min-h-[42px] py-1 flex items-center justify-between gap-3 overflow-x-auto">
               
-              <!-- Left: Lessons 0, 1, 2, 3 + Flashcards + BÍN Grammar + Saga Map -->
-              <div class="flex items-center gap-1 font-mono text-xs py-0.5 flex-nowrap flex-shrink-0">
+              <!-- Left: Lessons 0 to 6 + Hub Tools with clear A1 badge -->
+              <div class="flex items-center gap-1.5 font-mono text-xs py-0.5 flex-nowrap flex-shrink-0">
+                <span class="px-2 py-0.5 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-[10px] font-extrabold tracking-wider hidden sm:inline-block">
+                  A1 КУРС:
+                </span>
                 <button data-chapter="modull_0" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_0' ? 'active' : ''}">
-                  🔤 Урок 0: Абетка
+                  🔤 0: Абетка
                 </button>
                 <button data-chapter="kafli_1" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_1' ? 'active' : ''}">
-                  🌟 Урок 1: Хто ти?
+                  🌟 1: Хто ти?
                 </button>
                 <button data-chapter="drops_lab" class="chapter-nav-btn nav-btn ${this.activeChapter === 'drops_lab' ? 'active' : ''}">
-                  ☕ Урок 2: Кав'ярня 🟢
+                  ☕ 2: Кав'ярня 🟢
                 </button>
                 <button data-chapter="modull_3" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_3' ? 'active' : ''}">
-                  ⏰ Урок 3: Рутина
+                  ⏰ 3: Рутина
                 </button>
                 <button data-chapter="kafli_4" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_4' ? 'active' : ''}">
-                  👗 Урок 4: Одяг
+                  👗 4: Одяг
                 </button>
                 <button data-chapter="kafli_5" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_5' ? 'active' : ''}">
-                  🩺 Урок 5: Здоров'я
+                  🩺 5: Здоров'я
                 </button>
                 <button data-chapter="kafli_6" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_6' ? 'active' : ''}">
-                  🍽️ Урок 6: Їжа
+                  🍽️ 6: Їжа
                 </button>
+                
+                <span class="text-slate-700 font-bold px-0.5">|</span>
+
                 <button data-chapter="flashcards" class="chapter-nav-btn nav-btn ${this.activeChapter === 'flashcards' ? 'active' : ''} text-amber-300 border-amber-500/40">
-                  🗂️ Картки & NotebookLM
+                  🗂️ Картки
                 </button>
                 <button data-chapter="bin_grammar" class="chapter-nav-btn nav-btn ${this.activeChapter === 'bin_grammar' ? 'active' : ''} text-cyan-300 border-cyan-500/40">
-                  🏛️ Граматика & BÍN
+                  🏛️ BÍN
                 </button>
                 <button data-chapter="saga_map" class="chapter-nav-btn nav-btn nav-btn-saga ${this.activeChapter === 'saga_map' ? 'active' : ''}">
-                  🗺️ Мапа Саги
+                  🗺️ Сага
                 </button>
                 <a href="curriculum_dashboard.html" class="chapter-nav-btn nav-btn text-purple-300 border-purple-500/40 hover:bg-purple-950/40 flex items-center gap-1" title="Дорожня карта курсів, мовні школи та подкасти">
-                  <span>📊</span><span>Дашборд & CEFR</span>
+                  <span>📊</span><span class="hidden md:inline">Дашборд</span>
                 </a>
                 <a href="curriculum_dashboard.html?tab=podcasts" class="chapter-nav-btn nav-btn text-purple-300 border-purple-500/40 hover:bg-purple-950/40 flex items-center gap-1" title="Слухати 22 білінгвальні подкасти для авто">
                   <span>🎙️</span><span>Подкасти (22)</span>
@@ -241,6 +247,42 @@ export class Modull0App {
 
         <!-- ================= MAIN WORKSPACE ================= -->
         <main class="max-w-7xl mx-auto px-3 sm:px-6 py-3 space-y-3">
+          
+          <!-- Persistent A1 Lessons Switcher (Always Visible Across All Screen Widths) -->
+          <div class="p-2 sm:p-2.5 rounded-2xl bg-cyber-card/90 border border-cyber-border flex items-center justify-between gap-2 overflow-x-auto shadow-md">
+            <div class="flex items-center gap-1.5 text-xs font-mono shrink-0">
+              <span class="px-2 py-0.5 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-bold text-[10px] uppercase">
+                Рівень A1:
+              </span>
+              <button data-chapter="modull_0" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'modull_0' ? 'bg-cyan-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
+                0: Абетка
+              </button>
+              <button data-chapter="kafli_1" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'kafli_1' ? 'bg-cyan-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
+                1: Хто ти?
+              </button>
+              <button data-chapter="drops_lab" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'drops_lab' ? 'bg-emerald-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
+                2: Кав'ярня 🟢
+              </button>
+              <button data-chapter="modull_3" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'modull_3' ? 'bg-purple-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
+                3: Рутина
+              </button>
+              <button data-chapter="kafli_4" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'kafli_4' ? 'bg-emerald-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
+                4: Одяг
+              </button>
+              <button data-chapter="kafli_5" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'kafli_5' ? 'bg-rose-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
+                5: Здоров'я
+              </button>
+              <button data-chapter="kafli_6" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'kafli_6' ? 'bg-amber-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
+                6: Їжа
+              </button>
+            </div>
+
+            <div class="flex items-center gap-1 shrink-0 text-[10px] font-mono">
+              <a href="curriculum_dashboard.html" class="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30 font-bold transition-all flex items-center gap-1">
+                <span>📚</span><span class="hidden sm:inline">Дорожня карта</span><span>(33 розд.)</span>
+              </a>
+            </div>
+          </div>
           
           <!-- ================= TAB 0: УРОК 0 (АБЕТКА ТА ЗВУКИ) ================= -->
           <div id="chapter-container-modull_0" class="chapter-view ${this.activeChapter === 'modull_0' ? '' : 'hidden'} space-y-3">
@@ -704,6 +746,15 @@ export class Modull0App {
         return;
       }
       b.classList.toggle('active', isTarget);
+      if (b.dataset.chapter && !b.classList.contains('nav-btn')) {
+        if (isTarget) {
+          b.classList.add('bg-cyan-500', 'text-black');
+          b.classList.remove('bg-black/50', 'text-slate-300');
+        } else {
+          b.classList.remove('bg-cyan-500', 'bg-emerald-500', 'bg-purple-500', 'bg-rose-500', 'bg-amber-500', 'text-black');
+          b.classList.add('bg-black/50', 'text-slate-300');
+        }
+      }
     });
 
     // Update hero banner titles strictly in Ukrainian
