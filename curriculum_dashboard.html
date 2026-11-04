@@ -362,7 +362,7 @@
           <span>🎙️</span><span>2. Подкасти & Транскрипт</span>
         </button>
         <button onclick="switchTab('exams')" id="tab-btn-exams" class="tab-btn px-4 py-2 rounded-xl border border-cyber-border text-xs font-bold font-mono transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200">
-          <span>📝</span><span>3. Іспити (Уроки 0, 1, 2)</span>
+          <span>📝</span><span>3. Іспити (Уроки 0–4)</span>
         </button>
         <button onclick="switchTab('ecosystem')" id="tab-btn-ecosystem" class="tab-btn px-4 py-2 rounded-xl border border-cyber-border text-xs font-bold font-mono transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200">
           <span>🧭</span><span>4. Ресурси & BÍN</span>
@@ -543,15 +543,15 @@
       <div class="p-6 rounded-2xl bg-gradient-to-r from-amber-950/40 via-cyber-card to-cyber-deep border border-amber-500/30 space-y-2">
         <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 font-mono text-[11px] font-bold">
           <span>📝 СИСТЕМА КОНТРОЛЮ ЗНАНЬ</span>
-          <span>100% ПОКРИТТЯ УРОКІВ 0, 1, 2</span>
+          <span>100% ПОКРИТТЯ УРОКІВ 0, 1, 2, 3, 4</span>
         </div>
         <h1 class="text-2xl font-extrabold text-white">Академічні Сертифікаційні Іспити</h1>
         <p class="text-slate-300 text-sm max-w-3xl leading-relaxed">
-          Кожен урок завершується обов'язковим екзаменаційним модулем. Прохідний бал — 80%. Після успішного складання автоматично відкривається доступ до наступного уроку.
+          Кожен урок завершується обов'язковим екзаменаційним модулем. Прохідний бал — 80%. Після успішного складання автоматично відкривається доступ до наступного уроку та нараховуються академічні бали XP.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         
         <!-- Exam 0 -->
         <div class="p-5 rounded-2xl bg-cyber-card border border-cyan-500/40 space-y-3 flex flex-col justify-between">
@@ -601,6 +601,40 @@
           </div>
           <a href="index.html" class="w-full py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-300 font-mono text-xs font-bold text-center block transition-all">
             Скласти в Уроці 2 →
+          </a>
+        </div>
+
+        <!-- Exam 3 -->
+        <div class="p-5 rounded-2xl bg-cyber-card border border-purple-500/40 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">Урок 3</span>
+              <span class="text-xs font-mono text-purple-400 font-bold">✓ 15 питань</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Іспит Уроку 3: Dagleg rútína & Tími</h3>
+            <p class="text-xs text-slate-400">
+              Закон інверсії V2, ісландський годинник (hálf fimm = 16:30), дієслова 3–4 груп (að sofa, að borða, að vakna) та робочі зміни.
+            </p>
+          </div>
+          <a href="index.html" class="w-full py-2.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/50 text-purple-300 font-mono text-xs font-bold text-center block transition-all">
+            Скласти в Уроці 3 →
+          </a>
+        </div>
+
+        <!-- Exam 4 -->
+        <div class="p-5 rounded-2xl bg-cyber-card border border-amber-500/40 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">Урок 4</span>
+              <span class="text-xs font-mono text-amber-400 font-bold">✓ 15 питань</span>
+            </div>
+            <h3 class="text-base font-bold text-white">Іспит Уроку 4: Föt, litir & lýsingarorð</h3>
+            <p class="text-xs text-slate-400">
+              Сильна відміна прикметників, U-умлаут (svartur ➔ svört), прийменники fara í (+ÞF 🟢) vs. fara úr (+ÞGF 🟡) та арктична шаруватість.
+            </p>
+          </div>
+          <a href="index.html" class="w-full py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-300 font-mono text-xs font-bold text-center block transition-all">
+            Скласти в Уроці 4 →
           </a>
         </div>
 
