@@ -20,7 +20,7 @@ export const PODCASTS_CORPUS = {
   seriesTitleUkr: "Ісландська в дорозі: від ландшафту до вільного спілкування",
   seriesTitleIsl: "Íslenska á ferðinni: Frá landslagi til færni",
   totalEpisodes: 22,
-  readyAudioCount: 3,
+  readyAudioCount: 5,
   categories: [
     { id: "all", labelUkr: "Усі 22 епізоди", icon: "🌐" },
     { id: "foundation", labelUkr: "Фундамент & Фонетика (A0)", icon: "🌋" },
@@ -76,7 +76,7 @@ export const PODCASTS_CORPUS = {
         { speaker: "Поліна", role: "Філолог", text: "А буква G між голосними перетворюється на м'який задньоязиковий фрикатив [ɣ], як у слові saga [ˈsaːɣa]." }
       ]
     },
-    {
+        {
       ep: 1,
       id: "ep1_hver_ert_thu",
       category: "foundation",
@@ -86,16 +86,23 @@ export const PODCASTS_CORPUS = {
       sourceRef: "ÍFA 1 Kafli 1 & Viltu læra íslensku? Þáttur 1",
       duration: "17:30",
       bilingualRatio: "60% UA / 40% IS",
-      audioFile: null,
-      fileStatus: "SCRIPT_READY",
-      statusLabel: "📝 СЦЕНАРІЙ ЗАТВЕРДЖЕНО (ГОТОВИЙ ДО ЗАПИСУ)",
+      audioFile: "audio/podcasts/ep1_hver_ert_thu.m4a",
+      fileStatus: "READY",
+      statusLabel: "🎧 ГОТОВО ДО ПРОСЛУХОВУВАННЯ (0.45 MB)",
       situation: "Знайомство, культурна специфіка відсутності прізвищ (-son / -dóttir), клітики Samruni (Hvað heitirðu?) та жорсткий синтаксичний закон V2 (дієслово на 2-му місці).",
       anchors: ["Hvað heitirðu? [kʰvaːð ˈheiːtɪrðʏ]", "Hvaðan ertu? [kʰvaːðan ˈɛr̥tʏ]", "Ég er frá Úkraínu (ÞGF 🟡)", "V2: Núna bý ég í Reykjavík"],
       script: [
-        { speaker: "Остап", role: "Аналітик", text: "В Ісландії практично немає прізвищ. Президент, прем'єр-міністр, ваш сусід — у телефонному довіднику всі сортовані за іменами!" },
-        { speaker: "Guðrún", role: "Носій мови", text: "Já! Við notum aldrei eftirnöfn í daglega lífinu. Ég er Guðrún, og allir segja bara 'Hæ Guðrún!' við mig. En hvernig kynnist fólk?" },
-        { speaker: "Поліна", role: "Філолог", text: "У живій розмові ісландці зливають дієслово із займенником у клітику Samruni: не 'Hvað heitir þú?', а 'Hvað heitirðu?' [kʰvaːð ˈheiːtɪrðʏ]. Не 'Hvaðan ert þú?', а 'Hvaðan ertu?'." },
-        { speaker: "Gunnar", role: "Носій мови", text: "Og mundu eftir V2-reglunni: Ef þú byrjar á 'Núna', þá verður þú að segja: 'Núna bý ég í Reykjavík'. Ekki 'Núna ég bý'! Sögnin verður alltaf í öðru sæti." }
+        { speaker: "Остап", role: "Аналітик", text: "Привіт усім слухачам курсу «Ісландська в дорозі»! Сьогодні в першому епізоді ми розбираємо одну з найдивовижніших таємниць острова: чому в Ісландії майже ні в кого немає прізвищ? Президент, ваш сусід чи колега — всі звертаються виключно на «ти»." },
+        { speaker: "Guðrún", role: "Носій мови", text: "Já, nákvæmlega! Við notum aldrei eftirnöfn í daglega lífinu. Ég heiti Guðrún Jónsdóttir, en allir segja bara: «Hæ Guðrún!» við mig. Það er mjög vinalegt og opið." },
+        { speaker: "Поліна", role: "Філолог", text: "І тут зверніть увагу на саму форму імені: Guðrún Jónsdóttir означає буквально «Гудрун, донька Йона». А для хлопця це було б «Jónsson» — «син Йона». Тобто це патронім — по батькові, а не прізвище!" },
+        { speaker: "Остап", role: "Аналітик", text: "А як же запитати людину, як її звати? Чи кажуть ісландці повільно «Hvað heitir þú»?" },
+        { speaker: "Guðrún", role: "Носій мови", text: "Nei, í daglegu tali renna orðin saman í eitt: «Hvað heitirðu?» [kʰvaːð ˈheiːtɪrðʏ]. Og ef þú vilt spyrja hvaðan einhver kemur: «Hvaðan ertu?» [kʰvaːðan ˈɛr̥tʏ]." },
+        { speaker: "Поліна", role: "Філолог", text: "Це явище називається клітика або Samruni. Займенник «þú» після дієслова перетворюється на хвостик «-ðu» або «-tu»." },
+        { speaker: "Gunnar", role: "Носій мови", text: "Og mundu eftir mikilvægustu reglunni í íslensku: V2-reglunni! Sögnin verður alltaf að vera í öðru sæti í aðalsetningu. Ef þú byrjar á orðinu «Núna», þá verður þú að segja: «Núna bý ég í Reykjavík», alls ekki «Núna ég bý»." },
+        { speaker: "Поліна", role: "Філолог", text: "А якщо ви відповідаєте, звідки ви приїхали, прийменник «frá» завжди вимагає давального відмінка Þágufall 🟡: «Ég er frá Úkraínu»! Закінчення змінюється на «-u»." },
+        { speaker: "Остап", role: "Аналітик", text: "Повторюйте прямо за кермом за нашими носіями: «Góðan daginn! Ég heiti... Gaman að kynnast þér!»" },
+        { speaker: "Gunnar", role: "Носій мови", text: "Sömuleiðis! Mjög gaman að kynnast þér. Gangi þér vel að æfa!" },
+        { speaker: "Guðrún", role: "Носій мови", text: "Bless bless, og heyrumst í næsta þætti!" }
       ]
     },
     {
@@ -120,7 +127,7 @@ export const PODCASTS_CORPUS = {
         { speaker: "Gunnar", role: "Бариста Свейнн", text: "Og þegar þú ert búinn að panta, segir þú: 'Það er komið, takk!' Og ég segi: 'Það gerir 1.850 krónur. Má bjóða þér kvittun?'" }
       ]
     },
-    {
+        {
       ep: 3,
       id: "ep3_i_budinni_og_bonus",
       category: "daily",
@@ -130,16 +137,23 @@ export const PODCASTS_CORPUS = {
       sourceRef: "ÍFA 1 Kafli 3 & Viltu læra íslensku? Þáttur 3",
       duration: "16:45",
       bilingualRatio: "50% UA / 50% IS",
-      audioFile: null,
-      fileStatus: "SCRIPT_READY",
-      statusLabel: "📝 СЦЕНАРІЙ ЗАТВЕРДЖЕНО (ГОТОВИЙ ДО ЗАПИСУ)",
+      audioFile: "audio/podcasts/ep3_i_budinni_og_bonus.m4a",
+      fileStatus: "READY",
+      statusLabel: "🎧 ГОТОВО ДО ПРОСЛУХОВУВАННЯ (0.39 MB)",
       situation: "Покупки в Bónus та Krónan. Як спитати вагу, знайти товар на полиці, назви мір (kíló, lítri, dós, pakki, flaska) та фрази біля каси самообслуговування.",
       anchors: ["Hvað kostar kílóið? (Скільки коштує кілограм?)", "Einn pakki af osti (пачка сиру)", "Ein flaska af mjólk (пляшка молока)", "Viltu poka? (Бажаєте пакет?)"],
       script: [
-        { speaker: "Остап", role: "Аналітик", text: "Супермаркет — перше місце, де ви починаєте розуміти ісландську побутову мову. Жовта свинка Bónus або яблуко Krónan. Як запитати вартість за кілограм?" },
-        { speaker: "Guðrún", role: "Консультант Bónus", text: "Þú spyrð starfsmanninn: 'Hvað kostar kílóið af eplum?' Eða: 'Afsakið, hvar finn ég smjör og ost?'" },
-        { speaker: "Поліна", role: "Філолог", text: "Зверніть увагу на форми упаковок: 'dós' (бляшанка: dós af tómötum), 'pakki' (пачка: pakki af kaffi), 'flaska' (пляшка: flaska af vatni). На касі вас обов'язково запитають: 'Viltu poka?' (Бажаєте пакет?)." },
-        { speaker: "Gunnar", role: "Касир", text: "Já! 'Viltu poka?' Og þú svarar: 'Nei, takk, ég er með eigin poka' eða 'Já, takk, einn poka'. Og svo: 'Viltu kvittun?'" }
+        { speaker: "Остап", role: "Аналітик", text: "Вітаємо знову! Епізод третій. Сьогодні ми вирушаємо до найвідоміших ісландських супермаркетів — Bónus із жовтою свинею та Krónan із зеленим яблуком. Як не розгубитися між цінниками, вагою та касами самообслуговування?" },
+        { speaker: "Guðrún", role: "Консультант Bónus", text: "Í Bónus og Krónan þarftu oft að spyrja starfsfólkið um vörur. Þú getur sagt kurteislega: «Afsakið, hvar finn ég smjör og ost?» eða «Hvað kostar kílóið af eplum?»" },
+        { speaker: "Поліна", role: "Філолог", text: "Зверніть увагу на граматичну конструкцію ваги та міри. Прийменник «af» вимагає після себе давального відмінка: «kíló af eplum» — кілограм яблук. А як щодо упаковок?" },
+        { speaker: "Gunnar", role: "Касир", text: "Já! Við tölum um: «einn pakki af kaffi» (пачка кави), «ein dós af tómötum» (бляшанка томатів) og «ein flaska af mjólk» (пляшка молока)." },
+        { speaker: "Остап", role: "Аналітик", text: "А коли ви підходите до каси, касир або автомат самообслуговування ставить вам два сакральних питання кожного ісландця!" },
+        { speaker: "Gunnar", role: "Касир", text: "Fyrsta spurningin er: «Viltu poka?» [ˈvɪltʏ ˈpʰɔːka]. Og þú svarar: «Já, takk, einn poka» eða «Nei, takk, ég er með eigin poka»." },
+        { speaker: "Guðrún", role: "Касирка", text: "Og önnur spurningin er: «Má bjóða þér kvittun?» [kvɪhtʏn]. Og þú segir einfaldlega: «Nei, takk, það er komið!» eða «Já, takk»." },
+        { speaker: "Поліна", role: "Філолог", text: "Запам'ятайте золоту фразу ввічливості: «Það er komið, takk!» [θaːð ɛr ˈkʰɔːmɪð tʰahk] — «Все добре, готово, дякую!»" },
+        { speaker: "Остап", role: "Аналітик", text: "Чудово! Тепер у супермаркеті ви почуватиметеся впевнено. Побачимося в наступному епізоді, де ми приборкаємо підступний ісландський годинник!" },
+        { speaker: "Gunnar", role: "Касир", text: "Takk fyrir innkaupin og eigið góðan dag!" },
+        { speaker: "Guðrún", role: "Касирка", text: "Bless bless!" }
       ]
     },
     {

@@ -18,7 +18,9 @@ export class GameState {
         return JSON.parse(saved);
       }
     } catch (e) {
-      console.warn('LocalStorage error:', e);
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn('LocalStorage error:', e);
+      }
     }
 
     return {
