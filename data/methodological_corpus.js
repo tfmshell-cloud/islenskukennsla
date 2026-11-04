@@ -319,5 +319,36 @@ export const METHODOLOGICAL_CORPUS = {
         }
       ]
     }
-  ]
+  ],
+
+  // Синтезовані практичні правила з "Litli málfræðingurinn" (Þorbjörg Halldórsdóttir)
+  litliMalfraedingurinnSynthesis: {
+    nounGenderMarkers: {
+      karlkyn_kk: "Чоловічий рід: сильний на -ur (snúður, dagur), -ll (stóll), -nn (steinn); слабкий на -i (bolli, nemandi).",
+      kvenkyn_kvk: "Жіночий рід: сильний з нульовим закінченням у NF (bók, sól); слабкий на -a (samloka, pönnukaka, kona).",
+      hvorugkyn_hk: "Середній рід: зазвичай збіг форми NF і ÞF (kaffi, borð, hús, glas)."
+    },
+    prepositionGovernance: {
+      stjornar_tholfalli_thf: ["um (про/навколо)", "gegnum (крізь)", "kringum (навколо)", "í/á (рух: куди?)"],
+      stjornar_thagufalli_thgf: ["að (до)", "af (з/від)", "frá (з)", "hjá (біля/у когось)", "úr (із середини)", "í/á (стан: де?)"],
+      stjornar_eignarfalli_ef: ["til (до)", "milli / á milli (між)", "vegna (через те що)"]
+    },
+    uHljodvarpRule: "U-умляут: кореневий голосний 'a' обов'язково перетворюється на 'ö', якщо в наступному складі з'являється закінчення '-u': kaka ➔ köku, pönnukaka ➔ pönnuköku, tala ➔ við tölum."
+  },
+
+  // Синтезовані стандарти живого мовлення з "Tölum saman" (FA 2022)
+  tolumSamanVocationalSynthesis: {
+    kaffistofaEtiquette: [
+      { is: "Má bjóða þér kaffi eða te?", uk: "Запропонувати вам каву чи чай?" },
+      { is: "Viltu mjólk eða sykur út í kaffið?", uk: "Бажаєте молоко чи цукор у каву?" },
+      { is: "Gjörðu svo vel!", uk: "Будь ласка! (Ось, тримайте)" },
+      { is: "Takk kærlega fyrir!", uk: "Щиро дякую!" }
+    ],
+    clarificationPhrases: [
+      { is: "Gætirðu talað aðeins hægar?", uk: "Чи могли б ви говорити трішки повільніше?" },
+      { is: "Ég er að læra íslensku.", uk: "Я вивчаю ісландську мову." },
+      { is: "Hvað þýðir þetta orð?", uk: "Що означає це слово?" },
+      { is: "Geturðu endurtekið þetta?", uk: "Чи можете ви повторити це?" }
+    ]
+  }
 };
