@@ -749,23 +749,128 @@ export const M0_STUDY_GUIDE_DATA = {
     ]
   },
 
-  // Audio Overview (NotebookLM Podcast Deep Dive)
+  // Audio Overview (NotebookLM Podcast Deep Dive Library)
   podcast: {
     id: "m0_audio_overview",
     title: "Прихована логіка ісландської вимови",
-    subtitle: "Аудіоогляд (NotebookLM Deep Dive Podcast)",
+    subtitle: "Епізод 1 • Модуль 0: Абетка та Фонетика (17:22)",
     audioUri: "audio/podcasts/m0_prykhovana_logika_vymovy.m4a",
     durationSec: 1042,
     durationText: "17:22",
     fileSizeText: "8.0 МБ (Оптимізовано зі 33 МБ)",
     description: "Поглиблений подкаст-діалог про фундаментальні принципи ісландської фонетики: від наголосу на 1-му складі та 'Закону близнюків' до розгадки феномену преаспірації [h] у слові 'takk' та бокового вибуху 'll' [tl].",
     chapters: [
-      { timeSec: 0, timeText: "00:00", title: "Вступ та особливості 32 літер ісландської абетки" },
-      { timeSec: 195, timeText: "03:15", title: "Залізний закон наголосу на 1-му складі та знак акута (´)" },
-      { timeSec: 400, timeText: "06:40", title: "Закон близнюків: феномен I/Y [ɪ] та Í/Ý [iː]" },
-      { timeSec: 560, timeText: "09:20", title: "Топ-пастки: преаспірація в «takk» та боковий вибух «ll»" },
-      { timeSec: 770, timeText: "12:50", title: "Чотири стани літери G та міжзубні Þ vs Ð" },
-      { timeSec: 910, timeText: "15:10", title: "Соціолінгвістичний етикет: формула вітань та культура Þú" }
+      { timeSec: 0, timeText: "00:00", title: "Вступ та особливості 32 літер ісландської абетки", isSample: "Þetta er hátt fjall, stór jökull og djúpur fjörður." },
+      { timeSec: 195, timeText: "03:15", title: "Залізний закон наголосу на 1-му складі та знак акута (´)", isSample: "Ísland er fallegt land í Norður-Atlantshafi." },
+      { timeSec: 400, timeText: "06:40", title: "Закон близнюків: феномен I/Y [ɪ] та Í/Ý [iː]", isSample: "Við tölum íslensku og lærum málfræði á hverjum degi." },
+      { timeSec: 560, timeText: "09:20", title: "Топ-пастки: преаспірація в «takk» та боковий вибух «ll»", isSample: "Sæll vertu, Jón! Hvernig hefur þú það í dag?" },
+      { timeSec: 770, timeText: "12:50", title: "Чотири стани літери G та міжзубні Þ vs Ð", isSample: "Hvaðan ert þú? Ég er frá Úkraínu og bý í Kópavogi." },
+      { timeSec: 910, timeText: "15:10", title: "Соціолінгвістичний етикет: формула вітань та культура Þú", isSample: "Jón og Gunnar eru hér: þeir tala saman. Anna er líka hér: þau tala íslensku." }
     ]
-  }
+  },
+
+  podcasts: [
+    {
+      id: "m0_audio_overview",
+      badge: "Епізод 1 • Модуль 0",
+      title: "Прихована логіка ісландської вимови",
+      subtitle: "Stafrófið & Framburður • Фонетичний розбір (17:22)",
+      audioUri: "audio/podcasts/m0_prykhovana_logika_vymovy.m4a",
+      durationSec: 1042,
+      durationText: "17:22",
+      fileSizeText: "8.0 МБ (Оптимізовано зі 33 МБ)",
+      description: "Поглиблений подкаст-діалог про фундаментальні принципи ісландської фонетики: від наголосу на 1-му складі та 'Закону близнюків' до розгадки феномену преаспірації [h] у слові 'takk' та бокового вибуху 'll' [tl].",
+      chapters: [
+        { timeSec: 0, timeText: "00:00", title: "Вступ та особливості 32 літер ісландської абетки", isSample: "Þetta er hátt fjall, stór jökull og djúpur fjörður." },
+        { timeSec: 195, timeText: "03:15", title: "Залізний закон наголосу на 1-му складі та знак акута (´)", isSample: "Ísland er fallegt land í Norður-Atlantshafi." },
+        { timeSec: 400, timeText: "06:40", title: "Закон близнюків: феномен I/Y [ɪ] та Í/Ý [iː]", isSample: "Við tölum íslensku og lærum málfræði á hverjum degi." },
+        { timeSec: 560, timeText: "09:20", title: "Топ-пастки: преаспірація в «takk» та боковий вибух «ll»", isSample: "Sæll vertu, Jón! Hvernig hefur þú það í dag?" },
+        { timeSec: 770, timeText: "12:50", title: "Чотири стани літери G та міжзубні Þ vs Ð", isSample: "Hvaðan ert þú? Ég er frá Úkraínu og bý í Kópavogi." },
+        { timeSec: 910, timeText: "15:10", title: "Соціолінгвістичний етикет: формула вітань та культура Þú", isSample: "Jón og Gunnar eru hér: þeir tala saman. Anna er líka hér: þau tala íslensku." }
+      ]
+    },
+    {
+      id: "m1_grammar_landscape",
+      badge: "Епізод 2 • НОВИЙ (19:10)",
+      title: "Логіка ісландської граматики: від ландшафту до фонетики",
+      subtitle: "Kafli 0–1 • Топографія прийменників í/á, BÍN відмінки та система займенників",
+      audioUri: "audio/podcasts/m1_logika_islanskoi_hramatyky_vid_landshaftu.m4a",
+      durationSec: 1150,
+      durationText: "19:10",
+      fileSizeText: "8.8 МБ (Оптимізовано із 37 МБ)",
+      description: "Як географічний ландшафт Ісландії (затоки -vík, коси -eyri, миси -nes, пороги -foss) диктує вибір прийменників 'í' та 'á' у Давальному відмінку (ÞGF 🟡), чому дієслово tala стає 'við tölum' через U-умляут, і як працюють три форми 'вони' (þeir, þær, þau).",
+      chapters: [
+        { timeSec: 0, timeText: "00:00", title: "Як ісландський ландшафт формує граматику: затока (-vík) проти коси (-eyri)", isSample: "Ég bý í Reykjavík en vinur minn býr á Akureyri." },
+        { timeSec: 200, timeText: "03:20", title: "Магія Давального відмінка (Þágufall 🟡) після прийменників frá, í, á", isSample: "Hvaðan ert þú? Ég er frá Úkraínu og bý í Kópavogi." },
+        { timeSec: 405, timeText: "06:45", title: "Три обличчя займенника «вони»: þeir (kk.), þær (kvk.) та þau (hk.)", isSample: "Jón og Gunnar eru hér: þeir tala saman. Anna er líka hér: þau tala íslensku." },
+        { timeSec: 615, timeText: "10:15", title: "Дієслово vera та пастка U-умляута у формі «við tölum íslensku»", isSample: "Við tölum íslensku og lærum málfræði á hverjum degi." },
+        { timeSec: 830, timeText: "13:50", title: "Живе мовлення Рейк'явіка: зрощення дієслова з -þú (Hvað heitirðu? Hvaðan ertu?)", isSample: "Sæll vertu, Jón! Hvernig hefur þú það í dag?" },
+        { timeSec: 990, timeText: "16:30", title: "Фонетична екосистема: від льодовиків (jökull) до гір (fjall)", isSample: "Þetta er hátt fjall, stór jökull og djúpur fjörður." }
+      ]
+    },
+    {
+      id: "k2_coffee_order",
+      badge: "Епізод 3 • Урок 2",
+      title: "Чому в Ісландії складно замовити каву?",
+      subtitle: "Kafli 2 • Á kaffihúsi: Знахідний відмінок (ÞF 🟢) та числівник einn/eina/eitt",
+      audioUri: "audio/podcasts/k2_chomu_skladno_zamovyty_kavu.m4a",
+      durationSec: 1265,
+      durationText: "21:05",
+      fileSizeText: "9.7 МБ (AAC 64kbps)",
+      description: "Розбір живої ситуації в пекарні Рейк'явіка: чому після фрази 'Ég ætla að fá...' всі іменники переходять у Знахідний відмінок (Þolfall 🟢), а числівник 'один' змінюється за родами (einn kaffibolla, eina samloku, eitt vatn).",
+      chapters: [
+        { timeSec: 0, timeText: "00:00", title: "Культура кав'ярень Рейк'явіка та конструкція Ég ætla að fá...", isSample: "Ég ætla að fá einn kaffibolla, eina samloku og eitt glas af vatni, takk." },
+        { timeSec: 310, timeText: "05:10", title: "Три роди числівника «один»: einn (kk.), eina (kvk.), eitt (hk.)", isSample: "Ég ætla að fá einn kaffibolla, eina samloku og eitt glas af vatni, takk." },
+        { timeSec: 680, timeText: "11:20", title: "Мутація іменників у Знахідному відмінку (Þolfall 🟢): snúður ➔ snúð", isSample: "Ég ætla að fá einn kaffibolla, eina samloku og eitt glas af vatni, takk." }
+      ]
+    }
+  ],
+
+  binImmersionCards: [
+    {
+      id: "imm_1",
+      title: "1. Географія ісландських прийменників (í vs á + ÞGF 🟡)",
+      isHtml: `<span class="text-cyan-300 font-bold" title="Називний (Nefnifall 🔵)">Ég [🔵 NF]</span> bý <span class="text-amber-300 font-bold" title="Давальний (Þágufall 🟡) — затока -vík">í Reykjavík [🟡 ÞGF]</span> en <span class="text-cyan-300 font-bold" title="Називний (Nefnifall 🔵)">vinur minn [🔵 NF]</span> býr <span class="text-amber-300 font-bold" title="Давальний (Þágufall 🟡) — піщана коса -eyri">á Akureyri [🟡 ÞGF]</span>.`,
+      audioKey: "Ég bý í Reykjavík en vinur minn býr á Akureyri.",
+      ipa: "[jɛːx piː iː 'reiːcaˌviːk ɛn 'vɪːnʏr mɪnː piːr auː 'aːkʏrˌeiːrɪ]",
+      uk: "Я живу в Рейк'явіку (у затоці -vík), а мій друг живе на Акурейрі (на піщаній косі -eyri).",
+      binNote: "BÍN-логіка: іменники після прийменників місцезнаходження (í / á) завжди стоять у Давальному відмінку (Þágufall 🟡)."
+    },
+    {
+      id: "imm_2",
+      title: "2. Походження та мутація країн (frá + ÞGF 🟡)",
+      isHtml: `Hvaðan ert <span class="text-cyan-300 font-bold">þú [🔵 NF]</span>? <span class="text-cyan-300 font-bold">Ég [🔵 NF]</span> er <span class="text-amber-300 font-bold" title="Úkraína ➔ frá Úkraínu (ÞGF 🟡)">frá Úkraínu [🟡 ÞGF]</span> og bý <span class="text-amber-300 font-bold" title="Kópavogur ➔ í Kópavogi (ÞGF 🟡)">í Kópavogi [🟡 ÞGF]</span>.`,
+      audioKey: "Hvaðan ert þú? Ég er frá Úkraínu og bý í Kópavogi.",
+      ipa: "['kʰvaːðan ɛr̥t θuː? jɛːx ɛːr frauː 'uːkraiːnʏ ɔɣ piː iː 'kʰouːpaˌvɔijɪ]",
+      uk: "Звідки ти? Я з України і живу в Коупавоґурі.",
+      binNote: "BÍN-логіка: жіночий рід на -a (Úkraína) у ÞGF 🟡 змінює закінчення на -u (frá Úkraínu), а чоловічий на -ur (Kópavogur) змінює -ur на -i (í Kópavogi)."
+    },
+    {
+      id: "imm_3",
+      title: "3. U-умляут дієслова та Знахідний відмінок мови (ÞF 🟢)",
+      isHtml: `<span class="text-cyan-300 font-bold">Við [🔵 NF]</span> <span class="text-rose-300 font-bold" title="U-умляут: a ➔ ö перед -um">tölum</span> <span class="text-emerald-300 font-bold" title="Знахідний відмінок (Þolfall 🟢): íslenska ➔ íslensku">íslensku [🟢 ÞF]</span> og lærum <span class="text-emerald-300 font-bold" title="Знахідний відмінок (Þolfall 🟢)">málfræði [🟢 ÞF]</span> <span class="text-amber-300 font-bold" title="Давальний часу (ÞGF 🟡): dagur ➔ degi">á hverjum degi [🟡 ÞGF]</span>.`,
+      audioKey: "Við tölum íslensku og lærum málfræði á hverjum degi.",
+      ipa: "[vɪːð 'tʰœːlʏm 'istlɛnskʏ ɔɣ 'laiːrʏm 'maulˌfraiːðɪ auː 'kʰvɛrjʏm 'teiːjɪ]",
+      uk: "Ми розмовляємо ісландською (знах. відм.) і вчимо граматику (знах. відм.) щодня (дав. відм.).",
+      binNote: "BÍN-логіка: прямий додаток після дієслів tala / læra переходить у Знахідний відмінок (Þolfall 🟢: íslenska ➔ íslensku)."
+    },
+    {
+      id: "imm_4",
+      title: "4. Закон трьох «вони» (þeir / þær / þau • 🔵 NF)",
+      isHtml: `<span class="text-cyan-300 font-bold">Jón og Gunnar [🔵 NF kk.]</span> eru hér: <span class="text-cyan-300 font-bold">þeir [🔵 NF чол.]</span> tala saman. <span class="text-cyan-300 font-bold">Anna [🔵 NF kvk.]</span> er líka hér: <span class="text-cyan-300 font-bold">þau [🔵 NF зміш.]</span> tala <span class="text-emerald-300 font-bold">íslensku [🟢 ÞF]</span>.`,
+      audioKey: "Jón og Gunnar eru hér: þeir tala saman. Anna er líka hér: þau tala íslensku.",
+      ipa: "[jouːn ɔɣ 'kʏnːar 'ɛːrʏ çɛːr: θeiːr 'tʰaːla 'saːman. 'anːa ɛːr 'liːka çɛːr: θœyː 'tʰaːla 'istlɛnskʏ]",
+      uk: "Йон і Ґуннар тут: вони (чол.) говорять разом. Анна теж тут: вони (змішана група) говорять ісландською.",
+      binNote: "BÍN-логіка: як тільки до групи чоловіків (þeir) приєднується хоча б одна жінка, займенник миттєво переключається на середній рід множини — þau!"
+    },
+    {
+      id: "imm_5",
+      title: "5. Замовлення у кав'ярні: три роди у Знахідному відмінку (ÞF 🟢)",
+      isHtml: `<span class="text-cyan-300 font-bold">Ég [🔵 NF]</span> ætla að fá <span class="text-emerald-300 font-bold" title="kk. Знахідний (ÞF 🟢): kaffibolli ➔ einn kaffibolla">einn kaffibolla [🟢 ÞF kk.]</span>, <span class="text-emerald-300 font-bold" title="kvk. Знахідний (ÞF 🟢): samloka ➔ eina samloku">eina samloku [🟢 ÞF kvk.]</span> og <span class="text-emerald-300 font-bold" title="hk. Знахідний (ÞF 🟢): eitt glas">eitt glas [🟢 ÞF hk.]</span> <span class="text-amber-300 font-bold" title="Давальний після прийменника af (ÞGF 🟡): vatn ➔ vatni">af vatni [🟡 ÞGF]</span>, takk.`,
+      audioKey: "Ég ætla að fá einn kaffibolla, eina samloku og eitt glas af vatni, takk.",
+      ipa: "[jɛːx 'aihtla að fauː eitn̥ 'kʰaffɪˌpɔtla, 'eiːna 'samˌlɔːkʏ ɔɣ eiht klaːs av 'vahtnɪ, tʰahk]",
+      uk: "Я візьму одну чашку кави (ч.р.), один сендвіч (ж.р.) і одну склянку (с.р.) води (дав. відм.), дякую.",
+      binNote: "BÍN-логіка: класична формула з підручника Íslenska fyrir alla, де в одному реченні працюють усі 3 роди Знахідного відмінка (🟢 ÞF) та Давальний після 'af' (🟡 ÞGF)."
+    }
+  ]
 };

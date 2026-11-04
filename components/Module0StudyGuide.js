@@ -196,6 +196,7 @@ export class Module0StudyGuide {
     this.searchQuery = '';
     this.collapsedBranches = {}; // { branchId: boolean }
     this.audioPlaybackRate = 1.0;
+    this.activePodcastId = 'm1_grammar_landscape'; // Default to newest landscape & grammar episode
   }
 
   render() {
@@ -676,12 +677,43 @@ export class Module0StudyGuide {
   }
 
   renderPodcastView() {
-    const p = this.data.podcast;
+    const list = this.data.podcasts || [this.data.podcast];
+    const p = list.find(item => item.id === this.activePodcastId) || list[0] || this.data.podcast;
     if (!p) return `<div class="p-6 text-center text-slate-400">Аудіоогляд наразі відсутній</div>`;
 
     return `
-      <div class="space-y-4">
+      <div class="space-y-5">
         
+        <!-- Episode Selector Tabs -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+            <span class="font-bold text-amber-300">🎙️ Медіатека подкастів NotebookLM Studio (${list.length} епізоди):</span>
+            <span class="text-[11px] text-slate-500">Виберіть випуск для прослуховування</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            ${list.map(ep => {
+              const isAct = ep.id === p.id;
+              return `
+                <button data-podcast-ep="${ep.id}" class="podcast-ep-tab p-3 rounded-xl border text-left transition-all ${
+                  isAct 
+                    ? 'bg-amber-500/20 border-amber-400 shadow-lg shadow-amber-500/10 text-white' 
+                    : 'bg-black/50 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                }">
+                  <div class="flex items-center justify-between text-[10px] font-mono mb-1">
+                    <span class="px-1.5 py-0.5 rounded ${isAct ? 'bg-amber-400 text-black font-extrabold' : 'bg-slate-800 text-amber-300 font-bold'}">
+                      ${ep.badge || 'Епізод'}
+                    </span>
+                    <span class="font-bold text-slate-400">${ep.durationText}</span>
+                  </div>
+                  <div class="text-xs font-mono font-bold leading-snug line-clamp-2 ${isAct ? 'text-amber-200' : 'text-slate-300'}">
+                    ${ep.title}
+                  </div>
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
         <!-- Luxury Podcast Player Card -->
         <div class="arena-theme-card p-4 sm:p-6 rounded-2xl shadow-2xl border border-amber-500/40 space-y-5 bg-gradient-to-b from-amber-950/20 to-cyber-deep">
           
@@ -771,30 +803,85 @@ export class Module0StudyGuide {
           <div class="space-y-2 pt-2">
             <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
               <span class="font-bold text-amber-300">📑 Навігація по розділах подкасту (клікніть для перемотки):</span>
-              <span>6 ключових тем</span>
+              <span>${p.chapters.length} ключових тем</span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
               ${p.chapters.map((ch, idx) => `
-                <button class="podcast-chapter-btn p-3 rounded-xl bg-black/40 hover:bg-amber-500/10 border border-slate-800 hover:border-amber-500/40 text-left transition-all flex items-start gap-2.5 group cursor-pointer" data-time-sec="${ch.timeSec}">
-                  <span class="px-2 py-0.5 rounded bg-black/60 border border-slate-700 group-hover:border-amber-400 text-amber-400 font-mono text-[11px] font-bold flex-shrink-0">
-                    ${ch.timeText}
-                  </span>
-                  <div class="flex-1 min-w-0">
-                    <div class="text-xs font-bold text-slate-200 group-hover:text-amber-300 transition-colors leading-snug">
-                      ${ch.title}
-                    </div>
+                <div class="p-3 rounded-xl bg-black/40 border border-slate-800 hover:border-amber-500/40 text-left transition-all space-y-1.5 group">
+                  <div class="flex items-center justify-between gap-2">
+                    <button class="podcast-chapter-btn flex items-center gap-2 text-left cursor-pointer flex-1" data-time-sec="${ch.timeSec}">
+                      <span class="px-2 py-0.5 rounded bg-black/60 border border-slate-700 group-hover:border-amber-400 text-amber-400 font-mono text-[11px] font-bold flex-shrink-0">
+                        ${ch.timeText}
+                      </span>
+                      <span class="text-xs font-bold text-slate-200 group-hover:text-amber-300 transition-colors leading-snug">
+                        ${ch.title}
+                      </span>
+                    </button>
+                    <span class="text-slate-500 group-hover:text-amber-400 text-xs flex-shrink-0">▶</span>
                   </div>
-                  <span class="text-slate-500 group-hover:text-amber-400 text-xs">▶</span>
-                </button>
+                  ${ch.isSample ? `
+                    <div class="pt-1 border-t border-slate-900 flex items-center justify-between gap-2">
+                      <span class="text-[11px] font-mono text-cyan-300 truncate">«${ch.isSample}»</span>
+                      <button class="podcast-phrase-audio-btn px-2 py-0.5 rounded bg-cyan-500/20 hover:bg-cyan-500 text-cyan-300 hover:text-black font-mono text-[10px] font-bold flex items-center gap-1 transition-all flex-shrink-0" data-phrase="${ch.isSample}">
+                        🔊 Ісландська
+                      </button>
+                    </div>
+                  ` : ''}
+                </div>
               `).join('')}
             </div>
           </div>
 
         </div>
 
+        <!-- NEW: FULL ICELANDIC IMMERSION SECTION (BÍN-марковане живе мовлення) -->
+        ${this.data.binImmersionCards ? `
+          <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-cyan-950/30 via-cyber-deep to-black border-2 border-cyan-500/40 shadow-xl space-y-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-500/20 pb-2.5">
+              <div>
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-mono text-[10px] font-bold uppercase">
+                  🇮🇸 Занурення в ісландську мову • BÍN Морфологічна лабораторія
+                </span>
+                <h3 class="text-sm sm:text-base font-black text-white font-mono mt-1">
+                  Живі еталонні речення за темами подкасту (з кольоровими відмінками BÍN)
+                </h3>
+              </div>
+              <div class="flex items-center gap-2 text-[10px] font-mono">
+                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">🔵 NF Називний</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">🟢 ÞF Знахідний</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">🟡 ÞGF Давальний</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-2.5">
+              ${this.data.binImmersionCards.map(c => `
+                <div class="p-3.5 rounded-xl bg-black/60 border border-slate-800 hover:border-cyan-500/50 space-y-2 transition-all">
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <span class="text-xs font-mono font-bold text-slate-300">${c.title}</span>
+                    <button class="podcast-phrase-audio-btn px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-black flex items-center gap-1.5 self-start sm:self-auto shadow-sm transition-all" data-phrase="${c.audioKey}">
+                      <span>🔊 Слухати нативне речення</span>
+                    </button>
+                  </div>
+                  <div class="text-sm sm:text-base font-mono text-white leading-relaxed p-2.5 rounded-lg bg-cyber-deep border border-slate-800">
+                    ${c.isHtml}
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans">
+                    <div class="text-cyan-300/90 font-mono text-[11px]">${c.ipa}</div>
+                    <div class="text-amber-200">🇺🇦 ${c.uk}</div>
+                  </div>
+                  <div class="text-[11px] text-slate-400 font-sans border-t border-slate-800/80 pt-1.5">
+                    💡 <strong class="text-slate-300">Пояснення:</strong> ${c.binNote}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+
       </div>
     `;
+  }
   }
 
   populateWordsTable() {
@@ -1080,6 +1167,29 @@ export class Module0StudyGuide {
         audio.currentTime = targetSec;
         audio.play().catch(e => console.warn('Play error:', e));
         if (playIcon) playIcon.innerText = '⏸';
+      });
+    });
+
+    // Episode Switcher Tabs
+    this.container.querySelectorAll('.podcast-ep-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const epId = tab.dataset.podcastEp;
+        if (epId && epId !== this.activePodcastId) {
+          this.stopPodcastAudio();
+          this.activePodcastId = epId;
+          this.render();
+        }
+      });
+    });
+
+    // Icelandic phrase sample audio buttons in chapters and immersion cards
+    this.container.querySelectorAll('.podcast-phrase-audio-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const phrase = btn.dataset.phrase;
+        if (phrase) {
+          audioEngine.playWord(phrase, btn);
+        }
       });
     });
   }
