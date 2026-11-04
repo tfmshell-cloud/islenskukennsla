@@ -1412,8 +1412,21 @@
     </div>
   </div>
 
-  <!-- Smart Finder file:// Protocol Auto-Router -->
+  <!-- Global Error Handler & Smart Finder file:// Protocol Auto-Router -->
   <script>
+    window.addEventListener('error', function(e) {
+      const root = document.getElementById('app');
+      if (root && root.querySelector('.animate-spin')) {
+        root.innerHTML = `
+          <div class="min-h-screen flex flex-col items-center justify-center text-rose-400 font-mono text-xs gap-3 p-4 text-center">
+            <div class="text-base font-bold">⚠️ Помилка завантаження модуля</div>
+            <div class="text-slate-300 max-w-md bg-black/60 p-3 rounded-lg border border-rose-500/30 text-left font-mono">${e.message || 'Error loading module'} (${e.filename || 'script'}:${e.lineno || '0'})</div>
+            <button onclick="location.reload()" class="px-4 py-2 bg-cyan-500/20 text-cyan-300 border border-cyan-500 rounded-lg font-bold">Перезавантажити</button>
+          </div>
+        `;
+      }
+    });
+
     if (window.location.protocol === 'file:') {
       fetch('http://localhost:8000/index.html', { method: 'HEAD', mode: 'no-cors' })
         .then(() => {
@@ -1427,7 +1440,7 @@
 
   <!-- Main ES Module Bootstrapper -->
   <script type="module">
-    import { Modull0App } from './components/Modull0App.js?v=7.9';
+    import { Modull0App } from './components/Modull0App.js?v=7.10';
 
     function initApp() {
       const root = document.getElementById('app');

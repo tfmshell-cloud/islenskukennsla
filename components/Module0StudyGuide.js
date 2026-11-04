@@ -882,7 +882,6 @@ export class Module0StudyGuide {
       </div>
     `;
   }
-  }
 
   populateWordsTable() {
     const tbody = this.container.querySelector('#study-guide-words-tbody');
