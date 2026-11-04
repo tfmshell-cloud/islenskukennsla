@@ -1412,6 +1412,19 @@
     </div>
   </div>
 
+  <!-- Smart Finder file:// Protocol Auto-Router -->
+  <script>
+    if (window.location.protocol === 'file:') {
+      fetch('http://localhost:8000/index.html', { method: 'HEAD', mode: 'no-cors' })
+        .then(() => {
+          window.location.replace('http://localhost:8000/islenska_a1_b2.html');
+        })
+        .catch(() => {
+          window.location.replace('https://tfmshell-cloud.github.io/islenskukennsla/');
+        });
+    }
+  </script>
+
   <!-- Main ES Module Bootstrapper -->
   <script type="module">
     import { Modull0App } from './components/Modull0App.js?v=7.0';
