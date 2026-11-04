@@ -158,6 +158,9 @@ export class Modull0App {
                 <button data-chapter="saga_map" class="chapter-nav-btn nav-btn nav-btn-saga ${this.activeChapter === 'saga_map' ? 'active' : ''}">
                   🗺️ Мапа Саги
                 </button>
+                <a href="curriculum_dashboard.html" class="chapter-nav-btn nav-btn text-purple-300 border-purple-500/40 hover:bg-purple-950/40 flex items-center gap-1" title="Дорожня карта курсів, мовні школи та подкасти">
+                  <span>📊</span><span>Дашборд & CEFR</span>
+                </a>
               </div>
 
               <!-- Right: BÍN 4 Cases & X-Ray Switcher (Neat & Compact) -->

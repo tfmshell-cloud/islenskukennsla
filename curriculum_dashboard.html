@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="uk" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Íslenska A1–B2 | Академічний Дашборд, Мовні Школи та Дорожня Карта</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              black: '#030712',
+              deep: '#0b0f19',
+              card: '#111827',
+              border: '#1f2937',
+              cyan: '#00f0ff',
+              emerald: '#00E676',
+              amber: '#ffb300',
+              rose: '#f43f5e',
+              purple: '#a855f7'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; }
+    code, .font-mono { font-family: 'JetBrains+Mono', monospace; }
+    
+    .glow-cyan { box-shadow: 0 0 20px -3px rgba(0, 240, 255, 0.15); }
+    .glow-emerald { box-shadow: 0 0 20px -3px rgba(0, 230, 118, 0.15); }
+    .glow-amber { box-shadow: 0 0 20px -3px rgba(255, 179, 0, 0.15); }
+    
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(0, 230, 118, 0.15));
+      border-color: #00f0ff;
+      color: #00f0ff;
+      box-shadow: 0 0 15px -3px rgba(0, 240, 255, 0.3);
+    }
+    
+    @media print {
+      body { background: #ffffff !important; color: #000000 !important; }
+      header, nav, #global-search-bar, .no-print { display: none !important; }
+      .print-page { page-break-after: always; color: #000000 !important; }
+      table { border-collapse: collapse !important; width: 100% !important; }
+      th, td { border: 1px solid #333 !important; color: #000 !important; }
+    }
+  </style>
+</head>
+<body class="text-slate-200 antialiased min-h-screen flex flex-col">
+
+  <!-- TOP HEADER -->
+  <header class="border-b border-cyber-border bg-cyber-deep/90 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-2.5 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-500 p-0.5 flex items-center justify-center transform group-hover:scale-105 transition-all shadow-lg shadow-cyan-500/20">
+            <span class="w-full h-full bg-cyber-black rounded-[10px] flex items-center justify-center text-lg font-bold">🇮🇸</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold tracking-wider text-base text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">ÍSLENSKA A1–B2</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">v2.0 CORPUS</span>
+            </div>
+            <div class="text-[11px] text-slate-400 font-mono">Академічний Дашборд & Дорожня Карта Курсу</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Jump Back to Main Learning App -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="px-3.5 py-1.5 rounded-xl bg-cyber-card border border-cyber-border hover:border-cyan-500/50 text-cyan-300 hover:text-white font-mono text-xs font-semibold flex items-center gap-2 transition-all shadow-sm">
+          <span>←</span><span>До Інтерактивного Курсу</span>
+        </a>
+        <button onclick="window.print()" class="no-print px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono font-medium flex items-center gap-1.5 transition-all" title="Друк / Експорт у PDF">
+          <span>🖨️</span><span>PDF / Друк</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- TABS BAR -->
+    <div class="border-t border-cyber-border/60 bg-cyber-black/70">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-2 overflow-x-auto py-2">
+        <button onclick="switchTab('roadmap')" id="tab-btn-roadmap" class="tab-btn active px-4 py-2 rounded-xl border border-cyber-border text-xs font-bold font-mono transition-all flex items-center gap-2">
+          <span>🗺️</span><span>1. Дорожня Карта & Матриця CEFR</span>
+        </button>
+        <button onclick="switchTab('schools')" id="tab-btn-schools" class="tab-btn px-4 py-2 rounded-xl border border-cyber-border text-xs font-bold font-mono transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200">
+          <span>🏫</span><span>2. Мовні Школи & Стандарти Ісландії</span>
+        </button>
+        <button onclick="switchTab('podcasts')" id="tab-btn-podcasts" class="tab-btn px-4 py-2 rounded-xl border border-cyber-border text-xs font-bold font-mono transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200">
+          <span>🎙️</span><span>3. План & Студія Подкастів (12)</span>
+        </button>
+        <button onclick="switchTab('ecosystem')" id="tab-btn-ecosystem" class="tab-btn px-4 py-2 rounded-xl border border-cyber-border text-xs font-bold font-mono transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200">
+          <span>🧭</span><span>4. Екосистема, BÍN & Ресурси</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+
+    <!-- ================= TAB 1: ROADMAP & CEFR CONCORDANCE ================= -->
+    <section id="section-roadmap" class="tab-content space-y-6">
+      
+      <!-- Hero Banner -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-cyber-card to-cyber-deep border border-cyan-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="space-y-1.5 max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-mono text-[11px] font-bold">
+            <span>● МЕТОДОЛОГІЧНИЙ СТАНДАРТ CEFR</span>
+            <span>A0 ➔ B2</span>
+          </div>
+          <h1 class="text-2xl font-extrabold text-white">Порівняльна Матриця: Наші Уроки vs Національні Підручники</h1>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Повна синхронізація інтерактивної платформи з офіційним стандартом <strong>«Íslenska fyrir alla 1–4»</strong> (Sólveig Steingrímsdóttir / MMS), програмами ринку праці <strong>«Íslenska fyrir atvinnulífið» (VMST)</strong> та курсами інституту <strong>Mímir - símenntun</strong>.
+          </p>
+        </div>
+        <div class="flex flex-col gap-2 font-mono text-xs text-right">
+          <div class="px-3 py-1.5 rounded-lg bg-black/60 border border-slate-700">
+            <span class="text-slate-400">Загальна кількість модулів:</span> <span class="text-cyan-300 font-bold">8 ступенів</span>
+          </div>
+          <div class="px-3 py-1.5 rounded-lg bg-black/60 border border-slate-700">
+            <span class="text-slate-400">Граматичне ядро:</span> <span class="text-emerald-300 font-bold">BÍN 4 відмінки + V2</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters & Search -->
+      <div class="flex flex-wrap items-center justify-between gap-3 bg-cyber-card p-3 rounded-xl border border-cyber-border">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-mono text-slate-400">Фільтр рівнів:</span>
+          <button onclick="filterRoadmap('all')" class="rf-btn px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 text-xs font-mono font-bold">Всі (8)</button>
+          <button onclick="filterRoadmap('A0')" class="rf-btn px-2.5 py-1 rounded-lg bg-black/40 text-slate-400 border border-slate-700 text-xs font-mono">A0</button>
+          <button onclick="filterRoadmap('A1')" class="rf-btn px-2.5 py-1 rounded-lg bg-black/40 text-slate-400 border border-slate-700 text-xs font-mono">A1 (1-3)</button>
+          <button onclick="filterRoadmap('A2')" class="rf-btn px-2.5 py-1 rounded-lg bg-black/40 text-slate-400 border border-slate-700 text-xs font-mono">A2 (4-5)</button>
+          <button onclick="filterRoadmap('B1')" class="rf-btn px-2.5 py-1 rounded-lg bg-black/40 text-slate-400 border border-slate-700 text-xs font-mono">B1–B2 (6+)</button>
+        </div>
+        <div class="text-xs font-mono text-slate-400">
+          💡 Натисніть на рядок або кнопку для детального опису
+        </div>
+      </div>
+
+      <!-- Master Concordance Table -->
+      <div class="overflow-x-auto rounded-2xl border border-cyber-border bg-cyber-card shadow-2xl">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-cyber-deep/90 border-b border-cyber-border text-slate-300 uppercase tracking-wider text-[11px]">
+            <tr>
+              <th class="p-3.5 text-center">Рівень CEFR</th>
+              <th class="p-3.5">Наш Інтерактивний Урок</th>
+              <th class="p-3.5">Підручник Íslenska fyrir alla</th>
+              <th class="p-3.5">Курс ринку праці (VMST / Mímir)</th>
+              <th class="p-3.5">Граматичне Ядро</th>
+              <th class="p-3.5">Практична Компетенція</th>
+            </tr>
+          </thead>
+          <tbody id="roadmap-table-body" class="divide-y divide-cyber-border/60">
+            <!-- Populated via JavaScript from METHODOLOGICAL_CORPUS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pedagogical Tenets Cards -->
+      <div class="space-y-3">
+        <h2 class="text-base font-bold text-white flex items-center gap-2">
+          <span>🏛️</span><span>6 Непорушних Педагогічних Законів нашої платформи</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-cyan-500/40 transition-all space-y-2">
+            <div class="flex items-center gap-2 text-cyan-400 font-bold font-mono text-xs">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span>1. 4 АУРИ ВІДМІНКІВ BÍN</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Кожне слово маркується стандартом: <strong class="text-cyan-300">🔵 Називний (NF)</strong>, <strong class="text-emerald-300">🟢 Знахідний (ÞF)</strong>, <strong class="text-amber-300">🟡 Давальний (ÞGF)</strong>, <strong class="text-rose-300">🔴 Родовий (EF)</strong>. Студент фіксує керування підсвідомо.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-emerald-500/40 transition-all space-y-2">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold font-mono text-xs">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>2. СИНТАКСИС V2 (ДІЄСЛОВО №2)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Залізне правило германського синтаксису: дієслово завжди стоїть на другій смисловій позиції. Початок з обставини (<em class="text-slate-400">Núna</em>) вимагає інверсії: <strong class="text-emerald-300">Núna bý ég...</strong>
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-amber-500/40 transition-all space-y-2">
+            <div class="flex items-center gap-2 text-amber-400 font-bold font-mono text-xs">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span>3. ЛАНДШАФТНИЙ ЗАКОН Í / Á</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Прийменники вимагають дативу: <strong>í</strong> вживається для материків і закритих водойм/долин (-vík, -dalur), а <strong>á</strong> — для островів (á Íslandi), відкритих мисів (-nes) та кос (-eyri).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-purple-500/40 transition-all space-y-2">
+            <div class="flex items-center gap-2 text-purple-400 font-bold font-mono text-xs">
+              <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+              <span>4. U-УМЛЯУТ (U-HLJÓÐVARP)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Поява суфіксального <strong>-u</strong> мутує кореневу голосну <strong>a ➔ ö</strong>: <code class="text-purple-300">ég tala ➔ við tölum</code>, <code class="text-purple-300">pönnukaka ➔ pönnuköku</code>. Жодного зазубрювання без фонологічної причини.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-rose-500/40 transition-all space-y-2">
+            <div class="flex items-center gap-2 text-rose-400 font-bold font-mono text-xs">
+              <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+              <span>5. КЛІТИЗАЦІЯ SAMRUNI (-TU / -ÐU)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              У реальному ісландському мовленні займенник <em>þú</em> зливається з дієсловом: <code class="text-rose-300">Hvað heitir þú? ➔ Hvað heitirðu?</code>, <code class="text-rose-300">Hvaðan ert þú? ➔ Hvaðan ertu?</code>.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-cyan-500/40 transition-all space-y-2">
+            <div class="flex items-center gap-2 text-cyan-400 font-bold font-mono text-xs">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span>6. АКУСТИЧНЕ ДИФЕРЕНЦІЮВАННЯ</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Вимова тренується через мінімальні пари (*Bara tala*): розрізнення преаспірації ([tʰahk] vs [ˈtʰaːka]) та бокового вибуху ([saitl] vs [sail]), а не просто сліпе читання тексту.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB 2: ICELANDIC LANGUAGE SCHOOLS ================= -->
+    <section id="section-schools" class="tab-content hidden space-y-6">
+      
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-cyber-card to-cyber-deep border border-emerald-500/30 space-y-2">
+        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-[11px] font-bold">
+          <span>🏛️ АКАДЕМІЧНИЙ ПОРІВНЯЛЬНИЙ АНАЛІЗ</span>
+          <span>8 НАЦІОНАЛЬНИХ ІНСТИТУЦІЙ</span>
+        </div>
+        <h1 class="text-2xl font-extrabold text-white">Провідні Мовні Школи, Інститути та Програми Ісландії</h1>
+        <p class="text-slate-400 text-sm max-w-4xl leading-relaxed">
+          Аналіз офіційних методик, підручників, тривалості курсів та спеціалізації провідних освітніх центрів Рейк'явіка, що лягли в основу архітектури нашого інтерактивного тренажера.
+        </p>
+      </div>
+
+      <!-- Schools Grid -->
+      <div id="schools-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Rendered via JS -->
+      </div>
+
+    </section>
+
+    <!-- ================= TAB 3: PODCASTS MASTER PLAN ================= -->
+    <section id="section-podcasts" class="tab-content hidden space-y-6">
+      
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-purple-950/40 via-cyber-card to-cyber-deep border border-purple-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="space-y-1.5 max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-mono text-[11px] font-bold">
+            <span>🎙️ СТУДІЙНЕ ВИРОБНИЦТВО</span>
+            <span>12 БІЛІНГВАЛЬНИХ ЕПІЗОДІВ</span>
+          </div>
+          <h1 class="text-2xl font-extrabold text-white">Генеральний План Виробництва Білінгвальних Подкастів</h1>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Концепція поступового зменшення української мови та пропорційного збільшення ісландської за кривою <strong>«Tungumálastiginn»</strong> (від 80/20 в Епізоді 0 до 10/90 в Епізоді 7+).
+          </p>
+        </div>
+        <div class="p-3 rounded-xl bg-black/60 border border-slate-700 font-mono text-xs text-right space-y-1">
+          <div class="text-slate-400">Нейронні голоси проекту:</div>
+          <div class="text-cyan-300 font-bold">is-IS-GunnarNeural & GudrunNeural</div>
+          <div class="text-emerald-300 font-bold">uk-UA-OstapNeural & PolinaNeural</div>
+        </div>
+      </div>
+
+      <!-- Live Player for Ready Episodes -->
+      <div class="p-5 rounded-2xl bg-cyber-card border border-cyber-border space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-xl font-bold">
+              🎧
+            </div>
+            <div>
+              <div class="text-sm font-bold text-white flex items-center gap-2">
+                <span>Епізод 0: Логіка ісландської граматики: від ландшафту до фонетики</span>
+                <span class="px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono">ГОТОВО (8.8 MB)</span>
+              </div>
+              <div class="text-xs text-slate-400 font-mono">Ведучі: Остап (Аналітик), Gunnar (Носій мови) та Поліна (Філолог)</div>
+            </div>
+          </div>
+          <span class="text-xs font-mono text-slate-400">Хронометраж: ~18 хв</span>
+        </div>
+
+        <audio controls class="w-full h-10 rounded-lg outline-none bg-black/50">
+          <source src="audio/podcasts/m1_logika_islanskoi_hramatyky_vid_landshaftu.m4a" type="audio/mp4">
+          <source src="audio/podcasts/Логіка_ісландської_граматики_від_ландшафту_до_фонетики.m4a" type="audio/mp4">
+          Ваш браузер не підтримує відтворення аудіо.
+        </audio>
+      </div>
+
+      <!-- Episodes Roadmap Grid -->
+      <div class="space-y-3">
+        <h2 class="text-base font-bold text-white flex items-center gap-2 font-mono">
+          <span>📜</span><span>Розклад та Сценарії Епізодів (A0 ➔ B1)</span>
+        </h2>
+        <div id="podcasts-roadmap-list" class="space-y-3">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB 4: ECOSYSTEM & RESOURCES ================= -->
+    <section id="section-ecosystem" class="tab-content hidden space-y-6">
+      
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-cyber-card to-cyber-deep border border-cyan-500/30 space-y-2">
+        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-mono text-[11px] font-bold">
+          <span>🧭 АВТОРИТЕТНІ РЕСУРСИ ТА СХОВИЩА</span>
+          <span>ПОВНА СИНХРОНІЗАЦІЯ</span>
+        </div>
+        <h1 class="text-2xl font-extrabold text-white">Єдиний Хаб Ресурсів Платформи</h1>
+        <p class="text-slate-400 text-sm max-w-3xl leading-relaxed">
+          Централізована панель швидкого доступу до офіційних словників Ісландії, порталів відкритих даних, локальних серверів, GitHub та файлових систем.
+        </p>
+      </div>
+
+      <!-- Links Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- Live Web -->
+        <a href="https://tfmshell-cloud.github.io/islenskukennsla/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-cyan-500/50 transition-all group flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-cyan-400 font-bold">● LIVE ХОСТИНГ</span>
+              <span class="text-xs text-slate-500 group-hover:text-cyan-400 transition-all">↗</span>
+            </div>
+            <div class="text-sm font-bold text-white">GitHub Pages Production</div>
+            <p class="text-xs text-slate-400">Глобальний публічний доступ з автоматичним HTTPS та кешуванням.</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] font-mono text-cyan-300 truncate">
+            https://tfmshell-cloud.github.io/islenskukennsla/
+          </div>
+        </a>
+
+        <!-- Local Server -->
+        <a href="http://localhost:8000/islenska_a1_b2.html" target="_blank" rel="noopener" class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-emerald-500/50 transition-all group flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-emerald-400 font-bold">● ЛОКАЛЬНЕ СЕРЕДОВИЩЕ</span>
+              <span class="text-xs text-slate-500 group-hover:text-emerald-400 transition-all">↗</span>
+            </div>
+            <div class="text-sm font-bold text-white">Localhost HTTP (Порт 8000)</div>
+            <p class="text-xs text-slate-400">Швидке тестування без кешу, жива перевірка ES-модулів та аудіофайлів.</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] font-mono text-emerald-300 truncate">
+            http://localhost:8000/islenska_a1_b2.html
+          </div>
+        </a>
+
+        <!-- GitHub Repo -->
+        <a href="https://github.com/tfmshell-cloud/islenskukennsla" target="_blank" rel="noopener" class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-amber-500/50 transition-all group flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-amber-400 font-bold">● РЕПОЗИТОРІЙ КОДУ</span>
+              <span class="text-xs text-slate-500 group-hover:text-amber-400 transition-all">↗</span>
+            </div>
+            <div class="text-sm font-bold text-white">GitHub Main Repository</div>
+            <p class="text-xs text-slate-400">Контроль версій, історія комітів, релізи та CI/CD пайплайн розгортання.</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] font-mono text-amber-300 truncate">
+            github.com/tfmshell-cloud/islenskukennsla
+          </div>
+        </a>
+
+        <!-- BÍN Árnastofnun -->
+        <a href="https://bin.arnastofnun.is/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-cyan-500/50 transition-all group flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-cyan-400 font-bold">● ОФІЦІЙНИЙ СЛОВНИК</span>
+              <span class="text-xs text-slate-500 group-hover:text-cyan-400 transition-all">↗</span>
+            </div>
+            <div class="text-sm font-bold text-white">BÍN (Beygingarlýsing íslensks nútímamáls)</div>
+            <p class="text-xs text-slate-400">База даних понад 3 000 000 словозмінних парадигм Інституту Арні Маґнуссона.</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] font-mono text-cyan-300 truncate">
+            bin.arnastofnun.is
+          </div>
+        </a>
+
+        <!-- Tungumálatorg -->
+        <a href="https://tungumalatorg.is/ifa/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-purple-500/50 transition-all group flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-purple-400 font-bold">● ДЕРЖАВНИЙ ПІДРУЧНИК</span>
+              <span class="text-xs text-slate-500 group-hover:text-purple-400 transition-all">↗</span>
+            </div>
+            <div class="text-sm font-bold text-white">Íslenska fyrir alla (Tungumálatorg)</div>
+            <p class="text-xs text-slate-400">Оригінальні підручники, робочі зошити та аудіоматеріали Menntamálastofnun.</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] font-mono text-purple-300 truncate">
+            tungumalatorg.is/ifa/
+          </div>
+        </a>
+
+        <!-- Icelandic Online -->
+        <a href="https://icelandiconline.com/" target="_blank" rel="noopener" class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-emerald-500/50 transition-all group flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-emerald-400 font-bold">● УНІВЕРСИТЕТСЬКИЙ КУРС</span>
+              <span class="text-xs text-slate-500 group-hover:text-emerald-400 transition-all">↗</span>
+            </div>
+            <div class="text-sm font-bold text-white">Icelandic Online (Háskóli Íslands)</div>
+            <p class="text-xs text-slate-400">Безкоштовна інтерактивна академічна система рівнів від IOL 1 (A1) до IOL 5 (C1).</p>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] font-mono text-emerald-300 truncate">
+            icelandiconline.com
+          </div>
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-cyber-border bg-cyber-deep/80 py-4 text-center text-xs font-mono text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>Íslenska A1–B2 Platform • Науковий Керівник та Архітектор: Аргоша / Андрюша</div>
+      <div class="text-slate-400">Синхронізація: Scratch • Desktop • Google Drive • GitHub</div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT ENGINE -->
+  <script type="module">
+    import { METHODOLOGICAL_CORPUS } from './data/methodological_corpus.js?v=2.0';
+
+    // 1. Tab Switching Logic
+    window.switchTab = function(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('text-slate-400');
+      });
+
+      const targetSection = document.getElementById(`section-${tabName}`);
+      const targetBtn = document.getElementById(`tab-btn-${tabName}`);
+      if (targetSection) targetSection.classList.remove('hidden');
+      if (targetBtn) {
+        targetBtn.classList.add('active');
+        targetBtn.classList.remove('text-slate-400');
+      }
+    };
+
+    // 2. Render Master Roadmap Table
+    const tableBody = document.getElementById('roadmap-table-body');
+    if (tableBody) {
+      tableBody.innerHTML = METHODOLOGICAL_CORPUS.curriculumConcordance.map(row => `
+        <tr class="hover:bg-slate-800/40 transition-colors cursor-pointer group" data-level="${row.level}">
+          <td class="p-3.5 text-center font-bold">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold border ${
+              row.level.startsWith('A0') ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' :
+              row.level.startsWith('A1') ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+              row.level.startsWith('A2') ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+              'bg-purple-500/10 text-purple-400 border-purple-500/30'
+            }">${row.level}</span>
+          </td>
+          <td class="p-3.5">
+            <div class="font-bold text-white group-hover:text-cyan-300 transition-colors">${row.ourModule}</div>
+            <div class="text-[11px] text-slate-400">${row.cefrTitle}</div>
+          </td>
+          <td class="p-3.5 text-slate-300">
+            <div class="text-cyan-300 font-semibold">${row.islenskaFyrirAlla}</div>
+          </td>
+          <td class="p-3.5 text-slate-300">
+            <div class="text-emerald-300">${row.workplaceSyllabus}</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Mímir: ${row.mimirLevel}</div>
+          </td>
+          <td class="p-3.5 text-slate-300 max-w-xs">
+            <div class="line-clamp-2 text-[11px]">${row.grammarFocus}</div>
+            <div class="text-rose-400 text-[10px] mt-1 font-semibold">Пастка: ${row.phoneticTrap}</div>
+          </td>
+          <td class="p-3.5 text-slate-300 max-w-xs">
+            <div class="line-clamp-2 text-[11px] text-amber-200/90 font-sans">${row.communicativeGoal}</div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // 3. Roadmap Filter Logic
+    window.filterRoadmap = function(lvl) {
+      document.querySelectorAll('.rf-btn').forEach(btn => {
+        btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/50');
+        btn.classList.add('bg-black/40', 'text-slate-400', 'border-slate-700');
+      });
+      event.target.classList.remove('bg-black/40', 'text-slate-400', 'border-slate-700');
+      event.target.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/50');
+
+      document.querySelectorAll('#roadmap-table-body tr').forEach(row => {
+        const rowLvl = row.dataset.level || '';
+        if (lvl === 'all' || rowLvl.startsWith(lvl)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    };
+
+    // 4. Render Schools Cards
+    const schoolsGrid = document.getElementById('schools-cards-grid');
+    if (schoolsGrid) {
+      schoolsGrid.innerHTML = METHODOLOGICAL_CORPUS.authoritativeInstitutions.map(sch => `
+        <div class="p-5 rounded-2xl bg-cyber-card border border-cyber-border hover:border-cyan-500/40 transition-all space-y-3">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider">${sch.location}</div>
+              <h3 class="text-lg font-extrabold text-white mt-0.5">${sch.name}</h3>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full bg-slate-800 border border-slate-700 font-mono text-[10px] font-bold text-slate-300">
+              ${sch.levels}
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 font-medium leading-relaxed">${sch.role}</p>
+
+          <div class="space-y-1.5 text-xs pt-1">
+            <div class="bg-black/40 p-2.5 rounded-lg border border-slate-800">
+              <span class="text-slate-400 font-mono text-[10px] uppercase font-bold block mb-0.5">🎯 Комунікативний фокус:</span>
+              <span class="text-slate-200">${sch.focus}</span>
+            </div>
+            <div class="bg-black/40 p-2.5 rounded-lg border border-slate-800">
+              <span class="text-emerald-400 font-mono text-[10px] uppercase font-bold block mb-0.5">📚 Підручники та база:</span>
+              <span class="text-emerald-200/90 font-mono">${sch.textbookBase}</span>
+            </div>
+            <div class="bg-black/40 p-2.5 rounded-lg border border-slate-800">
+              <span class="text-amber-400 font-mono text-[10px] uppercase font-bold block mb-0.5">⚡ Ключова перевага:</span>
+              <span class="text-amber-200/90">${sch.strengths}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 5. Render Podcasts Roadmap
+    const podcastsList = document.getElementById('podcasts-roadmap-list');
+    if (podcastsList) {
+      podcastsList.innerHTML = METHODOLOGICAL_CORPUS.podcastProductionPlan.map(pod => `
+        <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-purple-500/40 transition-all space-y-2.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyber-border/60 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 font-mono text-xs font-bold">
+                Епізод ${pod.ep}
+              </span>
+              <span class="text-xs font-mono text-slate-400">Рівень: <strong class="text-cyan-300">${pod.level}</strong></span>
+              <span class="text-xs font-mono text-slate-400">⏱️ ${pod.duration}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                pod.fileStatus.includes('ГОТОВО') 
+                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' 
+                  : pod.fileStatus.includes('РОЗРОБЦІ') 
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' 
+                  : 'bg-slate-800 text-slate-400 border border-slate-700'
+              }">
+                ${pod.fileStatus}
+              </span>
+              <div class="text-[10px] font-mono text-slate-300 bg-black/50 px-2 py-0.5 rounded border border-slate-800">
+                🇺🇦 ${pod.bilingualRatio.ukr}% / 🇮🇸 ${pod.bilingualRatio.isl}%
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="text-sm font-bold text-white">${pod.titleUkr}</div>
+            <div class="text-xs font-mono text-purple-300 italic">${pod.titleIsl}</div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">${pod.coreTopics}</p>
+
+          <div class="flex flex-wrap items-center gap-1.5 pt-1">
+            <span class="text-[10px] font-mono text-slate-400">Опорна лексика:</span>
+            ${pod.anchorTerms.map(t => `<span class="px-2 py-0.5 rounded bg-black/60 border border-slate-800 text-cyan-300 font-mono text-[11px]">${t}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+  </script>
+
+</body>
+</html>
