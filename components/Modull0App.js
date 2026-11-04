@@ -25,6 +25,7 @@ import { Module0StudyGuide } from './Module0StudyGuide.js?v=7.9';
 import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=7.5';
 import { Kafli3RoutineApp } from './Kafli3RoutineApp.js?v=7.1';
 import { Kafli4ClothingApp } from './Kafli4ClothingApp.js?v=1.0';
+import { Kafli5HealthFamilyApp } from './Kafli5HealthFamilyApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
 import { binAuraSystem } from './BinAuraSystem.js?v=7.1';
@@ -153,6 +154,9 @@ export class Modull0App {
                 <button data-chapter="kafli_4" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_4' ? 'active' : ''}">
                   👗 Урок 4: Одяг
                 </button>
+                <button data-chapter="kafli_5" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_5' ? 'active' : ''}">
+                  🩺 Урок 5: Здоров'я
+                </button>
                 <button data-chapter="flashcards" class="chapter-nav-btn nav-btn ${this.activeChapter === 'flashcards' ? 'active' : ''} text-amber-300 border-amber-500/40">
                   🗂️ Картки & NotebookLM
                 </button>
@@ -267,6 +271,11 @@ export class Modull0App {
           <!-- ================= TAB 4: УРОК 4 (ОДЯГ ТА ПРИКМЕТНИКИ) ================= -->
           <div id="chapter-container-kafli_4" class="chapter-view ${this.activeChapter === 'kafli_4' ? '' : 'hidden'} space-y-4">
             <!-- Populated by Kafli4ClothingApp -->
+          </div>
+
+          <!-- ================= TAB 5: УРОК 5 (СІМ'Я, АНАТОМІЯ ТА ЗДОРОВ'Я) ================= -->
+          <div id="chapter-container-kafli_5" class="chapter-view ${this.activeChapter === 'kafli_5' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by Kafli5HealthFamilyApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -494,6 +503,13 @@ export class Modull0App {
       this.components.kafli4.render();
     }
 
+    // 4d. Mount Kafli 5 Health & Family App
+    const k5Container = this.root.querySelector('#chapter-container-kafli_5');
+    if (k5Container) {
+      this.components.kafli5 = new Kafli5HealthFamilyApp(k5Container);
+      this.components.kafli5.render();
+    }
+
     // 4c. Mount Master Flashcards & NotebookLM Studio Hub
     const flashcardsContainer = this.root.querySelector('#chapter-container-flashcards');
     if (flashcardsContainer) {
@@ -552,6 +568,7 @@ export class Modull0App {
         else if (this.activeChapter === 'drops_lab') currentMod = 'drops_lab';
         else if (this.activeChapter === 'modull_3') currentMod = 'modull_3';
         else if (this.activeChapter === 'kafli_4') currentMod = 'kafli_4';
+        else if (this.activeChapter === 'kafli_5') currentMod = 'kafli_5';
         this.focusArena.open(currentMod);
       });
     }
@@ -697,6 +714,10 @@ export class Modull0App {
           heroBadge.innerText = 'УРОК 4 • ОДЯГ ТА КОЛЬОРИ (СИЛЬНІ ПРИКМЕТНИКИ)';
           heroTitle.innerText = 'Урок 4: Одяг, кольори та сильна відміна (Föt, litir & lýsingarorð)';
           break;
+        case 'kafli_5':
+          heroBadge.innerText = 'УРОК 5 • СІМ\'Я ТА ЗДОРОВ\'Я (LÍKAMINN & HEILSA)';
+          heroTitle.innerText = 'Урок 5: Сім\'я, анатомія та здоров\'я (Fjölskyldan, líkaminn & heilsan)';
+          break;
         case 'saga_map':
           heroBadge.innerText = 'МАПА САГИ • HRINGVEGUR 1';
           heroTitle.innerText = 'Мапа Саги: Кільцева дорога Ісландії (Roadmap)';
@@ -732,6 +753,9 @@ export class Modull0App {
     }
     if (chapterId === 'kafli_4' && this.components.kafli4) {
       this.components.kafli4.render();
+    }
+    if (chapterId === 'kafli_5' && this.components.kafli5) {
+      this.components.kafli5.render();
     }
     if (chapterId === 'flashcards' && this.components.flashcardsHub) {
       this.components.flashcardsHub.render();
