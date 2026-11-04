@@ -4,7 +4,267 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Íslenska A1–B2 | Повна Дорожня Карта 4 Книг Íslenska fyrir alla (33 Розділи)</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com">
+    // ==========================================
+    // PODCAST STUDIO ENGINE
+    // ==========================================
+    let activePodcastEp = 0;
+    let activePodcastCat = 'all';
+    let podcastSearchQuery = '';
+
+    window.setPodcastSpeed = function(speed) {
+      const player = document.getElementById('main-podcast-player');
+      if (player) player.playbackRate = speed;
+      document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.className = 'speed-btn px-2 py-0.5 rounded text-slate-400 hover:text-white';
+      });
+      const idMap = { 0.8: 'speed-08', 1.0: 'speed-10', 1.2: 'speed-12' };
+      const target = document.getElementById(idMap[speed]);
+      if (target) {
+        target.className = 'speed-btn px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold';
+      }
+    };
+
+    window.filterPodcastCategory = function(catId) {
+      activePodcastCat = catId;
+      renderPodcastCategories();
+      renderPodcastsList();
+    };
+
+    window.selectPodcastEpisode = function(epNum) {
+      activePodcastEp = epNum;
+      const ep = PODCASTS_CORPUS.episodes.find(e => String(e.ep) === String(epNum));
+      if (!ep) return;
+
+      const titleEl = document.getElementById('player-track-title');
+      const subEl = document.getElementById('player-track-sub');
+      const badgeEl = document.getElementById('player-ep-badge');
+      const statusEl = document.getElementById('player-status-badge');
+      const player = document.getElementById('main-podcast-player');
+      const dlBtn = document.getElementById('player-download-btn');
+
+      if (titleEl) titleEl.textContent = ep.titleUkr;
+      if (subEl) subEl.textContent = `${ep.titleIsl} • ${ep.duration} • ${ep.bilingualRatio}`;
+      if (badgeEl) badgeEl.textContent = `Епізод ${ep.ep}`;
+
+      if (ep.audioFile) {
+        if (statusEl) {
+          statusEl.className = 'px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono';
+          statusEl.textContent = ep.statusLabel;
+        }
+        if (player) {
+          player.src = ep.audioFile;
+          player.load();
+          player.play().catch(() => {});
+        }
+        if (dlBtn) {
+          dlBtn.href = ep.audioFile;
+          dlBtn.style.display = 'flex';
+        }
+      } else {
+        if (statusEl) {
+          statusEl.className = 'px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-xs font-mono';
+          statusEl.textContent = '📝 СЦЕНАРІЙ ЗАТВЕРДЖЕНО (ГОТОВИЙ ДО ЗАПИСУ)';
+        }
+        if (player) {
+          player.removeAttribute('src');
+        }
+        if (dlBtn) {
+          dlBtn.style.display = 'none';
+        }
+      }
+
+      renderPodcastsList();
+      renderActivePodcastDetail(ep);
+    };
+
+    window.speakIcelandicLine = function(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(text);
+      utt.lang = 'is-IS';
+      utt.rate = 0.9;
+      window.speechSynthesis.speak(utt);
+    };
+
+    function renderPodcastCategories() {
+      const container = document.getElementById('podcast-category-filters');
+      if (!container) return;
+
+      container.innerHTML = PODCASTS_CORPUS.categories.map(cat => {
+        const isActive = cat.id === activePodcastCat;
+        const activeClass = isActive 
+          ? 'bg-purple-500/20 text-purple-300 border-purple-500/40 font-bold'
+          : 'bg-black/50 text-slate-400 border-slate-800 hover:text-white';
+        return `
+          <button onclick="filterPodcastCategory('${cat.id}')" class="px-3 py-1 rounded-lg border transition-all whitespace-nowrap flex items-center gap-1.5 ${activeClass}">
+            <span>${cat.icon}</span>
+            <span>${cat.labelUkr}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderPodcastsList() {
+      const container = document.getElementById('podcasts-list-container');
+      const countLabel = document.getElementById('podcast-count-label');
+      if (!container) return;
+
+      let filtered = PODCASTS_CORPUS.episodes;
+      if (activePodcastCat !== 'all') {
+        filtered = filtered.filter(e => e.category === activePodcastCat);
+      }
+      if (podcastSearchQuery) {
+        filtered = filtered.filter(e => 
+          e.titleUkr.toLowerCase().includes(podcastSearchQuery) ||
+          e.titleIsl.toLowerCase().includes(podcastSearchQuery) ||
+          e.situation.toLowerCase().includes(podcastSearchQuery) ||
+          e.anchors.some(a => a.toLowerCase().includes(podcastSearchQuery))
+        );
+      }
+
+      if (countLabel) countLabel.textContent = filtered.length;
+
+      container.innerHTML = filtered.map(ep => {
+        const isCurrent = String(ep.ep) === String(activePodcastEp);
+        const borderClass = isCurrent ? 'border-purple-500/80 bg-purple-950/20 shadow-lg' : 'border-slate-800/80 bg-black/40 hover:border-slate-700';
+        const readyBadge = ep.audioFile 
+          ? '<span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold">🎧 АУДІО</span>'
+          : '<span class="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-mono">📝 ТЕКСТ</span>';
+
+        return `
+          <div onclick="selectPodcastEpisode('${ep.ep}')" class="p-3.5 rounded-xl border ${borderClass} cursor-pointer transition-all space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-black/80 border border-slate-700 font-mono text-xs font-bold text-slate-300">
+                  Ep. ${ep.ep}
+                </span>
+                <span class="text-[11px] font-mono text-cyan-400">${ep.level}</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                ${readyBadge}
+                <span class="text-[11px] font-mono text-slate-400">⏱️ ${ep.duration}</span>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-xs font-bold ${isCurrent ? 'text-purple-300' : 'text-white'} leading-snug">${ep.titleUkr}</h4>
+              <div class="text-[11px] text-slate-400 font-mono italic mt-0.5 truncate">${ep.titleIsl}</div>
+            </div>
+
+            <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1.5 border-t border-slate-800/60">
+              <span>Баланс: ${ep.bilingualRatio}</span>
+              <span class="text-purple-400">${ep.script.length} реплік</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderActivePodcastDetail(ep) {
+      const container = document.getElementById('active-podcast-detail');
+      if (!container) return;
+
+      const speakerColor = {
+        'Остап': { border: 'border-cyan-500/30', name: 'text-cyan-400', icon: '👨‍💼', bg: 'bg-cyan-950/20' },
+        'Поліна': { border: 'border-purple-500/30', name: 'text-purple-400', icon: '👩‍🏫', bg: 'bg-purple-950/20' },
+        'Gunnar': { border: 'border-emerald-500/40', name: 'text-emerald-400', icon: '🇮🇸', bg: 'bg-emerald-950/20' },
+        'Guðrún': { border: 'border-amber-500/40', name: 'text-amber-400', icon: '🇮🇸', bg: 'bg-amber-950/20' }
+      };
+
+      container.innerHTML = `
+        <div class="p-5 rounded-2xl bg-cyber-card border border-cyber-border space-y-4 shadow-xl">
+          <!-- Header -->
+          <div class="border-b border-slate-800 pb-3 space-y-1.5">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/40 font-mono text-xs font-bold text-purple-300">
+                  ЕПІЗОД ${ep.ep} • ${ep.level}
+                </span>
+                <span class="text-xs font-mono text-slate-400">📚 ${ep.sourceRef}</span>
+              </div>
+              <span class="text-xs font-mono text-emerald-400 font-bold">⏱️ ${ep.duration}</span>
+            </div>
+            <h2 class="text-lg font-bold text-white">${ep.titleUkr}</h2>
+            <div class="text-xs font-mono text-purple-300 italic">${ep.titleIsl}</div>
+          </div>
+
+          <!-- Situation Box -->
+          <div class="p-3.5 rounded-xl bg-black/60 border border-slate-800 space-y-1">
+            <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">Прагматична ситуація & ціль:</div>
+            <p class="text-xs text-slate-200 leading-relaxed font-sans">${ep.situation}</p>
+          </div>
+
+          <!-- Pedagogical Anchors -->
+          <div class="space-y-1.5">
+            <div class="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider">🔑 Мовні та практичні якорі епізоду:</div>
+            <div class="flex flex-wrap gap-1.5">
+              ${ep.anchors.map(a => `
+                <span class="px-2.5 py-1 rounded-lg bg-black/70 border border-slate-700 font-mono text-xs text-slate-300">
+                  ${a}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Script Dialogue Feed -->
+          <div class="space-y-3 pt-2">
+            <div class="flex items-center justify-between text-xs font-mono text-slate-400 border-t border-slate-800 pt-3">
+              <span>📜 СИНХРОНІЗОВАНИЙ СЦЕНАРІЙ ДІАЛОГУ</span>
+              <span>💡 НАТИСНІТЬ 🔊 ДЛЯ ПРОСЛУХОВУВАННЯ РЕПЛІКИ</span>
+            </div>
+
+            <div class="space-y-2.5">
+              ${ep.script.map((line, idx) => {
+                const spk = speakerColor[line.speaker] || speakerColor['Остап'];
+                const isIcelandic = line.speaker === 'Gunnar' || line.speaker === 'Guðrún';
+                const cleanText = line.text.replace(/'/g, "\\'");
+                const speakBtn = isIcelandic
+                  ? `<button onclick="speakIcelandicLine('${cleanText}')" class="px-2 py-0.5 rounded bg-black/80 hover:bg-slate-700 text-cyan-300 text-[11px] font-mono border border-slate-700 flex items-center gap-1 transition-all" title="Озвучити">
+                      <span>🔊</span><span>Вимова</span>
+                     </button>`
+                  : '';
+
+                return `
+                  <div class="p-3.5 rounded-xl border ${spk.border} ${spk.bg} transition-all space-y-1.5">
+                    <div class="flex items-center justify-between text-xs font-mono">
+                      <span class="${spk.name} font-bold flex items-center gap-1.5">
+                        <span>${spk.icon}</span>
+                        <span>${line.speaker}</span>
+                        <span class="text-slate-400 font-normal">(${line.role}):</span>
+                      </span>
+                      ${speakBtn}
+                    </div>
+                    <p class="${isIcelandic ? 'text-emerald-100 font-mono' : 'text-slate-200 font-sans'} text-xs sm:text-sm leading-relaxed">
+                      «${line.text}»
+                    </p>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Bind Search Input for Podcasts
+    const podSearch = document.getElementById('podcast-search-input');
+    if (podSearch) {
+      podSearch.addEventListener('input', (e) => {
+        podcastSearchQuery = e.target.value.toLowerCase().trim();
+        renderPodcastsList();
+      });
+    }
+
+    // Init Podcast Hub
+    renderPodcastCategories();
+    renderPodcastsList();
+    const defaultEp = PODCASTS_CORPUS.episodes[0];
+    if (defaultEp) {
+      renderActivePodcastDetail(defaultEp);
+    }
+
+  </script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -167,109 +427,112 @@
 
     </section>
 
-    <!-- ================= TAB 2: PODCASTS & INTERACTIVE TRANSCRIPT ================= -->
+    <!-- ================= TAB 2: PODCASTS & AUDIO PLAYLIST HUB ================= -->
     <section id="section-podcasts" class="tab-content hidden space-y-6">
       
+      <!-- Hub Header Banner -->
       <div class="p-6 rounded-2xl bg-gradient-to-r from-purple-950/40 via-cyber-card to-cyber-deep border border-purple-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div class="space-y-1.5 max-w-3xl">
-          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-mono text-[11px] font-bold">
+          <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 font-mono text-xs font-bold">
             <span>🎙️ БІЛІНГВАЛЬНИЙ СТУДІЙНИЙ ХАБ</span>
-            <span>ЕПІЗОД 0: АУДІО ТА ТРАНСКРИПТ</span>
+            <span>22 СИТУАЦІЙНІ ЕПІЗОДИ</span>
           </div>
-          <h1 class="text-2xl font-extrabold text-white">Логіка ісландської граматики: від ландшафту до фонетики</h1>
+          <h1 class="text-2xl font-extrabold text-white">Ісландська в дорозі: від ландшафту до вільного спілкування</h1>
           <p class="text-slate-300 text-sm leading-relaxed">
-            Слухайте аудіо та читайте синхронізований білінгвальний транскрипт з фонетичними транскрипціями IPA та поясненнями кожного правила.
+            Повний білінгвальний цикл для прослуховування в дорозі та щоденних поїздок на роботу. Побудовано на реальних сценаріях 
+            <em>«Viltu læra íslensku?»</em> (RÚV), <em>«Tölum saman 2022»</em> (Fræðslugátt) та граматичному кодексі <em>ÍFA 1–4</em>.
           </p>
         </div>
-        <div class="p-3 rounded-xl bg-black/60 border border-slate-700 font-mono text-xs text-right space-y-1">
-          <div class="text-slate-400">Формат та якість:</div>
-          <div class="text-emerald-300 font-bold">8.8 MB • AAC Stereo Stream</div>
-          <div class="text-purple-300 font-bold">Остап 👨‍💼 + Gunnar 🇮🇸 + Поліна 👩‍🏫</div>
+        <div class="p-3.5 rounded-xl bg-black/60 border border-slate-700 font-mono text-xs text-right space-y-1.5 shrink-0">
+          <div class="text-slate-400">Студійний статус:</div>
+          <div class="text-emerald-300 font-bold flex items-center justify-end gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>3 Готові Треки (26.5 MB)</span>
+          </div>
+          <div class="text-purple-300 font-bold">22 Затверджені Сценарії</div>
+          <div class="text-slate-400 text-xs">Остап • Gunnar • Поліна • Guðrún</div>
         </div>
       </div>
 
-      <!-- Integrated Player Box -->
-      <div class="p-5 rounded-2xl bg-cyber-card border border-cyber-border space-y-4">
-        <div class="flex items-center justify-between flex-wrap gap-2">
+      <!-- Integrated Audio Player & Controls Bar -->
+      <div class="p-5 rounded-2xl bg-cyber-card border border-cyber-border space-y-3.5 shadow-xl">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-xl font-bold">
+            <div id="player-status-icon" class="w-11 h-11 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 text-xl font-bold shrink-0">
               🎧
             </div>
             <div>
-              <div class="text-sm font-bold text-white flex items-center gap-2">
-                <span>Епізод 0: Rökfræði tungumálsins: Frá landslagi til hljóðfræði</span>
-                <span class="px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono">ГОТОВО ДО ПРОСЛУХОВУВАННЯ</span>
+              <div class="text-xs font-mono text-purple-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                <span id="player-ep-badge">Епізод 0</span>
+                <span id="player-status-badge" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs">ГОТОВО ДО ПРОСЛУХОВУВАННЯ</span>
               </div>
-              <div class="text-xs text-slate-400 font-mono">Тривалість: ~18 хвилин • Співвідношення: 80% UA / 20% IS</div>
+              <h3 id="player-track-title" class="text-sm sm:text-base font-bold text-white mt-0.5">Логіка ісландської граматики: від ландшафту до фонетики</h3>
+              <div id="player-track-sub" class="text-xs text-slate-400 font-mono">Rökfræði tungumálsins: Frá landslagi til hljóðfræði • 18:42 • 80% UA / 20% IS</div>
             </div>
+          </div>
+
+          <!-- Speed & Direct Download -->
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <div class="flex items-center bg-black/60 rounded-lg p-1 border border-slate-800 text-xs font-mono">
+              <span class="text-slate-400 px-1.5">Швидкість:</span>
+              <button onclick="setPodcastSpeed(0.8)" id="speed-08" class="speed-btn px-2 py-0.5 rounded text-slate-400 hover:text-white">0.8x</button>
+              <button onclick="setPodcastSpeed(1.0)" id="speed-10" class="speed-btn px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold">1.0x</button>
+              <button onclick="setPodcastSpeed(1.2)" id="speed-12" class="speed-btn px-2 py-0.5 rounded text-slate-400 hover:text-white">1.2x</button>
+            </div>
+            <a id="player-download-btn" href="audio/podcasts/m1_logika_islanskoi_hramatyky_vid_landshaftu.m4a" download class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono flex items-center gap-1 transition-all" title="Завантажити трек для прослуховування офлайн">
+              <span>⬇️</span><span class="hidden sm:inline">Офлайн</span>
+            </a>
           </div>
         </div>
 
+        <!-- HTML5 Audio -->
         <audio id="main-podcast-player" controls class="w-full h-11 rounded-xl outline-none bg-black/60 border border-slate-800">
-          <source src="audio/podcasts/m1_logika_islanskoi_hramatyky_vid_landshaftu.m4a" type="audio/mp4">
-          <source src="audio/podcasts/Логіка_ісландської_граматики_від_ландшафту_до_фонетики.m4a" type="audio/mp4">
+          <source id="podcast-audio-source" src="audio/podcasts/m1_logika_islanskoi_hramatyky_vid_landshaftu.m4a" type="audio/mp4">
           Ваш браузер не підтримує аудіо.
         </audio>
       </div>
 
-      <!-- Interactive Bilingual Transcript -->
-      <div class="space-y-3">
-        <div class="flex items-center justify-between">
-          <h2 class="text-base font-bold text-white flex items-center gap-2 font-mono">
-            <span>📜</span><span>Синхронізований Білінгвальний Транскрипт Епізоду 0</span>
-          </h2>
-          <span class="text-xs font-mono text-slate-400">💡 Натисніть на репліку для аналізу</span>
+      <!-- Categories Filter & Search -->
+      <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <!-- Category Pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 text-xs font-mono" id="podcast-category-filters">
+          <!-- Populated by JS -->
         </div>
 
-        <div class="space-y-2.5" id="transcript-container">
-          
-          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-cyan-500/40 transition-all space-y-1.5">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-cyan-400 font-bold">👨‍💼 Остап (Аналітик):</span>
-              <span class="text-slate-500">00:00 - 01:15</span>
-            </div>
-            <p class="text-slate-200 text-sm leading-relaxed">
-              «Привіт усім! Сьогодні ми відкриваємо таємницю найконсервативнішої мови Європи. Чи замислювалися ви, чому сучасний ісландець може без перекладача читати давньоскандинавські саги 12-го століття? І чому саме ландшафт острова сформував цю незвичну фонетику?»
-            </p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-cyber-card border border-emerald-500/30 hover:border-emerald-500/60 transition-all space-y-1.5">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-emerald-400 font-bold">🇮🇸 Gunnar (Носій мови):</span>
-              <span class="text-slate-500">01:16 - 02:40</span>
-            </div>
-            <p class="text-emerald-100 text-sm leading-relaxed font-mono">
-              «Góðan daginn! Já, nákvæmlega. Tungumálið okkar hefur varðveist vegna landfræðilegrar einangrunar. Hljóðin okkar, eins og <strong class="text-emerald-300">ll</strong> í <em class="underline">fjall</em> [fjatl̥] eða <strong class="text-emerald-300">kk</strong> í <em class="underline">takk</em> [tʰahk], eru hluti af náttúrunni.»
-            </p>
-            <div class="text-xs text-slate-300 pt-1 border-t border-slate-800 font-sans">
-              <strong class="text-cyan-300 font-mono">Переклад:</strong> «Доброго дня! Так, саме так. Наша мова збереглася завдяки географічній ізоляції. Наші звуки, такі як <em>ll</em> у слові <em>fjall</em> (гора) або <em>kk</em> у слові <em>takk</em> (дякую), є частиною самої природи.»
-            </div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border hover:border-purple-500/40 transition-all space-y-1.5">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-purple-400 font-bold">👩‍🏫 Поліна (Філолог):</span>
-              <span class="text-slate-500">02:41 - 04:30</span>
-            </div>
-            <p class="text-slate-200 text-sm leading-relaxed">
-              «І тут ми підходимо до першої пастки для українця: в ісландській мові подвоєне <strong>LL</strong> майже ніколи не читається як звичайне довге «л». Це різкий боковий вибух <strong>[tl̥]</strong>! Коли ви дивитеся на вулкан або льодовик, ви кажете <code class="text-cyan-300 font-mono">jökull [ˈjœːkʏtl̥]</code>, клацаючи язиком об альвеоли.»
-            </p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-cyber-card border border-emerald-500/30 hover:border-emerald-500/60 transition-all space-y-1.5">
-            <div class="flex items-center justify-between text-xs font-mono">
-              <span class="text-emerald-400 font-bold">🇮🇸 Gunnar (Носій мови):</span>
-              <span class="text-slate-500">04:31 - 06:10</span>
-            </div>
-            <p class="text-emerald-100 text-sm leading-relaxed font-mono">
-              «Og munið eftir aðblæstri (preaspiration)! Þegar þið segið <strong class="text-emerald-300">takk</strong>, þá kemur lítill andardráttur fyrir k-hljóðið: [tʰahk]. Ekki bara venjulegt [tak].»
-            </p>
-            <div class="text-xs text-slate-300 pt-1 border-t border-slate-800 font-sans">
-              <strong class="text-cyan-300 font-mono">Переклад:</strong> «І пам'ятайте про преаспірацію! Коли ви кажете <em>takk</em>, перед звуком «k» відбувається легкий видих через гортань: [tʰahk], а не просто пласке [так].»
-            </div>
-          </div>
-
+        <!-- Search Input -->
+        <div class="relative w-full md:w-72">
+          <input 
+            type="text" 
+            id="podcast-search-input" 
+            placeholder="Пошук епізоду або теми..." 
+            class="w-full pl-9 pr-3 py-1.5 rounded-xl bg-cyber-card border border-cyber-border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/60 font-mono transition-all"
+          >
+          <span class="absolute left-3 top-2 text-slate-500 text-xs">🔍</span>
         </div>
+      </div>
+
+      <!-- Main Studio Layout: Left Playlist, Right Script & Anchors -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left: Episodes Playlist (lg:col-span-5) -->
+        <div class="lg:col-span-5 space-y-3">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+            <span>ПЛЕЙЛИСТ ЕПІЗОДІВ (<span id="podcast-count-label">22</span>)</span>
+            <span>💡 ОБЕРІТЬ ДЛЯ ЗАПУСКУ</span>
+          </div>
+
+          <div class="space-y-2.5 max-h-[750px] overflow-y-auto pr-1" id="podcasts-list-container">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- Right: Active Episode Studio & Script (lg:col-span-7) -->
+        <div class="lg:col-span-7 space-y-4">
+          <div id="active-podcast-detail">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </div>
+
       </div>
 
     </section>
@@ -495,6 +758,7 @@
   <!-- SCRIPT ENGINE -->
   <script type="module">
     import { METHODOLOGICAL_CORPUS } from './data/methodological_corpus.js?v=3.0';
+    import { PODCASTS_CORPUS } from './data/podcasts_corpus.js?v=2.0';
 
     let activeBook = 1;
     let searchQuery = '';
@@ -638,6 +902,13 @@
 
     // Initial render
     renderBooks();
+
+    // Check URL parameters / hash to activate correct tab (e.g. ?tab=podcasts or #podcasts)
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab') || window.location.hash.replace('#', '');
+    if (tabParam && ['ifa_roadmap', 'podcasts', 'exams', 'ecosystem'].includes(tabParam)) {
+      window.switchTab(tabParam);
+    }
   </script>
 
 </body>
