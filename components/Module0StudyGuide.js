@@ -17,15 +17,144 @@
  * - Dual-theme support (Dark & Nordic Light)
  */
 
-import { M0_STUDY_GUIDE_DATA } from '../data/m0_study_guide_data.js?v=7.0';
-import { audioEngine } from './AudioEngine.js?v=7.0';
+import { M0_STUDY_GUIDE_DATA } from '../data/m0_study_guide_data.js?v=7.2';
+import { audioEngine } from './AudioEngine.js?v=7.2';
+
+const STUDY_MATRIX_TRAPS = [
+  {
+    num: 1,
+    trap: 'Преаспірація',
+    spelling: 'pp, tt, kk',
+    ipa: '[hp] • [ht] • [hk]',
+    physiology: 'Мікропауза з видихом повітря через відкриту гортань перед розмиканням губ чи язика. Не подовжувати приголосний!',
+    pairA: { word: 'taka', ipa: '[ˈtʰaːka]', uk: 'брати' },
+    pairB: { word: 'takk', ipa: '[tʰahk]', uk: 'дякую' }
+  },
+  {
+    num: 2,
+    trap: 'Латеральний вибух',
+    spelling: 'll',
+    ipa: '[tl]',
+    physiology: 'Боковий вибух: кінчик язика притискається до альвеол, а повітря з вибухом проходить з боків язика.',
+    pairA: { word: 'Sæl', ipa: '[sail]', uk: 'привіт (ж.р.)' },
+    pairB: { word: 'Sæll', ipa: '[saitl]', uk: 'привіт (ч.р.)' }
+  },
+  {
+    num: 3,
+    trap: 'Носова асиміляція',
+    spelling: 'nn (після дифтонгів)',
+    ipa: '[tn]',
+    physiology: 'Вибухове переривання [t] з виходом повітря через ніс [n]. Працює лише після дифтонгів та довгих голосних з акутом.',
+    pairA: { word: 'penni', ipa: '[ˈpʰɛnnɪ]', uk: 'ручка (короткий [e])' },
+    pairB: { word: 'steinn', ipa: '[steitn]', uk: 'камінь (дифтонг [ei])' }
+  },
+  {
+    num: 4,
+    trap: 'Якість голосних',
+    spelling: 'Í / Ý vs I / Y',
+    ipa: '[iː] vs [ɪ]',
+    physiology: 'Í/Ý — напружене довге [iː] у широкій посмішці; I/Y — ненапружене коротке [ɪ] у середній позиції язика (близьке до укр. «и»).',
+    pairA: { word: 'ís', ipa: '[iːs]', uk: 'морозиво / лід' },
+    pairB: { word: 'is', ipa: '[ɪs]', uk: 'є (від vera)' }
+  },
+  {
+    num: 5,
+    trap: 'Міжзубний шурхіт',
+    spelling: 'Þ vs Ð',
+    ipa: '[θ] vs [ð]',
+    physiology: 'Кінчик язика затиснутий між зубами. Þ — глухий шум тільки на початку слова; Ð — дзвінкий у середині або в кінці.',
+    pairA: { word: 'bú', ipa: '[puː]', uk: 'ферма (без ð)' },
+    pairB: { word: 'búð', ipa: '[puːð]', uk: 'крамниця (із ð)' }
+  },
+  {
+    num: 6,
+    trap: 'Лабіовеляри та F-кластери',
+    spelling: 'hv, fn, fl',
+    ipa: '[kv] • [pn] • [pl]',
+    physiology: 'Губно-зубне мутування: початкове hv- завжди дає [kv]; літера f перед n/l стає глухим вибуховим [p].',
+    pairA: { word: 'hvað', ipa: '[kvað]', uk: 'що' },
+    pairB: { word: 'nafn', ipa: '[napn]', uk: 'ім’я (Keflavík [ˈcʰɛpla.viːk])' }
+  }
+];
+
+const STUDY_MATRIX_ETIQUETTE = [
+  {
+    category: 'Однина чоловічий рід',
+    sub: 'Karlkyn (m.)',
+    greet1: 'Sæll!',
+    greet1Ipa: '[saitl]',
+    greetFull: 'Komdu sæll!',
+    greetFullIpa: '[ˈkʰɔmtʏ saitl]',
+    farewell: 'Blessaður!',
+    farewellIpa: '[ˈplɛssaðʏr]',
+    note: 'Містить боковий вибух [tl] та чоловіче закінчення -ur.'
+  },
+  {
+    category: 'Однина жіночий рід',
+    sub: 'Kvenkyn (f.)',
+    greet1: 'Sæl!',
+    greet1Ipa: '[sail]',
+    greetFull: 'Komdu sæl!',
+    greetFullIpa: '[ˈkʰɔmtʏ sail]',
+    farewell: 'Blessuð!',
+    farewellIpa: '[ˈplɛssʏð]',
+    note: 'Закінчується на м’яке чисте [l] та жіночу флексію -uð.'
+  },
+  {
+    category: 'Множина: Чоловіки',
+    sub: 'Karlkyn fleirtala',
+    greet1: 'Sælir!',
+    greet1Ipa: '[ˈsailɪr]',
+    greetFull: 'Komið þið sælir!',
+    greetFullIpa: '[ˈkʰɔmɪð ðɪð ˈsailɪr]',
+    farewell: 'Blessaðir!',
+    farewellIpa: '[ˈplɛssaðɪr]',
+    note: 'Узгодження у чоловічому роді множини (закінчення -ir).'
+  },
+  {
+    category: 'Множина: Жінки',
+    sub: 'Kvenkyn fleirtala',
+    greet1: 'Sælar!',
+    greet1Ipa: '[ˈsailar]',
+    greetFull: 'Komið þið sælar!',
+    greetFullIpa: '[ˈkʰɔmɪð ðɪð ˈsailar]',
+    farewell: 'Blessaðar!',
+    farewellIpa: '[ˈplɛssaðar]',
+    note: 'Узгодження у жіночому роді множини (закінчення -ar).'
+  },
+  {
+    category: 'Змішана група (Чол. + Жін.)',
+    sub: 'Hvorugkyn fleirtala',
+    greet1: 'Sæl!',
+    greet1Ipa: '[sail]',
+    greetFull: 'Komið þið sæl!',
+    greetFullIpa: '[ˈkʰɔmɪð ðɪð sail]',
+    farewell: 'Blessuð!',
+    farewellIpa: '[ˈplɛssʏð]',
+    note: 'Для змішаної групи вживається середній рід множини.'
+  }
+];
+
+const STUDY_MATRIX_NUMBERS = [
+  { num: 0, word: 'núll', ipa: '[nulː] / [nutl]', rule: 'Подвоєне ll у числівнику núll зберігає подовжене чисте [lː] або легкий боковий вибух.' },
+  { num: 1, word: 'einn', ipa: '[eitn]', rule: 'Носова асиміляція nn ➔ [tn]: після дифтонга ei подвоєне nn вибухає через ніс.' },
+  { num: 2, word: 'tveir', ipa: '[tveir]', rule: 'Аспірація t: початкова t вимовляється з легким придихом; ei дає чистий дифтонг [ei].' },
+  { num: 3, word: 'þrír', ipa: '[θrir]', rule: 'Глухий міжзубний Þ: кінчик язика затиснутий між зубами без залучення голосу.' },
+  { num: 4, word: 'fjórir', ipa: '[ˈfjourɪr]', rule: 'Огублений дифтонг ó: плавний перехід від [ɔ] до [u] ([ou]) після м’якої j.' },
+  { num: 5, word: 'fimm', ipa: '[fɪmm]', rule: 'Короткий монофтонг i: ненапружене чисте [ɪ] перед подвоєною носовою mm.' },
+  { num: 6, word: 'sex', ipa: '[sɛks]', rule: 'Кластер x: буква x дає чітку глуху групу приголосних [ks].' },
+  { num: 7, word: 'sjö', ipa: '[sjœ]', rule: 'Огублена передня ö: позиція язика для «е», але губи округлені в трубочку [œ].' },
+  { num: 8, word: 'átta', ipa: '[ˈauhta]', rule: 'Преаспірація tt ➔ [ht]: перед подвоєним tt утворюється гортанний видих повітря [h].' },
+  { num: 9, word: 'níu', ipa: '[ˈniːʏ]', rule: 'Довге напружене í: вимова у посмішці [iː], за якою слідує переднє огублене u [ʏ].' },
+  { num: 10, word: 'tíu', ipa: '[ˈtʰiːʏ]', rule: 'Придихова t + довге í: виражений гортанний вибух повітря [tʰ] на початку слова.' }
+];
 
 export class Module0StudyGuide {
   constructor(container, onJumpToExam = null) {
     this.container = container;
     this.onJumpToExam = onJumpToExam;
     this.data = M0_STUDY_GUIDE_DATA;
-    this.viewMode = 'text'; // 'text', 'mindmap', or 'podcast'
+    this.viewMode = 'matrix'; // 'matrix', 'text', 'mindmap', or 'podcast'
     this.mindMapSubMode = 'tree'; // 'tree' or 'original'
     this.activeSection = 'all'; // 'all' or section id
     this.searchQuery = '';
@@ -36,32 +165,33 @@ export class Module0StudyGuide {
   render() {
     const isPodcast = this.viewMode === 'podcast';
     const isMindMap = this.viewMode === 'mindmap';
+    const isMatrix = this.viewMode === 'matrix';
 
     this.container.innerHTML = `
-      <div class="space-y-4 max-w-4xl mx-auto select-none-text">
+      <div class="space-y-4 max-w-5xl mx-auto select-none-text">
         
         <!-- Header Banner -->
         <div class="arena-theme-card p-4 sm:p-6 rounded-2xl space-y-4 shadow-xl border border-cyan-500/30">
           <div class="flex items-center justify-between flex-wrap gap-3 pb-3 border-b border-slate-700/50">
             <div class="flex items-center gap-3">
-              <span class="text-3xl sm:text-4xl">${isPodcast ? '🎙️' : isMindMap ? '🧠' : '📖'}</span>
+              <span class="text-3xl sm:text-4xl">${isPodcast ? '🎙️' : isMindMap ? '🧠' : isMatrix ? '🎓' : '📖'}</span>
               <div>
                 <div class="flex items-center gap-2 flex-wrap">
                   <h2 class="text-base sm:text-lg font-black arena-word-heading font-mono">
                     ${this.data.title}: ${this.data.icelandicTitle}
                   </h2>
                   <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-                    NotebookLM Studio
+                    NotebookLM Studio + Study Matrix
                   </span>
                 </div>
-                <p class="text-xs text-slate-400 mt-0.5">${this.data.subtitle} • За матеріалами NotebookLM & Árnastofnun</p>
+                <p class="text-xs text-slate-400 mt-0.5">${this.data.subtitle} • Академічна шпаргалка, конспект, карта та подкаст</p>
               </div>
             </div>
 
             <!-- Action Buttons: Print & Copy -->
             <div class="flex items-center gap-2">
               <button id="guide-copy-btn" class="px-3 py-1.5 rounded-xl bg-black/60 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-slate-700 hover:border-cyan-400 text-xs font-mono font-bold transition-all flex items-center gap-1.5">
-                <span>📋</span><span class="hidden sm:inline">Копіювати конспект</span>
+                <span>📋</span><span class="hidden sm:inline">Копіювати</span>
               </button>
               <button id="guide-print-btn" class="px-3 py-1.5 rounded-xl bg-black/60 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-300 border border-slate-700 hover:border-emerald-400 text-xs font-mono font-bold transition-all flex items-center gap-1.5">
                 <span>🖨️</span><span class="hidden sm:inline">Друк / PDF</span>
@@ -69,15 +199,18 @@ export class Module0StudyGuide {
             </div>
           </div>
 
-          <!-- Master View Switcher (3 Tabs: Text / Mind Map / Podcast) -->
-          <div class="flex items-center justify-center p-1 rounded-xl bg-black/60 border border-slate-800 max-w-xl mx-auto">
-            <button id="guide-view-text-btn" class="flex-1 py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'text' ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
-              <span>📖</span><span>Конспект</span>
+          <!-- Master View Switcher (4 Tabs: Study Matrix / Text / Mind Map / Podcast) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 rounded-xl bg-black/60 border border-slate-800 max-w-3xl mx-auto">
+            <button id="guide-view-matrix-btn" class="py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'matrix' ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
+              <span>🎓</span><span>Матриця-Шпаргалка</span>
             </button>
-            <button id="guide-view-mindmap-btn" class="flex-1 py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'mindmap' ? 'bg-purple-500/25 text-purple-300 border border-purple-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
-              <span>🧠</span><span>Карта</span>
+            <button id="guide-view-text-btn" class="py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'text' ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
+              <span>📖</span><span>Повний конспект</span>
             </button>
-            <button id="guide-view-podcast-btn" class="flex-1 py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'podcast' ? 'bg-amber-500/25 text-amber-300 border border-amber-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
+            <button id="guide-view-mindmap-btn" class="py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'mindmap' ? 'bg-purple-500/25 text-purple-300 border border-purple-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
+              <span>🧠</span><span>Ментальна карта</span>
+            </button>
+            <button id="guide-view-podcast-btn" class="py-1.5 px-2.5 rounded-lg font-mono text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${this.viewMode === 'podcast' ? 'bg-amber-500/25 text-amber-300 border border-amber-400 shadow-sm' : 'text-slate-400 hover:text-white border border-transparent'}">
               <span>🎙️</span><span>Аудіоогляд (17 хв)</span>
             </button>
           </div>
@@ -85,9 +218,9 @@ export class Module0StudyGuide {
           ${this.viewMode === 'text' ? this.renderTextControls() : this.viewMode === 'mindmap' ? this.renderMindMapControls() : ''}
         </div>
 
-        <!-- Main Workspace (Text Guide vs Mind Map vs Podcast) -->
+        <!-- Main Workspace (Study Matrix vs Text Guide vs Mind Map vs Podcast) -->
         <div id="guide-main-content">
-          ${this.viewMode === 'text' ? this.renderTextView() : this.viewMode === 'mindmap' ? this.renderMindMapView() : this.renderPodcastView()}
+          ${this.viewMode === 'matrix' ? this.renderStudyMatrixView() : this.viewMode === 'text' ? this.renderTextView() : this.viewMode === 'mindmap' ? this.renderMindMapView() : this.renderPodcastView()}
         </div>
 
         <!-- Final Call to Action Card: Jump to Certification Exam -->
@@ -160,6 +293,182 @@ export class Module0StudyGuide {
         <div class="flex items-center gap-2 text-[11px] text-slate-400">
           <span>Підказка: клікайте на іконку 🔊 для вимови носієм Gunnar</span>
         </div>
+      </div>
+    `;
+  }
+
+  renderStudyMatrixView() {
+    return `
+      <div class="space-y-4">
+        
+        <!-- TABLE 1: 6 MAIN PHONETIC TRAPS OF REYKJAVIK -->
+        <div class="arena-theme-card p-4 sm:p-6 rounded-2xl border border-emerald-500/40 shadow-xl space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+            <div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
+                Блок 1 • Орфоепічна матриця
+              </span>
+              <h3 class="text-sm sm:text-base font-black text-white font-mono mt-1">
+                ⚡ 1. Матриця «6 головних фонетичних пасток Рейк'явіка»
+              </h3>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400">Натискайте на слова 🔊 для миттєвого порівняння</span>
+          </div>
+
+          <p class="text-xs text-slate-300 font-sans">
+            Фонетична система ісландської мови вимагає від україномовного студента перебудови мовленнєвого апарату, оскільки ключові розрізнення відбуваються за рахунок придиху, бокового вибуху та міжзубної артикуляції.
+          </p>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-800">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-black/70 text-slate-300 font-mono text-[11px] border-b border-slate-800">
+                  <th class="p-2.5 text-center w-8">#</th>
+                  <th class="p-2.5">Пастка та правопис</th>
+                  <th class="p-2.5 text-center">Звук IPA</th>
+                  <th class="p-2.5">Фізіологія артикуляції (дія язика / гортані)</th>
+                  <th class="p-2.5">Контрастна пара та смислове значення (🔊 Клік)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80">
+                ${STUDY_MATRIX_TRAPS.map(row => `
+                  <tr class="hover:bg-emerald-500/5 transition-colors">
+                    <td class="p-2.5 text-center font-mono font-black text-emerald-400">${row.num}</td>
+                    <td class="p-2.5">
+                      <div class="font-bold text-white font-sans">${row.trap}</div>
+                      <code class="px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 font-mono text-[11px] border border-cyan-500/30 inline-block mt-0.5">${row.spelling}</code>
+                    </td>
+                    <td class="p-2.5 text-center font-mono font-bold text-amber-300 whitespace-nowrap">${row.ipa}</td>
+                    <td class="p-2.5 font-sans text-slate-200 leading-snug max-w-xs">${row.physiology}</td>
+                    <td class="p-2.5">
+                      <div class="flex flex-col gap-1.5">
+                        <button class="matrix-audio-btn px-2.5 py-1 rounded-lg bg-black/60 hover:bg-cyan-500/20 border border-slate-700 hover:border-cyan-400 text-left transition-all flex items-center justify-between gap-2 group" data-phrase="${row.pairA.word}">
+                          <span><strong class="font-mono text-white group-hover:text-cyan-300">${row.pairA.word}</strong> <span class="font-mono text-cyan-400 text-[11px]">${row.pairA.ipa}</span> <span class="text-slate-400 text-[11px]">(${row.pairA.uk})</span></span>
+                          <span class="text-cyan-400 text-xs">🔊</span>
+                        </button>
+                        <button class="matrix-audio-btn px-2.5 py-1 rounded-lg bg-black/60 hover:bg-rose-500/20 border border-slate-700 hover:border-rose-400 text-left transition-all flex items-center justify-between gap-2 group" data-phrase="${row.pairB.word}">
+                          <span><strong class="font-mono text-white group-hover:text-rose-300">${row.pairB.word}</strong> <span class="font-mono text-amber-300 text-[11px]">${row.pairB.ipa}</span> <span class="text-slate-400 text-[11px]">(${row.pairB.uk})</span></span>
+                          <span class="text-amber-400 text-xs">🔊</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TABLE 2: SOCIOLINGUISTIC ETIQUETTE MATRIX (GREETINGS & FAREWELLS) -->
+        <div class="arena-theme-card p-4 sm:p-6 rounded-2xl border border-cyan-500/40 shadow-xl space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+            <div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 uppercase">
+                Блок 2 • Гендерна та числова прагматика
+              </span>
+              <h3 class="text-sm sm:text-base font-black text-white font-mono mt-1">
+                🤝 2. Матриця соціолінгвістичного етикету (Вітання та прощання)
+              </h3>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400">Кожна клітинка озвучена студійним голосом 🔊</span>
+          </div>
+
+          <p class="text-xs text-slate-300 font-sans">
+            В ісландській мові формули привітання та благословення обов'язково <strong>узгоджуються за родом і числом із адресатом</strong> (тими, до кого звертаються).
+          </p>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-800">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-black/70 text-slate-300 font-mono text-[11px] border-b border-slate-800">
+                  <th class="p-2.5">Категорія адресата</th>
+                  <th class="p-2.5">Привітання (Форма 1) 🔊</th>
+                  <th class="p-2.5">Повна ввічлива форма 🔊</th>
+                  <th class="p-2.5">Формула прощання (Bless) 🔊</th>
+                  <th class="p-2.5">Соціолінгвістична примітка</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80">
+                ${STUDY_MATRIX_ETIQUETTE.map(row => `
+                  <tr class="hover:bg-cyan-500/5 transition-colors">
+                    <td class="p-2.5">
+                      <div class="font-bold text-white font-sans">${row.category}</div>
+                      <div class="text-[10px] font-mono text-cyan-400">${row.sub}</div>
+                    </td>
+                    <td class="p-2.5">
+                      <button class="matrix-audio-btn w-full px-2.5 py-1.5 rounded-lg bg-black/60 hover:bg-cyan-500/20 border border-slate-700 hover:border-cyan-400 text-left transition-all" data-phrase="${row.greet1}">
+                        <div class="font-mono font-black text-white flex items-center justify-between"><span>${row.greet1}</span><span>🔊</span></div>
+                        <div class="font-mono text-[10px] text-cyan-300">${row.greet1Ipa}</div>
+                      </button>
+                    </td>
+                    <td class="p-2.5">
+                      <button class="matrix-audio-btn w-full px-2.5 py-1.5 rounded-lg bg-black/60 hover:bg-emerald-500/20 border border-slate-700 hover:border-emerald-400 text-left transition-all" data-phrase="${row.greetFull}">
+                        <div class="font-mono font-black text-white flex items-center justify-between"><span>${row.greetFull}</span><span>🔊</span></div>
+                        <div class="font-mono text-[10px] text-emerald-300">${row.greetFullIpa}</div>
+                      </button>
+                    </td>
+                    <td class="p-2.5">
+                      <button class="matrix-audio-btn w-full px-2.5 py-1.5 rounded-lg bg-black/60 hover:bg-amber-500/20 border border-slate-700 hover:border-amber-400 text-left transition-all" data-phrase="${row.farewell}">
+                        <div class="font-mono font-black text-white flex items-center justify-between"><span>${row.farewell}</span><span>🔊</span></div>
+                        <div class="font-mono text-[10px] text-amber-300">${row.farewellIpa}</div>
+                      </button>
+                    </td>
+                    <td class="p-2.5 font-sans text-slate-300 leading-snug max-w-xs">${row.note}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-sans text-slate-200 flex items-center gap-2">
+            <span>💡</span>
+            <span><strong class="text-amber-300 font-mono">Золоте правило етикету:</strong> В Ісландії відсутній формат ввічливого звертання на «Ви» у повсякденному спілкуванні — до всіх звертаються на <strong class="text-white font-mono">þú</strong> (ти) та називають за першим ім'ям.</span>
+          </div>
+        </div>
+
+        <!-- TABLE 3: NUMBERS 0-10 & PHONETIC LAWS -->
+        <div class="arena-theme-card p-4 sm:p-6 rounded-2xl border border-amber-500/40 shadow-xl space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
+            <div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">
+                Блок 3 • Числівники та орфоепія
+              </span>
+              <h3 class="text-sm sm:text-base font-black text-white font-mono mt-1">
+                🔢 3. Таблиця чисел 0–10 (Núll – Tíu) та їхні фонетичні закони
+              </h3>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400">Натисніть на число 🔊 для прослуховування</span>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-800">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-black/70 text-slate-300 font-mono text-[11px] border-b border-slate-800">
+                  <th class="p-2.5 text-center w-16">Число</th>
+                  <th class="p-2.5 w-36">Ісландська назва 🔊</th>
+                  <th class="p-2.5 w-36">Транскрипція IPA</th>
+                  <th class="p-2.5">Активне фонетичне правило / Пастка</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/80">
+                ${STUDY_MATRIX_NUMBERS.map(row => `
+                  <tr class="hover:bg-amber-500/5 transition-colors">
+                    <td class="p-2.5 text-center font-mono text-base font-black text-amber-400">${row.num}</td>
+                    <td class="p-2.5">
+                      <button class="matrix-audio-btn px-3 py-1 rounded-lg bg-black/60 hover:bg-amber-500/20 border border-slate-700 hover:border-amber-400 font-mono font-black text-white flex items-center justify-between gap-2 w-full transition-all" data-phrase="${row.word}">
+                        <span>${row.word}</span>
+                        <span class="text-amber-300 text-xs">🔊</span>
+                      </button>
+                    </td>
+                    <td class="p-2.5 font-mono font-bold text-cyan-300">${row.ipa}</td>
+                    <td class="p-2.5 font-sans text-slate-200 leading-snug">${row.rule}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     `;
   }
@@ -504,7 +813,16 @@ export class Module0StudyGuide {
   }
 
   bindEvents() {
-    // Mode Switcher: Text vs Mind Map vs Podcast
+    // Mode Switcher: Study Matrix vs Text vs Mind Map vs Podcast
+    const matrixBtn = this.container.querySelector('#guide-view-matrix-btn');
+    if (matrixBtn) {
+      matrixBtn.addEventListener('click', () => {
+        this.stopPodcastAudio();
+        this.viewMode = 'matrix';
+        this.render();
+      });
+    }
+
     const textBtn = this.container.querySelector('#guide-view-text-btn');
     if (textBtn) {
       textBtn.addEventListener('click', () => {
@@ -513,6 +831,16 @@ export class Module0StudyGuide {
         this.render();
       });
     }
+
+    // Study Matrix Audio click buttons
+    this.container.querySelectorAll('.matrix-audio-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const phrase = btn.getAttribute('data-phrase');
+        if (phrase) {
+          audioEngine.playWord(phrase, btn);
+        }
+      });
+    });
 
     const mindmapBtn = this.container.querySelector('#guide-view-mindmap-btn');
     if (mindmapBtn) {
