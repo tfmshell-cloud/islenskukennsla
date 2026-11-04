@@ -3,13 +3,13 @@
  * Sub-navigation: [1. Граматика] | [2. 🎓 Шпаргалка] | [3. Словник (55)] | [4. Діалоги (4)] | [5. Тренажер (20)] | [6. 📝 Іспит Уроку 1]
  */
 
-import { K1_DATA } from '../data/k1_hver_ert_thu.js?v=7.3';
-import { VeraGrammarHub } from './VeraGrammarHub.js?v=7.3';
-import { VocabHubK1 } from './VocabHubK1.js?v=7.3';
-import { ScenarioDialoguesK1 } from './ScenarioDialoguesK1.js?v=7.3';
-import { DrillSuiteK1 } from './DrillSuiteK1.js?v=7.3';
-import { Kafli1StudyMatrix } from './Kafli1StudyMatrix.js?v=7.3';
-import { Kafli1Exam } from './Kafli1Exam.js?v=7.7';
+import { K1_DATA } from '../data/k1_hver_ert_thu.js?v=7.11';
+import { VeraGrammarHub } from './VeraGrammarHub.js?v=7.11';
+import { VocabHubK1 } from './VocabHubK1.js?v=7.11';
+import { ScenarioDialoguesK1 } from './ScenarioDialoguesK1.js?v=7.11';
+import { DrillSuiteK1 } from './DrillSuiteK1.js?v=7.11';
+import { Kafli1StudyMatrix } from './Kafli1StudyMatrix.js?v=7.11';
+import { Kafli1Exam } from './Kafli1Exam.js?v=7.11';
 
 export class Kafli1App {
   constructor(rootElement, onCompleteToLesson2 = null) {

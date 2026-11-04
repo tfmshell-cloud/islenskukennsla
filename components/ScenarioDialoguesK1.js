@@ -73,7 +73,7 @@ export class ScenarioDialoguesK1 {
             const alignClass = isAlt ? 'ml-4 sm:ml-12' : 'mr-4 sm:mr-12';
 
             return `
-              <div id="k1-dlg-line-${idx}" class="k1-dialogue-card p-3 rounded-xl bg-cyber-deep/90 border ${roleBorder} transition-all cursor-pointer group ${alignClass}" data-cue="${line.is}">
+              <div id="k1-dlg-line-${idx}" class="k1-dialogue-card p-3 rounded-xl bg-cyber-deep/90 border ${roleBorder} transition-all cursor-pointer group ${alignClass}" data-cue="${line.audio || line.is}">
                 <div class="flex items-start gap-2.5">
                   <div class="w-8 h-8 rounded-lg bg-black/60 border border-slate-700 flex items-center justify-center text-sm font-bold flex-shrink-0">
                     ${line.avatar}
@@ -158,7 +158,7 @@ export class ScenarioDialoguesK1 {
           const card = this.container.querySelector(`#k1-dlg-line-${i}`);
           playAllBtn.innerText = `▶️ ${line.speaker}...`;
           if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          await audioEngine.play(line.is, card);
+          await audioEngine.play(line.audio || line.is, card);
           await new Promise(r => setTimeout(r, 1100));
         }
 
