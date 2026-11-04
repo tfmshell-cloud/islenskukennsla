@@ -20,7 +20,7 @@ export const PODCASTS_CORPUS = {
   seriesTitleUkr: "Ісландська в дорозі: від ландшафту до вільного спілкування",
   seriesTitleIsl: "Íslenska á ferðinni: Frá landslagi til færni",
   totalEpisodes: 22,
-  readyAudioCount: 5,
+  readyAudioCount: 7,
   categories: [
     { id: "all", labelUkr: "Усі 22 епізоди", icon: "🌐" },
     { id: "foundation", labelUkr: "Фундамент & Фонетика (A0)", icon: "🌋" },
@@ -156,7 +156,7 @@ export const PODCASTS_CORPUS = {
         { speaker: "Guðrún", role: "Касирка", text: "Bless bless!" }
       ]
     },
-    {
+        {
       ep: 4,
       id: "ep4_klukkan_og_daglegt_lif",
       category: "daily",
@@ -166,19 +166,27 @@ export const PODCASTS_CORPUS = {
       sourceRef: "ÍFA 1 Kafli 4 & Viltu læra íslensku? Þáttur 4",
       duration: "17:10",
       bilingualRatio: "45% UA / 55% IS",
-      audioFile: null,
-      fileStatus: "SCRIPT_READY",
-      statusLabel: "📝 СЦЕНАРІЙ ЗАТВЕРДЖЕНО (ГОТОВИЙ ДО ЗАПИСУ)",
-      situation: "Як називати точний час, парадокс половин (hálf fimm = 4:30), робочі зміни (morgunvakt, kvöldvakt, næturvakt) та дні тижня.",
-      anchors: ["Hvað er klukkan? (Котра година?)", "Hálf fimm (4:30! Пів до п'ятої)", "Korter yfir... / Korter í...", "Hvenær byrjar vaktin? (Коли зміна?)"],
+      audioFile: "audio/podcasts/ep4_klukkan_og_daglegt_lif.m4a",
+      fileStatus: "READY",
+      statusLabel: "🎧 ГОТОВО ДО ПРОСЛУХОВУВАННЯ (0.43 MB)",
+      situation: "Як називати точний час, парадокс половин (hálf fimm = 04:30), робочі зміни (morgunvakt, kvöldvakt, næturvakt) та дні тижня.",
+      anchors: ["Hvað er klukkan? (Котра година?)", "Hálf fimm (04:30! Пів до п'ятої)", "Korter yfir... / Korter í...", "Hvenær byrjar vaktin? (Коли зміна?)"],
       script: [
-        { speaker: "Поліна", role: "Філолог", text: "Найбільша пастка для новачків в Ісландії — фраза 'hálf fimm'. В англійській це було б 5:30. В ісландській мові 'hálf fimm' — це рівно 4:30! Тобто половина п'ятої години." },
-        { speaker: "Gunnar", role: "Носій мови", text: "Nákvæmlega! Klukkan er hálf fimm þýðir fjögur þrjátíu. Og svo notum við 'korter í' (без чверті) og 'korter yfir' (чверть по)." },
-        { speaker: "Остап", role: "Аналітик", text: "На виробництві, у готелях чи на рибопереробці ви щодня чуєте: 'Hvenær byrjar vaktin þín?' (Коли починається твоя зміна?)." },
-        { speaker: "Guðrún", role: "Колега по зміні", text: "Ég er á morgunvakt frá átta til fjögur. En á morgun er ég á næturvakt!" }
+        { speaker: "Остап", role: "Аналітик", text: "Вітаємо в четвертому епізоді подкасту «Ісландська в дорозі»! Сьогодні ми розбираємо час. В Ісландії запізнення на роботу через неправильно зрозумілий годинник — це класика перших місяців життя." },
+        { speaker: "Поліна", role: "Філолог", text: "Головна пастка: ви домовляєтеся про зустріч, і вам кажуть: «Hálf fimm». Якщо ви перекладете це англійською як half past five, тобто пів на шосту, ви запізнитеся рівно на годину! Бо в ісландській мові «hálf fimm» — це 04:30 або 16:30!" },
+        { speaker: "Gunnar", role: "Носій мови", text: "Já, nákvæmlega! «Hálf fimm» þýðir hálftími í fimm, sem sagt fjögur þrjátíu. Og mundu að tölurnar fyrir tímann eru alltaf í hvorugkyni: eitt, tvö, þrjú, fjögur!" },
+        { speaker: "Поліна", role: "Філолог", text: "А як щодо чвертей? Чверть по — це «korter yfir», а за чверть — «korter í»." },
+        { speaker: "Guðrún", role: "Носій мови", text: "Rétt! «Korter yfir sjö» er sjö fimmtán. En «korter í átta» er sjö fjörutíu og fimm. Og tólf á hádegi heitir einfaldlega «hádegi»!" },
+        { speaker: "Остап", role: "Аналітик", text: "На виробництві, у готелях чи на будівництві всі живуть за графіком змін — «vaktir». Гудрун, які бувають зміни?" },
+        { speaker: "Guðrún", role: "Носій мови", text: "Við erum með þrjár meginvaktir: «morgunvakt» frá sjö til þrjú, «kvöldvakt» frá þrjú til ellefu, og «næturvakt» frá ellefu til sjö á morgnana." },
+        { speaker: "Поліна", role: "Філолог", text: "І за вечірні та нічні зміни профспілки Efling та VR вимагають доплату — «álag» від 33% до 45% до вашої базової ставки!" },
+        { speaker: "Gunnar", role: "Носій мови", text: "Ef þú vinnur á næturnar færðu næturálag. En mundu að hvílast vel á milli vakta!" },
+        { speaker: "Остап", role: "Аналітик", text: "Повторюйте за нами прямо в дорозі: «Hvað er klukkan? — Klukkan er hálf fimm!»" },
+        { speaker: "Guðrún", role: "Носій мови", text: "Gangi ykkur vel og sjáumst í næsta þætti!" },
+        { speaker: "Gunnar", role: "Носій мови", text: "Bless bless!" }
       ]
     },
-    {
+        {
       ep: 5,
       id: "ep5_heilsugaeslan_og_lyfja",
       category: "health_transport",
@@ -188,17 +196,24 @@ export const PODCASTS_CORPUS = {
       sourceRef: "ÍFA 2 Kafli 4 & Viltu læra íslensku? Þættir 10-11",
       duration: "19:40",
       bilingualRatio: "40% UA / 60% IS",
-      audioFile: null,
-      fileStatus: "SCRIPT_READY",
-      statusLabel: "📝 СЦЕНАРІЙ ЗАТВЕРДЖЕНО (ГОТОВИЙ ДО ЗАПИСУ)",
+      audioFile: "audio/podcasts/ep5_heilsugaeslan_og_lyfja.m4a",
+      fileStatus: "READY",
+      statusLabel: "🎧 ГОТОВО ДО ПРОСЛУХОВУВАННЯ (0.40 MB)",
       situation: "Візит до районної поліклініки (Heilsugæslan) та чергової аптеки (Lyfja). Безособові конструкції болю: 'Mér er illt í...' (+ ÞGF 🟡). Запис на Heilsuvera та рецепти на ліки.",
       anchors: ["Mér er illt í höfðinu (Болить голова ÞGF)", "Ég er með hita (У мене температура)", "Tímapöntun á Heilsuvera", "Lyfseðill (рецепт)"],
       script: [
-        { speaker: "Остап", role: "Аналітик", text: "Коли в Ісландії щось болить, граматика не дозволяє сказати 'Мій живіт болить'. Замість цього використовується безособова конструкція з давальним відмінком: 'Mér er illt í...'!" },
-        { speaker: "Guðrún", role: "Лікар Heilsugæslan", text: "Góðan daginn. Hvað amar að þér? Hvar finnurðu fyrir óþægindum?" },
-        { speaker: "Поліна", role: "Пацієнтка", text: "Mér er illt í hálsinum og ég er með mikinn hita. Ég get ekki sofið." },
-        { speaker: "Guðrún", role: "Лікар Heilsugæslan", text: "Ég skil. Ég ætla að skrifa upp á lyfseðil fyrir þig. Þú getur sótt lyfin í næsta apóteki með kennitölu." },
-        { speaker: "Остап", role: "Аналітик", text: "Зверніть увагу: паперових рецептів в Ісландії немає! Рецепт прикріплюється до вашої kennitala в електронній базі, ви приходите в Lyfja чи Apótekarinn і просто називаєте свій номер." }
+        { speaker: "Остап", role: "Аналітик", text: "Привіт усім! Сьогодні розбираємо найважливіше для життя: як записатися до лікаря в районну поліклініку Heilsugæslan та як купити ліки в аптеці Lyfja чи Apótekarinn." },
+        { speaker: "Поліна", role: "Філолог", text: "В ісландській граматиці біль описується безособовою конструкцією через давальний відмінок Þágufall 🟡: «Mér er illt í...»! Тобто «Мені є зле в голові чи горлі», а не «мій живіт болить»." },
+        { speaker: "Guðrún", role: "Лікар Heilsugæslan", text: "Góðan daginn! Velkomin á heilsugæsluna. Hvað amar að þér? Hvar finnurðu fyrir óþægindum?" },
+        { speaker: "Поліна", role: "Пацієнтка", text: "Mér er illt í hálsinum og mér er óglatt. Og ég er með mikinn hita í dag." },
+        { speaker: "Gunnar", role: "Лікар Heilsugæslan", text: "Ég skil. Taktu djúpan andardrátt. Þú ert með slæma hálsbólgu og hita. Ég ætla að skrifa upp á sýklalyf og verkjalyf fyrir þig." },
+        { speaker: "Остап", role: "Аналітик", text: "А де взяти рецепт? Чи видає лікар паперовий бланк із печаткою?" },
+        { speaker: "Guðrún", role: "Лікар Heilsugæslan", text: "Nei, engin pappírsblöð! Lyfseðillinn fer beint inn í rafræna kerfið með kennitölunni þinni. Þú ferð bara í næsta apótek og segir kennitöluna þína." },
+        { speaker: "Поліна", role: "Пацієнтка", text: "А для запису до лікаря або консультації медсестри всі в Ісландії користуються державним порталом Heilsuvera.is з електронним підписом Rafræn skilríki!" },
+        { speaker: "Gunnar", role: "Лікар Heilsugæslan", text: "Já! Á Heilsuveru geturðu líka sent skilaboð á heimilislækninn þinn eða endurnýjað lyfseðla. Það er mjög þægilegt." },
+        { speaker: "Остап", role: "Аналітик", text: "Головна порада: якщо температура не спадає, а поліклініка зачинена, після 17:00 та на вихідних телефонуйте на чергову лінію 1700 або приїжджайте до Læknavaktin!" },
+        { speaker: "Guðrún", role: "Лікар Heilsugæslan", text: "Góðan bata og passaðu upp á heilsuna!" },
+        { speaker: "Gunnar", role: "Лікар Heilsugæslan", text: "Bless bless!" }
       ]
     },
     {
