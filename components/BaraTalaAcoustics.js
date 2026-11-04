@@ -77,13 +77,40 @@ export class BaraTalaAcoustics {
                 </p>
               </div>
 
+              ${trap.visual_card ? `
+                <!-- Gemini Notebook Visual Mnemonic Infographic -->
+                <div class="p-3 sm:p-4 rounded-2xl bg-black/60 border-2 border-cyan-400/50 shadow-xl space-y-2.5">
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="px-2 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-mono text-[10px] font-extrabold uppercase">
+                        🖼️ Gemini Notebook • Анатомічна візуальна картка
+                      </span>
+                      <span class="text-xs font-mono text-slate-300 font-bold">
+                        ${trap.visual_caption || 'Візуальна мнемоніка'}
+                      </span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button class="trap-play-btn px-3 py-1 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-extrabold transition-all flex items-center gap-1 shadow-sm" data-word="fjall_jökull" data-ipa="[fjatl̥] ['jœːkʏtl̥]">
+                        🔊 Слухати fjall & jökull
+                      </button>
+                      <a href="${trap.visual_card}" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-cyan-300 font-mono text-xs font-bold transition-all">
+                        🔍 Повний розмір ↗
+                      </a>
+                    </div>
+                  </div>
+                  <a href="${trap.visual_card}" target="_blank" rel="noopener" class="block overflow-hidden rounded-xl border border-cyan-500/40 group">
+                    <img src="${trap.visual_card}" alt="${trap.name_is}" class="w-full max-h-[380px] object-contain bg-[#050b14] mx-auto transition-transform duration-300 group-hover:scale-[1.01]" />
+                  </a>
+                </div>
+              ` : ''}
+
               <!-- Interactive Example Words Grid -->
               <div class="space-y-2">
                 <div class="text-xs font-mono font-bold trap-section-title uppercase tracking-wider flex items-center gap-1.5">
                   <span>🔊 Еталонні слова-приклади з нативною аудіо-вимовою:</span>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 ${trap.examples.length >= 4 ? 'lg:grid-cols-4' : 'md:grid-cols-3'} gap-2.5">
                   ${trap.examples.map(ex => `
                     <div class="trap-example-card p-3 rounded-xl border transition-all cursor-pointer group flex flex-col justify-between space-y-2 shadow-sm" data-word="${ex.word}" data-ipa="${ex.ipa}">
                       <div>

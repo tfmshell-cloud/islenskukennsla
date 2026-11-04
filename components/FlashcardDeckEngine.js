@@ -4,7 +4,7 @@
  * Підтримує Колоди Модулів 0, 1, 2, 3, візуальні мнемоніки, озвучку Gunnar/Guðrún та Центр промптів NotebookLM.
  */
 
-import { FLASHCARDS_DECKS, NOTEBOOKLM_PROMPTS_LIBRARY } from '../data/flashcards_master_data.js?v=7.0';
+import { FLASHCARDS_DECKS, NOTEBOOKLM_PROMPTS_LIBRARY } from '../data/flashcards_master_data.js?v=7.4';
 import { audioEngine } from './AudioEngine.js?v=7.0';
 import { gameState } from './GameState.js';
 
@@ -156,6 +156,33 @@ export class FlashcardDeckEngine {
         </div>
 
         <!-- Main 3D Flashcard Stage -->
+        ${cards.some(c => c.visualImage) ? `
+          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-cyber-deep to-purple-950/30 border border-cyan-500/40 space-y-2">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="text-xs font-mono font-bold text-cyan-300 flex items-center gap-1.5">
+                <span>🖼️ Галерея візуальних мнемо-карток Gemini Notebook (${cards.filter(c => c.visualImage).length} у колоді):</span>
+              </div>
+              <span class="text-[11px] font-mono text-slate-400">Клікніть на візуальну картку, щоб відкрити її розбір та озвучку</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              ${cards.map((vc, vIdx) => vc.visualImage ? `
+                <div data-visual-jump="${vIdx}" class="fc-visual-jump-card p-2 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
+                  vIdx === this.currentIndex
+                    ? 'bg-cyan-500/20 border-cyan-400 shadow-md shadow-cyan-500/10'
+                    : 'bg-black/60 border-slate-800 hover:border-cyan-500/50'
+                }">
+                  <img src="${vc.visualImage}" alt="${vc.frontMain}" class="w-20 h-14 rounded-lg object-cover border border-cyan-400/40 flex-shrink-0" />
+                  <div class="min-w-0">
+                    <div class="text-xs font-mono font-extrabold text-white truncate">${vc.frontMain}</div>
+                    <div class="text-[11px] font-mono text-cyan-300 truncate">${vc.ipa}</div>
+                    <div class="text-[10px] font-sans text-amber-300 truncate">${vc.backTitle}</div>
+                  </div>
+                </div>
+              ` : '').join('')}
+            </div>
+          </div>
+        ` : ''}
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
           <!-- Left / Center: Active 3D Card (8 cols) -->
           <div class="lg:col-span-8 flex flex-col justify-between space-y-3">
@@ -231,11 +258,16 @@ export class FlashcardDeckEngine {
 
                 <div class="my-auto py-4 grid grid-cols-1 ${card.visualImage ? 'md:grid-cols-12' : ''} gap-4 items-center">
                   ${card.visualImage ? `
-                    <div class="md:col-span-4 flex justify-center">
-                      <img src="${card.visualImage}" alt="${card.frontMain}" class="w-40 sm:w-48 rounded-xl border-2 border-cyan-400/50 shadow-lg object-cover" />
+                    <div class="md:col-span-5 flex flex-col items-center gap-1.5">
+                      <a href="${card.visualImage}" target="_blank" rel="noopener" class="fc-zoom-img-link block w-full overflow-hidden rounded-xl border-2 border-cyan-400/60 shadow-xl group">
+                        <img src="${card.visualImage}" alt="${card.frontMain}" class="w-full max-h-60 object-contain bg-[#050b14] mx-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+                      </a>
+                      <a href="${card.visualImage}" target="_blank" rel="noopener" class="fc-zoom-img-link text-[10px] font-mono text-cyan-300 hover:text-cyan-200 underline">
+                        🔍 Відкрити оригінал картки у повному розмірі ↗
+                      </a>
                     </div>
                   ` : ''}
-                  <div class="${card.visualImage ? 'md:col-span-8' : ''} space-y-3 text-left">
+                  <div class="${card.visualImage ? 'md:col-span-7' : ''} space-y-3 text-left">
                     <div>
                       <div class="text-[11px] font-mono text-slate-400">${card.gender}</div>
                       <h3 class="text-xl sm:text-2xl font-black text-white font-mono">
@@ -380,11 +412,25 @@ export class FlashcardDeckEngine {
     const surface = this.container.querySelector('#fc-active-card-surface');
     if (surface) {
       surface.addEventListener('click', (e) => {
-        if (e.target.closest('button')) return;
+        if (e.target.closest('button') || e.target.closest('a')) return;
         this.isFlipped = !this.isFlipped;
         this.render();
       });
     }
+
+    // Visual gallery strip jump cards
+    this.container.querySelectorAll('.fc-visual-jump-card').forEach(vc => {
+      vc.addEventListener('click', () => {
+        const idx = parseInt(vc.dataset.visualJump, 10);
+        this.currentIndex = idx;
+        this.isFlipped = true;
+        this.render();
+        const cardData = cards[idx];
+        if (cardData && cardData.audioKey) {
+          audioEngine.playWord(cardData.audioKey, vc, 0.85, cardData.ipa);
+        }
+      });
+    });
 
     // Audio buttons on active card
     const speakFrontBtn = this.container.querySelector('#fc-speak-front-btn');
