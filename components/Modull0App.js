@@ -17,7 +17,7 @@ import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=7.1';
 import { DailyWordEngine } from './DailyWordEngine.js?v=7.1';
 import { DailyFocusArena } from './DailyFocusArena.js?v=7.1';
 import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=7.1';
-import { Kafli1App } from './Kafli1App.js?v=7.3';
+import { Kafli1App } from './Kafli1App.js?v=7.7';
 import { SagaRoadmap } from './SagaRoadmap.js?v=7.1';
 import { DropsFlexionLab } from './DropsFlexionLab.js?v=7.1';
 import { Module0Exam } from './Module0Exam.js?v=7.2';
@@ -454,7 +454,7 @@ export class Modull0App {
     // 3. Mount Kafli 1 component
     const k1Container = this.root.querySelector('#chapter-container-kafli_1');
     if (k1Container) {
-      this.components.kafli1 = new Kafli1App(k1Container);
+      this.components.kafli1 = new Kafli1App(k1Container, () => this.switchChapter('drops_lab'));
       this.components.kafli1.render();
     }
 

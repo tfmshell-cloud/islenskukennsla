@@ -1,6 +1,6 @@
 /**
  * Kafli1App.js - Main Orchestrator for Kafli 1: Hver ert þú?
- * Sub-navigation: [1. Граматика (5 таблиць)] | [2. Словник & Міста (55)] | [3. Діалоги (4 ситуації)] | [4. Тренажер (20)] | [5. 🎓 Матриця-Шпаргалка]
+ * Sub-navigation: [1. Граматика] | [2. 🎓 Шпаргалка] | [3. Словник (55)] | [4. Діалоги (4)] | [5. Тренажер (20)] | [6. 📝 Іспит Уроку 1]
  */
 
 import { K1_DATA } from '../data/k1_hver_ert_thu.js?v=7.3';
@@ -9,12 +9,14 @@ import { VocabHubK1 } from './VocabHubK1.js?v=7.3';
 import { ScenarioDialoguesK1 } from './ScenarioDialoguesK1.js?v=7.3';
 import { DrillSuiteK1 } from './DrillSuiteK1.js?v=7.3';
 import { Kafli1StudyMatrix } from './Kafli1StudyMatrix.js?v=7.3';
+import { Kafli1Exam } from './Kafli1Exam.js?v=7.7';
 
 export class Kafli1App {
-  constructor(rootElement) {
+  constructor(rootElement, onCompleteToLesson2 = null) {
     this.root = rootElement;
+    this.onCompleteToLesson2 = onCompleteToLesson2;
     this.data = K1_DATA;
-    this.activeSubTab = 'grammar'; // 'grammar', 'vocab', 'dialogues', 'drills', 'matrix'
+    this.activeSubTab = 'grammar'; // 'grammar', 'vocab', 'dialogues', 'drills', 'matrix', 'exam'
     this.subComponents = {};
   }
 
@@ -39,6 +41,9 @@ export class Kafli1App {
             <button data-subtab="drills" class="k1-subnav-btn sub-tab-btn ${this.activeSubTab === 'drills' ? 'active' : ''}">
               5. Тренажер (20)
             </button>
+            <button data-subtab="exam" class="k1-subnav-btn sub-tab-btn ${this.activeSubTab === 'exam' ? 'active' : ''} text-amber-300 border-amber-500/40">
+              6. 📝 Іспит Уроку 1 (15)
+            </button>
           </div>
 
           <div class="flex items-center gap-2 text-[10px] font-mono text-slate-400">
@@ -54,6 +59,7 @@ export class Kafli1App {
         <div id="k1-section-vocab" class="k1-sub-section ${this.activeSubTab === 'vocab' ? '' : 'hidden'}"></div>
         <div id="k1-section-dialogues" class="k1-sub-section ${this.activeSubTab === 'dialogues' ? '' : 'hidden'}"></div>
         <div id="k1-section-drills" class="k1-sub-section ${this.activeSubTab === 'drills' ? '' : 'hidden'}"></div>
+        <div id="k1-section-exam" class="k1-sub-section ${this.activeSubTab === 'exam' ? '' : 'hidden'}"></div>
       </div>
     `;
 
@@ -95,6 +101,20 @@ export class Kafli1App {
     if (drContainer) {
       this.subComponents.drills = new DrillSuiteK1(drContainer, this.data.drill_suite);
       this.subComponents.drills.render();
+    }
+
+    const exContainer = this.root.querySelector('#k1-section-exam');
+    if (exContainer) {
+      this.subComponents.exam = new Kafli1Exam(
+        exContainer,
+        () => {
+          if (typeof this.onCompleteToLesson2 === 'function') {
+            this.onCompleteToLesson2();
+          }
+        },
+        () => this.switchSubTab('matrix')
+      );
+      this.subComponents.exam.render();
     }
   }
 
