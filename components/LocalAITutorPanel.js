@@ -7,8 +7,8 @@
  * 3. Deep Offline Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
  */
 
-import { audioEngine } from './AudioEngine.js?v=6.7';
-import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.7';
+import { audioEngine } from './AudioEngine.js?v=7.0';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=7.0';
 
 export class LocalAITutorPanel {
   constructor(container, onClose = null) {

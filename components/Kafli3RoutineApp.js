@@ -7,8 +7,8 @@
  * 3. Озвучений діалог «Робочий день у Рейк'явіку» (Guðrún & Gunnar)
  */
 
-import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.7';
-import { audioEngine } from './AudioEngine.js?v=6.7';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=7.0';
+import { audioEngine } from './AudioEngine.js?v=7.0';
 import { gameState } from './GameState.js';
 
 export class Kafli3RoutineApp {

@@ -6,27 +6,28 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.7';
-import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.7';
-import { RaddstafirHub } from './RaddstafirHub.js?v=6.7';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.7';
-import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.7';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.7';
-import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.7';
-import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.7';
-import { DailyWordEngine } from './DailyWordEngine.js?v=6.7';
-import { DailyFocusArena } from './DailyFocusArena.js?v=6.7';
-import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.7';
-import { Kafli1App } from './Kafli1App.js?v=6.7';
-import { SagaRoadmap } from './SagaRoadmap.js?v=6.7';
-import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.7';
-import { Module0Exam } from './Module0Exam.js?v=6.7';
-import { Module0StudyGuide } from './Module0StudyGuide.js?v=6.7';
-import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=6.7';
-import { Kafli3RoutineApp } from './Kafli3RoutineApp.js?v=6.7';
-import { gameState } from './GameState.js?v=6.7';
-import { binAuraSystem } from './BinAuraSystem.js?v=6.7';
-import { audioEngine } from './AudioEngine.js?v=6.7';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=7.0';
+import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=7.0';
+import { RaddstafirHub } from './RaddstafirHub.js?v=7.0';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=7.0';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=7.0';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=7.0';
+import { SpeechEtiquette } from './SpeechEtiquette.js?v=7.0';
+import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=7.0';
+import { DailyWordEngine } from './DailyWordEngine.js?v=7.0';
+import { DailyFocusArena } from './DailyFocusArena.js?v=7.0';
+import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=7.0';
+import { Kafli1App } from './Kafli1App.js?v=7.0';
+import { SagaRoadmap } from './SagaRoadmap.js?v=7.0';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=7.0';
+import { Module0Exam } from './Module0Exam.js?v=7.0';
+import { Module0StudyGuide } from './Module0StudyGuide.js?v=7.0';
+import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=7.0';
+import { Kafli3RoutineApp } from './Kafli3RoutineApp.js?v=7.0';
+import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.0';
+import { gameState } from './GameState.js?v=7.0';
+import { binAuraSystem } from './BinAuraSystem.js?v=7.0';
+import { audioEngine } from './AudioEngine.js?v=7.0';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -134,7 +135,7 @@ export class Modull0App {
           <div id="block2-lessons-bar" class="border-b border-slate-800/80 bg-cyber-deep/95">
             <div class="max-w-7xl mx-auto px-3 sm:px-6 h-10 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
               
-              <!-- Left: Lessons 0, 1, 2, 3 + Flashcards + Saga Map -->
+              <!-- Left: Lessons 0, 1, 2, 3 + Flashcards + BÍN Grammar + Saga Map -->
               <div class="flex items-center gap-1 font-mono text-xs py-0.5 flex-nowrap flex-shrink-0">
                 <button data-chapter="modull_0" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_0' ? 'active' : ''}">
                   🔤 Урок 0: Абетка
@@ -150,6 +151,9 @@ export class Modull0App {
                 </button>
                 <button data-chapter="flashcards" class="chapter-nav-btn nav-btn ${this.activeChapter === 'flashcards' ? 'active' : ''} text-amber-300 border-amber-500/40">
                   🗂️ Картки & NotebookLM
+                </button>
+                <button data-chapter="bin_grammar" class="chapter-nav-btn nav-btn ${this.activeChapter === 'bin_grammar' ? 'active' : ''} text-cyan-300 border-cyan-500/40">
+                  🏛️ Граматика & BÍN
                 </button>
                 <button data-chapter="saga_map" class="chapter-nav-btn nav-btn nav-btn-saga ${this.activeChapter === 'saga_map' ? 'active' : ''}">
                   🗺️ Мапа Саги
@@ -178,39 +182,39 @@ export class Modull0App {
             </div>
           </div>
 
-          <!-- ================= BLOCK 3 (BOTTOM PINNED): ALL 10 M0 SUB-TABS (RESPONSIVE GRID) ================= -->
-          <div id="block3-subnav-ribbon" class="px-2 sm:px-6 py-1 bg-black/90 border-b border-cyan-500/20 ${this.activeChapter === 'modull_0' ? '' : 'hidden'}">
+          <!-- ================= BLOCK 3 (BOTTOM PINNED): ERGONOMIC M0 SUB-NAVIGATION DOCK (ZERO TRUNCATION) ================= -->
+          <div id="block3-subnav-ribbon" class="px-2 sm:px-6 py-1.5 bg-black/95 border-b border-cyan-500/20 ${this.activeChapter === 'modull_0' ? '' : 'hidden'}">
             <div class="max-w-7xl mx-auto">
-              <div id="m0-subnav-bar" class="grid grid-cols-5 sm:grid-cols-10 gap-1 sm:gap-1.5 text-center font-mono">
-                <button data-m0-sub="guide" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'guide' ? 'active' : ''} text-cyan-300 hover:text-cyan-200">
-                  📖 0. Посібник
+              <div id="m0-subnav-bar" class="flex items-center gap-1.5 overflow-x-auto sm:flex-wrap sm:justify-between font-mono scrollbar-none">
+                <button data-m0-sub="guide" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'guide' ? 'active' : ''} text-cyan-300">
+                  📖 0. Посібник & Подкаст
                 </button>
-                <button data-m0-sub="flashcards" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'flashcards' ? 'active' : ''} text-emerald-300 hover:text-emerald-200">
+                <button data-m0-sub="flashcards" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'flashcards' ? 'active' : ''} text-emerald-300">
                   🗂️ Картки (SRS)
                 </button>
-                <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
+                <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
                   1. Матриця (32)
                 </button>
-                <button data-m0-sub="raddstafir" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'raddstafir' ? 'active' : ''}">
+                <button data-m0-sub="raddstafir" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'raddstafir' ? 'active' : ''}">
                   2. Голосні
                 </button>
-                <button data-m0-sub="traps" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'traps' ? 'active' : ''}">
+                <button data-m0-sub="traps" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'traps' ? 'active' : ''}">
                   3. Пастки (5)
                 </button>
-                <button data-m0-sub="duel" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'duel' ? 'active' : ''}">
-                  4. Дуель
+                <button data-m0-sub="duel" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'duel' ? 'active' : ''}">
+                  4. Акустична дуель
                 </button>
-                <button data-m0-sub="builder" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'builder' ? 'active' : ''}">
-                  5. Конструктор
+                <button data-m0-sub="builder" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'builder' ? 'active' : ''}">
+                  5. Звуковий конструктор
                 </button>
-                <button data-m0-sub="dialogue" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'dialogue' ? 'active' : ''}">
-                  6. Симулятор
+                <button data-m0-sub="dialogue" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'dialogue' ? 'active' : ''}">
+                  6. Симулятор діалогу
                 </button>
-                <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
+                <button data-m0-sub="drills" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'drills' ? 'active' : ''}">
                   7. Тренажер (20)
                 </button>
-                <button data-m0-sub="exam" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'exam' ? 'active' : ''} text-amber-300 hover:text-amber-200">
-                  🎓 8. Атестація
+                <button data-m0-sub="exam" class="m0-sub-btn sub-tab-btn whitespace-nowrap px-2.5 py-1 text-[11px] font-bold ${this.activeM0SubTab === 'exam' ? 'active' : ''} text-amber-300">
+                  🎓 8. Атестація (15 Q)
                 </button>
               </div>
             </div>
@@ -253,6 +257,11 @@ export class Modull0App {
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
           <div id="chapter-container-flashcards" class="chapter-view ${this.activeChapter === 'flashcards' ? '' : 'hidden'} space-y-4">
             <!-- Populated by FlashcardDeckEngine -->
+          </div>
+
+          <!-- ================= TAB BIN GRAMMAR: АКАДЕМІЧНИЙ ДОВІДНИК BÍN ================= -->
+          <div id="chapter-container-bin_grammar" class="chapter-view ${this.activeChapter === 'bin_grammar' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by BinMorphologyLab -->
           </div>
 
           <!-- ================= TAB 4: МАПА САГИ (SAGA ROADMAP) ================= -->
@@ -468,6 +477,13 @@ export class Modull0App {
     if (flashcardsContainer) {
       this.components.flashcardsHub = new FlashcardDeckEngine(flashcardsContainer, 'modull_0');
       this.components.flashcardsHub.render();
+    }
+
+    // 4d. Mount Academic BÍN Morphology & Grammar Lab
+    const binGrammarContainer = this.root.querySelector('#chapter-container-bin_grammar');
+    if (binGrammarContainer) {
+      this.components.binGrammar = new BinMorphologyLab(binGrammarContainer);
+      this.components.binGrammar.render();
     }
 
     // 5. Mount In-Context AI Tutor Modal
@@ -689,6 +705,9 @@ export class Modull0App {
     }
     if (chapterId === 'flashcards' && this.components.flashcardsHub) {
       this.components.flashcardsHub.render();
+    }
+    if (chapterId === 'bin_grammar' && this.components.binGrammar) {
+      this.components.binGrammar.render();
     }
 
     // Update AI Tutor chapter context

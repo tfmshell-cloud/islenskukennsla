@@ -14,9 +14,9 @@
  * - Dual-theme support (Dark Cyberpunk & Bright Light mode)
  */
 
-import { M0_EXAM_DATA } from '../data/m0_exam_data.js?v=6.7';
-import { audioEngine } from './AudioEngine.js?v=6.7';
-import { gameState } from './GameState.js?v=6.7';
+import { M0_EXAM_DATA } from '../data/m0_exam_data.js?v=7.0';
+import { audioEngine } from './AudioEngine.js?v=7.0';
+import { gameState } from './GameState.js?v=7.0';
 
 export class Module0Exam {
   constructor(container, onComplete = null, onOpenGuide = null) {
