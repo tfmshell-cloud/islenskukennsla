@@ -26,6 +26,7 @@ import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=7.5';
 import { Kafli3RoutineApp } from './Kafli3RoutineApp.js?v=7.1';
 import { Kafli4ClothingApp } from './Kafli4ClothingApp.js?v=1.0';
 import { Kafli5HealthFamilyApp } from './Kafli5HealthFamilyApp.js?v=1.0';
+import { Kafli6FoodApp } from './Kafli6FoodApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
 import { binAuraSystem } from './BinAuraSystem.js?v=7.1';
@@ -157,6 +158,9 @@ export class Modull0App {
                 <button data-chapter="kafli_5" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_5' ? 'active' : ''}">
                   🩺 Урок 5: Здоров'я
                 </button>
+                <button data-chapter="kafli_6" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_6' ? 'active' : ''}">
+                  🍽️ Урок 6: Їжа
+                </button>
                 <button data-chapter="flashcards" class="chapter-nav-btn nav-btn ${this.activeChapter === 'flashcards' ? 'active' : ''} text-amber-300 border-amber-500/40">
                   🗂️ Картки & NotebookLM
                 </button>
@@ -276,6 +280,11 @@ export class Modull0App {
           <!-- ================= TAB 5: УРОК 5 (СІМ'Я, АНАТОМІЯ ТА ЗДОРОВ'Я) ================= -->
           <div id="chapter-container-kafli_5" class="chapter-view ${this.activeChapter === 'kafli_5' ? '' : 'hidden'} space-y-4">
             <!-- Populated by Kafli5HealthFamilyApp -->
+          </div>
+
+          <!-- ================= TAB 6: УРОК 6 (ЇЖА ТА РЕСТОРАН) ================= -->
+          <div id="chapter-container-kafli_6" class="chapter-view ${this.activeChapter === 'kafli_6' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by Kafli6FoodApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -510,6 +519,13 @@ export class Modull0App {
       this.components.kafli5.render();
     }
 
+    // 4e. Mount Kafli 6 Food & Restaurant App
+    const k6Container = this.root.querySelector('#chapter-container-kafli_6');
+    if (k6Container) {
+      this.components.kafli6 = new Kafli6FoodApp(k6Container);
+      this.components.kafli6.render();
+    }
+
     // 4c. Mount Master Flashcards & NotebookLM Studio Hub
     const flashcardsContainer = this.root.querySelector('#chapter-container-flashcards');
     if (flashcardsContainer) {
@@ -569,6 +585,7 @@ export class Modull0App {
         else if (this.activeChapter === 'modull_3') currentMod = 'modull_3';
         else if (this.activeChapter === 'kafli_4') currentMod = 'kafli_4';
         else if (this.activeChapter === 'kafli_5') currentMod = 'kafli_5';
+        else if (this.activeChapter === 'kafli_6') currentMod = 'kafli_6';
         this.focusArena.open(currentMod);
       });
     }
@@ -718,6 +735,10 @@ export class Modull0App {
           heroBadge.innerText = 'УРОК 5 • СІМ\'Я ТА ЗДОРОВ\'Я (LÍKAMINN & HEILSA)';
           heroTitle.innerText = 'Урок 5: Сім\'я, анатомія та здоров\'я (Fjölskyldan, líkaminn & heilsan)';
           break;
+        case 'kafli_6':
+          heroBadge.innerText = 'УРОК 6 • ЇЖА ТА РЕСТОРАН (MATUR & ELDAMENNSKA)';
+          heroTitle.innerText = 'Урок 6: Їжа, кулінарія та ресторан (Matur, eldamennska & veitingahús)';
+          break;
         case 'saga_map':
           heroBadge.innerText = 'МАПА САГИ • HRINGVEGUR 1';
           heroTitle.innerText = 'Мапа Саги: Кільцева дорога Ісландії (Roadmap)';
@@ -756,6 +777,9 @@ export class Modull0App {
     }
     if (chapterId === 'kafli_5' && this.components.kafli5) {
       this.components.kafli5.render();
+    }
+    if (chapterId === 'kafli_6' && this.components.kafli6) {
+      this.components.kafli6.render();
     }
     if (chapterId === 'flashcards' && this.components.flashcardsHub) {
       this.components.flashcardsHub.render();
