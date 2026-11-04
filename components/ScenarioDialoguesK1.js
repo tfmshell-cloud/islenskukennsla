@@ -28,7 +28,7 @@ export class ScenarioDialoguesK1 {
               Урок 1 • Діалоги
             </span>
             <h3 class="text-sm sm:text-base font-black text-white font-mono">
-              💬 Реальні життєві ситуації та бесіди (3 сценарії)
+              💬 Реальні життєві ситуації та бесіди (4 сценарії • Íslenska fyrir alla 1)
             </h3>
           </div>
 

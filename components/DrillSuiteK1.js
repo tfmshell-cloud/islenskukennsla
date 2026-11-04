@@ -39,7 +39,7 @@ export class DrillSuiteK1 {
               <span class="text-[11px] font-mono text-slate-400">Питання ${this.currentIndex + 1} / ${total}</span>
             </div>
             <h3 class="text-sm sm:text-base font-black text-white font-mono">
-              🎯 Тренажер Kafli 1 (10 завдань)
+              🎯 Тренажер Kafli 1 (${total} завдань • Íslenska fyrir alla 1)
             </h3>
           </div>
 

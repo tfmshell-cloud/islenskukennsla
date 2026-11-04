@@ -455,23 +455,9 @@ export const K1_DATA = {
       {
         "word": "Hver",
         "ipa": "[kʰvɛːr]",
-        "meaning": "Хто?",
+        "meaning": "Хто? (про особу)",
         "example": "Hver ert þú?",
         "example_trans": "Хто ти?"
-      },
-      {
-        "word": "Hvaðan",
-        "ipa": "[ˈkʰvaːðan]",
-        "meaning": "Звідки?",
-        "example": "Hvaðan ert þú?",
-        "example_trans": "Звідки ти?"
-      },
-      {
-        "word": "Hvaða",
-        "ipa": "[ˈkʰvaːða]",
-        "meaning": "Який? Яка? Які?",
-        "example": "Hvaða tungumál talar þú?",
-        "example_trans": "Якими мовами ти розмовляєш?"
       },
       {
         "word": "Hvað",
@@ -479,6 +465,34 @@ export const K1_DATA = {
         "meaning": "Що? Як?",
         "example": "Hvað heitir þú?",
         "example_trans": "Як тебе звати?"
+      },
+      {
+        "word": "Hvaðan",
+        "ipa": "[ˈkʰvaːðan]",
+        "meaning": "Звідки? (+ frá)",
+        "example": "Hvaðan ert þú?",
+        "example_trans": "Звідки ти?"
+      },
+      {
+        "word": "Hvar",
+        "ipa": "[kʰvaːr]",
+        "meaning": "Де? (+ í / á)",
+        "example": "Hvar býrð þú?",
+        "example_trans": "Де ти живеш?"
+      },
+      {
+        "word": "Hvaða",
+        "ipa": "[ˈkʰvaːða]",
+        "meaning": "Який? Які? (+ іменник)",
+        "example": "Hvaða tungumál talar þú?",
+        "example_trans": "Якими мовами ти розмовляєш?"
+      },
+      {
+        "word": "Hvernig",
+        "ipa": "[ˈkʰvɛrtnɪɣ]",
+        "meaning": "Як? Яким чином?",
+        "example": "Hvernig stafarðu það?",
+        "example_trans": "Як ти це пишеш по літерах?"
       }
     ],
     "negation_ekki_syntax": {
@@ -750,6 +764,72 @@ export const K1_DATA = {
           "note": "svolítið = трохи, небагато."
         }
       ]
+    },
+    {
+      "id": "scenario_4",
+      "title": "Í tungumálaskólanum (Реєстрація на курси «Íslenska fyrir alla»)",
+      "location": "Reykjavík • Mímir / Tungumálaskóli",
+      "context": "Тарас записується на курс ісландської мови. Викладачка запитує його адресу, де він живе (í vs á), скільки йому років та його сімейний стан.",
+      "speakers": [
+        "Kennari",
+        "Taras"
+      ],
+      "dialogue": [
+        {
+          "speaker": "Kennari",
+          "role": "Викладачка",
+          "avatar": "👩‍🏫",
+          "is": "Velkominn á námskeiðið! Hvar býrð þú núna, Taras?",
+          "ipa": "[ˈvɛlˌkʰɔmɪn auː ˈnaumˌsceiːðɪð! kʰvaːr pirð θuː ˈnuːna, Taras?]",
+          "uk": "Ласкаво просимо на курс! Де ти зараз живеш, Тарасе?",
+          "note": "Velkominn (з подвійним nn [ɪn]) — звертання до чоловіка; Hvar býrð þú? — Де ти живеш?"
+        },
+        {
+          "speaker": "Taras",
+          "role": "Тарас (студент)",
+          "avatar": "👨‍🎓",
+          "is": "Takk fyrir! Ég bý í Reykjavík, en systir mín býr á Akureyri.",
+          "ipa": "[tʰahk ˈfɪːrɪr! jɛːx piː iː ˈreiːcaˌviːk, ɛn ˈsɪstɪr miːn piːr auː ˈaːkʏrˌeirɪ.]",
+          "uk": "Дякую! Я живу в Рейк'явіку, але моя сестра живе в Акурейрі.",
+          "note": "Золоте правило Íslenska fyrir alla 1: í Reykjavík (затока), але á Akureyri (піщана коса)!"
+        },
+        {
+          "speaker": "Kennari",
+          "role": "Викладачка",
+          "avatar": "👩‍🏫",
+          "is": "Hvað ertu gamall og ertu giftur?",
+          "ipa": "[kʰvaːð ˈɛr̥tʏ ˈkaːmatl̥ ɔɣ ˈɛr̥tʏ ˈcɪftʏr?]",
+          "uk": "Скільки тобі років і чи ти одружений?",
+          "note": "gamall [ˈkaːmatl̥] — чоловічий рід (до жінки: gömul); giftur — одружений."
+        },
+        {
+          "speaker": "Taras",
+          "role": "Тарас (студент)",
+          "avatar": "👨‍🎓",
+          "is": "Ég er tuttugu og átta ára. Nei, ég er ekki giftur, ég er einhleypur.",
+          "ipa": "[jɛːx ɛːr ˈtʰʏhtʏɣʏ ɔɣ ˈauhta ˈauːra. neiː, jɛːx ɛːr ˈɛhkɪ ˈcɪftʏr, jɛːx ɛːr ˈeinˌl̥eiːpʏr.]",
+          "uk": "Мені двадцять вісім років. Ні, я не одружений, я неодружений (холостий).",
+          "note": "tuttugu og átta ára = 28 років; einhleypur = неодружений."
+        },
+        {
+          "speaker": "Kennari",
+          "role": "Викладачка",
+          "avatar": "👩‍🏫",
+          "is": "Og hvar vinnurðu? Talarðu íslensku í vinnunni?",
+          "ipa": "[ɔɣ kʰvaːr ˈvɪnːʏrðʏ? ˈtʰaːlarðʏ ˈistlɛnskʏ iː ˈvɪnːʏnːɪ?]",
+          "uk": "А де ти працюєш? Ти розмовляєш ісландською на роботі?",
+          "note": "Злиття в питаннях: vinnur þú ➔ vinnurðu; talar þú ➔ talarðu (інверсія V1)."
+        },
+        {
+          "speaker": "Taras",
+          "role": "Тарас (студент)",
+          "avatar": "👨‍🎓",
+          "is": "Ég vinn hjá tæknifyrirtæki. Við tölum ensku og svolítið íslensku!",
+          "ipa": "[jɛːx vɪnː çauː ˈtʰaihnɪˌfɪːrɪrˌtʰaiːcɪ. vɪːð ˈtʰœːlʏm ˈɛnskʏ ɔɣ ˈsvɔːliːtɪð ˈistlɛnskʏ!]",
+          "uk": "Я працюю в технологічній компанії. Ми розмовляємо англійською і трохи ісландською!",
+          "note": "við tölum — U-умляут a ➔ ö у 1-й особі множини дієслова tala!"
+        }
+      ]
     }
   ],
   "drill_suite": [
@@ -892,6 +972,146 @@ export const K1_DATA = {
       ],
       "correct_index": 1,
       "explanation": "Правильно! Ісландський ідіоматичний прислівник «reiprennandi» походить від образу ковзання по мотузці й означає «вільно, без жодних перешкод»."
+    },
+    {
+      "id": 11,
+      "category": "prepositions_i_vs_a",
+      "category_uk": "Прийменники місця: í проти á",
+      "prompt": "Оберіть правильне речення за правилом підручника «Íslenska fyrir alla 1» («Я живу в Ісландії, у Рейк'явіку»):",
+      "options": [
+        "Ég bý í Íslandi, á Reykjavík.",
+        "Ég bý á Íslandi, í Reykjavík.",
+        "Ég bý í Íslandi, í Reykjavík.",
+        "Ég bý á Íslandi, á Reykjavík."
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Ég bý á Íslandi, í Reykjavík.»! Острови (Ísland) завжди вживаються з прийменником «á», а столиця Рейк'явік (literal: Димна затока) — з прийменником «í»!"
+    },
+    {
+      "id": 12,
+      "category": "prepositions_i_vs_a",
+      "category_uk": "Прийменники з містами Ісландії",
+      "prompt": "Чому з містом Акурейрі вживається прийменник «á» («Hún býr á Akureyri»), а не «í»?",
+      "options": [
+        "Бо це випадковий виняток",
+        "Бо корінь -eyri означає піщану косу/мис (відкритий рельєф), з яким в ісландській мові завжди вживається «á»",
+        "Бо Акурейрі — це інша країна",
+        "Бо дієслово búa вимагає тільки á"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно! В ісландській мові поселення на косах (-eyri), мисах (-nes) та біля порогів/водоспадів (-foss: á Selfossi, á Akureyri, á Akranesi) завжди вимагають прийменника «á»!"
+    },
+    {
+      "id": 13,
+      "category": "verb_bua",
+      "category_uk": "Дієвідмінювання дієслова að búa",
+      "prompt": "Оберіть правильну форму дієслова «að búa» (жити/мешкати) для 1-ї особи однини: «Ég _____ í Kópavogi.»:",
+      "options": [
+        "Ég búa",
+        "Ég býr",
+        "Ég bý",
+        "Ég býrð"
+      ],
+      "correct_index": 2,
+      "explanation": "Правильно: «Ég bý» [jɛːx piː]! В однині дієслово 'búa' змінює кореневий голосний ú ➔ ý: ég bý, þú býrð, hann/hún býr (але у множині: við búum)."
+    },
+    {
+      "id": 14,
+      "category": "verb_tala_umlaut",
+      "category_uk": "U-умляут у дієслові að tala",
+      "prompt": "Як правильно сказати «Ми розмовляємо ісландською» (1 особа множини від «að tala»)?",
+      "options": [
+        "Við talum íslensku.",
+        "Við tölum íslensku.",
+        "Við talið íslensku.",
+        "Við tala íslensku."
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Við tölum íslensku.»! Закінчення 1-ї особи множини -um викликає обов'язковий U-умляут (U-hljóðvarp): кореневий голосний 'a' переходить у 'ö' (tala ➔ við tölum)!"
+    },
+    {
+      "id": 15,
+      "category": "pronouns_plural",
+      "category_uk": "Займенники 3-ї особи множини (þeir / þær / þau)",
+      "prompt": "Йон (чоловік) та Анна (жінка) живуть разом у Рейк'явіку. Який займенник «вони» потрібно використати для них обох?",
+      "options": [
+        "Þeir búa í Reykjavík.",
+        "Þær búa í Reykjavík.",
+        "Þau búa í Reykjavík.",
+        "Þið búið í Reykjavík."
+      ],
+      "correct_index": 2,
+      "explanation": "Правильно: «Þau búa í Reykjavík.»! Для змішаної групи (де є хоча б один чоловік і одна жінка) в ісландській мові ЗАВЖДИ вживається займенник середнього роду множини «þau»!"
+    },
+    {
+      "id": 16,
+      "category": "v1_questions",
+      "category_uk": "Загальні питання (V1 інверсія + злиття -ðu)",
+      "prompt": "Як граматично правильно поставити загальне питання «Ти розмовляєш ісландською?» (без питального слова):",
+      "options": [
+        "Þú talar íslensku?",
+        "Talar þú (Talarðu) íslensku?",
+        "Hvað talar þú íslensku?",
+        "Íslensku þú talar?"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Talar þú (Talarðu) íslensku?»! У загальних питаннях (Так/Ні) дієслово в ісландській мові виходить на 1-ше місце (V1 інверсія), а займенник 'þú' часто зливається з дієсловом (-ðu)."
+    },
+    {
+      "id": 17,
+      "category": "verb_vinna",
+      "category_uk": "Дієвідмінювання дієслова að vinna",
+      "prompt": "Оберіть правильну форму дієслова «að vinna» (працювати) для речення: «Hvar _____ þú? — Ég _____ á spítala.»:",
+      "options": [
+        "vinnur / vinn",
+        "vinn / vinnur",
+        "vinna / vinnir",
+        "vinnir / vinna"
+      ],
+      "correct_index": 0,
+      "explanation": "Правильно: «Hvar vinnur þú? — Ég vinn á spítala.»! Дієслово 'vinna' належить до класу на приголосний (-ur): 1 ос. одн. має нульове закінчення (ég vinn), а 2 та 3 ос. одн. — закінчення -ur (þú/hann vinnur)."
+    },
+    {
+      "id": 18,
+      "category": "age_and_gender",
+      "category_uk": "Запитання про вік (gamall vs gömul)",
+      "prompt": "Ви запитуєте жінку (Катерину), скільки їй років. Яку форму прикметника «старий/віком» потрібно вжити?",
+      "options": [
+        "Hvað ertu gamall, Kateryna?",
+        "Hvað ertu gömul, Kateryna?",
+        "Hvað ertu gamalt, Kateryna?",
+        "Hvernig ertu gömul, Kateryna?"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Hvað ertu gömul, Kateryna?»! Прикметник узгоджується з родом особи: до чоловіка кажуть 'gamall' [ˈkaːmatl̥], а до жінки (через U-умляут) — 'gömul' [ˈkœːmʏl]!"
+    },
+    {
+      "id": 19,
+      "category": "numbers_phonetics",
+      "category_uk": "Числівники 0–20 та фонетика",
+      "prompt": "Як ісландською буде число «18» і яке явище виникає у вимові числа «8» (átta)?",
+      "options": [
+        "átján [ˈauːtjaun] • в átta [ˈauhta] виникає преаспірація перед tt",
+        "sautján [ˈsœyːtjaun] • в átta виникає боковий вибух",
+        "þrettán [ˈθrɛhtauːn] • в átta літера t не читається",
+        "nítján [ˈniːtjaun] • в átta звук á читається як [a]"
+      ],
+      "correct_index": 0,
+      "explanation": "Правильно! 18 — це «átján» [ˈauːtjaun], а у числі 8 («átta» [ˈauhta]) перед подвоєним tt виникає класична преаспірація [ht]."
+    },
+    {
+      "id": 20,
+      "category": "greetings_etiquette",
+      "category_uk": "Мовленнєвий етикет Íslenska fyrir alla 1",
+      "prompt": "Як правильно привітатися ісландською з групою, що складається виключно з жінок (наприклад, Анна, Марія та Олена)?",
+      "options": [
+        "Sælir! / Komið þið sælir!",
+        "Sælar! / Komið þið sælar!",
+        "Sæll! / Komdu sæll!",
+        "Blessaður!"
+      ],
+      "correct_index": 1,
+      "explanation": "Правильно: «Sælar!» (або «Komið þið sælar!»). У множині до групи чоловіків кажуть 'Sælir', до групи жінок — 'Sælar', а до змішаної групи — 'Sæl'!"
     }
   ]
 };

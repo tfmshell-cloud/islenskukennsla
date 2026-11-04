@@ -3,11 +3,11 @@
  * Sub-navigation: [1. Граматика та vera] | [2. Словник & Мнемоніка] | [3. Діалоги] | [4. Тренажер (10)]
  */
 
-import { K1_DATA } from '../data/k1_hver_ert_thu.js';
-import { VeraGrammarHub } from './VeraGrammarHub.js';
-import { VocabHubK1 } from './VocabHubK1.js';
-import { ScenarioDialoguesK1 } from './ScenarioDialoguesK1.js';
-import { DrillSuiteK1 } from './DrillSuiteK1.js';
+import { K1_DATA } from '../data/k1_hver_ert_thu.js?v=7.1';
+import { VeraGrammarHub } from './VeraGrammarHub.js?v=7.1';
+import { VocabHubK1 } from './VocabHubK1.js?v=7.1';
+import { ScenarioDialoguesK1 } from './ScenarioDialoguesK1.js?v=7.1';
+import { DrillSuiteK1 } from './DrillSuiteK1.js?v=7.1';
 
 export class Kafli1App {
   constructor(rootElement) {
@@ -24,22 +24,22 @@ export class Kafli1App {
         <div class="flex items-center justify-between pb-2 border-b border-cyber-border/30 gap-2 flex-wrap">
           <div class="flex items-center gap-1.5 overflow-x-auto text-xs font-mono scrollbar-none">
             <button data-subtab="grammar" class="k1-subnav-btn sub-tab-btn ${this.activeSubTab === 'grammar' ? 'active' : ''}">
-              1. Граматика & vera
+              1. Граматика (5 таблиць)
             </button>
             <button data-subtab="vocab" class="k1-subnav-btn sub-tab-btn ${this.activeSubTab === 'vocab' ? 'active' : ''}">
-              2. Словник & Мнемоніка
+              2. Словник & Міста (55)
             </button>
             <button data-subtab="dialogues" class="k1-subnav-btn sub-tab-btn ${this.activeSubTab === 'dialogues' ? 'active' : ''}">
-              3. Діалоги (3 ситуації)
+              3. Діалоги (4 ситуації)
             </button>
             <button data-subtab="drills" class="k1-subnav-btn sub-tab-btn ${this.activeSubTab === 'drills' ? 'active' : ''}">
-              4. Тренажер (10)
+              4. Тренажер (20)
             </button>
           </div>
 
           <div class="flex items-center gap-2 text-[10px] font-mono text-slate-400">
             <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-              Рівень A1.1 (Базовий)
+              Рівень A1.1 • Стандарт Íslenska fyrir alla 1
             </span>
           </div>
         </div>
