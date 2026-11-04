@@ -11,7 +11,7 @@
  */
 
 import { gameState } from './GameState.js';
-import { audioEngine } from './AudioEngine.js?v=6.3';
+import { audioEngine } from './AudioEngine.js?v=6.7';
 
 export class DropsFlexionLab {
   constructor(container) {
@@ -228,6 +228,29 @@ export class DropsFlexionLab {
               🧩 Конструктор речень
             </button>
           </div>
+        </div>
+
+        <!-- NotebookLM Lesson 2 Podcast Player Banner -->
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-950/35 via-cyber-deep to-emerald-950/30 border border-amber-500/40 flex flex-col lg:flex-row lg:items-center justify-between gap-3 shadow-lg">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/50 flex items-center justify-center text-xl flex-shrink-0">
+              🎙️
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                  NotebookLM Аудіопереказ • Урок 2 (21:14)
+                </span>
+                <span class="text-[10px] font-mono text-emerald-400">einn / eina / eitt • U-hljóðvarp (kaka ➔ köku)</span>
+              </div>
+              <h3 class="text-xs sm:text-sm font-black text-white font-mono mt-0.5">
+                «Чому в Ісландії складно замовити каву: 3 роди числівника один та Знахідний відмінок»
+              </h3>
+            </div>
+          </div>
+          <audio controls preload="metadata" class="w-full lg:w-80 h-9 rounded-lg">
+            <source src="./audio/podcasts/k2_chomu_skladno_zamovyty_kavu.m4a" type="audio/mp4" />
+          </audio>
         </div>
 
         <!-- ================= 1. CAFE SIMULATOR TAB ================= -->

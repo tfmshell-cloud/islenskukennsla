@@ -1,0 +1,552 @@
+/**
+ * flashcards_master_data.js
+ * Повна база 3D флеш-карток (NotebookLM + Árnastofnun + Bara tala) для Модулів 0, 1, 2, 3
+ * Включає візуальні мнемоніки, аудіо-ключі Gunnar/Guðrún, колірні аури BÍN та готові промпти для Google NotebookLM Studio.
+ */
+
+export const NOTEBOOKLM_PROMPTS_LIBRARY = [
+  {
+    id: 'prompt_flashcards',
+    tool: '🗂️ Флеш-картки (Flashcards)',
+    icon: '🗂️',
+    badge: 'Крок 1 у NotebookLM',
+    title: 'Промпт для генерації комплекту з 20+ глибоких лінгвістичних карток (а не однієї поверхневої)',
+    why: 'За замовчуванням кнопка «Флеш-картки» у правій панелі NotebookLM генерує базовий міні-набір. Щоб отримати повноцінну колоду з транскрипцією IPA, пастками вимови та відмінками BÍN, вставте цей промпт у чат NotebookLM або поле налаштування карток:',
+    promptText: `Створи повний комплект із 20 навчальних флеш-карток за джерелами курсу (Модуль 0 / Урок 1) для україномовного студента за стандартом Інституту Арні Маґнуссона.
+Суворо дотримуйся формату для КОЖНОЇ картки:
+• [ЛИЦЬОВА СТОРОНА (Front)]: Ісландське слово або граматична конструкція + коротке питання-контекст (наприклад: «Sæll vs Sæl — як привітатися з баристою-чоловіком?» або «bók — якого роду і як звучить ó?»).
+• [ЗВОРОТНА СТОРОНА (Back)]:
+  1. Точна фонетична транскрипція в квадратних дужках [IPA] з позначенням довготи (ː) або придиху (ʰ).
+  2. Переклад українською мовою та рід іменника (kk. / kvk. / hk.).
+  3. Лінгвістичне пояснення пастки (преаспірація [hp/ht/hk], боковий вибух ll ➔ [tl], асиміляція nn ➔ [tn], міжзубні Þ [θ] / Ð [ð] або мутація відмінка NF ➔ ÞF/ÞGF).
+  4. Живий приклад речення ісландською з перекладом українською та поясненням порядку слів V2.`
+  },
+  {
+    id: 'prompt_datatable',
+    tool: '📊 Таблиця даних (Data Table)',
+    icon: '📊',
+    badge: 'Крок 2 у NotebookLM',
+    title: 'Промпт для створення зведеної таблиці відмінків та фонетичних мутацій',
+    why: 'Інструмент «Таблиця даних» ідеально структурує закінчення чоловічого, жіночого та середнього родів у 4 відмінках (NF, ÞF, ÞGF, EF).',
+    promptText: `Побудуй комплексну порівняльну таблицю для всіх ключових іменників та дієслів поточного модуля.
+Стовпці таблиці:
+1. Ісландське слово у Називному відмінку (Nefnifall 🔵)
+2. Транскрипція [IPA] + головне фонетичне правило у слові
+3. Граматичний рід (Karlkyn kk. / Kvenkyn kvk. / Hvorugkyn hk.)
+4. Форма у Знахідному відмінку (Þolfall 🟢 — для замовлення в кав'ярні з числівником einn/eina/eitt)
+5. Форма у Давальному відмінку (Þágufall 🟡 — після прийменників frá / í / á)
+6. Переклад українською + мнемонічна асоціація для запам'ятовування.`
+  },
+  {
+    id: 'prompt_infographic',
+    tool: '🎨 Інфографіка та Презентація',
+    icon: '🎨',
+    badge: 'Крок 3 у NotebookLM',
+    title: 'Промпт для візуальної шпаргалки (Інфографіка 5 фонетичних пасток та Закону V2)',
+    why: 'Дозволяє згенерувати візуальні схеми, які ми одразу вбудовуємо у вкладку «Посібник» та «Картки».',
+    promptText: `Створи структуру візуальної інфографіки з 4 блоків для швидкого запам'ятовування ісландської граматики та фонетики:
+Блок 1: Золотий закон наголосу (100% на 1-му складі) та довгота голосних.
+Блок 2: 5 фонетичних пасток (pp/tt/kk ➔ [hp/ht/hk], ll ➔ [tl], nn після дифтонгів ➔ [tn], Þ на початку vs Ð всередині, hv ➔ [kv]).
+Блок 3: Матриця звертань та походження (Sæll до чоловіка / Sæl до жінки, Úkraína ➔ frá Úkraínu).
+Блок 4: Залізний закон V2 (дієслово завжди на 2-му місці при переносі часу на початок речення: Klukkan sjö vakna ég).`
+  },
+  {
+    id: 'prompt_audio_video',
+    tool: '🎙️ Аудіопереказ / 🎬 Відеоогляд',
+    icon: '🎙️',
+    badge: 'Крок 4 у NotebookLM',
+    title: 'Промпт для налаштування ведучих подкасту (глибокий розбір без води)',
+    why: 'Перед натисканням «Згенерувати Аудіопереказ» натисніть «Налаштувати (Customize)» і вставте цей фокус-промпт:',
+    promptText: `Ведіть жвавий діалог українською мовою як два досвідчені викладачі ісландської мови у Рейк'явіку. Розберіть кожне слово наведеного уроку по кісточках: чому ісландці ковтають або змінюють звуки, як правильно вимовляти преаспірацію в слові takk [tʰahk], чому не можна плутати Sæll і Sæl, як замовити каву та булочку snúður у знахідному відмінку (einn snúð, eina samloku, eitt kaffi) і чому дієслово завжди стоїть на 2-му місці (V2). Наводьте яскраві життєві ситуації з життя українців в Ісландії.`
+  }
+];
+
+export const FLASHCARDS_DECKS = {
+  modull_0: {
+    id: 'modull_0',
+    title: 'Колода 0: Абетка, 5 Пасток вимови та 15 Якірних слів',
+    subtitle: 'Módúll 0 • Stafrófið & Framburður (Árnastofnun Standard)',
+    badgeColor: 'cyan',
+    cards: [
+      {
+        id: 'm0_c1',
+        category: 'Візуальна мнемоніка • Якірне слово',
+        frontTop: 'Іменник середнього роду (hk. • NF 🔵)',
+        frontMain: 'hús',
+        frontSub: 'Як вимовляється довге «ú» перед однією приголосною?',
+        audioKey: 'hús',
+        ipa: '[huːs]',
+        backTitle: 'будинок / дім',
+        gender: 'Hvorugkyn (середній рід • hk.)',
+        visualImage: './assets/cards/mnemonic_card_hus.png',
+        explanation: 'Наголошений голосний «ú» перед ОДНІЄЮ приголосною «s» стає протяжним і чистим [uː] (320 мс). Літера h на початку вимовляється з легким видихом.',
+        exampleIs: 'Þetta er fallegt hús í Reykjavík.',
+        exampleUk: 'Це гарний будинок у Рейк\'явіку.',
+        exampleAudio: 'hús'
+      },
+      {
+        id: 'm0_c2',
+        category: 'Візуальна мнемоніка • Якірне слово',
+        frontTop: 'Іменник чоловічого роду (kk. • NF 🔵)',
+        frontMain: 'ís',
+        frontSub: 'Подвійне значення слова в Ісландії (природа + десерт)',
+        audioKey: 'ís',
+        ipa: '[iːs]',
+        backTitle: 'лід / морозиво',
+        gender: 'Karlkyn (чоловічий рід • kk.)',
+        visualImage: './assets/cards/mnemonic_card_is.png',
+        explanation: 'Літера «í» з акутом завжди позначає напружений вузький звук [iː] (як українське «і»), на відміну від простої «i» [ɪ] (ближчої до «и»). Корінь назви країни Ísland («Крижана земля»).',
+        exampleIs: 'Ég ætla að fá einn ís, takk.',
+        exampleUk: 'Я візьму одне морозиво, дякую.',
+        exampleAudio: 'ís'
+      },
+      {
+        id: 'm0_c3',
+        category: 'Пастка #1 • Преаспірація (Aðblástur)',
+        frontTop: 'Орфографічна пастка pp / tt / kk',
+        frontMain: 'takk',
+        frontSub: 'Який прихований звук з\'являється перед подвоєним «kk»?',
+        audioKey: 'takk',
+        ipa: '[tʰahk]',
+        backTitle: 'дякую (преаспірація [hk])',
+        gender: 'Вигук ввічливості',
+        explanation: 'Перед подвоєними глухими проривними (pp, tt, kk) ніколи не буває довгого приголосного, як в українській! Натомість голосові зв\'язки розмикаються завчасно і виникає різкий глухий видих [h]: takk ➔ [tʰahk], stopp ➔ [stɔhp], gott ➔ [kɔht].',
+        exampleIs: 'Já, takk fyrir kaffið!',
+        exampleUk: 'Так, дякую за каву!',
+        exampleAudio: 'takk'
+      },
+      {
+        id: 'm0_c4',
+        category: 'Пастка #2 • Боковий вибух (ll ➔ tl)',
+        frontTop: 'Соціолінгвістика та фонетика ll',
+        frontMain: 'Sæll! / fjall',
+        frontSub: 'Чому подвоєне «ll» звучить з призвуком «т» [tl] і кому ми кажемо Sæll?',
+        audioKey: 'sæll',
+        ipa: '[saitl̥] / [fjatl̥]',
+        backTitle: 'Привіт (до чоловіка) / гора',
+        gender: 'Karlkyn (kk.) / Hvorugkyn (hk.)',
+        explanation: 'Подвоєне «ll» в питомих ісландських словах зазнає латеральної оклюзії і вимовляється як [tl̥]. Вітання «Sæll!» [saitl̥] кажуть ВИКЛЮЧНО чоловікові, а до жінки звертаються «Sæl!» [saiːl] з м\'яким плавним [l].',
+        exampleIs: 'Sæll, Jón! Hvað segir þú gott?',
+        exampleUk: 'Привіт, Йоне! Як справи?',
+        exampleAudio: 'sæll'
+      },
+      {
+        id: 'm0_c5',
+        category: 'Пастка #3 • Носова асиміляція (nn ➔ tn)',
+        frontTop: 'Коли nn стає [tn], а коли залишається [nː]?',
+        frontMain: 'steinn vs penni',
+        frontSub: 'Порівняйте голосний перед «nn» у цих двох словах',
+        audioKey: 'steinn',
+        ipa: '[steitn̥] vs [ˈpʰɛnːɪ]',
+        backTitle: 'камінь [tn] проти ручки [nː]',
+        gender: 'Karlkyn (чоловічий рід • kk.)',
+        explanation: 'Подвоєне «nn» перетворюється на [tn] ВИКЛЮЧНО після голосних з акутом (á, é, í, ó, ú, ý) та дифтонгів (ei, ey, au, æ): steinn ➔ [steitn̥], fínn ➔ [fitn̥], þjónn ➔ [θjouːtn̥]. Після простих коротких голосних (e, i, a) воно звучить як звичайне довге [nː]: penni, vinna.',
+        exampleIs: 'Þetta er stór steinn.',
+        exampleUk: 'Це великий камінь.',
+        exampleAudio: 'steinn'
+      },
+      {
+        id: 'm0_c6',
+        category: 'Пастка #4 • Рунічні міжзубні Þ та Ð',
+        frontTop: 'Позиційний закон Þorn та Eð',
+        frontMain: 'þak vs maður',
+        frontSub: 'Де у слові пишеться Þ, а де пишеться Ð?',
+        audioKey: 'þak',
+        ipa: '[θaːk] vs [ˈmaːðʏr]',
+        backTitle: 'дах (глухий [θ]) vs людина (дзвінкий [ð])',
+        gender: 'hk. / kk.',
+        explanation: 'Літера Þ (Þorn) стоїть ТІЛЬКИ на початку слова і завжди позначає глухий міжзубний звук [θ] (як в англ. think). Літера Ð (Eð) НІКОЛИ не стоїть на початку слова — тільки всередині або в кінці, позначаючи м\'який міжзубний [ð] (як в англ. this).',
+        exampleIs: 'Þetta er góður maður.',
+        exampleUk: 'Це добра людина.',
+        exampleAudio: 'maður'
+      },
+      {
+        id: 'm0_c7',
+        category: 'Пастка #5 • Лабіовелярний перехід hv ➔ [kv]',
+        frontTop: 'Питальні слова на hv-',
+        frontMain: 'Hvað heitir þú?',
+        frontSub: 'Як насправді вимовляється буквосполучення «hv» на початку питальних слів?',
+        audioKey: 'hvað_heitir_þú',
+        ipa: '[kʰvaːð ˈheiːtɪr θuː]',
+        backTitle: 'Як тебе звати? (hv ➔ [kʰv])',
+        gender: 'Питальна конструкція',
+        explanation: 'У стандартній рейк\'явіцькій вимові буквосполучення «hv» на початку слів (hvað, hver, hvaðan, hvenær) вимовляється з чітким проривним придиховим [kʰv]: «кваз хейтір су»!',
+        exampleIs: 'Hvað heitir þú? — Ég heiti Anna.',
+        exampleUk: 'Як тебе звати? — Мене звати Анна.',
+        exampleAudio: 'hvað_heitir_þú'
+      },
+      {
+        id: 'm0_c8',
+        category: 'Пастка #6 • 4 обличчя літери G',
+        frontTop: 'Алофони приголосної G у різних позиціях',
+        frontMain: 'gata • saga • dagur • rigning',
+        frontSub: 'Як змінюється звук літери «g» залежно від сусідніх звуків?',
+        audioKey: 'dagur',
+        ipa: '[ˈkaːta] • [ˈsaːɣa] • [ˈtaːɣʏr] • [ˈrɪknɪŋk]',
+        backTitle: '4 позиційні стани літери G',
+        gender: 'Фонетична матриця',
+        explanation: '1) На початку перед a/o/u ➔ глухий [k] (gata [kaːta]). 2) На початку перед e/i/í/æ ➔ м\'який піднебінний [c] (gefa [cɛːva]). 3) Між голосними (крім i/j) ➔ фрикативний український «г» [ɣ] (saga, dagur). 4) Сполучення gn ➔ [kn] (rigning [rɪknɪŋk]).',
+        exampleIs: 'Góðan daginn! Þetta er góð saga.',
+        exampleUk: 'Добрий день! Це гарна історія (сага).',
+        exampleAudio: 'saga'
+      },
+      {
+        id: 'm0_c9',
+        category: 'Голосні з акутом • Принцип парасольки',
+        frontTop: 'A [a] проти Á [au]',
+        frontMain: 'afi vs á',
+        frontSub: 'Риска над голосною (broddur) — це наголос чи інший звук?',
+        audioKey: 'á',
+        ipa: '[ˈaːvɪ] vs [auː]',
+        backTitle: 'дідусь [aː] проти річки / вівці [auː]',
+        gender: 'kk. / kvk.',
+        explanation: 'В ісландській мові риска над літерою НІКОЛИ не позначає наголос (наголос завжди на 1-му складі!). Вона кардинально змінює сам звук: проста «a» звучить як відкрите [a], а «á» — це широкий дифтонг [auː] (як в укр. «пауза»).',
+        exampleIs: 'Afi minn býr við á.',
+        exampleUk: 'Мій дідусь живе біля річки.',
+        exampleAudio: 'afi'
+      },
+      {
+        id: 'm0_c10',
+        category: 'Голосні з акутом • Стрибок артикуляції',
+        frontTop: 'O [ɔ] проти Ó [ou] та E [ɛ] проти É [jɛ]',
+        frontMain: 'bók / sól / ég',
+        frontSub: 'Як вимовляються дифтонги ó та é?',
+        audioKey: 'bók',
+        ipa: '[pouːk] • [souːl] • [jɛːx]',
+        backTitle: 'книга [pouːk] • сонце [souːl] • я [jɛːx]',
+        gender: 'kvk. / займенник',
+        explanation: 'Літера «ó» завжди дає дифтонг [ouː] (bók [pouːk], sól [souːl]), а літера «é» дає висхідне сполучення [jɛː] (як українське «є» у слові «єнот»): ég [jɛːx] («я»).',
+        exampleIs: 'Ég les góða bók.',
+        exampleUk: 'Я читаю хорошу книгу.',
+        exampleAudio: 'bók'
+      },
+      {
+        id: 'm0_c11',
+        category: 'Внутрішня палаталізація • f перед l / n',
+        frontTop: 'Фонетична мутація fn ➔ [pn] та fl ➔ [pl]',
+        frontMain: 'nafn / Keflavík',
+        frontSub: 'Як читається літера «f» перед носовим «n» або боковим «l»?',
+        audioKey: 'nafn',
+        ipa: '[napn̥] / [ˈcʰɛplaˌviːk]',
+        backTitle: 'ім\'я [napn̥] / Кеплавік [ˈcʰɛplaˌviːk]',
+        gender: 'Hvorugkyn (hk.)',
+        explanation: 'Усередині слова перед сонорними приголосними «l» та «n» губно-зубна літера «f» змикається в чистий губний вибуховий звук [p]: nafn («ім\'я») звучить як «напн» [napn̥], а аеропорт Keflavík — як «Кеплавік»!',
+        exampleIs: 'Hvað er nafn þitt?',
+        exampleUk: 'Яке твоє ім\'я?',
+        exampleAudio: 'nafn'
+      },
+      {
+        id: 'm0_c12',
+        category: 'Якірний словник • Побут і природа',
+        frontTop: 'Іменники середнього та чоловічого роду',
+        frontMain: 'epli • kaffi • land • matur',
+        frontSub: 'Перевірте вимову 4 базових слів щоденного вжитку',
+        audioKey: 'kaffi',
+        ipa: '[ˈɛhplɪ] • [ˈkʰafːɪ] • [lant] • [ˈmaːtʏr]',
+        backTitle: 'яблуко • кава • країна/земля • їжа',
+        gender: 'hk. / hk. / hk. / kk.',
+        explanation: 'Зверніть увагу: в слові «epli» перед сполученням pl виникає преаспірація [ɛhplɪ], у слові «land» кінцеве nd оглушується до [lant], а в слові «matur» закінчення -ur позначає чоловічий рід називного відмінка (NF 🔵).',
+        exampleIs: 'Góður matur og heitt kaffi.',
+        exampleUk: 'Добра їжа та гаряча кава.',
+        exampleAudio: 'matur'
+      }
+    ]
+  },
+
+  kafli_1: {
+    id: 'kafli_1',
+    title: 'Колода 1: Хто ти? Професії, Країни (frá + ÞGF) та Дієслово vera',
+    subtitle: 'Kafli 1 • Hver ert þú? (Дієвідмінювання, давальний відмінок, синтаксис V2)',
+    badgeColor: 'amber',
+    cards: [
+      {
+        id: 'k1_c1',
+        category: 'Граматичне ядро • Дієслово «бути» (Однина)',
+        frontTop: 'Теперішній час дієслова að vera (1, 2, 3 ос. однини)',
+        frontMain: 'ég er • þú ert • hann/hún/það er',
+        frontSub: 'Чому в ісландській мові не можна сказати просто «Ég Kateryna»?',
+        audioKey: 'ég_er',
+        ipa: '[jɛːx ɛːr] • [θuː ɛr̥t] • [hanː/huːn ɛːr]',
+        backTitle: 'я є • ти є • він/вона/воно є',
+        gender: 'Дієвідмінювання (Nútíð)',
+        explanation: 'На відміну від української мови, де дієслово «є» випадає, в ісландській мові дієслово-зв\'язка є СУВОРО ОБОВ\'ЯЗКОВИМ у кожному реченні! У 2-й особі «þú ert» кластер rt вимовляється глухо й коротко [ɛr̥t].',
+        exampleIs: 'Ég er frá Úkraínu. Hver ert þú?',
+        exampleUk: 'Я (є) з України. Хто (є) ти?',
+        exampleAudio: 'hver_ert_þú'
+      },
+      {
+        id: 'k1_c2',
+        category: 'Граматичне ядро • Дієслово «бути» (Множина)',
+        frontTop: '3 роди займенника «вони» у множині',
+        frontMain: 'við erum • þið eruð • þeir/þær/þau eru',
+        frontSub: 'Коли ми кажемо þeir, коли þær, а коли þau?',
+        audioKey: 'við_erum',
+        ipa: '[vɪːð ˈɛːrʏm] • [θɪːð ˈɛːrʏð] • [θœyː ˈɛːrʏ]',
+        backTitle: 'ми є • ви є • вони є (чол. / жін. / змішані)',
+        gender: 'Множина (Fleirtala)',
+        explanation: 'В ісландській мові займенник «вони» має 3 форми: «þeir» — тільки чоловіки, «þær» — тільки жінки, «þau» — змішана група (чоловік + жінка або група людей у цілому)!',
+        exampleIs: 'Við erum frá Úkraínu.',
+        exampleUk: 'Ми з України.',
+        exampleAudio: 'við_erum'
+      },
+      {
+        id: 'k1_c3',
+        category: 'Давальний відмінок (Þágufall 🟡) • Прийменник frá',
+        frontTop: 'Жіночий рід на -a після прийменника «frá»',
+        frontMain: 'Úkraína ➔ frá Úkraínu',
+        frontSub: 'Як змінюється закінчення назви країни жіночого роду після «frá» (з)?',
+        audioKey: 'frá_úkraínu',
+        ipa: '[ˈuːkraiːna] ➔ [frauː ˈuːkraiːnʏ]',
+        backTitle: 'Україна (NF 🔵) ➔ з України (ÞGF 🟡)',
+        gender: 'Kvenkyn (жін. рід)',
+        explanation: 'Прийменник «frá» (з/від) завжди керує Давальним відмінком (Þágufall 🟡). Усі іменники жіночого роду, що в називному відмінку закінчуються на «-a» (Úkraína, Odesa, gata), у давальному змінюють закінчення на «-u» (frá Úkraínu, frá Odesu)!',
+        exampleIs: 'Ég er frá Úkraínu. Ég bý í Reykjavík núna.',
+        exampleUk: 'Я з України. Зараз я живу в Рейк\'явіку.',
+        exampleAudio: 'ég_er_frá_úkraínu._ég_bý_í_reykjavík_núna'
+      },
+      {
+        id: 'k1_c4',
+        category: 'Давальний відмінок (Þágufall 🟡) • Країни на -land',
+        frontTop: 'Середній рід на приголосний після «frá»',
+        frontMain: 'Ísland ➔ frá Íslandi • Pólland ➔ frá Póllandi',
+        frontSub: 'Яке закінчення додається до назв країн на -land у давальному відмінку?',
+        audioKey: 'frá_íslandi',
+        ipa: '[frauː ˈistlantɪ] • [frauː ˈpʰoutlantɪ]',
+        backTitle: 'з Ісландії • з Польщі (+ закінчення -i)',
+        gender: 'Hvorugkyn (сер. рід)',
+        explanation: 'Країни середнього роду на «-land» (Ísland, Pólland, Þýskaland, Bretland, Frakkland) у давальному відмінку після «frá» або «á/í» додають закінчення «-i»: frá Íslandi, frá Póllandi, frá Þýskalandi.',
+        exampleIs: 'Ég er frá Póllandi. En þú?',
+        exampleUk: 'Я з Польщі. А ти?',
+        exampleAudio: 'frá_póllandi'
+      },
+      {
+        id: 'k1_c5',
+        category: 'Професії • Медицина та освіта',
+        frontTop: 'Іменники професій у називному відмінку (NF 🔵)',
+        frontMain: 'læknir • hjúkrunarfræðingur • kennari',
+        frontSub: 'Які фонетичні особливості мають ці три професії?',
+        audioKey: 'læknir',
+        ipa: '[ˈlaiːknɪr] • [ˈçuːkrʏnarˌfraiðiŋkʏr] • [ˈcʰɛnːarɪ]',
+        backTitle: 'лікар • медсестра/медбрат • вчитель',
+        gender: 'Karlkyn (kk.)',
+        explanation: '1) У «læknir» перед kn чується преаспірація [hkn]. 2) У «hjúkrunarfræðingur» початкове hj звучить як глухий шиплячий видих [ç] (як «х\'ю»). 3) У «kennari» початкове k перед e пом\'якшується до [cʰ].',
+        exampleIs: 'Ég er læknir á Landspítalanum.',
+        exampleUk: 'Я лікар у Національній лікарні.',
+        exampleAudio: 'ég_er_læknir_á_landspítalanum'
+      },
+      {
+        id: 'k1_c6',
+        category: 'Професії • ІТ, інженерія та сервіс',
+        frontTop: 'Робота в сучасному Рейк\'явіку',
+        frontMain: 'verkfræðingur • forritari • þjónn • kokkur',
+        frontSub: 'Зверніть увагу на відсутність артикля перед назвою професії!',
+        audioKey: 'verkfræðingur',
+        ipa: '[ˈvɛr̥kfraiðiŋkʏr] • [ˈfɔrːɪtarɪ] • [θjouːtn̥] • [ˈkʰɔhkʏr]',
+        backTitle: 'інженер • програміст • офіціант • кухар',
+        gender: 'Karlkyn (kk.)',
+        explanation: 'В ісландській мові немає неозначеного артикля (як англ. "a doctor"), тому ми кажемо просто «Ég er verkfræðingur» (Я інженер), «Olena er kokkur» (Олена — кухар).',
+        exampleIs: 'Kateryna er verkfræðingur frá Úkraínu.',
+        exampleUk: 'Катерина — інженер з України.',
+        exampleAudio: 'kateryna_er_verkfræðingur_frá_úkraínu'
+      },
+      {
+        id: 'k1_c7',
+        category: 'Мови та рівні володіння',
+        frontTop: 'Як сказати, якими мовами ти розмовляєш?',
+        frontMain: 'íslenska • úkraínska • enska (reiprennandi / svolítið)',
+        frontSub: 'Чому після дієслова «Ég tala...» закінчення мови змінюється з -a на -u?',
+        audioKey: 'ég_tala_svolítið_íslensku',
+        ipa: '[jɛːx ˈtʰaːla ˈsvɔːliːtɪð ˈistlɛnskʏ]',
+        backTitle: 'Я трохи розмовляю ісландською (Þolfall 🟢)',
+        gender: 'Kvenkyn (жін. рід на -a ➔ -u)',
+        explanation: 'Назви мов в ісландській мові належать до жіночого роду на -a і пишуться з малої літери (íslenska, úkraínska, enska). Після дієслова «tala» (розмовляти чим/якою мовою) вони стають у Знахідний відмінок (Þolfall 🟢): Ég tala íslensku, úkraínsku og ensku!',
+        exampleIs: 'Ég tala ensku reiprennandi, og svolítið íslensku.',
+        exampleUk: 'Я вільно розмовляю англійською і трохи ісландською.',
+        exampleAudio: 'ég_tala_ensku_reiprennandi'
+      },
+      {
+        id: 'k1_c8',
+        category: 'Синтаксис • Заперечення «ekki» та правило V2',
+        frontTop: 'Де ставиться заперечна частка «ekki» (не)?',
+        frontMain: 'Ég er ekki læknir. / Hann talar ekki íslensku.',
+        frontSub: 'Чи може «ekki» стояти ПЕРЕД дієсловом, як в українській мові («Я не знаю»)?',
+        audioKey: 'ég_er_ekki_læknir',
+        ipa: '[jɛːx ɛːr ˈɛhkɪ ˈlaiːknɪr]',
+        backTitle: 'Частка «ekki» завжди стоїть ПІСЛЯ дієслова!',
+        gender: 'Закон V2 (Verb-Second)',
+        explanation: 'Через залізний закон V2 дієслово зобов\'язане стояти на 2-му місці речення. Тому заперечення «ekki» ніколи не розриває підмет і дієслово — воно ставиться ОДРАЗУ ПІСЛЯ дієслова: Ég er ekki... (Я є не...), Hann talar ekki... (Він говорить не...).',
+        exampleIs: 'Nei, ég er ekki verkfræðingur, ég er líka forritari.',
+        exampleUk: 'Ні, я не інженер, я також програміст.',
+        exampleAudio: 'nei_ég_er_ekki_verkfræðingur_ég_er_líka_forritari'
+      }
+    ]
+  },
+
+  kafli_2: {
+    id: 'kafli_2',
+    title: 'Колода 2: У кав\'ярні та Знахідний відмінок (Þolfall 🟢)',
+    subtitle: 'Kafli 2 • Á kaffihúsi (3 роди числівника «один», U-мутація та замовлення)',
+    badgeColor: 'emerald',
+    cards: [
+      {
+        id: 'k2_c1',
+        category: 'Числівник «один» у Знахідному відмінку (ÞF 🟢)',
+        frontTop: 'Головний секрет ісландської кав\'ярні',
+        frontMain: 'einn (kk.) • eina (kvk.) • eitt (hk.)',
+        frontSub: 'Чому в Ісландії не можна замовити каву, булочку й сендвіч одним словом «один»?',
+        audioKey: 'eina_samloku',
+        ipa: '[eitn̥] • [ˈeiːna] • [eiht]',
+        backTitle: 'один (чол.) • одну (жін.) • одне (сер.) у Þolfall 🟢',
+        gender: 'Узгодження за родом і відмінком',
+        explanation: 'Коли ми замовляємо щось конструкцією «Ég ætla að fá...» (Я візьму/отримаю...), додаток переходить у Знахідний відмінок (Þolfall 🟢): Чоловічий рід ➔ einn (einn snúð, einn bjór). Жіночий рід ➔ eina (eina samloku, eina köku). Середній рід ➔ eitt (eitt kaffi, eitt vatn).',
+        exampleIs: 'Ég ætla að fá eina samloku og eitt kaffi.',
+        exampleUk: 'Я візьму один сендвіч і одну каву.',
+        exampleAudio: 'ég_ætla_að_fá_eina_samloku_og_eitt_kaffi'
+      },
+      {
+        id: 'k2_c2',
+        category: 'Жіночий рід на -a • Мутація -a ➔ -u',
+        frontTop: 'NF 🔵 ➔ ÞF 🟢 (Слабка відміна жіночого роду)',
+        frontMain: 'ein samloka ➔ eina samloku',
+        frontSub: 'Також: súpa ➔ súpu, skinka ➔ skinku, flaska ➔ flösku',
+        audioKey: 'samloku',
+        ipa: '[ˈsamˌlɔːka] ➔ [ˈsamˌlɔːkʏ]',
+        backTitle: 'сендвіч (Називний) ➔ сендвіч (Знахідний)',
+        gender: 'Kvenkyn (kvk.)',
+        explanation: 'Іменники жіночого роду, що закінчуються в словнику на «-a», у знахідному (і давальному, і родовому!) відмінках однини змінюють закінчення «-a» на «-u»: samloka ➔ samloku, súpa ➔ súpu.',
+        exampleIs: 'Ég ætla að fá eina samloku, takk.',
+        exampleUk: 'Я візьму один сендвіч, дякую.',
+        exampleAudio: 'eina_samloku'
+      },
+      {
+        id: 'k2_c3',
+        category: 'U-hljóðvarp (U-мутація голосної a ➔ ö)',
+        frontTop: 'Чому kaka стає köku, а pönnukaka — pönnuköku?',
+        frontMain: 'kaka ➔ köku • pönnukaka ➔ pönnuköku',
+        frontSub: 'Закон гармонії голосних перед закінченням -u',
+        audioKey: 'pönnuköku',
+        ipa: '[ˈkʰaːka] ➔ [ˈkʰœːkʏ] • [ˈpʰœnːʏˌkʰœːkʏ]',
+        backTitle: 'тістечко / млинець (U-переголос a ➔ ö)',
+        gender: 'Kvenkyn (kvk.) • U-hljóðvarp',
+        explanation: 'Це знаменитий закон U-hljóðvarp: коли до основи з кореневою голосною «a» приєднується закінчення «-u», звук «-u» притягує «a» до губ і перетворює її на «ö»! Тому kaka ➔ köku, pönnukaka ➔ pönnuköku, flaska ➔ flösku!',
+        exampleIs: 'Ég ætla að fá eina pönnuköku.',
+        exampleUk: 'Я візьму один ісландський млинець.',
+        exampleAudio: 'eina_pönnuköku'
+      },
+      {
+        id: 'k2_c4',
+        category: 'Чоловічий рід на -ur • Відсікання флексії',
+        frontTop: 'NF 🔵 ➔ ÞF 🟢 (Сильна відміна чоловічого роду)',
+        frontMain: 'einn snúður ➔ einn snúð • ostur ➔ ost',
+        frontSub: 'Куди зникає закінчення «-ur» при замовленні булочки з корицею?',
+        audioKey: 'snúð',
+        ipa: '[ˈstnuːðʏr] ➔ [stnuːð]',
+        backTitle: 'булочка з корицею (NF -ur ➔ ÞF нульове закінчення)',
+        gender: 'Karlkyn (kk.)',
+        explanation: 'У більшості іменників чоловічого роду закінчення «-ur» є лише маркером Називного відмінка (NF 🔵). У Знахідному відмінку (ÞF 🟢) закінчення «-ur» просто відпадає, залишаючи чисту основу: snúður ➔ snúð, ostur ➔ ost, reikningur ➔ reikning!',
+        exampleIs: 'Ég ætla að fá einn snúð og einn bolla af kaffi, takk.',
+        exampleUk: 'Я візьму одну булочку з корицею та одну чашку кави, дякую.',
+        exampleAudio: 'ég_ætla_að_fá_einn_snúð_og_einn_bolla_af_kaffi_takk'
+      },
+      {
+        id: 'k2_c5',
+        category: 'Середній рід та незмінні основи',
+        frontTop: 'Ідеальна стабільність середнього роду (hk.)',
+        frontMain: 'eitt kaffi • eitt vatn • eitt te • eitt brauð',
+        frontSub: 'Чи змінюються іменники середнього роду у Знахідному відмінку?',
+        audioKey: 'eitt_kaffi',
+        ipa: '[eiht ˈkʰafːɪ] • [eiht vahtn̥] • [eiht tʰɛː] • [eiht prœyːð]',
+        backTitle: 'кава • вода • чай • хліб (NF = ÞF)',
+        gender: 'Hvorugkyn (hk.)',
+        explanation: 'У середньому роді форма Знахідного відмінка (Þolfall 🟢) на 100% збігається з формою Називного відмінка (Nefnifall 🔵)! Достатньо поставити перед словом числівник «eitt»: eitt kaffi, eitt vatn, eitt epli.',
+        exampleIs: 'Já, takk. Og eitt glas af vatni.',
+        exampleUk: 'Так, дякую. І одну склянку води.',
+        exampleAudio: 'já_takk_og_eitt_glas_af_vatni'
+      },
+      {
+        id: 'k2_c6',
+        category: 'Живий діалог у кав\'ярні • Оплата рахунку',
+        frontTop: 'Ключові фрази баристи та гостя',
+        frontMain: 'Hvað má bjóða þér? — Get ég fengið reikninginn, takk?',
+        frontSub: 'Як бариста питає «Що вам запропонувати?» і як попросити рахунок?',
+        audioKey: 'get_ég_fengið_reikninginn_takk',
+        ipa: '[kʰvaːð mauː ˈpjouːða θjɛːr] — [cɛːt jɛːx ˈfɛɲcɪð ˈreiknɪŋcɪn tʰahk]',
+        backTitle: 'Що вам запропонувати? — Чи можу я отримати рахунок, дякую?',
+        gender: 'Етикет кав\'ярні Рейк\'явіка',
+        explanation: '«reikningur» — рахунок (неозн.), «reikninginn» — цей конкретний рахунок у знахідному відмінку з суфіксальним артиклем (-inn). Коли бариста подає замовлення, він каже: «Gjörðu svo vel! Verði þér að góðu» (Прошу! Смачного!).',
+        exampleIs: 'Gjörðu svo vel! Verði þér að góðu.',
+        exampleUk: 'Прошу! Нехай піде вам на користь (Смачного)!',
+        exampleAudio: 'gjörðu_svo_vel_verði_þér_að_góðu'
+      }
+    ]
+  },
+
+  kafli_3: {
+    id: 'kafli_3',
+    title: 'Колода 3: Щоденна рутина та Інверсія порядку слів (V2)',
+    subtitle: 'Kafli 3 • Dagleg rútína (Час, дієслова розпорядку дня та закон V2)',
+    badgeColor: 'purple',
+    cards: [
+      {
+        id: 'k3_c1',
+        category: 'Залізний закон V2 • Прямий vs Інвертований порядок',
+        frontTop: 'Головне синтаксичне правило ісландської мови',
+        frontMain: 'Ég vakna klukkan sjö. ➔ Klukkan sjö vakna ég.',
+        frontSub: 'Чому підмет «ég» перестрибує НАЗАД за дієслово, коли речення починається з часу?',
+        audioKey: 'klukkan_sjö_vakna_ég',
+        ipa: '[jɛːx ˈvakna ˈkʰlʏhkan sjœː] ➔ [ˈkʰlʏhkan sjœː ˈvakna jɛːx]',
+        backTitle: 'Я прокидаюся о сьомій ➔ О сьомій прокидаюся я (V2)',
+        gender: 'Синтаксис V2 (Verb-Second)',
+        explanation: 'Відмінюване дієслово в ісландському розповідному реченні прибите цвяхами до ДРУГОЇ позиції (V2). Якщо на 1-шу позицію виходить обставина часу («Klukkan sjö», «Á morgnana», «Um kvöldið»), дієслово залишається на 2-му місці, а підмет «ég» зобов\'язаний перейти на 3-тю позицію!',
+        exampleIs: 'Á virkum dögum vakna ég klukkan hálf sjö.',
+        exampleUk: 'У робочі дні прокидаюся я о пів на сьому.',
+        exampleAudio: 'á_virkum_dögum_vakna_ég_klukkan_hálf_sjö'
+      },
+      {
+        id: 'k3_c2',
+        category: 'Дієслова ранку • Пробудження та сніданок',
+        frontTop: 'Базові дієслова щоденної рутини',
+        frontMain: 'vakna • fara á fætur • borða morgunmat',
+        frontSub: 'Як сказати «Я прокидаюся, встаю з ліжка і снідаю»?',
+        audioKey: 'á_morgnana_borða_ég_morgunmat',
+        ipa: '[ˈvakna] • [ˈfaːra auː ˈfaiːtʏr] • [ˈpɔrða ˈmɔrkʏnˌmaːt]',
+        backTitle: 'прокидатися • вставати на ноги • їсти сніданок',
+        gender: 'Дієслова 1-ї та 4-ї груп',
+        explanation: 'Дієслово «fara» у 1-й особі однини зазнає I-умлауту: að fara ➔ ég fer (я йду/встаю), þú ferð, hann fer! Ідіома «fara á fætur» буквально означає «піти на ноги» (встати з ліжка).',
+        exampleIs: 'Ég fer á fætur og drekk kaffi.',
+        exampleUk: 'Я встаю з ліжка і п\'ю каву.',
+        exampleAudio: 'ég_fer_á_fætur_og_drekk_kaffi'
+      },
+      {
+        id: 'k3_c3',
+        category: 'Робота та пересування • fara vs koma vs vinna',
+        frontTop: 'Рух на роботу та повернення додому',
+        frontMain: 'Ég fer í vinnuna klukkan átta. • Ég kem heim klukkan fimm.',
+        frontSub: 'Як змінюються кореневі голосні у дієсловах fara (йти) та koma (приходити)?',
+        audioKey: 'ég_fer_í_vinnuna_klukkan_átta',
+        ipa: '[jɛːx fɛːr iː ˈvɪnːʏna ˈkʰlʏhkan ˈauhta] • [jɛːx cʰɛːm heiːm]',
+        backTitle: 'fara ➔ ég fer (я йду) • koma ➔ ég kem (я приходжу)',
+        gender: 'Сильні дієслова з переголосом',
+        explanation: 'В однині теперішнього часу дієслово «fara» змінює a ➔ e (ég fer, þú ferð, hann fer), а дієслово «koma» змінює o ➔ e (ég kem, þú kemur, hann kemur). Зверніть увагу на «í vinnuna» (на роботу — знахідний відмінок руху з означеним артиклем).',
+        exampleIs: 'Klukkan átta fer ég í vinnuna.',
+        exampleUk: 'О восьмій годині йду я на роботу (Інверсія V2).',
+        exampleAudio: 'klukkan_átta_fer_ég_í_vinnuna'
+      },
+      {
+        id: 'k3_c4',
+        category: 'Частини доби та прислівники часу',
+        frontTop: 'Часові маркери (Tímaákvarðanir)',
+        frontMain: 'morgunn • hádegi • kvöld • nótt • snemma • seint',
+        frontSub: 'Як назвати 4 частини доби та прислівники «рано / пізно»?',
+        audioKey: 'um_kvöldið_les_ég_bók',
+        ipa: '[ˈmɔrkʏn] • [ˈhauːˌtɛijɪ] • [kʰvœlt] • [nouht] • [ˈstnɛmːa] • [seiːn̥t]',
+        backTitle: 'ранок • полудень/обід • вечір • ніч • рано • пізно',
+        gender: 'kk. / hk. / hk. / kvk. / прислівники',
+        explanation: 'У слові «snemma» (рано) початкове sn вимовляється з легким придиховим [stnɛmːa], а в слові «nótt» (ніч) подвоєне tt викликає преаспірацію після дифтонга ó ➔ [nouht]!',
+        exampleIs: 'Um kvöldið les ég bók. Ég fer að sofa snemma.',
+        exampleUk: 'Увечері читаю я книгу. Я лягаю спати рано.',
+        exampleAudio: 'ég_fer_að_sofa_snemma'
+      }
+    ]
+  }
+};

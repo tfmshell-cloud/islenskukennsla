@@ -11,9 +11,9 @@
  * - +50 XP, +5 Gems, Streak Shield on 100% Victory
  */
 
-import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.3';
-import { audioEngine } from './AudioEngine.js?v=6.3';
-import { gameState } from './GameState.js?v=6.3';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.7';
+import { audioEngine } from './AudioEngine.js?v=6.7';
+import { gameState } from './GameState.js?v=6.7';
 
 export class DailyFocusArena {
   constructor(onCompleted = null) {

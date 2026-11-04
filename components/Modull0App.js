@@ -6,25 +6,27 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.6';
-import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.6';
-import { RaddstafirHub } from './RaddstafirHub.js?v=6.6';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.6';
-import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.6';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.6';
-import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.6';
-import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.6';
-import { DailyWordEngine } from './DailyWordEngine.js?v=6.6';
-import { DailyFocusArena } from './DailyFocusArena.js?v=6.6';
-import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.6';
-import { Kafli1App } from './Kafli1App.js?v=6.6';
-import { SagaRoadmap } from './SagaRoadmap.js?v=6.6';
-import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.6';
-import { Module0Exam } from './Module0Exam.js?v=6.6';
-import { Module0StudyGuide } from './Module0StudyGuide.js?v=6.6';
-import { gameState } from './GameState.js?v=6.6';
-import { binAuraSystem } from './BinAuraSystem.js?v=6.6';
-import { audioEngine } from './AudioEngine.js?v=6.6';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=6.7';
+import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=6.7';
+import { RaddstafirHub } from './RaddstafirHub.js?v=6.7';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=6.7';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=6.7';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=6.7';
+import { SpeechEtiquette } from './SpeechEtiquette.js?v=6.7';
+import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=6.7';
+import { DailyWordEngine } from './DailyWordEngine.js?v=6.7';
+import { DailyFocusArena } from './DailyFocusArena.js?v=6.7';
+import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=6.7';
+import { Kafli1App } from './Kafli1App.js?v=6.7';
+import { SagaRoadmap } from './SagaRoadmap.js?v=6.7';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=6.7';
+import { Module0Exam } from './Module0Exam.js?v=6.7';
+import { Module0StudyGuide } from './Module0StudyGuide.js?v=6.7';
+import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=6.7';
+import { Kafli3RoutineApp } from './Kafli3RoutineApp.js?v=6.7';
+import { gameState } from './GameState.js?v=6.7';
+import { binAuraSystem } from './BinAuraSystem.js?v=6.7';
+import { audioEngine } from './AudioEngine.js?v=6.7';
 
 export class Modull0App {
   constructor(rootElement) {
@@ -132,7 +134,7 @@ export class Modull0App {
           <div id="block2-lessons-bar" class="border-b border-slate-800/80 bg-cyber-deep/95">
             <div class="max-w-7xl mx-auto px-3 sm:px-6 h-10 flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
               
-              <!-- Left: Lessons 0, 1, 2, 3 + Saga Map -->
+              <!-- Left: Lessons 0, 1, 2, 3 + Flashcards + Saga Map -->
               <div class="flex items-center gap-1 font-mono text-xs py-0.5 flex-nowrap flex-shrink-0">
                 <button data-chapter="modull_0" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_0' ? 'active' : ''}">
                   🔤 Урок 0: Абетка
@@ -145,6 +147,9 @@ export class Modull0App {
                 </button>
                 <button data-chapter="modull_3" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_3' ? 'active' : ''}">
                   ⏰ Урок 3: Рутина
+                </button>
+                <button data-chapter="flashcards" class="chapter-nav-btn nav-btn ${this.activeChapter === 'flashcards' ? 'active' : ''} text-amber-300 border-amber-500/40">
+                  🗂️ Картки & NotebookLM
                 </button>
                 <button data-chapter="saga_map" class="chapter-nav-btn nav-btn nav-btn-saga ${this.activeChapter === 'saga_map' ? 'active' : ''}">
                   🗺️ Мапа Саги
@@ -173,12 +178,15 @@ export class Modull0App {
             </div>
           </div>
 
-          <!-- ================= BLOCK 3 (BOTTOM PINNED): ALL 8 M0 SUB-TABS (RESPONSIVE GRID) ================= -->
+          <!-- ================= BLOCK 3 (BOTTOM PINNED): ALL 10 M0 SUB-TABS (RESPONSIVE GRID) ================= -->
           <div id="block3-subnav-ribbon" class="px-2 sm:px-6 py-1 bg-black/90 border-b border-cyan-500/20 ${this.activeChapter === 'modull_0' ? '' : 'hidden'}">
             <div class="max-w-7xl mx-auto">
-              <div id="m0-subnav-bar" class="grid grid-cols-3 sm:grid-cols-9 gap-1 sm:gap-1.5 text-center font-mono">
+              <div id="m0-subnav-bar" class="grid grid-cols-5 sm:grid-cols-10 gap-1 sm:gap-1.5 text-center font-mono">
                 <button data-m0-sub="guide" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'guide' ? 'active' : ''} text-cyan-300 hover:text-cyan-200">
                   📖 0. Посібник
+                </button>
+                <button data-m0-sub="flashcards" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'flashcards' ? 'active' : ''} text-emerald-300 hover:text-emerald-200">
+                  🗂️ Картки (SRS)
                 </button>
                 <button data-m0-sub="soundboard" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'soundboard' ? 'active' : ''}">
                   1. Матриця (32)
@@ -202,7 +210,7 @@ export class Modull0App {
                   7. Тренажер (20)
                 </button>
                 <button data-m0-sub="exam" class="m0-sub-btn sub-tab-btn truncate px-1 py-1 text-[10px] sm:text-[11px] lg:text-xs font-bold ${this.activeM0SubTab === 'exam' ? 'active' : ''} text-amber-300 hover:text-amber-200">
-                  🎓 8. Атестація (15 Q)
+                  🎓 8. Атестація
                 </button>
               </div>
             </div>
@@ -214,8 +222,9 @@ export class Modull0App {
           
           <!-- ================= TAB 0: УРОК 0 (АБЕТКА ТА ЗВУКИ) ================= -->
           <div id="chapter-container-modull_0" class="chapter-view ${this.activeChapter === 'modull_0' ? '' : 'hidden'} space-y-3">
-            <!-- M0 Sub-Sections (9 Dedicated Containers) -->
+            <!-- M0 Sub-Sections (10 Dedicated Containers) -->
             <div id="m0-sec-guide" class="m0-view ${this.activeM0SubTab === 'guide' ? '' : 'hidden'}"></div>
+            <div id="m0-sec-flashcards" class="m0-view ${this.activeM0SubTab === 'flashcards' ? '' : 'hidden'}"></div>
             <div id="m0-sec-soundboard" class="m0-view ${this.activeM0SubTab === 'soundboard' ? '' : 'hidden'}"></div>
             <div id="m0-sec-raddstafir" class="m0-view ${this.activeM0SubTab === 'raddstafir' ? '' : 'hidden'}"></div>
             <div id="m0-sec-traps" class="m0-view ${this.activeM0SubTab === 'traps' ? '' : 'hidden'}"></div>
@@ -233,78 +242,17 @@ export class Modull0App {
 
           <!-- ================= TAB 2: УРОК 2 (У КАВ'ЯРНІ 🟢) ================= -->
           <div id="chapter-container-drops_lab" class="chapter-view ${this.activeChapter === 'drops_lab' ? '' : 'hidden'}">
-            <!-- Populated by DropsFlexionLab (SVG Virtual Showcase, Reactor, Barista, Card Tap) -->
+            <!-- Populated by DropsFlexionLab -->
           </div>
 
           <!-- ================= TAB 3: УРОК 3 (РУТИНА ТА V2) ================= -->
           <div id="chapter-container-modull_3" class="chapter-view ${this.activeChapter === 'modull_3' ? '' : 'hidden'} space-y-4">
-            <div class="p-4 sm:p-5 rounded-2xl bg-cyber-deep/95 border border-cyan-500/30 shadow-xl space-y-4">
-              <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-                <div class="space-y-0.5">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-                    Рівень A1.2 • Урок 3
-                  </span>
-                  <h3 class="text-base sm:text-lg font-black text-white font-mono">
-                    ⏰ Урок 3: Щоденна рутина та закон другого дієслова V2
-                  </h3>
-                </div>
-                <span class="text-xs font-mono text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/30 font-bold">
-                  +120 XP
-                </span>
-              </div>
+            <!-- Populated by Kafli3RoutineApp -->
+          </div>
 
-              <!-- V2 Rule Card -->
-              <div class="p-3.5 rounded-xl bg-black/60 border border-slate-800 space-y-2">
-                <div class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                  ⚡ Золоте правило ісландського синтаксису (V2-reglan):
-                </div>
-                <p class="text-xs text-slate-300 font-sans leading-relaxed">
-                  У розповідному реченні <strong>змінюване дієслово завжди стоїть на другій синтаксичній позиції</strong>, незалежно від того, з чого починається речення (з підмета чи з обставини часу):
-                </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono pt-1">
-                  <div class="p-2.5 rounded-lg bg-cyber-deep border border-cyan-500/30">
-                    <div class="text-slate-400 text-[10px]">Прямий порядок слів:</div>
-                    <div class="text-white font-bold">Ég <span class="text-cyan-300">vakna</span> klukkan sjö.</div>
-                    <div class="text-[11px] text-slate-400 font-sans mt-0.5">Я прокидаюся о сьомій годині.</div>
-                  </div>
-                  <div class="p-2.5 rounded-lg bg-cyber-deep border border-amber-500/30">
-                    <div class="text-slate-400 text-[10px]">Інверсія (обставина часу на 1-му місці):</div>
-                    <div class="text-white font-bold">Klukkan sjö <span class="text-amber-300">vakna</span> ég.</div>
-                    <div class="text-[11px] text-slate-400 font-sans mt-0.5">О сьомій годині прокидаюся я (дієслово на 2-му місці!).</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Daily Verbs Routine Matrix -->
-              <div class="space-y-2">
-                <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-                  Словник дій щоденної рутини:
-                </span>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-mono">
-                  <div class="p-2.5 rounded-xl bg-black/50 border border-slate-800 space-y-1">
-                    <div class="flex items-center justify-between text-white font-bold">
-                      <span>að vakna</span> <span>⏰</span>
-                    </div>
-                    <div class="text-[10px] text-cyan-400">[ˈvaːkna]</div>
-                    <div class="text-[11px] text-slate-300 font-sans">прокидатися від сну</div>
-                  </div>
-                  <div class="p-2.5 rounded-xl bg-black/50 border border-slate-800 space-y-1">
-                    <div class="flex items-center justify-between text-white font-bold">
-                      <span>að fara á fætur</span> <span>🛏️</span>
-                    </div>
-                    <div class="text-[10px] text-cyan-400">[ˈfaiːra au ˈfaiːtʏr]</div>
-                    <div class="text-[11px] text-slate-300 font-sans">вставати з ліжка на ноги</div>
-                  </div>
-                  <div class="p-2.5 rounded-xl bg-black/50 border border-slate-800 space-y-1">
-                    <div class="flex items-center justify-between text-white font-bold">
-                      <span>að borða morgunmat</span> <span>🥣</span>
-                    </div>
-                    <div class="text-[10px] text-cyan-400">[ˈpɔrða ˈmɔrkʏnˌmaiːt]</div>
-                    <div class="text-[11px] text-slate-300 font-sans">снідати зранку</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
+          <div id="chapter-container-flashcards" class="chapter-view ${this.activeChapter === 'flashcards' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by FlashcardDeckEngine -->
           </div>
 
           <!-- ================= TAB 4: МАПА САГИ (SAGA ROADMAP) ================= -->
@@ -354,6 +302,13 @@ export class Modull0App {
         this.switchM0SubTab('exam');
       });
       this.components.guide.render();
+    }
+
+    // Step 0.0b: Interactive 3D Flashcards inside M0 sub-tab
+    const m0FlashcardsContainer = this.root.querySelector('#m0-sec-flashcards');
+    if (m0FlashcardsContainer) {
+      this.components.m0Flashcards = new FlashcardDeckEngine(m0FlashcardsContainer, 'modull_0');
+      this.components.m0Flashcards.render();
     }
 
     // Step 0.1: 32-letter academic matrix with Drops mnemonics & authentic audio
@@ -499,6 +454,20 @@ export class Modull0App {
     if (dropsContainer) {
       this.components.dropsLab = new DropsFlexionLab(dropsContainer);
       this.components.dropsLab.render();
+    }
+
+    // 4b. Mount Kafli 3 Routine & V2 App
+    const k3Container = this.root.querySelector('#chapter-container-modull_3');
+    if (k3Container) {
+      this.components.kafli3 = new Kafli3RoutineApp(k3Container);
+      this.components.kafli3.render();
+    }
+
+    // 4c. Mount Master Flashcards & NotebookLM Studio Hub
+    const flashcardsContainer = this.root.querySelector('#chapter-container-flashcards');
+    if (flashcardsContainer) {
+      this.components.flashcardsHub = new FlashcardDeckEngine(flashcardsContainer, 'modull_0');
+      this.components.flashcardsHub.render();
     }
 
     // 5. Mount In-Context AI Tutor Modal
@@ -715,6 +684,12 @@ export class Modull0App {
     if (chapterId === 'drops_lab' && this.components.dropsLab) {
       this.components.dropsLab.render();
     }
+    if (chapterId === 'modull_3' && this.components.kafli3) {
+      this.components.kafli3.render();
+    }
+    if (chapterId === 'flashcards' && this.components.flashcardsHub) {
+      this.components.flashcardsHub.render();
+    }
 
     // Update AI Tutor chapter context
     if (this.components.ai_tutor) {
@@ -746,6 +721,8 @@ export class Modull0App {
     // Refresh subcomponent state on reveal
     if (subTabId === 'guide' && this.components.guide) {
       this.components.guide.render();
+    } else if (subTabId === 'flashcards' && this.components.m0Flashcards) {
+      this.components.m0Flashcards.render();
     } else if (subTabId === 'duel' && this.components.duel) {
       this.components.duel.render();
     } else if (subTabId === 'builder' && this.components.builder) {

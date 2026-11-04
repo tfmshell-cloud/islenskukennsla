@@ -7,8 +7,8 @@
  * 3. Deep Offline Linguistic Knowledge Base (Árnastofnun & Bara tala verified rules)
  */
 
-import { audioEngine } from './AudioEngine.js?v=6.3';
-import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.3';
+import { audioEngine } from './AudioEngine.js?v=6.7';
+import { ANCHOR_WORDS_MASTER } from '../data/anchor_words_master.js?v=6.7';
 
 export class LocalAITutorPanel {
   constructor(container, onClose = null) {
@@ -466,12 +466,10 @@ export class LocalAITutorPanel {
     // gemini-3.0-flash is Google's newest production model as recommended by Google API
     const prefs = [
       'gemini-3.0-flash',
+      'gemini-3-flash-preview',
+      'gemini-2.5-flash-lite',
       'gemini-2.0-flash',
-      'gemini-1.5-flash',
-      'gemini-2.0-flash-exp',
-      'gemini-1.5-flash-latest',
-      'gemini-1.5-pro',
-      'gemini-pro'
+      'gemini-1.5-flash'
     ];
 
     let candidates = [];
@@ -516,17 +514,17 @@ export class LocalAITutorPanel {
       }
     }
 
-    // Always ensure current modern fallbacks are in candidate list
+    // Always ensure current modern fallbacks are in candidate list (appended at end, never overriding discovered models)
     const defaults = [
       { apiVer: 'v1beta', modelName: 'gemini-3.0-flash' },
+      { apiVer: 'v1beta', modelName: 'gemini-3-flash-preview' },
       { apiVer: 'v1beta', modelName: 'gemini-2.0-flash' },
-      { apiVer: 'v1beta', modelName: 'gemini-1.5-flash' },
-      { apiVer: 'v1', modelName: 'gemini-1.5-flash' }
+      { apiVer: 'v1beta', modelName: 'gemini-1.5-flash' }
     ];
 
     for (const def of defaults) {
       if (!candidates.some(c => c.modelName === def.modelName && c.apiVer === def.apiVer)) {
-        candidates.unshift(def);
+        candidates.push(def);
       }
     }
 

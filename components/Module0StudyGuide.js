@@ -17,8 +17,8 @@
  * - Dual-theme support (Dark & Nordic Light)
  */
 
-import { M0_STUDY_GUIDE_DATA } from '../data/m0_study_guide_data.js?v=6.6';
-import { audioEngine } from './AudioEngine.js?v=6.6';
+import { M0_STUDY_GUIDE_DATA } from '../data/m0_study_guide_data.js?v=6.7';
+import { audioEngine } from './AudioEngine.js?v=6.7';
 
 export class Module0StudyGuide {
   constructor(container, onJumpToExam = null) {
