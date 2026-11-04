@@ -19,7 +19,7 @@ import { DailyFocusArena } from './DailyFocusArena.js?v=7.1';
 import { LocalAITutorPanel } from './LocalAITutorPanel.js?v=7.1';
 import { Kafli1App } from './Kafli1App.js?v=7.7';
 import { SagaRoadmap } from './SagaRoadmap.js?v=7.1';
-import { DropsFlexionLab } from './DropsFlexionLab.js?v=7.1';
+import { DropsFlexionLab } from './DropsFlexionLab.js?v=7.8';
 import { Module0Exam } from './Module0Exam.js?v=7.2';
 import { Module0StudyGuide } from './Module0StudyGuide.js?v=7.6';
 import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=7.5';
@@ -464,7 +464,7 @@ export class Modull0App {
     // 4. Mount Drops Flexion Lab (Cafe Simulator)
     const dropsContainer = this.root.querySelector('#chapter-container-drops_lab');
     if (dropsContainer) {
-      this.components.dropsLab = new DropsFlexionLab(dropsContainer);
+      this.components.dropsLab = new DropsFlexionLab(dropsContainer, () => this.switchChapter('modull_3'));
       this.components.dropsLab.render();
     }
 

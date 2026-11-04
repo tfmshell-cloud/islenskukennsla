@@ -12,11 +12,13 @@
 
 import { gameState } from './GameState.js';
 import { audioEngine } from './AudioEngine.js?v=7.0';
+import { Kafli2Exam } from './Kafli2Exam.js?v=7.8';
 
 export class DropsFlexionLab {
-  constructor(container) {
+  constructor(container, onCompleteToLesson3 = null) {
     this.container = container;
-    this.activeLabTab = 'cafe'; // 'cafe', 'flexions', 'constructor'
+    this.onCompleteToLesson3 = onCompleteToLesson3;
+    this.activeLabTab = 'cafe'; // 'cafe', 'flexions', 'constructor', 'exam'
 
     // Station 2: Cafe Items Dataset
     this.cafeItems = {
@@ -226,6 +228,9 @@ export class DropsFlexionLab {
             </button>
             <button data-lab-tab="constructor" class="lab-tab-btn px-3 py-1 rounded-lg font-bold transition-all ${this.activeLabTab === 'constructor' ? 'bg-cyan-500 text-black shadow-md' : 'text-slate-400 hover:text-white'}">
               🧩 Конструктор речень
+            </button>
+            <button data-lab-tab="exam" class="lab-tab-btn px-3 py-1 rounded-lg font-bold transition-all ${this.activeLabTab === 'exam' ? 'bg-amber-400 text-black shadow-md' : 'text-amber-300 hover:text-white border border-amber-500/30'}">
+              📝 4. Іспит Уроку 2 (15)
             </button>
           </div>
         </div>
@@ -565,6 +570,11 @@ export class DropsFlexionLab {
           </div>
         </div>
 
+        <!-- ================= 4. CERTIFICATION EXAM TAB ================= -->
+        <div id="lab-tab-view-exam" class="lab-tab-view ${this.activeLabTab === 'exam' ? '' : 'hidden'} space-y-4">
+          <div id="k2-exam-container"></div>
+        </div>
+
       </div>
     `;
 
@@ -572,6 +582,21 @@ export class DropsFlexionLab {
     this.renderTrayStage(this.isTrayMorphed);
     this.renderFlexionStage(false);
     this.renderConstructor();
+
+    const examCont = this.container.querySelector('#k2-exam-container');
+    if (examCont) {
+      this.examComponent = new Kafli2Exam(
+        examCont,
+        () => {
+          if (typeof this.onCompleteToLesson3 === 'function') {
+            this.onCompleteToLesson3();
+          }
+        },
+        () => this.switchTab('cafe')
+      );
+      this.examComponent.render();
+    }
+
     this.bindEvents();
   }
 
@@ -1018,26 +1043,34 @@ export class DropsFlexionLab {
     }
   }
 
+  switchTab(tabId) {
+    this.activeLabTab = tabId;
+    this.container.querySelectorAll('.lab-tab-btn').forEach(b => {
+      const isTarget = b.dataset.labTab === this.activeLabTab;
+      b.className = `lab-tab-btn px-3 py-1 rounded-lg font-bold transition-all ${
+        isTarget 
+          ? (this.activeLabTab === 'cafe' 
+              ? 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-black shadow-md' 
+              : this.activeLabTab === 'exam' 
+              ? 'bg-amber-400 text-black shadow-md' 
+              : 'bg-cyan-500 text-black shadow-md')
+          : (b.dataset.labTab === 'exam' ? 'text-amber-300 hover:text-white border border-amber-500/30' : 'text-slate-400 hover:text-white')
+      }`;
+    });
+
+    this.container.querySelectorAll('.lab-tab-view').forEach(v => v.classList.add('hidden'));
+    const targetView = this.container.querySelector(`#lab-tab-view-${this.activeLabTab}`);
+    if (targetView) targetView.classList.remove('hidden');
+  }
+
   /**
    * Event Handlers Binding
    */
   bindEvents() {
-    // 1. Master Tab Switcher (Cafe vs Flexions vs Constructor)
+    // 1. Master Tab Switcher (Cafe vs Flexions vs Constructor vs Exam)
     this.container.querySelectorAll('.lab-tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        this.activeLabTab = btn.dataset.labTab;
-        this.container.querySelectorAll('.lab-tab-btn').forEach(b => {
-          const isTarget = b.dataset.labTab === this.activeLabTab;
-          b.className = `lab-tab-btn px-3 py-1 rounded-lg font-bold transition-all ${
-            isTarget 
-              ? (this.activeLabTab === 'cafe' ? 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-black shadow-md' : 'bg-cyan-500 text-black shadow-md')
-              : 'text-slate-400 hover:text-white'
-          }`;
-        });
-
-        this.container.querySelectorAll('.lab-tab-view').forEach(v => v.classList.add('hidden'));
-        const targetView = this.container.querySelector(`#lab-tab-view-${this.activeLabTab}`);
-        if (targetView) targetView.classList.remove('hidden');
+        this.switchTab(btn.dataset.labTab);
       });
     });
 
