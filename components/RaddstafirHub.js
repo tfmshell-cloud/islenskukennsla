@@ -189,6 +189,171 @@ export class RaddstafirHub {
 
         </div>
 
+        <!-- NEW ÁRNASTOFNUN BLOCK A: Digraph Diphthongs (AU, EI, EY) & The #1 Foreigner Trap (Á vs AU) -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-purple-950/30 via-cyber-deep to-black border border-purple-500/40 shadow-xl space-y-3.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-500/20 pb-2.5">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-400/40 text-purple-300 font-mono text-[10px] font-bold uppercase">
+                Árnastofnun & Íslenska fyrir alla • Складені дифтонги (Samsett tvíhljóð)
+              </span>
+              <h3 class="text-sm sm:text-base font-black text-white font-mono mt-1">
+                🔥 3 Двобуквені дифтонги: <span class="text-amber-300">AU [œyː]</span>, <span class="text-cyan-300">EI [eiː]</span>, <span class="text-emerald-300">EY [eiː]</span> та пастка №1 (Á vs AU)
+              </h3>
+            </div>
+            <button class="vowel-pair-play-btn px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-mono text-xs font-extrabold transition-all flex items-center gap-1.5 self-start sm:self-auto shadow-md"
+              data-word-a="á" data-word-b="auga" data-label-a="Á [auː]" data-label-b="Auga [œyːɣa]">
+              <span>🔊 Порівняти пастку: Á [au] vs AU [œy]</span>
+            </button>
+          </div>
+
+          <p class="text-xs text-slate-200 font-sans leading-relaxed">
+            <strong>Головна помилка початківців:</strong> читати буквосполучення <strong>AU</strong> як українське «ау»! В ісландській мові звук <strong>[au]</strong> дає літера з акутом <strong>Á á</strong>, тоді як диграф <strong>AU au</strong> вимовляється як огублений передній дифтонг <strong>[œyː]</strong> (починається зі звука <strong>Ö [œ]</strong> і ковзає в <strong>[i/y]</strong> — близьке до нім. <em>eu</em> або укр. огубленого «е-й»). А диграфи <strong>EI</strong> та <strong>EY</strong> є абсолютними близнюками і завжди звучать як <strong>[eiː]</strong> («ей»).
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            ${[
+              {
+                digraph: "AU au",
+                ipa: "[œyː]",
+                title: "Огублений дифтонг [ö + й]",
+                rule: "Поставте губи трубочкою для Ö [œ] і плавно перейдіть у [й]. Ніколи не читайте як «ау»!",
+                examples: [
+                  { w: "auga", ipa: "['œyːɣa]", uk: "око" },
+                  { w: "brauð", ipa: "[prœyːð]", uk: "хліб" },
+                  { w: "laugar", ipa: "['lœyːɣar]", uk: "гарячі джерела / басейни" }
+                ]
+              },
+              {
+                digraph: "EI ei",
+                ipa: "[eiː]",
+                title: "Чистий дифтонг [ей]",
+                rule: "Плавний перехід від відкритого [ɛ] до напруженого [i]. Перед подвоєним nn викликає вибух [tn]!",
+                examples: [
+                  { w: "einn", ipa: "[eitn̥]", uk: "один (ч.р.)" },
+                  { w: "heita", ipa: "['heiːta]", uk: "зватися" },
+                  { w: "steinn", ipa: "[steitn̥]", uk: "камінь" }
+                ]
+              },
+              {
+                digraph: "EY ey",
+                ipa: "[eiː]",
+                title: "Фонетичний близнюк EI [ей]",
+                rule: "За законом близнюків (Y = I), диграф EY звучить на 100% ідентично до EI — як чітке [ей]!",
+                examples: [
+                  { w: "eyja", ipa: "['eiːja]", uk: "острів" },
+                  { w: "Reykjavík", ipa: "['reiːcaˌviːk]", uk: "Рейк'явік" },
+                  { w: "keyra", ipa: "['cʰeiːra]", uk: "водити авто / їхати" }
+                ]
+              }
+            ].map(d => `
+              <div class="p-3.5 rounded-xl bg-black/60 border border-slate-800 space-y-2.5 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+                    <span class="text-base font-black text-amber-300 font-mono">${d.digraph}</span>
+                    <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/40">${d.ipa}</span>
+                  </div>
+                  <div class="text-xs font-bold text-white font-sans mt-1.5">${d.title}</div>
+                  <p class="text-[11px] text-slate-400 font-sans mt-1 leading-snug">${d.rule}</p>
+                </div>
+                <div class="space-y-1.5 pt-1">
+                  ${d.examples.map(ex => `
+                    <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-cyan-400 cursor-pointer flex items-center justify-between text-xs font-mono transition-all" data-cue="${ex.w}">
+                      <div>
+                        <strong class="text-white">${ex.w}</strong>
+                        <span class="text-cyan-400 text-[11px] ml-1">${ex.ipa}</span>
+                        <span class="text-slate-400 font-sans text-[10px] ml-1">— ${ex.uk}</span>
+                      </div>
+                      <span class="text-cyan-300 text-xs">🔊</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- NEW ÁRNASTOFNUN BLOCK B: Academic Law of Vowel Length (Hljóðlengd & p,t,k,s + r,j,v Rule) -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-cyan-950/30 via-cyber-deep to-black border border-cyan-500/40 shadow-xl space-y-3.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-500/20 pb-2.5">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-mono text-[10px] font-bold uppercase">
+                Háskóli Íslands • Фонологічний закон складу (Hljóðlengd)
+              </span>
+              <h3 class="text-sm sm:text-base font-black text-white font-mono mt-1">
+                ⏱️ Коли наголошений голосний ДОВГИЙ [Vː], а коли КОРОТКИЙ [V]? (Правило <span class="text-amber-300">p, t, k, s + r, j, v</span>)
+              </h3>
+            </div>
+            <span class="text-[11px] font-mono text-cyan-300 bg-black/50 px-2.5 py-1 rounded-lg border border-cyan-500/30">
+              Клікніть на будь-яке слово для перевірки довготи
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-black/60 border border-emerald-500/40 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-extrabold text-emerald-300">1. ДОВГИЙ ГОЛОСНИЙ [Vː] (~350 мс)</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">Відкритий / 1 приголосна</span>
+              </div>
+              <p class="text-[11px] text-slate-300 font-sans leading-relaxed">
+                Наголошений голосний завжди <strong>довгий [ː]</strong>, якщо після нього стоїть <strong>не більше однієї приголосної</strong> або слово закінчується на голосний:
+              </p>
+              <div class="space-y-1.5 font-mono">
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-emerald-400 cursor-pointer flex justify-between" data-cue="hús">
+                  <span><strong>hús</strong> <span class="text-emerald-300">[huːs]</span> — дім</span><span>🔊</span>
+                </div>
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-emerald-400 cursor-pointer flex justify-between" data-cue="taka">
+                  <span><strong>taka</strong> <span class="text-emerald-300">['tʰaːka]</span> — брати</span><span>🔊</span>
+                </div>
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-emerald-400 cursor-pointer flex justify-between" data-cue="maður">
+                  <span><strong>maður</strong> <span class="text-emerald-300">['maːðʏr]</span> — людина</span><span>🔊</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-black/60 border border-amber-500/40 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-extrabold text-amber-300">2. ВИНЯТОК ÁRNASTOFNUN [Vː]</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">p, t, k, s + r, j, v</span>
+              </div>
+              <p class="text-[11px] text-slate-300 font-sans leading-relaxed">
+                Навіть перед 2 приголосними голосний залишається <strong>ДОВГИМ [ː]</strong>, якщо перша з них — <strong>p, t, k, s</strong>, а друга — сонорна/щілинна <strong>r, j, v</strong>:
+              </p>
+              <div class="space-y-1.5 font-mono">
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-amber-400 cursor-pointer flex justify-between" data-cue="Esja">
+                  <span><strong>Esja</strong> <span class="text-amber-300">['ɛːsja]</span> — гора Есья (s+j)</span><span>🔊</span>
+                </div>
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-amber-400 cursor-pointer flex justify-between" data-cue="titra">
+                  <span><strong>titra</strong> <span class="text-amber-300">['tʰɪːtra]</span> — тремтіти (t+r)</span><span>🔊</span>
+                </div>
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-amber-400 cursor-pointer flex justify-between" data-cue="vökva">
+                  <span><strong>vökva</strong> <span class="text-amber-300">['vœːkva]</span> — поливати (k+v)</span><span>🔊</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-black/60 border border-rose-500/40 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-extrabold text-rose-300">3. КОРОТКИЙ ГОЛОСНИЙ [V] (~170 мс)</span>
+                <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold">2+ приголосні</span>
+              </div>
+              <p class="text-[11px] text-slate-300 font-sans leading-relaxed">
+                Перед подвоєною приголосною або кластером із <strong>2 і більше приголосних</strong> (крім <em>p,t,k,s + r,j,v</em>) голосний стає <strong>різким і коротким</strong>:
+              </p>
+              <div class="space-y-1.5 font-mono">
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-rose-400 cursor-pointer flex justify-between" data-cue="hestur">
+                  <span><strong>hestur</strong> <span class="text-rose-300">['hɛstʏr]</span> — кінь (st)</span><span>🔊</span>
+                </div>
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-rose-400 cursor-pointer flex justify-between" data-cue="kaffi">
+                  <span><strong>kaffi</strong> <span class="text-rose-300">['kʰaffɪ]</span> — кава (ff)</span><span>🔊</span>
+                </div>
+                <div class="radd-card p-2 rounded-lg bg-cyber-deep border border-slate-800 hover:border-rose-400 cursor-pointer flex justify-between" data-cue="barn">
+                  <span><strong>barn</strong> <span class="text-rose-300">[partn̥]</span> — дитина (rn)</span><span>🔊</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     `;
 

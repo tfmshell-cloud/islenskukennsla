@@ -28,7 +28,7 @@ export class BaraTalaAcoustics {
 
     this.container.innerHTML = `
       <div class="space-y-3">
-        <!-- 5 Compact Trap Selector Tabs -->
+        <!-- 8 Compact Trap Selector Tabs (Árnastofnun & Háskóli Íslands Standard) -->
         <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs font-mono">
           <button data-trap="preaspiration" class="trap-tab px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap ${this.currentTrapKey === 'preaspiration' ? 'active-trap-tab shadow-sm' : 'inactive-trap-tab'}">
             1. Преаспірація [h]
@@ -44,6 +44,15 @@ export class BaraTalaAcoustics {
           </button>
           <button data-trap="g_states" class="trap-tab px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap ${this.currentTrapKey === 'g_states' ? 'active-trap-tab shadow-sm' : 'inactive-trap-tab'}">
             5. 4 стани літери G
+          </button>
+          <button data-trap="voiceless_sonorants" class="trap-tab px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap ${this.currentTrapKey === 'voiceless_sonorants' ? 'active-trap-tab shadow-sm' : 'inactive-trap-tab'}">
+            6. hl/hr/hj & rn/rl ➔ [rtn]
+          </button>
+          <button data-trap="palatal_and_s_stops" class="trap-tab px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap ${this.currentTrapKey === 'palatal_and_s_stops' ? 'active-trap-tab shadow-sm' : 'inactive-trap-tab'}">
+            7. Палаталізація k/g/sk [cʰ/sc]
+          </button>
+          <button data-trap="cluster_assimilation" class="trap-tab px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap ${this.currentTrapKey === 'cluster_assimilation' ? 'active-trap-tab shadow-sm' : 'inactive-trap-tab'}">
+            8. Стики pt ➔ [ft], kt ➔ [xt]
           </button>
         </div>
 

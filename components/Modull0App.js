@@ -6,12 +6,12 @@
  * Plus: Single Header with "● Local AI: localhost:1235" & "🤖 ШІ-Тьютор"
  */
 
-import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=7.4';
+import { M0_PHONETICS_DATA } from '../data/m0_phonetics.js?v=7.5';
 import { AlphabetSoundboard } from './AlphabetSoundboard.js?v=7.1';
-import { RaddstafirHub } from './RaddstafirHub.js?v=7.1';
-import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=7.4';
-import { MinimalPairDuel } from './MinimalPairDuel.js?v=7.1';
-import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=7.1';
+import { RaddstafirHub } from './RaddstafirHub.js?v=7.5';
+import { BaraTalaAcoustics } from './BaraTalaAcoustics.js?v=7.5';
+import { MinimalPairDuel } from './MinimalPairDuel.js?v=7.5';
+import { IpaSoundBuilder } from './IpaSoundBuilder.js?v=7.5';
 import { SpeechEtiquette } from './SpeechEtiquette.js?v=7.1';
 import { InteractiveDrillEngine } from './InteractiveDrillEngine.js?v=7.1';
 import { DailyWordEngine } from './DailyWordEngine.js?v=7.1';
@@ -21,8 +21,8 @@ import { Kafli1App } from './Kafli1App.js?v=7.3';
 import { SagaRoadmap } from './SagaRoadmap.js?v=7.1';
 import { DropsFlexionLab } from './DropsFlexionLab.js?v=7.1';
 import { Module0Exam } from './Module0Exam.js?v=7.2';
-import { Module0StudyGuide } from './Module0StudyGuide.js?v=7.2';
-import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=7.4';
+import { Module0StudyGuide } from './Module0StudyGuide.js?v=7.5';
+import { FlashcardDeckEngine } from './FlashcardDeckEngine.js?v=7.5';
 import { Kafli3RoutineApp } from './Kafli3RoutineApp.js?v=7.1';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';

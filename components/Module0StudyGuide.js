@@ -74,6 +74,42 @@ const STUDY_MATRIX_TRAPS = [
     physiology: 'Губно-зубне мутування: початкове hv- завжди дає [kv]; літера f перед n/l стає глухим вибуховим [p].',
     pairA: { word: 'hvað', ipa: '[kvað]', uk: 'що' },
     pairB: { word: 'nafn', ipa: '[napn]', uk: 'ім’я (Keflavík [ˈcʰɛpla.viːk])' }
+  },
+  {
+    num: 7,
+    trap: 'Складені диграфи дифтонгів',
+    spelling: 'AU vs Á • EI = EY',
+    ipa: '[œyː] vs [auː] • [eiː]',
+    physiology: 'AU починається з огубленого Ö [œ] і ковзає в [y] (ніколи не «ау»!). Звук [au] дає тільки Á з акутом. EI та EY звучать однаково як [eiː].',
+    pairA: { word: 'á', ipa: '[auː]', uk: 'річка (акут Á)' },
+    pairB: { word: 'auga', ipa: '[ˈœyːɣa]', uk: 'око (диграф AU)' }
+  },
+  {
+    num: 8,
+    trap: 'Закон довготи голосних (Hljóðlengd)',
+    spelling: 'p, t, k, s + r, j, v vs 2+ приголосні',
+    ipa: '[Vː] (350мс) vs [V] (170мс)',
+    physiology: 'Голосний довгий перед 1 приголосною АБО перед кластером (p,t,k,s + r,j,v). Перед іншими 2+ приголосними голосний стає різким і коротким.',
+    pairA: { word: 'Esja', ipa: '[ˈɛːsja]', uk: 'гора Есья (довгий [ɛː])' },
+    pairB: { word: 'hestur', ipa: '[ˈhɛstʏr]', uk: 'кінь (короткий [ɛ])' }
+  },
+  {
+    num: 9,
+    trap: 'Глухі сонорні та пре-оклюзія',
+    spelling: 'hl, hr, hn, hj & rn, rl',
+    ipa: '[l̥, r̥, n̥, ç] & [rtn, rtl]',
+    physiology: 'Початкове h перед l, r, n позбавляє їх голосу (глухий видих), hj дає піднебінний шум [ç], а в кластерах rn/rl виникає вставний вибуховий [t].',
+    pairA: { word: 'hlusta', ipa: '[ˈl̥ʏsta]', uk: 'слухати (глухе [l̥])' },
+    pairB: { word: 'barn', ipa: '[partn̥]', uk: 'дитина (rn ➔ [rtn̥])' }
+  },
+  {
+    num: 10,
+    trap: 'Палаталізація та стики з Т',
+    spelling: 'k/g/sk + передні • pt / kt',
+    ipa: '[cʰ / c / sc] • [ft / xt]',
+    physiology: 'Перед e, i, í, y, ý, æ, ei, ey, j задньоязикові k/g/sk стають піднебінними [cʰ/c/sc]. Перед t вибухові p/k стають щілинними: pt ➔ [ft], kt ➔ [xt].',
+    pairA: { word: 'kirkja', ipa: '[ˈcʰɪr̥ca]', uk: 'церква (піднебінні [cʰ/c])' },
+    pairB: { word: 'skipta', ipa: '[ˈscɪfta]', uk: 'міняти (pt ➔ [ft])' }
   }
 ];
 
@@ -306,10 +342,10 @@ export class Module0StudyGuide {
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800">
             <div>
               <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">
-                Блок 1 • Орфоепічна матриця
+                Блок 1 • Повний орфоепічний кодекс Árnastofnun & Háskóli Íslands
               </span>
               <h3 class="text-sm sm:text-base font-black text-white font-mono mt-1">
-                ⚡ 1. Матриця «6 головних фонетичних пасток Рейк'явіка»
+                ⚡ 1. Матриця «10 академічних законів вимови Рейк'явіка»
               </h3>
             </div>
             <span class="text-[11px] font-mono text-slate-400">Натискайте на слова 🔊 для миттєвого порівняння</span>

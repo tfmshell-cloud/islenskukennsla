@@ -770,6 +770,105 @@ export const M0_PHONETICS_DATA = {
           "trap_note": "Стан 4: на кінці слова переходить у [х]"
         }
       ]
+    },
+    "voiceless_sonorants": {
+      "name_is": "Óraddaðir nef-/hliðarhljóðar & Pre-occlusion (hl, hr, hn, hj & rn/rl)",
+      "name_uk": "Глухі сонорні кластери (hl, hr, hn, hj) та пре-оклюзія (rn ➔ [rtn], rl ➔ [rtl])",
+      "rule": "1) Перед сонорними l, r, n літера h позбавляє їх голосу — звучить чистий глухий видих через язик або ніс [l̥, r̥, n̥], а hj дає м'який піднебінний шум [ç] (як нім. ich). 2) У кластерах rn та rl виникає вставний вибуховий звук [t]: barn ➔ [partn̥], karl ➔ [kʰartl̥]!",
+      "ipa_symbol": "[l̥ / r̥ / ç] & [rtn / rtl]",
+      "diagram": "hl ➔ [l̥] | hr ➔ [r̥] | hj ➔ [ç] | rn ➔ [rtn̥] | rl ➔ [rtl̥]",
+      "examples": [
+        {
+          "word": "Hlusta",
+          "ipa": "['l̥ʏsta]",
+          "meaning": "слухати",
+          "trap_note": "hl звучить як глухий боковий видих [l̥] без [х]"
+        },
+        {
+          "word": "Hringja",
+          "ipa": "['r̥iɲca]",
+          "meaning": "дзвонити",
+          "trap_note": "hr — глухе розкотисте [r̥] на видиху"
+        },
+        {
+          "word": "Hjarta",
+          "ipa": "['çarta]",
+          "meaning": "серце",
+          "trap_note": "hj переходить у м'який піднебінний шум [ç]"
+        },
+        {
+          "word": "Barn",
+          "ipa": "[partn̥]",
+          "meaning": "дитина",
+          "trap_note": "rn вибухає вставним альвеолярним [rtn̥]"
+        }
+      ]
+    },
+    "palatal_and_s_stops": {
+      "name_is": "Gómmæling & Ófráblásin lokhljóð (Палаталізація k/g/sk та sp/st/sk)",
+      "name_uk": "Палаталізація k, g, sk перед передніми голосними [cʰ, c, sc] та втрата придиху після s",
+      "rule": "1) Перед голосними переднього ряду (e, i, í, y, ý, æ, ei, ey) та j приголосні k, g, sk пом'якшуються у піднебінні [cʰ], [c] та [sc]: kirkja ➔ ['cʰɪr̥ca], skyr ➔ [scɪːr]. 2) Після s у кластерах sp, st, sk придих повністю зникає: skóli ➔ ['skouːlɪ]!",
+      "ipa_symbol": "[cʰ / c / sc] & [sp / st / sk]",
+      "diagram": "k/g + (e,i,y,æ,ei,ey,j) ➔ [cʰ / c] | sk + передні ➔ [sc] | s + p/t/k ➔ непридихові",
+      "examples": [
+        {
+          "word": "Kirkja",
+          "ipa": "['cʰɪr̥ca]",
+          "meaning": "церква",
+          "trap_note": "ki- та -kj- звучать як м'які піднебінні [cʰ] та [c]"
+        },
+        {
+          "word": "Skyr",
+          "ipa": "[scɪːr]",
+          "meaning": "ісландський скір",
+          "trap_note": "sk перед y стає м'яким [sc] («ськїр»)"
+        },
+        {
+          "word": "Keyra",
+          "ipa": "['cʰeiːra]",
+          "meaning": "їхати / водити авто",
+          "trap_note": "перед дифтонгом ey літера k стає піднебінною [cʰ]"
+        },
+        {
+          "word": "Skóli",
+          "ipa": "['skouːlɪ]",
+          "meaning": "школа",
+          "trap_note": "після s звук k вимовляється сухо без придиху [sk]"
+        }
+      ]
+    },
+    "cluster_assimilation": {
+      "name_is": "Samruni samhljóðaklasa (Асиміляція стиків pt ➔ [ft], kt ➔ [xt])",
+      "name_uk": "Фрикативна мутація приголосних перед Т: pt ➔ [ft] та kt ➔ [xt]",
+      "rule": "Перед глухим проривним 't' попередні вибухові 'p' та 'k' розмикаються у щілинні фрикативи: сполучення 'pt' читається як [ft], а сполучення 'kt' — як [xt]! А в слові hvernig об'єднуються одразу 3 правила: hv ➔ [kv], rn ➔ [rtn] та кінцеве -g ➔ [x]!",
+      "ipa_symbol": "pt ➔ [ft] | kt ➔ [xt]",
+      "diagram": "-pt- ➔ [ft] (skipta, keypti) | -kt- ➔ [xt] (ríkt) | hvernig ➔ ['kʰvɛrtnɪx]",
+      "examples": [
+        {
+          "word": "Skipta",
+          "ipa": "['scɪfta]",
+          "meaning": "міняти / обмінювати",
+          "trap_note": "pt перетворюється на [ft], а ski- на [scɪ]"
+        },
+        {
+          "word": "Keypti",
+          "ipa": "['cʰeiftɪ]",
+          "meaning": "купив / купила",
+          "trap_note": "pt читається як чітке [ft]"
+        },
+        {
+          "word": "Ríkt",
+          "ipa": "[rixt]",
+          "meaning": "багатий (сер. рід)",
+          "trap_note": "kt перед t переходить у [xt]"
+        },
+        {
+          "word": "Hvernig",
+          "ipa": "['kʰvɛrtnɪx]",
+          "meaning": "як / яким чином",
+          "trap_note": "Комбо 3 пасток: hv=[kv] + rn=[rtn] + -g=[x]"
+        }
+      ]
     }
   },
   "minimal_pairs": [
@@ -916,6 +1015,54 @@ export const M0_PHONETICS_DATA = {
         "acoustic_desc": "Закінчується м'яким одиночним європейським [l]."
       },
       "pedagogical_insight": "Критична гендерна різниця: привітали чоловіка як Sæl — це граматична образа; привітали жінку з [tl] — звучить неприродно!"
+    },
+    {
+      "id": "pair_7",
+      "title": "Акутований Á [auː] vs Складений диграф AU [œyː]",
+      "trap_type": "Головна пастка дифтонгів (Á vs AU)",
+      "word_a": {
+        "word": "á",
+        "ipa": "[auː]",
+        "meaning": "річка / на",
+        "audio": "audio/words/á.mp3",
+        "duration_ms": 370,
+        "wave_color": "#00E5FF",
+        "acoustic_desc": "Широкий дифтонг [auː] — від відкритого [a] до [u]."
+      },
+      "word_b": {
+        "word": "auga",
+        "ipa": "['œyːɣa]",
+        "meaning": "око (диграф au = [œyː])",
+        "audio": "audio/words/auga.mp3",
+        "duration_ms": 410,
+        "wave_color": "#B026FF",
+        "acoustic_desc": "Огублений передній дифтонг [œyː] (починається з ö [œ] і ковзає в [y/i])."
+      },
+      "pedagogical_insight": "Ніколи не читайте диграф AU як «ау»! Звук [ау] дає тільки літера Á з акутом, а AU — це огублене [ö-й] (auga, brauð)!"
+    },
+    {
+      "id": "pair_8",
+      "title": "Велярний твердий K [kʰ] vs Палатальний м'який K [cʰ]",
+      "trap_type": "Палаталізація k перед голосними переднього ряду",
+      "word_a": {
+        "word": "kaka",
+        "ipa": "['kʰaːka]",
+        "meaning": "торт / тістечко",
+        "audio": "audio/words/kaka.mp3",
+        "duration_ms": 380,
+        "wave_color": "#00E676",
+        "acoustic_desc": "Перед заднім голосним 'a' звучить твердий велярний [kʰ]."
+      },
+      "word_b": {
+        "word": "kirkja",
+        "ipa": "['cʰɪr̥ca]",
+        "meaning": "церква",
+        "audio": "audio/words/kirkja.mp3",
+        "duration_ms": 400,
+        "wave_color": "#FF0055",
+        "acoustic_desc": "Перед 'i' та 'j' звук k пом'якшується у піднебінний [cʰ/c]."
+      },
+      "pedagogical_insight": "Перед e, i, í, y, ý, æ, ei, ey, j приголосні k та g завжди стають м'якими піднебінними [cʰ] та [c]!"
     }
   ],
   "ipa_sound_builder": [
@@ -1024,6 +1171,122 @@ export const M0_PHONETICS_DATA = {
         "[g]"
       ],
       "rule_hint": "Подвоєне kk викликає преаспірацію — появу гортанного видиху [h] перед звуком [k]!"
+    },
+    {
+      "id": "builder_6",
+      "word": "jökull",
+      "translation": "льодовик",
+      "target_ipa": [
+        "[j]",
+        "[œː]",
+        "[k]",
+        "[ʏ]",
+        "[tl̥]"
+      ],
+      "display_ipa": "['jœːkʏtl̥]",
+      "pool": [
+        "[j]",
+        "[œː]",
+        "[o]",
+        "[k]",
+        "[ʏ]",
+        "[u]",
+        "[tl̥]",
+        "[ll]"
+      ],
+      "rule_hint": "Літера ö перед однією k дає довге [œː], u читається як [ʏ], а фінальне -ll вибухає як боковий [tl̥]!"
+    },
+    {
+      "id": "builder_7",
+      "word": "barn",
+      "translation": "дитина",
+      "target_ipa": [
+        "[p]",
+        "[a]",
+        "[r]",
+        "[tn̥]"
+      ],
+      "display_ipa": "[partn̥]",
+      "pool": [
+        "[p]",
+        "[b]",
+        "[a]",
+        "[r]",
+        "[tn̥]",
+        "[n]"
+      ],
+      "rule_hint": "Початкова b — це глухий непридиховий [p], а в кластері rn з'являється вставний вибуховий [tn̥]!"
+    },
+    {
+      "id": "builder_8",
+      "word": "brauð",
+      "translation": "хліб",
+      "target_ipa": [
+        "[p]",
+        "[r]",
+        "[œyː]",
+        "[ð]"
+      ],
+      "display_ipa": "[prœyːð]",
+      "pool": [
+        "[p]",
+        "[b]",
+        "[r]",
+        "[œyː]",
+        "[au]",
+        "[ð]",
+        "[θ]"
+      ],
+      "rule_hint": "Диграф au читається як огублений дифтонг [œyː] (не [au]!), а кінцева ð — дзвінкий міжзубний [ð]."
+    },
+    {
+      "id": "builder_9",
+      "word": "kirkja",
+      "translation": "церква",
+      "target_ipa": [
+        "[cʰ]",
+        "[ɪ]",
+        "[r̥]",
+        "[c]",
+        "[a]"
+      ],
+      "display_ipa": "['cʰɪr̥ca]",
+      "pool": [
+        "[cʰ]",
+        "[kʰ]",
+        "[ɪ]",
+        "[r̥]",
+        "[c]",
+        "[k]",
+        "[a]"
+      ],
+      "rule_hint": "Перед 'i' та 'j' обидві літери k палаталізуються у м'які піднебінні [cʰ] та [c], а r перед k оглушується у [r̥]!"
+    },
+    {
+      "id": "builder_10",
+      "word": "hvernig",
+      "translation": "як / яким чином",
+      "target_ipa": [
+        "[kʰv]",
+        "[ɛ]",
+        "[r]",
+        "[tn]",
+        "[ɪ]",
+        "[x]"
+      ],
+      "display_ipa": "['kʰvɛrtnɪx]",
+      "pool": [
+        "[kʰv]",
+        "[hv]",
+        "[ɛ]",
+        "[r]",
+        "[tn]",
+        "[n]",
+        "[ɪ]",
+        "[x]",
+        "[g]"
+      ],
+      "rule_hint": "Потрійне комбо Árnastofnun: hv ➔ [kʰv], кластер rn ➔ [rtn], а кінцева -g після голосної ➔ глухий [x]!"
     }
   ],
   "dialogue_and_pragmatics": {

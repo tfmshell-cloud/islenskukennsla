@@ -4,7 +4,7 @@
  * Підтримує Колоди Модулів 0, 1, 2, 3, візуальні мнемоніки, озвучку Gunnar/Guðrún та Центр промптів NotebookLM.
  */
 
-import { FLASHCARDS_DECKS, NOTEBOOKLM_PROMPTS_LIBRARY } from '../data/flashcards_master_data.js?v=7.4';
+import { FLASHCARDS_DECKS, NOTEBOOKLM_PROMPTS_LIBRARY } from '../data/flashcards_master_data.js?v=7.5';
 import { audioEngine } from './AudioEngine.js?v=7.0';
 import { gameState } from './GameState.js';
 
