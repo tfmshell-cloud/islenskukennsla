@@ -448,11 +448,11 @@ export const PODCASTS_CORPUS = {
       titleIsl: "Skóli og leikskóli: Mentor, veikindi barna og foreldrasamtal",
       level: "A2.2 (ÍFA 2 Kafli 5 & Mentor.is)",
       sourceRef: "ÍFA 2 Kafli 5 & Viltu læra íslensku? Þáttur 18",
-      duration: "18:40",
+      duration: "19:16",
       bilingualRatio: "25% UA / 75% IS",
       audioFile: "audio/podcasts/ep15_skoli_og_mentor.m4a",
       fileStatus: "READY",
-      statusLabel: "🎧 ГОТОВО ДО ПРОСЛУХОВУВАННЯ (0.39 MB)",
+      statusLabel: "🎧 ГОТОВО ДО ПРОСЛУХОВУВАННЯ (8.9 MB)",
       situation: "Шкільна та дошкільна система Ісландії (Leikskóli & Grunnskóli). Сповіщення про хворобу дитини через Mentor (Tilkynna veikindi), спілкування з класним керівником (Umsjónarkennari) та батьківські зустрічі.",
       anchors: ["InfoMentor / Mentor app", "Tilkynna forföll (повідомити про пропуск)", "Foreldrasamtal (індивідуальна бесіда з батьками)", "Útiföt (водонепроникний одяг)"],
       script: [
