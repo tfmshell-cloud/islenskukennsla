@@ -299,7 +299,7 @@ export const OFFICIAL_SOURCES_DATA = {
 
   // 2. AUDIO REPOSITORY & PRONUNCIATION MATRIX
   audioRegistry: {
-    totalFilesOnDisk: 894,
+    totalFilesOnDisk: 906,
     categories: [
       {
         id: "phonetics",
@@ -324,22 +324,22 @@ export const OFFICIAL_SOURCES_DATA = {
       {
         id: "dialogues",
         nameUkr: "Автентичні діалоги уроків",
-        count: 103,
+        count: 111,
         coveragePercent: 100,
         status: "complete",
         format: "MP3",
         voiceType: "Bilingual Dialogues Engine (Gunnar & Guðrún Neural)",
-        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan, огляд квартири (A2.1), трудова угода (A2.2), валідація Klapp (A2.3), медична консультація лінії 1700 (A2.4), бесіда у садку Leikskóli (A2.5), передача зміни на виробництві (A2.6), відкриття рахунку в Landsbankinn (A2.7), податкова консультація Skatturinn (A2.8)."
+        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan, огляд квартири (A2.1), трудова угода (A2.2), валідація Klapp (A2.3), медична консультація лінії 1700 (A2.4), бесіда у садку Leikskóli (A2.5), передача зміни на виробництві (A2.6), відкриття рахунку в Landsbankinn (A2.7), податкова консультація Skatturinn (A2.8), дебати профспілок щодо інфляції та kjarasamningar (B1.1)."
       },
       {
         id: "exam_listening",
-        nameUkr: "Аудіозапитання секцій слухання (Hlustunarpróf K4–K7 та A2.1–A2.8 Lokapróf)",
-        count: 47,
+        nameUkr: "Аудіозапитання секцій слухання (Hlustunarpróf K4–K7, A2.1–A2.8 Lokapróf та B1.1)",
+        count: 51,
         coveragePercent: 100,
         status: "complete",
         format: "MP3 (Neural 24kHz)",
         voiceType: "Studio Dual Neural (Gunnar & Guðrún)",
-        description: "47 автентичних начитаних аудіоситуацій для перевірки розуміння на слух в іспитах рівнів A1 та A2 (включно з випускним Lokapróf A2)."
+        description: "51 автентична начитана аудіоситуація для перевірки розуміння на слух в іспитах рівнів A1, A2 (включно з випускним Lokapróf A2) та B1.1."
       },
       {
         id: "podcasts",
@@ -404,9 +404,15 @@ export const OFFICIAL_SOURCES_DATA = {
         status: "Синтезовано & Інтегровано (100%)"
       },
       {
-        module: "Іспити K4–K7 & A2.1–A2.8 Lokapróf",
-        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf, 47 треків)",
-        linesCount: 47,
+        module: "Урок B1.1 (Економіка, дебати & Viðtengingarháttur)",
+        target: "Дебати профспілок щодо інфляції та зарплат (b1_k1_l1 – b1_k1_l8) та 4 треки Hlustun (hlustun_b1k1_q12 – q15)",
+        linesCount: 12,
+        status: "Синтезовано & Інтегровано (100%)"
+      },
+      {
+        module: "Іспити K4–K7 & A2.1–B1.1",
+        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf, 51 трек)",
+        linesCount: 51,
         status: "Синтезовано & Інтегровано (100%)"
       }
     ],
@@ -414,10 +420,10 @@ export const OFFICIAL_SOURCES_DATA = {
     // QUEUE FOR FUTURE HIGH-FIDELITY STUDIO VOICE-OVERS
     pendingVoiceoverQueue: [
       {
-        module: "Блок B1 (Íslenska fyrir alla 3)",
-        target: "Студійне озвучення матеріалів першого розділу книги 3 (B1.1)",
-        linesCount: 15,
-        priority: "Level B1 Launch",
+        module: "Урок B1.2 (Культура, медіа та преса)",
+        target: "Студійне озвучення матеріалів другого розділу книги 3 (B1.2)",
+        linesCount: 12,
+        priority: "Level B1.2 Next Step",
         currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
       }
     ]

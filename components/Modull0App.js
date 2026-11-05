@@ -36,6 +36,7 @@ import { A2K5EducationApp } from './A2K5EducationApp.js?v=1.0';
 import { A2K6RoutineApp } from './A2K6RoutineApp.js?v=1.0';
 import { A2K7BankingApp } from './A2K7BankingApp.js?v=1.0';
 import { A2K8SocietyApp } from './A2K8SocietyApp.js?v=1.0';
+import { B1K1WorkplaceApp } from './B1K1WorkplaceApp.js?v=1.0';
 import { SourcesVaultApp } from './SourcesVaultApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
@@ -207,6 +208,9 @@ export class Modull0App {
                 <button data-chapter="a2_k8" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k8' ? 'active' : ''} text-amber-300 border-amber-500/40" title="Рівень A2 • Книга 2 • Урок 8: Ісландське суспільство, податки та Lokapróf A2">
                   🏆 A2.8: Фінал
                 </button>
+                <button data-chapter="b1_k1" class="chapter-nav-btn nav-btn ${this.activeChapter === 'b1_k1' ? 'active' : ''} text-orange-300 border-orange-500/40" title="Рівень B1 • Книга 3 • Урок 1: Ринок праці, економіка та viðtengingarháttur">
+                  📊 B1.1: Дебати
+                </button>
                 
                 <span class="text-slate-700 font-bold px-0.5">|</span>
 
@@ -352,6 +356,9 @@ export class Modull0App {
               <button data-chapter="a2_k8" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k8' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/50 text-amber-300 hover:text-white border border-amber-500/30'}" title="Книга 2: Ісландське суспільство, податки та Lokapróf A2">
                 A2.8: Фінал 🏆
               </button>
+              <button data-chapter="b1_k1" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'b1_k1' ? 'bg-orange-500 text-black shadow-md' : 'bg-black/50 text-orange-300 hover:text-white border border-orange-500/30'}" title="Книга 3: Ринок праці, економіка та viðtengingarháttur">
+                B1.1: Дебати 📊
+              </button>
               <span class="text-slate-700 font-bold px-0.5">|</span>
               <button data-chapter="sources_vault" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'sources_vault' ? 'bg-cyan-500 text-black shadow-md' : 'bg-black/50 text-cyan-300 hover:text-white border border-cyan-500/30'}" title="Офіційні держпортали, джерела та аудіоматриця">
                 🏛️ Держпортали
@@ -468,6 +475,11 @@ export class Modull0App {
           <!-- ================= TAB A2.8: УРОК A2.8 (СУСПІЛЬСТВО, ПОДАТКИ ТА LOKAPRÓF) ================= -->
           <div id="chapter-container-a2_k8" class="chapter-view ${this.activeChapter === 'a2_k8' ? '' : 'hidden'} space-y-4">
             <!-- Populated by A2K8SocietyApp -->
+          </div>
+
+          <!-- ================= TAB B1.1: УРОК B1.1 (РИНОК ПРАЦІ, ЕКОНОМІКА ТА VIÐTENGINGARHÁTTUR) ================= -->
+          <div id="chapter-container-b1_k1" class="chapter-view ${this.activeChapter === 'b1_k1' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by B1K1WorkplaceApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -772,6 +784,13 @@ export class Modull0App {
       this.components.a2_k8.render();
     }
 
+    // 4q. Mount Level B1 • Lesson 1 (Labor Market, Macroeconomics & Viðtengingarháttur)
+    const b1k1Container = this.root.querySelector('#chapter-container-b1_k1');
+    if (b1k1Container) {
+      this.components.b1_k1 = new B1K1WorkplaceApp(b1k1Container);
+      this.components.b1_k1.render();
+    }
+
     // 4g. Mount Curriculum Catalog Hubs (A1 & A2)
     this.renderA1Hub();
     this.renderA2Hub();
@@ -1041,6 +1060,10 @@ export class Modull0App {
           heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 8 (СУСПІЛЬСТВО, ПОДАТКИ ТА LOKAPRÓF)';
           heroTitle.innerText = 'Урок A2.8: Ісландське суспільство, податки у Skatturinn та випускний іспит Lokapróf A2';
           break;
+        case 'b1_k1':
+          heroBadge.innerText = 'РІВЕНЬ B1 • КНИГА 3 • РОЗДІЛ 1 (ЕКОНОМІКА ТА УМОВНИЙ СПОСІБ)';
+          heroTitle.innerText = 'Урок B1.1: Трудове життя, економічні дебати та умовний спосіб (Viðtengingarháttur)';
+          break;
         case 'a1_hub':
           heroBadge.innerText = 'КУРСОВИЙ КАТАЛОГ • РІВЕНЬ A1 (0–7)';
           heroTitle.innerText = 'Каталог усіх уроків рівня A1 (Íslenska fyrir alla 1, Розділи 1–8)';
@@ -1121,6 +1144,9 @@ export class Modull0App {
     }
     if (chapterId === 'a2_k8' && this.components.a2_k8) {
       this.components.a2_k8.render();
+    }
+    if (chapterId === 'b1_k1' && this.components.b1_k1) {
+      this.components.b1_k1.render();
     }
     if (chapterId === 'a1_hub') {
       this.renderA1Hub();
@@ -1278,6 +1304,12 @@ export class Modull0App {
       if (this.components.a2_k8) {
         this.components.a2_k8.activeTab = 'exam';
         this.components.a2_k8.render();
+      }
+    } else if (chapterId === 'b1_k1') {
+      this.switchChapter('b1_k1');
+      if (this.components.b1_k1) {
+        this.components.b1_k1.activeTab = 'exam';
+        this.components.b1_k1.render();
       }
     }
   }
