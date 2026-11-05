@@ -33,6 +33,8 @@ import { A2K2WorkApp } from './A2K2WorkApp.js?v=1.0';
 import { A2K3TransportApp } from './A2K3TransportApp.js?v=1.0';
 import { A2K4HealthApp } from './A2K4HealthApp.js?v=1.0';
 import { A2K5EducationApp } from './A2K5EducationApp.js?v=1.0';
+import { A2K6RoutineApp } from './A2K6RoutineApp.js?v=1.0';
+import { A2K7BankingApp } from './A2K7BankingApp.js?v=1.0';
 import { SourcesVaultApp } from './SourcesVaultApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
@@ -195,6 +197,12 @@ export class Modull0App {
                 <button data-chapter="a2_k5" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k5' ? 'active' : ''} text-teal-300 border-teal-500/40" title="Рівень A2 • Книга 2 • Урок 5: Освіта, садок та Mentor">
                   🎒 A2.5: Освіта
                 </button>
+                <button data-chapter="a2_k6" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k6' ? 'active' : ''} text-purple-300 border-purple-500/40" title="Рівень A2 • Книга 2 • Урок 6: Розклад дня, vaktavinna та miðmynd">
+                  🔄 A2.6: Розклад
+                </button>
+                <button data-chapter="a2_k7" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k7' ? 'active' : ''} text-emerald-300 border-emerald-500/40" title="Рівень A2 • Книга 2 • Урок 7: Банки, фінанси та Auðkenni">
+                  💳 A2.7: Банки
+                </button>
                 
                 <span class="text-slate-700 font-bold px-0.5">|</span>
 
@@ -331,6 +339,12 @@ export class Modull0App {
               <button data-chapter="a2_k5" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k5' ? 'bg-teal-500 text-black shadow-md' : 'bg-black/50 text-teal-300 hover:text-white border border-teal-500/30'}" title="Книга 2: Освіта, садок та Mentor">
                 A2.5: Освіта
               </button>
+              <button data-chapter="a2_k6" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k6' ? 'bg-purple-500 text-black shadow-md' : 'bg-black/50 text-purple-300 hover:text-white border border-purple-500/30'}" title="Книга 2: Розклад дня, vaktavinna та miðmynd">
+                A2.6: Розклад
+              </button>
+              <button data-chapter="a2_k7" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k7' ? 'bg-emerald-500 text-black shadow-md' : 'bg-black/50 text-emerald-300 hover:text-white border border-emerald-500/30'}" title="Книга 2: Банки, фінанси та Auðkenni">
+                A2.7: Банки
+              </button>
               <span class="text-slate-700 font-bold px-0.5">|</span>
               <button data-chapter="sources_vault" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'sources_vault' ? 'bg-cyan-500 text-black shadow-md' : 'bg-black/50 text-cyan-300 hover:text-white border border-cyan-500/30'}" title="Офіційні держпортали, джерела та аудіоматриця">
                 🏛️ Держпортали
@@ -432,6 +446,16 @@ export class Modull0App {
           <!-- ================= TAB A2.5: УРОК A2.5 (ОСВІТА, LEIKSKÓLI ТА MENTOR) ================= -->
           <div id="chapter-container-a2_k5" class="chapter-view ${this.activeChapter === 'a2_k5' ? '' : 'hidden'} space-y-4">
             <!-- Populated by A2K5EducationApp -->
+          </div>
+
+          <!-- ================= TAB A2.6: УРОК A2.6 (РОЗКЛАД ДНЯ, VAKTAVINNA ТА MIÐMYND) ================= -->
+          <div id="chapter-container-a2_k6" class="chapter-view ${this.activeChapter === 'a2_k6' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by A2K6RoutineApp -->
+          </div>
+
+          <!-- ================= TAB A2.7: УРОК A2.7 (БАНКИ, ФІНАНСИ ТА AUÐKENNI) ================= -->
+          <div id="chapter-container-a2_k7" class="chapter-view ${this.activeChapter === 'a2_k7' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by A2K7BankingApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -715,6 +739,20 @@ export class Modull0App {
       this.components.a2_k5.render();
     }
 
+    // 4n. Mount Level A2 • Lesson 6 (Daily Routine, Shift Work & Middle Voice)
+    const a2k6Container = this.root.querySelector('#chapter-container-a2_k6');
+    if (a2k6Container) {
+      this.components.a2_k6 = new A2K6RoutineApp(a2k6Container);
+      this.components.a2_k6.render();
+    }
+
+    // 4o. Mount Level A2 • Lesson 7 (Banking, Finances & Auðkenni)
+    const a2k7Container = this.root.querySelector('#chapter-container-a2_k7');
+    if (a2k7Container) {
+      this.components.a2_k7 = new A2K7BankingApp(a2k7Container);
+      this.components.a2_k7.render();
+    }
+
     // 4g. Mount Curriculum Catalog Hubs (A1 & A2)
     this.renderA1Hub();
     this.renderA2Hub();
@@ -972,6 +1010,14 @@ export class Modull0App {
           heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 5 (ОСВІТА, LEIKSKÓLI ТА MENTOR)';
           heroTitle.innerText = 'Урок A2.5: Освітня система, дитячий садок Leikskóli, школа та Mentor.is';
           break;
+        case 'a2_k6':
+          heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 6 (РОЗКЛАД, ЗМІНИ ТА MIÐMYND)';
+          heroTitle.innerText = 'Урок A2.6: Розклад дня, позмінна робота, 11-годинний відпочинок та стан на -st';
+          break;
+        case 'a2_k7':
+          heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 7 (БАНКИ, ФІНАНСИ ТА AUÐKENNI)';
+          heroTitle.innerText = 'Урок A2.7: Банківська система, інтернет-банкінг, вимоги kröfur та Auðkenni';
+          break;
         case 'a1_hub':
           heroBadge.innerText = 'КУРСОВИЙ КАТАЛОГ • РІВЕНЬ A1 (0–7)';
           heroTitle.innerText = 'Каталог усіх уроків рівня A1 (Íslenska fyrir alla 1, Розділи 1–8)';
@@ -1043,6 +1089,12 @@ export class Modull0App {
     }
     if (chapterId === 'a2_k5' && this.components.a2_k5) {
       this.components.a2_k5.render();
+    }
+    if (chapterId === 'a2_k6' && this.components.a2_k6) {
+      this.components.a2_k6.render();
+    }
+    if (chapterId === 'a2_k7' && this.components.a2_k7) {
+      this.components.a2_k7.render();
     }
     if (chapterId === 'a1_hub') {
       this.renderA1Hub();
@@ -1182,6 +1234,18 @@ export class Modull0App {
       if (this.components.a2_k5) {
         this.components.a2_k5.activeTab = 'exam';
         this.components.a2_k5.render();
+      }
+    } else if (chapterId === 'a2_k6') {
+      this.switchChapter('a2_k6');
+      if (this.components.a2_k6) {
+        this.components.a2_k6.activeTab = 'exam';
+        this.components.a2_k6.render();
+      }
+    } else if (chapterId === 'a2_k7') {
+      this.switchChapter('a2_k7');
+      if (this.components.a2_k7) {
+        this.components.a2_k7.activeTab = 'exam';
+        this.components.a2_k7.render();
       }
     }
   }
@@ -1560,38 +1624,38 @@ export class Modull0App {
       {
         id: 'a2_k6',
         num: 'A2.6',
-        titleUkr: 'Система освіти, дитсадки та Mentor.is',
-        titleIsl: 'Skólakerfið & Mentor.is',
-        level: 'A2.2 Освіта родини',
-        source: 'ÍFA 2 Kafli 6 • Skólamál',
-        icon: '🎒',
-        color: 'cyan',
-        isActive: false,
-        cases: ['🏫 Leikskóli', '📱 Mentor.is', '📝 Tilkynning'],
+        titleUkr: 'Розклад дня, позмінна робота та зворотні дієслова на -st',
+        titleIsl: 'Dagurinn minn, rútína, vaktavinna og miðmynd',
+        level: 'A2.2 Трудова рутина',
+        source: 'ÍFA 2 Kafli 5 • Vinnueftirlitið & ASÍ',
+        icon: '🔄',
+        color: 'purple',
+        isActive: true,
+        cases: ['⏱️ Vaktavinna', '🪞 Miðmynd (-st)', '🛌 11 tíma hvíld'],
         topics: [
-          'Дошкільна освіта Leikskóli та середня школа Grunnskóli',
-          'Батьківський портал Mentor.is: повідомлення про хворобу дитини',
-          'Комунікація з викладачами та участь у шкільних заходах'
+          'Позмінна праця: dagvakt, kvöldvakt, næturvakt, helgarfrí та змінні надбавки',
+          'Зворотний стан дієслів на -st (að klæðast, að hittast, að finnast, að komast)',
+          'Закон про обов\'язковий 11-годинний безперервний відпочинок (hvíldartími)'
         ],
-        examLabel: 'У розробці ⏳'
+        examLabel: 'Іспит A2.6 (15 Q)'
       },
       {
         id: 'a2_k7',
         num: 'A2.7',
-        titleUkr: 'Автомобіль в Ісландії, техогляд та сервіс',
-        titleIsl: 'Bíllinn, Aðalskoðun & Tryggingar',
-        level: 'A2.2 Автономія водія',
-        source: 'ÍFA 2 Kafli 7 • Samgöngustofa',
-        icon: '🚗',
-        color: 'indigo',
-        isActive: false,
-        cases: ['🔧 Aðalskoðun', '🛡️ Kaskó', '⛽ Bensínstöð'],
+        titleUkr: 'Банківська система, фінанси та додаток Auðkenni',
+        titleIsl: 'Bankakerfið, heimabanki, kröfur og Auðkenni',
+        level: 'A2.2 Фінансова автономія',
+        source: 'ÍFA 2 Kafli 6 • Landsbankinn & Auðkenni',
+        icon: '💳',
+        color: 'emerald',
+        isActive: true,
+        cases: ['🏦 Bankareikningur', '📱 Auðkenni', '🧾 Kröfur'],
         topics: [
-          'Володіння автомобілем в Ісландії, щорічний техогляд Aðalskoðun',
-          'Страхування (Ábyrgðartrygging, Kaskó) та взаємодія з майстернею',
-          'Автозаправки самообслуговування та зимове обслуговування авто'
+          'Відкриття рахунку в ісландських банках (Landsbankinn, Arion, Íslandsbanki)',
+          'Електронні вимоги платежу (kröfur) в інтернет-банкінгу (heimabanki)',
+          'Електронна ідентифікація через додаток Auðkenni та фінансове керування дієслів'
         ],
-        examLabel: 'У розробці ⏳'
+        examLabel: 'Іспит A2.7 (15 Q)'
       },
       {
         id: 'a2_k8',

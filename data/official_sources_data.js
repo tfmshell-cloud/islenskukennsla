@@ -264,12 +264,42 @@ export const OFFICIAL_SOURCES_DATA = {
           keyTerms: ["Brottför (відправлення)", "Koma (прибуття)", "Farangur (багаж)"]
         }
       ]
+    },
+    {
+      id: "banking_finance",
+      nameUkr: "8. Банківська система та цифрові платежі (Landsbankinn, Arion, Íslandsbanki)",
+      icon: "💳",
+      color: "emerald",
+      sources: [
+        {
+          id: "landsbankinn",
+          nameIsl: "Landsbankinn & Heimabanki",
+          nameUkr: "Найбільший комерційний банк Ісландії та онлайн-банкінг",
+          url: "https://www.landsbankinn.is/",
+          authority: "Landsbankinn hf.",
+          cefrLevel: "A2.7 (Урок A2.7)",
+          statusTag: "ВІЗУАЛЬНИЙ БЛОК: ФІНАНСИ",
+          practicalUse: "Відкриття розрахункового рахунку (Veltureikningur), сплата вимог (Ógreiddar kröfur), налаштування прямого дебету (Boðgreiðslur) та перекази (Millifærsla).",
+          keyTerms: ["Kröfur (вимоги до сплати)", "Millifæra (переказувати кошти)", "Reikningsnúmer (номер рахунку)", "Heimabanki (інтернет-банк)"]
+        },
+        {
+          id: "audkenni_sys",
+          nameIsl: "Auðkenni appið & Rafræn skilríki",
+          nameUkr: "Електронна ідентифікація та цифровий підпис громадянина",
+          url: "https://www.audkenni.is/",
+          authority: "Auðkenni hf.",
+          cefrLevel: "A2.7 (Урок A2.7)",
+          statusTag: "ВІЗУАЛЬНИЙ БЛОК: ЦИФРОВИЙ КЛЮЧ",
+          practicalUse: "Авторизація в банківських системах через телефон із секретним PIN-кодом, активація електронного підпису та підтвердження транзакцій.",
+          keyTerms: ["Leyniorð (пароль)", "Öryggistala (код безпеки)", "Skilríki (посвідчення/сертифікат)"]
+        }
+      ]
     }
   ],
 
   // 2. AUDIO REPOSITORY & PRONUNCIATION MATRIX
   audioRegistry: {
-    totalFilesOnDisk: 850,
+    totalFilesOnDisk: 874,
     categories: [
       {
         id: "phonetics",
@@ -294,22 +324,22 @@ export const OFFICIAL_SOURCES_DATA = {
       {
         id: "dialogues",
         nameUkr: "Автентичні діалоги уроків",
-        count: 79,
-        coveragePercent: 95,
+        count: 95,
+        coveragePercent: 98,
         status: "complete",
         format: "MP3",
         voiceType: "Bilingual Dialogues Engine (Gunnar & Guðrún Neural)",
-        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan, огляд квартири (A2.1), трудова угода (A2.2), валідація Klapp (A2.3), медична консультація лінії 1700 (A2.4), бесіда у садку Leikskóli (A2.5)."
+        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan, огляд квартири (A2.1), трудова угода (A2.2), валідація Klapp (A2.3), медична консультація лінії 1700 (A2.4), бесіда у садку Leikskóli (A2.5), передача зміни на виробництві (A2.6), відкриття рахунку в Landsbankinn (A2.7)."
       },
       {
         id: "exam_listening",
-        nameUkr: "Аудіозапитання секцій слухання (Hlustunarpróf K4–K7 та A2.1–A2.5)",
-        count: 33,
+        nameUkr: "Аудіозапитання секцій слухання (Hlustunarpróf K4–K7 та A2.1–A2.7)",
+        count: 41,
         coveragePercent: 100,
         status: "complete",
         format: "MP3 (Neural 24kHz)",
         voiceType: "Studio Dual Neural (Gunnar & Guðrún)",
-        description: "33 автентичні начитані аудіоситуації для перевірки розуміння на слух в іспитах рівнів A1 та A2."
+        description: "41 автентична начитана аудіоситуація для перевірки розуміння на слух в іспитах рівнів A1 та A2."
       },
       {
         id: "podcasts",
@@ -356,9 +386,21 @@ export const OFFICIAL_SOURCES_DATA = {
         status: "Синтезовано & Інтегровано (100%)"
       },
       {
-        module: "Іспити K4–K7 & A2.1–A2.5",
-        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf, 33 треки)",
-        linesCount: 33,
+        module: "Урок A2.6 (Розклад дня & Miðmynd)",
+        target: "Діалог зміни на виробництві (a2_k6_l1 – a2_k6_l8) та 4 треки Hlustun",
+        linesCount: 12,
+        status: "Синтезовано & Інтегровано (100%)"
+      },
+      {
+        module: "Урок A2.7 (Банки & Auðkenni)",
+        target: "Відкриття рахунку Landsbankinn (a2_k7_l1 – a2_k7_l8) та 4 треки Hlustun",
+        linesCount: 12,
+        status: "Синтезовано & Інтегровано (100%)"
+      },
+      {
+        module: "Іспити K4–K7 & A2.1–A2.7",
+        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf, 41 трек)",
+        linesCount: 41,
         status: "Синтезовано & Інтегровано (100%)"
       }
     ],
@@ -366,17 +408,10 @@ export const OFFICIAL_SOURCES_DATA = {
     // QUEUE FOR FUTURE HIGH-FIDELITY STUDIO VOICE-OVERS
     pendingVoiceoverQueue: [
       {
-        module: "Урок A2.6 (Розклад дня & Miðmynd)",
-        target: "Діалог зміни на виробництві (Vaktavinna) та обідня перерва Kaffistofan",
-        linesCount: 8,
-        priority: "Next Sprint",
-        currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
-      },
-      {
-        module: "Урок A2.7 (Банки, фінанси & Rafræn skilríki)",
-        target: "Відкриття банківського рахунку та аутентифікація в додатку Auðkenni",
-        linesCount: 8,
-        priority: "Next Sprint",
+        module: "Урок A2.8 (Ісландське суспільство & Фінальний іспит A2)",
+        target: "Діалог у Skatturinn (податкова декларація) та фінальні сертифікаційні треки Hlustunarpróf",
+        linesCount: 12,
+        priority: "Sprint A2 Finale",
         currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
       }
     ]
