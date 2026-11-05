@@ -444,42 +444,68 @@ export class Modull0App {
     }
     const soundboardContainer = this.root.querySelector('#m0-sec-soundboard');
     if (soundboardContainer) {
-      this.components.soundboard = new AlphabetSoundboard(soundboardContainer);
+      this.components.soundboard = new AlphabetSoundboard(
+        soundboardContainer,
+        this.dataM0.alphabet,
+        this.dataM0.raddstafir_classification
+      );
       this.components.soundboard.render();
     }
     const raddstafirContainer = this.root.querySelector('#m0-sec-raddstafir');
     if (raddstafirContainer) {
-      this.components.raddstafir = new RaddstafirHub(raddstafirContainer);
+      this.components.raddstafir = new RaddstafirHub(
+        raddstafirContainer,
+        this.dataM0.raddstafir_classification
+      );
       this.components.raddstafir.render();
     }
     const trapsContainer = this.root.querySelector('#m0-sec-traps');
     if (trapsContainer) {
-      this.components.traps = new SpeechEtiquette(trapsContainer);
+      this.components.traps = new BaraTalaAcoustics(
+        trapsContainer,
+        this.dataM0.acoustic_traps
+      );
       this.components.traps.render();
     }
     const duelContainer = this.root.querySelector('#m0-sec-duel');
     if (duelContainer) {
-      this.components.duel = new MinimalPairDuel(duelContainer);
+      this.components.duel = new MinimalPairDuel(
+        duelContainer,
+        this.dataM0.minimal_pairs
+      );
       this.components.duel.render();
     }
     const builderContainer = this.root.querySelector('#m0-sec-builder');
     if (builderContainer) {
-      this.components.builder = new IpaSoundBuilder(builderContainer);
+      this.components.builder = new IpaSoundBuilder(
+        builderContainer,
+        this.dataM0.ipa_sound_builder
+      );
       this.components.builder.render();
     }
     const dialogueContainer = this.root.querySelector('#m0-sec-dialogue');
     if (dialogueContainer) {
-      this.components.dialogue = new BaraTalaAcoustics(dialogueContainer);
+      this.components.dialogue = new SpeechEtiquette(
+        dialogueContainer,
+        this.dataM0.dialogue_and_pragmatics
+      );
       this.components.dialogue.render();
     }
     const drillsContainer = this.root.querySelector('#m0-sec-drills');
     if (drillsContainer) {
-      this.components.drills = new InteractiveDrillEngine(drillsContainer);
+      this.components.drills = new InteractiveDrillEngine(
+        drillsContainer,
+        this.dataM0.drill_suite
+      );
       this.components.drills.render();
     }
     const examContainer = this.root.querySelector('#m0-sec-exam');
     if (examContainer) {
-      this.components.exam = new Module0Exam(examContainer);
+      this.components.exam = new Module0Exam(
+        examContainer,
+        () => this.switchChapter('kafli_1'),
+        () => this.switchM0SubTab('guide')
+      );
       this.components.exam.render();
     }
 
