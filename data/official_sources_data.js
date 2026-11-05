@@ -299,7 +299,7 @@ export const OFFICIAL_SOURCES_DATA = {
 
   // 2. AUDIO REPOSITORY & PRONUNCIATION MATRIX
   audioRegistry: {
-    totalFilesOnDisk: 888,
+    totalFilesOnDisk: 894,
     categories: [
       {
         id: "phonetics",
@@ -343,13 +343,13 @@ export const OFFICIAL_SOURCES_DATA = {
       },
       {
         id: "podcasts",
-        nameUkr: "Білінгвальні студійні подкасти для авто (Епізоди 0–15)",
-        count: 17,
-        coveragePercent: 77, // 17 ready out of 22 planned
-        status: "frozen",
-        format: "AAC M4A / MP3 (33.2 MB)",
-        voiceType: "Studio Dual Voice (Gunnar & Olena)",
-        description: "17 повнорозмірних студійних треків із детальним культурним та лінгвістичним розбором ситуацій в Ісландії."
+        nameUkr: "Білінгвальні студійні подкасти для авто (Епізоди 0–21)",
+        count: 23,
+        coveragePercent: 100, // 22 episodes + studio deep dive
+        status: "complete",
+        format: "AAC M4A / MP3 (35.1 MB)",
+        voiceType: "Studio Multi-Voice (Остап, Поліна, Gunnar, Guðrún)",
+        description: "22 повні студійні епізоди та вступний фоно-огляд для авто: від ландшафту та абетки до іспиту на громадянство."
       }
     ],
 
