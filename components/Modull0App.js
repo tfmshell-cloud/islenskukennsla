@@ -31,6 +31,7 @@ import { Kafli7HobbiesWeatherApp } from './Kafli7HobbiesWeatherApp.js?v=1.0';
 import { A2K1HousingApp } from './A2K1HousingApp.js?v=1.0';
 import { A2K2WorkApp } from './A2K2WorkApp.js?v=1.0';
 import { A2K3TransportApp } from './A2K3TransportApp.js?v=1.0';
+import { SourcesVaultApp } from './SourcesVaultApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
 import { binAuraSystem } from './BinAuraSystem.js?v=7.1';
@@ -198,6 +199,9 @@ export class Modull0App {
                 <button data-chapter="saga_map" class="chapter-nav-btn nav-btn nav-btn-saga ${this.activeChapter === 'saga_map' ? 'active' : ''}">
                   🗺️ Сага
                 </button>
+                <button data-chapter="sources_vault" class="chapter-nav-btn nav-btn ${this.activeChapter === 'sources_vault' ? 'active' : ''} text-emerald-300 border-emerald-500/40" title="Офіційні держпортали, джерела та матриця озвучення">
+                  🏛️ Держпортали
+                </button>
                 <a href="curriculum_dashboard.html" class="chapter-nav-btn nav-btn text-purple-300 border-purple-500/40 hover:bg-purple-950/40 flex items-center gap-1" title="Дорожня карта курсів, мовні школи та подкасти">
                   <span>📊</span><span class="hidden md:inline">Дашборд</span>
                 </a>
@@ -313,6 +317,10 @@ export class Modull0App {
               <button data-chapter="a2_k3" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k3' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/50 text-amber-300 hover:text-white border border-amber-500/30'}" title="Книга 2: Транспорт, Klapp та дієслова руху">
                 A2.3: Транспорт
               </button>
+              <span class="text-slate-700 font-bold px-0.5">|</span>
+              <button data-chapter="sources_vault" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'sources_vault' ? 'bg-cyan-500 text-black shadow-md' : 'bg-black/50 text-cyan-300 hover:text-white border border-cyan-500/30'}" title="Офіційні держпортали, джерела та аудіоматриця">
+                🏛️ Держпортали
+              </button>
             </div>
 
             <div class="flex items-center gap-1 shrink-0 text-[10px] font-mono">
@@ -331,6 +339,10 @@ export class Modull0App {
           <div id="chapter-container-a2_hub" class="chapter-view ${this.activeChapter === 'a2_hub' ? '' : 'hidden'} space-y-4">
             <!-- Populated by renderA2Hub -->
           </div>
+
+          <!-- ================= TAB SOURCES VAULT: ДЕРЖАВНІ ПОРТАЛИ ТА АУДІОМАТРИЦЯ ================= -->
+          <div id="chapter-container-sources_vault" class="chapter-view ${this.activeChapter === 'sources_vault' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by SourcesVaultApp -->
           </div>
 
           <!-- ================= TAB 0: УРОК 0 (АБЕТКА ТА ЗВУКИ) ================= -->
@@ -669,6 +681,13 @@ export class Modull0App {
     this.renderA1Hub();
     this.renderA2Hub();
 
+    // 4k. Mount Official Institutional Sources & Audio Matrix Vault
+    const sourcesVaultContainer = this.root.querySelector('#chapter-container-sources_vault');
+    if (sourcesVaultContainer) {
+      this.components.sourcesVault = new SourcesVaultApp(sourcesVaultContainer);
+      this.components.sourcesVault.render();
+    }
+
     // 4c. Mount Master Flashcards & NotebookLM Studio Hub
     const flashcardsContainer = this.root.querySelector('#chapter-container-flashcards');
     if (flashcardsContainer) {
@@ -919,6 +938,10 @@ export class Modull0App {
           heroBadge.innerText = 'МАПА САГИ • HRINGVEGUR 1';
           heroTitle.innerText = 'Мапа Саги: Кільцева дорога Ісландії (Roadmap)';
           break;
+        case 'sources_vault':
+          heroBadge.innerText = 'ДЕРЖАВНІ ПЕРШОДЖЕРЕЛА • АУДІОМАТРИЦЯ';
+          heroTitle.innerText = 'Офіційні портали Ісландії, академічні джерела та матриця озвучки';
+          break;
       }
     }
 
@@ -980,6 +1003,9 @@ export class Modull0App {
     }
     if (chapterId === 'bin_grammar' && this.components.binGrammar) {
       this.components.binGrammar.render();
+    }
+    if (chapterId === 'sources_vault' && this.components.sourcesVault) {
+      this.components.sourcesVault.render();
     }
 
     // Update AI Tutor chapter context
@@ -1275,6 +1301,9 @@ export class Modull0App {
               <a href="curriculum_dashboard.html?tab=podcasts" class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-bold transition-all flex items-center gap-2">
                 <span>🎙️</span><span>Подкасти для авто (22)</span>
               </a>
+              <button id="hub-a1-to-sources-btn" class="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-bold transition-all flex items-center gap-2 cursor-pointer">
+                <span>🏛️</span><span>Держпортали та джерела</span>
+              </button>
             </div>
           </div>
         </div>
@@ -1347,6 +1376,11 @@ export class Modull0App {
     const startFirstBtn = hubContainer.querySelector('#hub-start-first-lesson');
     if (startFirstBtn) {
       startFirstBtn.onclick = () => this.switchChapter('modull_0');
+    }
+
+    const toSourcesBtn = hubContainer.querySelector('#hub-a1-to-sources-btn');
+    if (toSourcesBtn) {
+      toSourcesBtn.onclick = () => this.switchChapter('sources_vault');
     }
 
     hubContainer.querySelectorAll('.hub-open-lesson-btn').forEach(btn => {
@@ -1548,6 +1582,9 @@ export class Modull0App {
               <button id="hub-a2-to-a1-btn" class="px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-bold transition-all flex items-center gap-2 cursor-pointer">
                 <span>📚</span><span>Каталог Уроків A1 (0–7)</span>
               </button>
+              <button id="hub-a2-to-sources-btn" class="px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold transition-all flex items-center gap-2 cursor-pointer">
+                <span>🏛️</span><span>Держпортали та джерела</span>
+              </button>
               <a href="curriculum_dashboard.html" class="px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold transition-all flex items-center gap-2">
                 <span>🗺️</span><span>Дорожня карта (33 розд.)</span>
               </a>
@@ -1634,6 +1671,11 @@ export class Modull0App {
     const toA1Btn = hubContainer.querySelector('#hub-a2-to-a1-btn');
     if (toA1Btn) {
       toA1Btn.onclick = () => this.switchChapter('a1_hub');
+    }
+
+    const toSourcesA2Btn = hubContainer.querySelector('#hub-a2-to-sources-btn');
+    if (toSourcesA2Btn) {
+      toSourcesA2Btn.onclick = () => this.switchChapter('sources_vault');
     }
 
     hubContainer.querySelectorAll('.hub-a2-open-lesson-btn').forEach(btn => {
