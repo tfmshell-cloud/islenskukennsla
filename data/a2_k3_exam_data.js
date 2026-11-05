@@ -165,6 +165,7 @@ export const A2_K3_EXAM_DATA = {
     {
       id: "q12",
       type: "single",
+      audio: "audio/exam/hlustun_a2k3_q12.mp3",
       promptUkr: "Що в Ісландії означає правило «Ljósaskylda»?",
       options: [
         "Обов'язкове цілодобове увімкнення фар ближнього світла в будь-яку пору року",
@@ -178,6 +179,7 @@ export const A2_K3_EXAM_DATA = {
     {
       id: "q13",
       type: "single",
+      audio: "audio/exam/hlustun_a2k3_q13.mp3",
       promptUkr: "Що робити водієві, якщо на електронному табло дороги з'явився напис «LOKAÐ / CLOSED»?",
       options: [
         "Негайно розвернутися або зупинитися: в'їзд категорично заборонено під загрозою величезного штрафу та небезпеки для життя",
@@ -191,6 +193,7 @@ export const A2_K3_EXAM_DATA = {
     {
       id: "q14",
       type: "single",
+      audio: "audio/exam/hlustun_a2k3_q14.mp3",
       promptUkr: "Що означає трудовий бонус «Samgöngustyrkur» у трудових договорах багатьох ісландських компаній?",
       options: [
         "Фінансова доплата працівникові за користування автобусом або велосипедом замість приватного авто",
@@ -204,15 +207,16 @@ export const A2_K3_EXAM_DATA = {
     {
       id: "q15",
       type: "single",
-      promptUkr: "Як ісландською сказати «Я їду на велосипеді на роботу»?",
+      audio: "audio/exam/hlustun_a2k3_transport.mp3",
+      promptUkr: "🎧 Hlustunarpróf (Слухання): Прослухайте аудіодикторку: «Ég tók strætó númer eitt í morgun og klappaði með símanum. Svo fór ég með flugrútunni beint út á Keflavíkurflugvöll.» Яким чином пасажирка дісталася до аеропорту?",
       options: [
-        "Ég hjóla í vinnuna",
-        "Ég tek hjól á vinnunni",
-        "Ég fer með hjóli til vinnu",
-        "Ég aka hjól í vinnu"
+        "Сіла на автобус 1, валідувала квиток Klapp телефоном, а потім поїхала експресом Flugrútan в аеропорт",
+        "Взяла таксі з центру міста безпосередньо до термінала",
+        "Поїхала на авто знайомих через закриту через хуртовину дорогу",
+        "Купила паперовий разовий квиток у водія за готівку"
       ],
       correctIndex: 0,
-      explanation: "Дієслово «að hjóla» (їхати велосипедом) природно вживається з «í vinnuna» (знахідний відмінок напрямку руху): «Ég hjóla í vinnuna»."
+      explanation: "В аудіозаписі чітко сказано: «tók strætó númer eitt» (сіла на автобус №1), «klappaði með símanum» (валідувала Klapp через телефон) та «fór með flugrútunni beint út á Keflavíkurflugvöll» (поїхала шатлом Flugrútan в аеропорт)."
     }
   ]
 };

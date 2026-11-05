@@ -194,6 +194,7 @@ export const K6_EXAM_DATA = {
       block: "restaurant_etiquette",
       questionUkr: "Як чемно попросити рахунок в офіціанта ісландською мовою?",
       promptIsl: "Hvernig biður maður um reikninginn?",
+      audio: "audio/exam/hlustun_k6_q13.mp3",
       options: [
         { text: "Hvað kostar allt?", isCorrect: false },
         { text: "Má ég fá reikninginn, takk?", isCorrect: true },
@@ -207,6 +208,7 @@ export const K6_EXAM_DATA = {
       block: "restaurant_etiquette",
       questionUkr: "Що означає запитання офіціанта: 'Greiðið þið saman eða sitthvoru lagi?'",
       promptIsl: "Spurning við greiðslu:",
+      audio: "audio/exam/hlustun_k6_q14.mp3",
       options: [
         { text: "Ви будете платити готівкою чи карткою?", isCorrect: false },
         { text: "Ви платите разом чи кожен окремо?", isCorrect: true },
@@ -220,6 +222,7 @@ export const K6_EXAM_DATA = {
       block: "restaurant_etiquette",
       questionUkr: "Чи прийнято в Ісландії залишати чайові (þjórfé) в ресторанах і кафе?",
       promptIsl: "Þjórfé á Íslandi:",
+      audio: "audio/exam/hlustun_k6_food.mp3",
       options: [
         { text: "Ні, обслуговування вже повністю включено в рахунок згідно із законом", isCorrect: true },
         { text: "Так, обов'язково 20%", isCorrect: false },

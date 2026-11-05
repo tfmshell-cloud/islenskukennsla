@@ -321,8 +321,13 @@ export class A2K3TransportApp {
             <!-- Dialogue Lines -->
             <div class="space-y-3">
               ${dialogue.lines.map((l, idx) => `
-                <div class="p-3 rounded-xl ${idx % 2 === 0 ? 'bg-cyber-deep/80 border border-cyber-border' : 'bg-cyber-deep/30 border border-cyber-border/40'} space-y-1">
-                  <div class="text-xs font-mono font-bold text-amber-300">${l.speaker}:</div>
+                <div class="p-3.5 rounded-xl ${idx % 2 === 0 ? 'bg-cyber-deep/80 border border-cyber-border' : 'bg-cyber-deep/30 border border-cyber-border/40'} space-y-2">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-mono font-bold text-amber-300">${l.speaker}:</span>
+                    <button class="a2k3-dlg-audio-btn px-2.5 py-1 rounded-lg bg-cyber-deep hover:bg-amber-500/20 border border-cyber-border text-slate-300 hover:text-amber-300 font-mono text-xs flex items-center gap-1 cursor-pointer transition-all" data-audio="${l.audio || ''}" data-phrase="${l.isl}">
+                      <span>🔊</span><span>Слухати</span>
+                    </button>
+                  </div>
                   <div class="text-sm font-mono text-white font-medium">${l.isl}</div>
                   <div class="text-xs font-sans text-slate-400">${l.ukr}</div>
                 </div>
@@ -359,6 +364,19 @@ export class A2K3TransportApp {
         this.mountExam();
       };
     }
+
+    this.container.querySelectorAll('.a2k3-dlg-audio-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const audioPath = btn.dataset.audio;
+        const phrase = btn.dataset.phrase;
+        if (audioPath) {
+          audioEngine.play(audioPath, btn);
+        } else if (phrase) {
+          audioEngine.speak(phrase, 'is-IS');
+        }
+      };
+    });
 
     if (this.activeTab === 'exam') {
       this.mountExam();

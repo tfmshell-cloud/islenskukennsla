@@ -164,6 +164,7 @@ export const A2_K1_EXAM_DATA = {
     {
       id: "q12",
       type: "single",
+      audio: "audio/exam/hlustun_a2k1_q12.mp3",
       promptUkr: "Як перекладається термін «Einbýlishús»?",
       options: [
         "Окремий приватний житловий будинок",
@@ -177,6 +178,7 @@ export const A2_K1_EXAM_DATA = {
     {
       id: "q13",
       type: "single",
+      audio: "audio/exam/hlustun_a2k1_q13.mp3",
       promptUkr: "Оберіть речення, в якому дотримано ісландський порядок слів V2 та форму минулого часу від «að borga» (платити):",
       options: [
         "Í gær borgaði hann húsaleiguna.",
@@ -190,6 +192,7 @@ export const A2_K1_EXAM_DATA = {
     {
       id: "q14",
       type: "single",
+      audio: "audio/exam/hlustun_a2k1_q14.mp3",
       promptUkr: "Яка правильна форма минулого часу від дієслова «að senda» (надсилати) для «við» (ми)?",
       options: [
         "Við sendum umsóknina í gær.",
@@ -203,15 +206,16 @@ export const A2_K1_EXAM_DATA = {
     {
       id: "q15",
       type: "single",
-      promptUkr: "Що необхідно мати для підписання офіційного електронного договору оренди через інтернет в Ісландії?",
+      audio: "audio/exam/hlustun_a2k1_housing.mp3",
+      promptUkr: "🎧 Hlustunarpróf (Слухання): Прослухайте аудіодикторку: «Við leigðum nýja stúdíóíbúð í miðbænum. Húsaleigan er tvö hundruð þúsund krónur og samningurinn er skráður hjá HMS.» Яке твердження є правильним?",
       options: [
-        "Rafræn skilríki (електронний цифровий підпис на сім-карті або в додатку)",
-        "Тільки паперовий паспорт",
-        "Довідку від консульства",
-        "Печатку нотаріуса"
+        "Орендарі винайняли студію за 200 000 kr. і зареєстрували договір у HMS",
+        "Квартира коштує 300 000 крон і знаходиться за містом",
+        "Орендодавець відмовився від реєстрації в системі HMS",
+        "У договорі не передбачено житлові субсидії"
       ],
       correctIndex: 0,
-      explanation: "Вся офіційна комунікація та підписання договорів оренди на порталі HMS відбувається виключно через ісландський електронний підпис — Rafræn skilríki."
+      explanation: "У начитаному записі чітко сказано: «stúdíóíbúð í miðbænum», «tvö hundruð þúsund» (200 000 kr.) та «samningurinn er skráður hjá HMS»."
     }
   ]
 };

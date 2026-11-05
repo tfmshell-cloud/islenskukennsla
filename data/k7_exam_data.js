@@ -182,6 +182,7 @@ export const K7_EXAM_DATA = {
       block: "impersonal_health",
       questionUkr: "Яку форму має слово 'höfuð' у виразі болю з артиклем у давальному відмінку?",
       promptIsl: "Mér er illt í ___.",
+      audio: "audio/exam/hlustun_k7_q12.mp3",
       options: [
         { text: "höfðinu (синкопа höfuð -> höfði -> höfðinu 🟡)", isCorrect: true },
         { text: "höfuðið", isCorrect: false },
@@ -197,6 +198,7 @@ export const K7_EXAM_DATA = {
       block: "culture_weather",
       questionUkr: "Яке золоте санітарне правило діє у всіх термальних басейнах Ісландії (Sundlaugar)?",
       promptIsl: "Regla í sundlaugum:",
+      audio: "audio/exam/hlustun_k7_swimming.mp3",
       options: [
         { text: "Прийняти душ із милом БЕЗ купальника перед виходом до басейну", isCorrect: true },
         { text: "Митися лише у плавках", isCorrect: false },
@@ -210,6 +212,7 @@ export const K7_EXAM_DATA = {
       block: "culture_weather",
       questionUkr: "Як ісландською сказати 'Іде дощ'?",
       promptIsl: "Veðurathugun:",
+      audio: "audio/exam/hlustun_k7_q14.mp3",
       options: [
         { text: "Það rignir.", isCorrect: true },
         { text: "Það er regnandi.", isCorrect: false },
@@ -221,8 +224,9 @@ export const K7_EXAM_DATA = {
     {
       id: "q15",
       block: "culture_weather",
-      questionUkr: "Яка пора року в Ісландії славиться явищем 'білих ночей' (bjartar nætur)?",
+      questionUkr: "Яка пора року в Ісландії славиться явищем 'білих ночих' (bjartar nætur)?",
       promptIsl: "Hvenær er bjart allan sólarhringinn?",
+      audio: "audio/exam/hlustun_k7_q15.mp3",
       options: [
         { text: "Á sumrin (влітку)", isCorrect: true },
         { text: "Á veturna (взимку)", isCorrect: false },

@@ -187,7 +187,8 @@ export const A2_K2_WORK_DATA = {
         is: "Góðan daginn, Polina! Hér er ráðningarsamningurinn þinn. Starfshlutfallið er eitt hundrað prósent og grunnlaunin eru samkvæmt kjarasamningi VR.",
         ipa: "[ˈkouːðan ˈtaiːjɪn ˈpʰɔːlɪna çɛːr ɛr ˈrautnɪŋkarˌsamnɪŋkʏrɪnː θɪnː ˈstarfsˌl̥ʏtˌfadlɪð ɛr ˈeiht ˈhʏntrʏð ˈpʰrœyːsɛnt ɔːɣ ˈkrʏnːˌlœyːnɪn ɛrʏ ˈsamˌkʰvaiːmt ˈcʰaːraˌsamnɪŋcɪ fɛː-ɛr]",
         ukr: "Доброго дня, Поліно! Ось твій трудовий договір. Ставка — 100%, а базовий оклад відповідає колективному договору профспілки VR.",
-        note: "starfshlutfall — відсоток зайнятості (ставка)"
+        note: "starfshlutfall — відсоток зайнятості (ставка)",
+        audio: "audio/dialogue/a2_k2_l1.mp3"
       },
       {
         speaker: "Поліна",
@@ -195,7 +196,8 @@ export const A2_K2_WORK_DATA = {
         is: "Frábært! Ég las samninginn yfir í gærkvöldi. Hvenær eru launin greidd út mánaðarlega?",
         ipa: "[ˈfrauːpairt jɛːx laːs ˈsamnɪŋcɪn ˈɪːvɪr iː ˈcaiːrˌkʰvœltɪ ˈkʰvɛːnair ɛrʏ ˈlœyːnɪn ˈkreiht uːt ˈmauːnaðarˌlɛːka]",
         ukr: "Чудово! Я перечитала договір учора ввечері. Коли щомісяця виплачується заробітна плата?",
-        note: "las — сильний минулий час від að lesa!"
+        note: "las — сильний минулий час від að lesa!",
+        audio: "audio/dialogue/a2_k2_l2.mp3"
       },
       {
         speaker: "Guðrún",
@@ -203,7 +205,8 @@ export const A2_K2_WORK_DATA = {
         is: "Launin eru alltaf greidd út á fyrsta degi hvers mánaðar. Viltu nota hundrað prósent persónuafslátt hjá okkur?",
         ipa: "[ˈlœyːnɪn ɛrʏ ˈaldla ˈkreiht uːt auː ˈfɪrsta ˈtɛiːjɪ kʰvɛrs ˈmauːnaðar ˈvɪltʏ ˈnɔːta ˈhʏntrʏð ˈpʰrœyːsɛnt ˈpʰɛrˌsouːnʏˌavˌslauht çauː ˈɔhkʏr]",
         ukr: "Зарплата завжди виплачується першого числа кожного місяця. Ти хочеш використати 100% особистої податкової знижки у нас?",
-        note: "persónuafsláttur — податкова знижка"
+        note: "persónuafsláttur — податкова знижка",
+        audio: "audio/dialogue/a2_k2_l3.mp3"
       },
       {
         speaker: "Поліна",
@@ -211,7 +214,8 @@ export const A2_K2_WORK_DATA = {
         is: "Já, takk, ég vil nýta hundrað prósent af skattkortinu. Hvaða lífeyrissjóð á ég að velja?",
         ipa: "[jauː tʰahk jɛːx vɪl ˈniːta ˈhʏntrʏð ˈpʰrœyːsɛnt av ˈskahhtˌkʰɔrtɪnʏ ˈkʰvaːða ˈliːvˌeiːrɪsˌsjouːð auː jɛːx aːð ˈvɛːlja]",
         ukr: "Так, будь ласка, я хочу використати 100% податкової картки. А який пенсійний фонд мені обрати?",
-        note: "nýta skattkort — застосувати податкову картку"
+        note: "nýta skattkort — застосувати податкову картку",
+        audio: "audio/dialogue/a2_k2_l4.mp3"
       },
       {
         speaker: "Guðrún",
@@ -219,7 +223,35 @@ export const A2_K2_WORK_DATA = {
         is: "Flestir hjá okkur eru í Lífeyrissjóði verzlunarmanna (LIVE). Ég gekk frá öllum pappírum rafrænt, þú færð tilkynningu í heimabankann!",
         ipa: "[ˈflɛstɪr çauː ˈɔhkʏr ɛrʏ iː ˈliːvˌeiːrɪsˌsjouːðɪ ˈvɛrstlʏnarˌmanːa ˈliːvɛ jɛːx cɛŋk frauː ˈœtlʏm ˈpʰahpʰiːrʏm ˈravˌraiːnt θuː faiːrð ˈtʰɪlˌcɪnːɪŋkʏ iː ˈheiːmaˌpaŋkanː]",
         ukr: "Більшість у нас перебувають у пенсійному фонді LIVE. Я вже оформила всі документи електронно, ти отримаєш сповіщення в інтернет-банкінг!",
-        note: "gekk — сильний минулий час від að ganga!"
+        note: "gekk — сильний минулий час від að ganga!",
+        audio: "audio/dialogue/a2_k2_l5.mp3"
+      },
+      {
+        speaker: "Поліна",
+        role: "Starfsmaður (Співробітниця)",
+        is: "Kærar þakkir! En hvernig er með yfirvinnu og orlofsrétt á árinu?",
+        ipa: "[ˈcʰaiːrar ˈθahcɪr ɛn ˈkʰvɛrnɪk ɛr mɛð ˈɪːvɪrˌvɪnːʏ ɔːɣ ˈɔrlɔvsˌrjɛht auː ˈauːrɪnʏ]",
+        ukr: "Щиро дякую! А як щодо понаднормових годин та відпустки на рік?",
+        note: "orlofsréttur — право на оплачувану відпустку",
+        audio: "audio/dialogue/a2_k2_l6.mp3"
+      },
+      {
+        speaker: "Guðrún",
+        role: "Mannauðsstjóri (HR менеджерка)",
+        is: "Yfirvinna er greidd með áttatíu prósenta álagi og orlofið er tuttugu og fjórir dagar á ári.",
+        ipa: "[ˈɪːvɪrˌvɪnːa ɛr ˈkreih mɛð ˈauhtaˌtiːjʏ ˈpʰrœyːsɛnta ˈauːlaːjɪ ɔːɣ ˈɔrlɔvɪð ɛr ˈtʰʏhtʏkʏ ɔːɣ ˈfjouːrɪr ˈtaːkar auː ˈauːrɪ]",
+        ukr: "Понаднормові оплачуються з надбавкою 80%, а відпустка становить 24 робочі дні на рік.",
+        note: "álag — надбавка / коефіцієнт до ставки",
+        audio: "audio/dialogue/a2_k2_l7.mp3"
+      },
+      {
+        speaker: "Поліна",
+        role: "Starfsmaður (Співробітниця)",
+        is: "Þetta hljómar mjög vel. Ég skrifa undir samninginn með rafrænum skilríkjum núna!",
+        ipa: "[ˈθɛhta ˈl̥jouːmar mjœːx vɛːl jɛːx ˈskrɪːva ˈʏntɪr ˈsamnɪŋkɪn mɛð ˈravˌraiːnʏm ˈscɪlˌriːcʏm ˈnuːna]",
+        ukr: "Це звучить дуже добре. Я підпишу договір електронним підписом прямо зараз!",
+        note: "skrifa undir með rafrænum skilríkjum",
+        audio: "audio/dialogue/a2_k2_l8.mp3"
       }
     ]
   }

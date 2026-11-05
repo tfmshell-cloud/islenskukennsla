@@ -95,6 +95,13 @@ export class Kafli6Exam {
               <h4 class="text-sm sm:text-base font-bold text-white leading-relaxed">
                 ${q.questionUkr}
               </h4>
+              ${q.audio ? `
+                <div class="pt-2">
+                  <button class="exam-audio-play-btn px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black border border-amber-500/40 font-mono text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm" data-audio="${q.audio}">
+                    <span>🎧</span><span>Прослухати аудіозапис (Hlustun)</span>
+                  </button>
+                </div>
+              ` : ''}
               ${q.promptIsl ? `
                 <div class="p-2.5 rounded-lg bg-black/40 border border-slate-800 text-sm font-mono text-amber-300 font-bold flex items-center justify-between">
                   <span>${q.promptIsl}</span>
@@ -157,9 +164,24 @@ export class Kafli6Exam {
   }
 
   bindEvents(q) {
+    const audioBtn = this.container.querySelector('.exam-audio-play-btn');
+    if (audioBtn) {
+      audioBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const audioSrc = audioBtn.dataset.audio;
+        if (audioSrc && audioEngine) {
+          audioEngine.play(audioSrc, audioBtn);
+        }
+      });
+    }
+
     const speakBtn = this.container.querySelector('#exam-speak-btn');
     if (speakBtn && q.promptIsl) {
       speakBtn.addEventListener('click', () => {
+        if (q.audio && audioEngine) {
+          audioEngine.play(q.audio, speakBtn);
+          return;
+        }
         const cleanText = q.promptIsl.replace(/___/g, '').trim();
         this.speakText(cleanText);
       });

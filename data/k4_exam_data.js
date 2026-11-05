@@ -194,6 +194,7 @@ export const K4_EXAM_DATA = {
       block: "real_life_store",
       questionUkr: "Як звучить стандартне ісландське запитання продавця про ваш розмір одягу?",
       promptIsl: "Spurning um fatastærð:",
+      audio: "audio/exam/hlustun_k4_q13.mp3",
       options: [
         { text: "Hvað er stærðin þín?", isCorrect: false },
         { text: "Hvaða stærð ert þú í?", isCorrect: true },
@@ -207,6 +208,7 @@ export const K4_EXAM_DATA = {
       block: "real_life_store",
       questionUkr: "Як ісландською називається примірочна кабінка у магазині одягу?",
       promptIsl: "Hvar er ___?",
+      audio: "audio/exam/hlustun_k4_q14.mp3",
       options: [
         { text: "biðsalurinn", isCorrect: false },
         { text: "mátunarklefinn", isCorrect: true },
@@ -220,6 +222,7 @@ export const K4_EXAM_DATA = {
       block: "real_life_store",
       questionUkr: "Чому ісландське правило 'lagaskipting' (шаруватість) забороняє бавовну (bómull) першим шаром у мороз?",
       promptIsl: "Af hverju er ull betri en bómull?",
+      audio: "audio/exam/hlustun_k4_clothing.mp3",
       options: [
         { text: "Бавовна надто важка для прання", isCorrect: false },
         { text: "Бавовна вбирає вологу й холодить тіло, а вовна гріє навіть у вологому стані", isCorrect: true },

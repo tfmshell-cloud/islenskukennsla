@@ -53,6 +53,13 @@ export class A2K2Exam {
           <div class="space-y-2">
             <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">Завдання #${this.currentIndex + 1}</span>
             <h3 class="text-lg font-mono font-bold text-white leading-relaxed">${q.promptUkr}</h3>
+            ${q.audio ? `
+              <div class="pt-2">
+                <button class="exam-audio-play-btn px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-black border border-emerald-500/40 font-mono text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm" data-audio="${q.audio}">
+                  <span>🎧</span><span>Прослухати аудіозапис (Hlustun)</span>
+                </button>
+              </div>
+            ` : ''}
           </div>
 
           <!-- Options -->
@@ -101,6 +108,17 @@ export class A2K2Exam {
         this.render();
       };
     });
+
+    const audioBtn = this.container.querySelector('.exam-audio-play-btn');
+    if (audioBtn) {
+      audioBtn.onclick = (e) => {
+        e.stopPropagation();
+        const audioSrc = audioBtn.dataset.audio;
+        if (audioSrc) {
+          audioEngine.play(audioSrc, audioBtn);
+        }
+      };
+    }
 
     const prevBtn = this.container.querySelector('#a2k2-exam-prev-btn');
     if (prevBtn) {

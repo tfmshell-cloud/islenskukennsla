@@ -186,12 +186,12 @@ export const A2_K3_TRANSPORT_DATA = {
       title: "Діалог 1: Поїздка в автобусі Strætó (Klappa inn í vagninn)",
       location: "Hlemmur stoppistöð",
       lines: [
-        { speaker: "Ólafur (farþegi)", isl: "Fyrirgefðu, fer þessi vagn upp í Mjódd?", ukr: "Перепрошую, цей автобус іде в Мйодд?" },
-        { speaker: "Bílstjóri", isl: "Já, vagn númer 3 fer beint í Mjódd. Gjörðu svo vel að klappa inn.", ukr: "Так, номер 3 іде прямо в Мйодд. Будь ласка, прикладіть квиток до сканера." },
-        { speaker: "Ólafur", isl: "Ókei, ég er með Klapp-appið í símanum... Svona! Pípti það?", ukr: "Добре, у мене додаток Klapp у телефоні... Ось так! Спрацював звуковий сигнал?" },
-        { speaker: "Bílstjóri", isl: "Já, græna ljósið kom upp. Allt í lagi, velkomin um borð!", ukr: "Так, засвітився зелений індикатор. Усе гаразд, ласкаво просимо на борт!" },
-        { speaker: "Ólafur", isl: "Takk kærlega. Geturðu látið mig vita þegar við komum að Kringlunni?", ukr: "Дуже дякую. Чи можете підказати мені, коли ми під'їдемо до Крінглана?" },
-        { speaker: "Bílstjóri", isl: "Það kemur sjálfvirkt á skjáinn og í hátalarann: Næsta stoppistöð: Kringlan.", ukr: "Це з'явиться автоматично на моніторі та в динаміках: Наступна зупинка: Крінглан." }
+        { speaker: "Ólafur (farþegi)", isl: "Fyrirgefðu, fer þessi vagn upp í Mjódd?", ukr: "Перепрошую, цей автобус іде в Мйодд?", audio: "audio/dialogue/a2_k3_l1.mp3" },
+        { speaker: "Bílstjóri", isl: "Já, vagn númer 3 fer beint í Mjódd. Gjörðu svo vel að klappa inn.", ukr: "Так, номер 3 іде прямо в Мйодд. Будь ласка, прикладіть квиток до сканера.", audio: "audio/dialogue/a2_k3_l2.mp3" },
+        { speaker: "Ólafur", isl: "Ókei, ég er með Klapp-appið í símanum... Svona! Pípti það?", ukr: "Добре, у мене додаток Klapp у телефоні... Ось так! Спрацював звуковий сигнал?", audio: "audio/dialogue/a2_k3_l3.mp3" },
+        { speaker: "Bílstjóri", isl: "Já, græna ljósið kom upp. Allt í lagi, velkomin um borð!", ukr: "Так, засвітився зелений індикатор. Усе гаразд, ласкаво просимо на борт!", audio: "audio/dialogue/a2_k3_l4.mp3" },
+        { speaker: "Ólafur", isl: "Takk kærlega. Geturðu látið mig vita þegar við komum að Kringlunni?", ukr: "Дуже дякую. Чи можете підказати мені, коли ми під'їдемо до Крінглана?", audio: "audio/dialogue/a2_k3_l5.mp3" },
+        { speaker: "Bílstjóri", isl: "Það kemur sjálfvirkt á skjáinn og í hátalarann: Næsta stoppistöð: Kringlan.", ukr: "Це з'явиться автоматично на моніторі та в динаміках: Наступна зупинка: Крінглан.", audio: "audio/dialogue/a2_k3_l6.mp3" }
       ]
     },
     {
@@ -199,12 +199,12 @@ export const A2_K3_TRANSPORT_DATA = {
       title: "Діалог 2: На автовокзалі BSÍ — посадка на Flugrútan до аеропорту",
       location: "BSÍ Umferðarmiðstöð",
       lines: [
-        { speaker: "Marta", isl: "Góðan daginn! Hvenær fer næsta Flugrúta út á Keflavíkurflugvöll?", ukr: "Доброго дня! Коли відправляється наступний шатл Flybus в аеропорт Кеflavík?" },
-        { speaker: "Starfsmaður BSÍ", isl: "Næsti bíll fer eftir korter, klukkan tvö. Átt þú miða?", ukr: "Наступний автобус іде через чверть години, о 14:00. Ви маєте квиток?" },
-        { speaker: "Marta", isl: "Nei, ég þarf að kaupa miða fyrir einn fullorðinn og tvær töskur.", ukr: "Ні, мені потрібно купити квиток для одного дорослого та дві валізи." },
-        { speaker: "Starfsmaður BSÍ", isl: "Tveir farangurshlutir eru innifaldir í verðinu. Það gerir 3.999 krónur.", ukr: "Два місця багажу включено у вартість. З вас 3 999 крон." },
-        { speaker: "Marta", isl: "Hérna er kortið. Hvað tekur ferðin langan tíma?", ukr: "Ось карта. Скільки часу триває поїздка?" },
-        { speaker: "Starfsmaður BSÍ", isl: "Um það bil 45 mínútur ef færðin á Reykjanesbraut er góð.", ukr: "Приблизно 45 хвилин, якщо стан траси Рейк'янесбраут добрий." }
+        { speaker: "Marta", isl: "Góðan daginn! Hvenær fer næsta Flugrúta út á Keflavíkurflugvöll?", ukr: "Доброго дня! Коли відправляється наступний шатл Flybus в аеропорт Кеflavík?", audio: "audio/dialogue/a2_k3_l7.mp3" },
+        { speaker: "Starfsmaður BSÍ", isl: "Næsti bíll fer eftir korter, klukkan tvö. Átt þú miða?", ukr: "Наступний автобус іде через чверть години, о 14:00. Ви маєте квиток?", audio: "audio/dialogue/a2_k3_l8.mp3" },
+        { speaker: "Marta", isl: "Nei, ég þarf að kaupa miða fyrir einn fullorðinn og tvær töskur.", ukr: "Ні, мені потрібно купити квиток для одного дорослого та дві валізи.", audio: "audio/dialogue/a2_k3_l9.mp3" },
+        { speaker: "Starfsmaður BSÍ", isl: "Tveir farangurshlutir eru innifaldir í verðinu. Það gerir 3.999 krónur.", ukr: "Два місця багажу включено у вартість. З вас 3 999 крон.", audio: "audio/dialogue/a2_k3_l10.mp3" },
+        { speaker: "Marta", isl: "Hérna er kortið. Hvað tekur ferðin langan tíma?", ukr: "Ось карта. Скільки часу триває поїздка?", audio: "audio/dialogue/a2_k3_l11.mp3" },
+        { speaker: "Starfsmaður BSÍ", isl: "Um það bil 45 mínútur ef færðin á Reykjanesbraut er góð.", ukr: "Приблизно 45 хвилин, якщо стан траси Рейк'янесбраут добрий.", audio: "audio/dialogue/a2_k3_l12.mp3" }
       ]
     }
   ]

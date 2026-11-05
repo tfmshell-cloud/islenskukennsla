@@ -194,6 +194,7 @@ export const K5_EXAM_DATA = {
       block: "clinic_pharmacy",
       questionUkr: "Що таке 'rafrænn lyfseðill' в ісландській системі охорони здоров'я?",
       promptIsl: "Hvað er rafrænn lyfseðill?",
+      audio: "audio/exam/hlustun_k5_q13.mp3",
       options: [
         { text: "Паперовий талон на чергу в лікарні", isCorrect: false },
         { text: "Електронний медичний рецепт, прив'язаний до кеннітали пацієнта", isCorrect: true },
@@ -207,6 +208,7 @@ export const K5_EXAM_DATA = {
       block: "clinic_pharmacy",
       questionUkr: "Як ісландською називаються антибіотики та знеболювальні препарати?",
       promptIsl: "Hugtök í apóteki:",
+      audio: "audio/exam/hlustun_k5_q14.mp3",
       options: [
         { text: "Sýklalyf (антибіотики) та Verkjalyf (знеболювальні)", isCorrect: true },
         { text: "Hálstöflur та Nefúði", isCorrect: false },
@@ -220,6 +222,7 @@ export const K5_EXAM_DATA = {
       block: "clinic_pharmacy",
       questionUkr: "Який єдиний екстрений номер телефону діє в Ісландії для виклику швидкої (sjúkrabíll), поліції та рятувальників?",
       promptIsl: "Neyðarnúmerið á Íslandi er:",
+      audio: "audio/exam/hlustun_k5_health.mp3",
       options: [
         { text: "911", isCorrect: false },
         { text: "112", isCorrect: true },

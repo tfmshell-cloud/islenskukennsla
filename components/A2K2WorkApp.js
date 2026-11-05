@@ -284,8 +284,8 @@ export class A2K2WorkApp {
                   </span>
                   <span class="text-xs text-slate-400 font-mono">(${line.role})</span>
                 </div>
-                <button class="a2k2-speak-btn p-2 rounded-xl bg-cyber-deep hover:bg-emerald-500/20 border border-cyber-border text-slate-300 hover:text-emerald-300 transition-all text-xs" data-phrase="${line.is}">
-                  🔊 Слухати
+                <button class="a2k2-speak-btn p-2 rounded-xl bg-cyber-deep hover:bg-emerald-500/20 border border-cyber-border text-slate-300 hover:text-emerald-300 transition-all text-xs flex items-center gap-1.5 cursor-pointer" data-phrase="${line.is}" data-audio="${line.audio || ''}">
+                  <span>🔊</span><span>Слухати</span>
                 </button>
               </div>
 
@@ -331,8 +331,11 @@ export class A2K2WorkApp {
     container.querySelectorAll('.a2k2-speak-btn').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
+        const audioPath = btn.dataset.audio;
         const phrase = btn.dataset.phrase;
-        if (phrase) {
+        if (audioPath) {
+          audioEngine.play(audioPath, btn);
+        } else if (phrase) {
           audioEngine.speak(phrase, 'is-IS');
         }
       };

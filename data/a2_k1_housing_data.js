@@ -177,7 +177,8 @@ export const A2_K1_HOUSING_DATA = {
         is: "Góðan daginn! Komdu inn. Þetta er tveggja herbergja íbúð á þriðju hæð.",
         ipa: "[ˈkouːðan ˈtaiːjɪn ˈkʰɔmtʏ ɪnː ˈθɛhta ɛr ˈtʰvɛcːa ˈhɛrpɛrca ˈiːpuːð auː ˈθrɪhjʏ haiːð]",
         ukr: "Доброго дня! Заходьте. Це двокімнатна квартира на третьому поверсі.",
-        note: "tveggja herbergja — 1 вітальня + 1 спальня"
+        note: "tveggja herbergja — 1 вітальня + 1 спальня",
+        audio: "audio/dialogue/a2_k1_l1.mp3"
       },
       {
         speaker: "Поліна",
@@ -185,7 +186,8 @@ export const A2_K1_HOUSING_DATA = {
         is: "Góðan daginn! Hún lítur mjög vel út og er björt. Er hiti og rafmagn innifalið í leigunni?",
         ipa: "[ˈkouːðan ˈtaiːjɪn huːn ˈliːtʏr mjœːx vɛːl uːt ɔːɣ ɛr pjœrt ɛr ˈhɪːtɪ ɔːɣ ˈravˌmakn ˈɪnɪˌfalɪð iː ˈleiːkʏnːɪ]",
         ukr: "Доброго дня! Вона виглядає чудово і дуже світла. А опалення та електрика включені в оренду?",
-        note: "vera innifalið í — бути включеним у..."
+        note: "vera innifalið í — бути включеним у...",
+        audio: "audio/dialogue/a2_k1_l2.mp3"
       },
       {
         speaker: "Jón",
@@ -193,7 +195,8 @@ export const A2_K1_HOUSING_DATA = {
         is: "Hitinn og hússjóður eru innifalin, en leigjandi borgar fyrir rafmagnið sjálfur. Leigan er tvö hundruð og fimmtíu þúsund á mánuði.",
         ipa: "[ˈhɪːtɪnː ɔːɣ ˈhuːsˌsjouːðʏr ɛrʏ ˈɪnɪˌfalɪn ɛn ˈleiːcanti ˈpɔrkar ˈfɪːrɪr ˈravˌmaknɪð ˈsjaulvʏr ˈleiːkan ɛr tʰvœː ˈhʏntrʏð ɔːɣ ˈfɪmtɪjʏ ˈθuːsʏnt auː ˈmauːnʏðɪ]",
         ukr: "Опалення та комуналка будинку включені, але електрику орендар оплачує сам. Оренда складає 250 000 крон на місяць.",
-        note: "borgar fyrir (+ÞF 🟢)"
+        note: "borgar fyrir (+ÞF 🟢)",
+        audio: "audio/dialogue/a2_k1_l3.mp3"
       },
       {
         speaker: "Поліна",
@@ -201,7 +204,8 @@ export const A2_K1_HOUSING_DATA = {
         is: "Skilja. Hversu mikil er tryggingin? Og er hægt að skrá samninginn hjá HMS fyrir húsaleigubótum?",
         ipa: "[ˈscɪːlja ˈkʰvɛrsʏ ˈmɪːcɪl ɛr ˈtʰrɪcːɪŋcɪn ɔːɣ ɛr haixt aːð skrauː ˈsamnɪŋkɪn çaul hauː-ɛm-ɛs ˈfɪːrɪr ˈhuːsaˌleiːkʏˌpouːtʏm]",
         ukr: "Зрозуміло. Який розмір депозиту? І чи можна зареєструвати договір у HMS для отримання житлової субсидії?",
-        note: "skrá samning — зареєструвати договір"
+        note: "skrá samning — зареєструвати договір",
+        audio: "audio/dialogue/a2_k1_l4.mp3"
       },
       {
         speaker: "Jón",
@@ -209,7 +213,35 @@ export const A2_K1_HOUSING_DATA = {
         is: "Já, auðvitað! Ég skrái samninginn rafrænt á HMS. Tryggingin er tveir mánuðir í bankaábyrgð.",
         ipa: "[jauː ˈœyðˌvɪhta jɛːx ˈskrauːjɪ ˈsamnɪŋkɪn ˈravˌraiːnt auː hauː-ɛm-ɛs ˈtʰrɪcːɪŋcɪn ɛr tʰveiːr ˈmauːnœyðɪr iː ˈpaŋkaˌauːpɪrks]",
         ukr: "Так, звісно! Я реєструю договір електронно на порталі HMS. Депозит — два місяці банківської гарантії.",
-        note: "bankaábyrgð — банківська гарантія"
+        note: "bankaábyrgð — банківська гарантія",
+        audio: "audio/dialogue/a2_k1_l5.mp3"
+      },
+      {
+        speaker: "Поліна",
+        role: "Leigjandi (Орендарка)",
+        is: "Frábært! Hvenær er íbúðin laus til afhendingar og má hafa gæludýr hérna?",
+        ipa: "[ˈfrauːpairt ˈkʰvɛːnair ɛr ˈiːpuːðɪn lœyːs tʰɪːl ˈavˌhɛntɪŋkar ɔːɣ mauː ˈhaːva ˈcaiːlʏˌtiːr çɛrtna]",
+        ukr: "Чудово! Коли квартира звільняється для передачі і чи дозволено тримати домашніх тварин?",
+        note: "laus til afhendingar — вільна до заселення",
+        audio: "audio/dialogue/a2_k1_l6.mp3"
+      },
+      {
+        speaker: "Jón",
+        role: "Leigusali (Орендодавець)",
+        is: "Hún er laus frá fyrsta næsta mánaðar. Því miður eru engin gæludýr leyfð samkvæmt húsreglum.",
+        ipa: "[huːn ɛr lœyːs frauː ˈfɪrsta ˈnaista ˈmauːnaðar θviː ˈmɪːðʏr ɛrʏ ˈeiŋcɪn ˈcaiːlʏˌtiːr ˈleiːvð ˈsamˌkʰvaiːmt ˈhuːsˌrɛklʏm]",
+        ukr: "Вона вільна з першого числа наступного місяця. На жаль, тварини не дозволені правилами будинку.",
+        note: "húsreglur — правила внутрішнього розпорядку будинку",
+        audio: "audio/dialogue/a2_k1_l7.mp3"
+      },
+      {
+        speaker: "Поліна",
+        role: "Leigjandi (Орендарка)",
+        is: "Allt í lagi, ég skil það fullkomlega. Ég sendi þér meðmæli og staðfestingu í dag.",
+        ipa: "[ˈaldt iː ˈlaːjɪ jɛːx scɪːl θaːð ˈfʏtlˌkʰɔmlɛːka jɛːx ˈsɛntɪ θjɛːr ˈmɛðˌmaiːlɪ ɔːɣ ˈstaːðˌfɛstɪŋkʏ iː taiːx]",
+        ukr: "Гаразд, я це повністю розумію. Я надішлю вам рекомендації та підтвердження сьогодні.",
+        note: "meðmæli — рекомендації від попередніх орендодавців",
+        audio: "audio/dialogue/a2_k1_l8.mp3"
       }
     ]
   }

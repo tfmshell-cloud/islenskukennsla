@@ -316,6 +316,50 @@ export class SourcesVaultApp {
           </div>
         </div>
 
+        ${reg.completedVoiceovers ? `
+        <!-- COMPLETED NEURAL SYNTHESIS LOG -->
+        <div class="p-6 rounded-3xl bg-cyber-card border border-emerald-500/40 space-y-4 shadow-xl">
+          <div class="flex items-center justify-between">
+            <div class="space-y-1">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                ВИКОНАНИЙ СТУДІЙНИЙ СИНТЕЗ
+              </span>
+              <h3 class="text-base font-bold font-mono text-white">
+                Завершені пакети студійного нейроозвучення (100% готовність)
+              </h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-400 font-bold">${reg.completedVoiceovers.length} завершених пакетів</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-mono text-xs">
+              <thead>
+                <tr class="border-b border-cyber-border text-slate-400">
+                  <th class="pb-3">Модуль</th>
+                  <th class="pb-3">Контент</th>
+                  <th class="pb-3">Кількість треків</th>
+                  <th class="pb-3">Статус на диску</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cyber-border/40">
+                ${reg.completedVoiceovers.map(item => `
+                  <tr class="hover:bg-white/[0.02] transition-colors">
+                    <td class="py-3 font-bold text-white">${item.module}</td>
+                    <td class="py-3 text-cyan-300">${item.target}</td>
+                    <td class="py-3 text-emerald-300 font-bold">${item.linesCount} треків</td>
+                    <td class="py-3">
+                      <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                        ✅ ${item.status}
+                      </span>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        ` : ''}
+
       </div>
     `;
   }

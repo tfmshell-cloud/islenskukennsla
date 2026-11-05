@@ -165,6 +165,7 @@ export const A2_K2_EXAM_DATA = {
     {
       id: "q12",
       type: "single",
+      audio: "audio/exam/hlustun_a2k2_q12.mp3",
       promptUkr: "Як називається кінцева сума зарплати «чистими», яка фактично надходить на банківський рахунок працівника?",
       options: [
         "Útborguð laun (Nettó)",
@@ -178,6 +179,7 @@ export const A2_K2_EXAM_DATA = {
     {
       id: "q13",
       type: "single",
+      audio: "audio/exam/hlustun_a2k2_q13.mp3",
       promptUkr: "Яка форма минулого часу сильного дієслова «að drekka» (пити) відповідає формі «við» (ми)?",
       options: [
         "við drukkum",
@@ -191,6 +193,7 @@ export const A2_K2_EXAM_DATA = {
     {
       id: "q14",
       type: "single",
+      audio: "audio/exam/hlustun_a2k2_q14.mp3",
       promptUkr: "Що означає термін «Reynslutími» у трудовому договорі?",
       options: [
         "Випробувальний термін (зазвичай до 3 місяців)",
@@ -204,15 +207,16 @@ export const A2_K2_EXAM_DATA = {
     {
       id: "q15",
       type: "single",
-      promptUkr: "Як звучить минулий час від сильного дієслова «að lesa» (читати) у формі «я прочитав договір»?",
+      audio: "audio/exam/hlustun_a2k2_work.mp3",
+      promptUkr: "🎧 Hlustunarpróf (Слухання): Прослухайте аудіозапис диктора: «Ég skrifaði undir nýjan ráðningarsamning í gær. Ég vinn í fullu starfi og nýti allan persónuafsláttinn minn.» Що повідомив співробітник?",
       options: [
-        "Ég las samninginn.",
-        "Ég lesaði samninginn.",
-        "Ég lesti samninginn.",
-        "Ég les samninginn."
+        "Підписав новий договір учора, працює на 100% ставки та використовує всю податкову знижку",
+        "Працює без договору на випробувальному терміні",
+        "Відмовився від використання persónuafsláttur",
+        "Подав заяву про звільнення з посади"
       ],
       correctIndex: 0,
-      explanation: "Дієслово «að lesa» — сильне 5-го ряду: ég les (теперішній) ➔ ég las (минулий час)."
+      explanation: "У дикторському записі вказано: «skrifaði undir nýjan ráðningarsamning í gær» (підписав договір учора), «fullt starf» (100% зайнятість) та «nýti allan persónuafsláttinn» (використовую всю податкову картку)."
     }
   ]
 };

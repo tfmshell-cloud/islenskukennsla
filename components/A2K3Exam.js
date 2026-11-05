@@ -53,6 +53,13 @@ export class A2K3Exam {
           <div class="space-y-2">
             <span class="text-xs font-mono text-cyan-400 uppercase tracking-wider">Завдання #${this.currentIndex + 1}</span>
             <h3 class="text-lg font-mono font-bold text-white leading-relaxed">${q.promptUkr}</h3>
+            ${q.audio ? `
+              <div class="pt-2">
+                <button class="exam-audio-play-btn px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black border border-amber-500/40 font-mono text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-sm" data-audio="${q.audio}">
+                  <span>🎧</span><span>Прослухати аудіозапис (Hlustun)</span>
+                </button>
+              </div>
+            ` : ''}
           </div>
 
           <!-- Options -->
@@ -107,6 +114,17 @@ export class A2K3Exam {
   }
 
   bindEvents() {
+    const audioBtn = this.container.querySelector('.exam-audio-play-btn');
+    if (audioBtn) {
+      audioBtn.onclick = (e) => {
+        e.stopPropagation();
+        const audioSrc = audioBtn.dataset.audio;
+        if (audioSrc) {
+          audioEngine.play(audioSrc, audioBtn);
+        }
+      };
+    }
+
     this.container.querySelectorAll('.exam-option-btn').forEach(btn => {
       btn.onclick = () => {
         const idx = parseInt(btn.dataset.idx, 10);

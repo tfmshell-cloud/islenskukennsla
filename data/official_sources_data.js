@@ -269,7 +269,7 @@ export const OFFICIAL_SOURCES_DATA = {
 
   // 2. AUDIO REPOSITORY & PRONUNCIATION MATRIX
   audioRegistry: {
-    totalFilesOnDisk: 773,
+    totalFilesOnDisk: 826,
     categories: [
       {
         id: "phonetics",
@@ -294,12 +294,22 @@ export const OFFICIAL_SOURCES_DATA = {
       {
         id: "dialogues",
         nameUkr: "Автентичні діалоги уроків",
-        count: 35,
-        coveragePercent: 65,
-        status: "in_progress",
+        count: 63,
+        coveragePercent: 92,
+        status: "complete",
         format: "MP3",
-        voiceType: "Bilingual Dialogues Engine",
-        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan (Tölum saman 2022)."
+        voiceType: "Bilingual Dialogues Engine (Gunnar & Guðrún Neural)",
+        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan, огляд квартири (A2.1), трудова угода (A2.2), валідація Klapp та квиток Flybus у BSÍ (A2.3)."
+      },
+      {
+        id: "exam_listening",
+        nameUkr: "Аудіозапитання секцій слухання (Hlustunarpróf K4–K7 та A2.1–A2.3)",
+        count: 25,
+        coveragePercent: 100,
+        status: "complete",
+        format: "MP3 (Neural 24kHz)",
+        voiceType: "Studio Dual Neural (Gunnar & Guðrún)",
+        description: "25 автентичних начитаних аудіоситуацій для перевірки розуміння на слух в іспитах рівнів A1 та A2."
       },
       {
         id: "podcasts",
@@ -313,35 +323,49 @@ export const OFFICIAL_SOURCES_DATA = {
       }
     ],
 
-    // QUEUE FOR FUTURE HIGH-FIDELITY STUDIO VOICE-OVERS
-    pendingVoiceoverQueue: [
+    // LOG OF COMPLETED STUDIO VOICE-OVERS
+    completedVoiceovers: [
       {
         module: "Урок A2.1 (Житло)",
-        target: "Діалог огляду квартири (Skoðun á íbúð) та дзвінок орендодавцю",
+        target: "Діалог огляду квартири (Skoðun á íbúð) та дзвінок орендодавцю (a2_k1_l1 – a2_k1_l8)",
         linesCount: 8,
-        priority: "High",
-        currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
+        status: "Синтезовано & Інтегровано (100%)"
       },
       {
         module: "Урок A2.2 (Ринок праці)",
-        target: "Діалог узгодження умов трудового договору (Ráðningarsamningur)",
+        target: "Діалог узгодження умов трудового договору (Ráðningarsamningur, a2_k2_l1 – a2_k2_l8)",
         linesCount: 8,
-        priority: "High",
-        currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
+        status: "Синтезовано & Інтегровано (100%)"
       },
       {
         module: "Урок A2.3 (Транспорт)",
-        target: "Діалог посадки у Strætó 3 (Klappa inn) та квиткова каса BSÍ",
+        target: "Діалог посадки у Strætó 3 (Klappa inn) та квиткова каса BSÍ (a2_k3_l1 – a2_k3_l12)",
         linesCount: 12,
-        priority: "High",
-        currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
+        status: "Синтезовано & Інтегровано (100%)"
       },
       {
         module: "Іспити K4–K7 & A2.1–A2.3",
-        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf)",
+        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf, 25 треків)",
         linesCount: 25,
-        priority: "Medium",
-        currentFallback: "Текстові запитання з фонетичною транскрипцією IPA"
+        status: "Синтезовано & Інтегровано (100%)"
+      }
+    ],
+
+    // QUEUE FOR FUTURE HIGH-FIDELITY STUDIO VOICE-OVERS
+    pendingVoiceoverQueue: [
+      {
+        module: "Урок A2.4 (Охорона здоров'я & Heilsuvera)",
+        target: "Діалог консультації з черговою медсестрою на лінії 1700",
+        linesCount: 8,
+        priority: "Next Sprint",
+        currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
+      },
+      {
+        module: "Урок A2.5 (Освіта & Шкільна система)",
+        target: "Розмова з вихователем дитячого садка Leikskóli",
+        linesCount: 8,
+        priority: "Next Sprint",
+        currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
       }
     ]
   }
