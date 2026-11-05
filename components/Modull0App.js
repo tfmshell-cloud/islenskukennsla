@@ -28,6 +28,7 @@ import { Kafli4ClothingApp } from './Kafli4ClothingApp.js?v=1.0';
 import { Kafli5HealthFamilyApp } from './Kafli5HealthFamilyApp.js?v=1.0';
 import { Kafli6FoodApp } from './Kafli6FoodApp.js?v=1.0';
 import { Kafli7HobbiesWeatherApp } from './Kafli7HobbiesWeatherApp.js?v=1.0';
+import { A2K1HousingApp } from './A2K1HousingApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
 import { binAuraSystem } from './BinAuraSystem.js?v=7.1';
@@ -168,6 +169,9 @@ export class Modull0App {
                 <button data-chapter="kafli_7" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_7' ? 'active' : ''}">
                   🏊 7: Фінал A1
                 </button>
+                <button data-chapter="a2_k1" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k1' ? 'active' : ''} text-indigo-300 border-indigo-500/40" title="Рівень A2 • Книга 2 • Урок 1: Житло та минулий час">
+                  🏠 A2.1: Житло
+                </button>
                 
                 <span class="text-slate-700 font-bold px-0.5">|</span>
 
@@ -282,6 +286,9 @@ export class Modull0App {
               <button data-chapter="kafli_7" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'kafli_7' ? 'bg-cyan-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
                 7: Фінал A1
               </button>
+              <button data-chapter="a2_k1" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k1' ? 'bg-indigo-500 text-black shadow-md' : 'bg-black/50 text-indigo-300 hover:text-white border border-indigo-500/30'}" title="Книга 2: Житло та минулий час">
+                A2.1: Житло
+              </button>
             </div>
 
             <div class="flex items-center gap-1 shrink-0 text-[10px] font-mono">
@@ -344,6 +351,11 @@ export class Modull0App {
           <!-- ================= TAB 7: УРОК 7 (ДОЗВІЛЛЯ, БАСЕЙНИ ТА ПОГОДА - ФІНАЛ A1) ================= -->
           <div id="chapter-container-kafli_7" class="chapter-view ${this.activeChapter === 'kafli_7' ? '' : 'hidden'} space-y-4">
             <!-- Populated by Kafli7HobbiesWeatherApp -->
+          </div>
+
+          <!-- ================= TAB A2.1: УРОК A2.1 (ЖИТЛО, ОРЕНДА ТА МИНУЛИЙ ЧАС — КНИГА 2) ================= -->
+          <div id="chapter-container-a2_k1" class="chapter-view ${this.activeChapter === 'a2_k1' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by A2K1HousingApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -592,6 +604,13 @@ export class Modull0App {
       this.components.kafli7.render();
     }
 
+    // 4h. Mount Level A2 • Lesson 1 (Housing & Past Tense)
+    const a2Container = this.root.querySelector('#chapter-container-a2_k1');
+    if (a2Container) {
+      this.components.a2_k1 = new A2K1HousingApp(a2Container);
+      this.components.a2_k1.render();
+    }
+
     // 4g. Mount A1 Curriculum Catalog Hub
     this.renderA1Hub();
 
@@ -821,6 +840,10 @@ export class Modull0App {
           heroBadge.innerText = 'УРОК 7 • ДОЗВІЛЛЯ, БАСЕЙНИ ТА ПОГОДА (ФІНАЛ A1)';
           heroTitle.innerText = 'Урок 7: Дозвілля, басейни та погода (Tómstundir, sund & veður)';
           break;
+        case 'a2_k1':
+          heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 1 (ЖИТЛО ТА МИНУЛИЙ ЧАС)';
+          heroTitle.innerText = 'Урок A2.1: Житлові умови, договори оренди та минулий час (Húsnæði & þátíð)';
+          break;
         case 'a1_hub':
           heroBadge.innerText = 'КУРСОВИЙ КАТАЛОГ • РІВЕНЬ A1 (0–7)';
           heroTitle.innerText = 'Каталог усіх уроків рівня A1 (Íslenska fyrir alla 1, Розділи 1–8)';
@@ -869,6 +892,9 @@ export class Modull0App {
     }
     if (chapterId === 'kafli_7' && this.components.kafli7) {
       this.components.kafli7.render();
+    }
+    if (chapterId === 'a2_k1' && this.components.a2_k1) {
+      this.components.a2_k1.render();
     }
     if (chapterId === 'a1_hub') {
       this.renderA1Hub();
@@ -972,6 +998,12 @@ export class Modull0App {
       if (this.components.kafli7) {
         this.components.kafli7.activeTab = 'exam';
         this.components.kafli7.render();
+      }
+    } else if (chapterId === 'a2_k1') {
+      this.switchChapter('a2_k1');
+      if (this.components.a2_k1) {
+        this.components.a2_k1.activeTab = 'exam';
+        this.components.a2_k1.render();
       }
     }
   }
