@@ -269,7 +269,7 @@ export const OFFICIAL_SOURCES_DATA = {
 
   // 2. AUDIO REPOSITORY & PRONUNCIATION MATRIX
   audioRegistry: {
-    totalFilesOnDisk: 826,
+    totalFilesOnDisk: 850,
     categories: [
       {
         id: "phonetics",
@@ -294,22 +294,22 @@ export const OFFICIAL_SOURCES_DATA = {
       {
         id: "dialogues",
         nameUkr: "Автентичні діалоги уроків",
-        count: 63,
-        coveragePercent: 92,
+        count: 79,
+        coveragePercent: 95,
         status: "complete",
         format: "MP3",
         voiceType: "Bilingual Dialogues Engine (Gunnar & Guðrún Neural)",
-        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan, огляд квартири (A2.1), трудова угода (A2.2), валідація Klapp та квиток Flybus у BSÍ (A2.3)."
+        description: "Діалоги знайомства (Урок 1), кав'ярня Bónus (Урок 2), перерва на кухні Kaffistofan, огляд квартири (A2.1), трудова угода (A2.2), валідація Klapp (A2.3), медична консультація лінії 1700 (A2.4), бесіда у садку Leikskóli (A2.5)."
       },
       {
         id: "exam_listening",
-        nameUkr: "Аудіозапитання секцій слухання (Hlustunarpróf K4–K7 та A2.1–A2.3)",
-        count: 25,
+        nameUkr: "Аудіозапитання секцій слухання (Hlustunarpróf K4–K7 та A2.1–A2.5)",
+        count: 33,
         coveragePercent: 100,
         status: "complete",
         format: "MP3 (Neural 24kHz)",
         voiceType: "Studio Dual Neural (Gunnar & Guðrún)",
-        description: "25 автентичних начитаних аудіоситуацій для перевірки розуміння на слух в іспитах рівнів A1 та A2."
+        description: "33 автентичні начитані аудіоситуації для перевірки розуміння на слух в іспитах рівнів A1 та A2."
       },
       {
         id: "podcasts",
@@ -344,9 +344,21 @@ export const OFFICIAL_SOURCES_DATA = {
         status: "Синтезовано & Інтегровано (100%)"
       },
       {
-        module: "Іспити K4–K7 & A2.1–A2.3",
-        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf, 25 треків)",
-        linesCount: 25,
+        module: "Урок A2.4 (Охорона здоров'я)",
+        target: "Діалог тріажу медсестри на лінії 1700 (a2_k4_l1 – a2_k4_l8) та 4 треки Hlustun",
+        linesCount: 12,
+        status: "Синтезовано & Інтегровано (100%)"
+      },
+      {
+        module: "Урок A2.5 (Освіта & Садочок)",
+        target: "Розмова з вихователем садка Leikskóli (a2_k5_l1 – a2_k5_l8) та 4 треки Hlustun",
+        linesCount: 12,
+        status: "Синтезовано & Інтегровано (100%)"
+      },
+      {
+        module: "Іспити K4–K7 & A2.1–A2.5",
+        target: "Аудіо-питання на сприйняття на слух (Hlustunarpróf, 33 треки)",
+        linesCount: 33,
         status: "Синтезовано & Інтегровано (100%)"
       }
     ],
@@ -354,15 +366,15 @@ export const OFFICIAL_SOURCES_DATA = {
     // QUEUE FOR FUTURE HIGH-FIDELITY STUDIO VOICE-OVERS
     pendingVoiceoverQueue: [
       {
-        module: "Урок A2.4 (Охорона здоров'я & Heilsuvera)",
-        target: "Діалог консультації з черговою медсестрою на лінії 1700",
+        module: "Урок A2.6 (Розклад дня & Miðmynd)",
+        target: "Діалог зміни на виробництві (Vaktavinna) та обідня перерва Kaffistofan",
         linesCount: 8,
         priority: "Next Sprint",
         currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"
       },
       {
-        module: "Урок A2.5 (Освіта & Шкільна система)",
-        target: "Розмова з вихователем дитячого садка Leikskóli",
+        module: "Урок A2.7 (Банки, фінанси & Rafræn skilríki)",
+        target: "Відкриття банківського рахунку та аутентифікація в додатку Auðkenni",
         linesCount: 8,
         priority: "Next Sprint",
         currentFallback: "Web Speech API (is-IS) / Синтетичний рушій"

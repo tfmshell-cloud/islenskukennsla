@@ -31,6 +31,8 @@ import { Kafli7HobbiesWeatherApp } from './Kafli7HobbiesWeatherApp.js?v=1.0';
 import { A2K1HousingApp } from './A2K1HousingApp.js?v=1.0';
 import { A2K2WorkApp } from './A2K2WorkApp.js?v=1.0';
 import { A2K3TransportApp } from './A2K3TransportApp.js?v=1.0';
+import { A2K4HealthApp } from './A2K4HealthApp.js?v=1.0';
+import { A2K5EducationApp } from './A2K5EducationApp.js?v=1.0';
 import { SourcesVaultApp } from './SourcesVaultApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
@@ -187,6 +189,12 @@ export class Modull0App {
                 <button data-chapter="a2_k3" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k3' ? 'active' : ''} text-amber-300 border-amber-500/40" title="Рівень A2 • Книга 2 • Урок 3: Транспорт, Klapp та дієслова руху">
                   🚌 A2.3: Транспорт
                 </button>
+                <button data-chapter="a2_k4" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k4' ? 'active' : ''} text-rose-300 border-rose-500/40" title="Рівень A2 • Книга 2 • Урок 4: Охорона здоров'я та Heilsuvera">
+                  🏥 A2.4: Здоров'я
+                </button>
+                <button data-chapter="a2_k5" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k5' ? 'active' : ''} text-teal-300 border-teal-500/40" title="Рівень A2 • Книга 2 • Урок 5: Освіта, садок та Mentor">
+                  🎒 A2.5: Освіта
+                </button>
                 
                 <span class="text-slate-700 font-bold px-0.5">|</span>
 
@@ -317,6 +325,12 @@ export class Modull0App {
               <button data-chapter="a2_k3" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k3' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/50 text-amber-300 hover:text-white border border-amber-500/30'}" title="Книга 2: Транспорт, Klapp та дієслова руху">
                 A2.3: Транспорт
               </button>
+              <button data-chapter="a2_k4" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k4' ? 'bg-rose-500 text-black shadow-md' : 'bg-black/50 text-rose-300 hover:text-white border border-rose-500/30'}" title="Книга 2: Охорона здоров'я та Heilsuvera">
+                A2.4: Здоров'я
+              </button>
+              <button data-chapter="a2_k5" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k5' ? 'bg-teal-500 text-black shadow-md' : 'bg-black/50 text-teal-300 hover:text-white border border-teal-500/30'}" title="Книга 2: Освіта, садок та Mentor">
+                A2.5: Освіта
+              </button>
               <span class="text-slate-700 font-bold px-0.5">|</span>
               <button data-chapter="sources_vault" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'sources_vault' ? 'bg-cyan-500 text-black shadow-md' : 'bg-black/50 text-cyan-300 hover:text-white border border-cyan-500/30'}" title="Офіційні держпортали, джерела та аудіоматриця">
                 🏛️ Держпортали
@@ -408,6 +422,16 @@ export class Modull0App {
           <!-- ================= TAB A2.3: УРОК A2.3 (ТРАНСПОРТ, KLAPP ТА ДІЄСЛОВА РУХУ) ================= -->
           <div id="chapter-container-a2_k3" class="chapter-view ${this.activeChapter === 'a2_k3' ? '' : 'hidden'} space-y-4">
             <!-- Populated by A2K3TransportApp -->
+          </div>
+
+          <!-- ================= TAB A2.4: УРОК A2.4 (ОХОРОНА ЗДОРОВ'Я, HEILSUVERA ТА 1700) ================= -->
+          <div id="chapter-container-a2_k4" class="chapter-view ${this.activeChapter === 'a2_k4' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by A2K4HealthApp -->
+          </div>
+
+          <!-- ================= TAB A2.5: УРОК A2.5 (ОСВІТА, LEIKSKÓLI ТА MENTOR) ================= -->
+          <div id="chapter-container-a2_k5" class="chapter-view ${this.activeChapter === 'a2_k5' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by A2K5EducationApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -677,6 +701,20 @@ export class Modull0App {
       this.components.a2_k3.render();
     }
 
+    // 4l. Mount Level A2 • Lesson 4 (Healthcare, 1700 & Heilsuvera)
+    const a2k4Container = this.root.querySelector('#chapter-container-a2_k4');
+    if (a2k4Container) {
+      this.components.a2_k4 = new A2K4HealthApp(a2k4Container);
+      this.components.a2_k4.render();
+    }
+
+    // 4m. Mount Level A2 • Lesson 5 (Education, Leikskóli & Mentor)
+    const a2k5Container = this.root.querySelector('#chapter-container-a2_k5');
+    if (a2k5Container) {
+      this.components.a2_k5 = new A2K5EducationApp(a2k5Container);
+      this.components.a2_k5.render();
+    }
+
     // 4g. Mount Curriculum Catalog Hubs (A1 & A2)
     this.renderA1Hub();
     this.renderA2Hub();
@@ -926,6 +964,14 @@ export class Modull0App {
           heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 3 (ТРАНСПОРТ ТА ДІЄСЛОВА РУХУ)';
           heroTitle.innerText = 'Урок A2.3: Громадський транспорт Strætó, Klapp, аеропорт та подорожі';
           break;
+        case 'a2_k4':
+          heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 4 (ОХОРОНА ЗДОРОВ\'Я ТА HEILSUVERA)';
+          heroTitle.innerText = 'Урок A2.4: Система охорони здоров\'я, Heilsugæslan, лінія 1700 та Heilsuvera';
+          break;
+        case 'a2_k5':
+          heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 5 (ОСВІТА, LEIKSKÓLI ТА MENTOR)';
+          heroTitle.innerText = 'Урок A2.5: Освітня система, дитячий садок Leikskóli, школа та Mentor.is';
+          break;
         case 'a1_hub':
           heroBadge.innerText = 'КУРСОВИЙ КАТАЛОГ • РІВЕНЬ A1 (0–7)';
           heroTitle.innerText = 'Каталог усіх уроків рівня A1 (Íslenska fyrir alla 1, Розділи 1–8)';
@@ -991,6 +1037,12 @@ export class Modull0App {
     }
     if (chapterId === 'a2_k3' && this.components.a2_k3) {
       this.components.a2_k3.render();
+    }
+    if (chapterId === 'a2_k4' && this.components.a2_k4) {
+      this.components.a2_k4.render();
+    }
+    if (chapterId === 'a2_k5' && this.components.a2_k5) {
+      this.components.a2_k5.render();
     }
     if (chapterId === 'a1_hub') {
       this.renderA1Hub();
@@ -1118,6 +1170,18 @@ export class Modull0App {
       if (this.components.a2_k3) {
         this.components.a2_k3.activeTab = 'exam';
         this.components.a2_k3.render();
+      }
+    } else if (chapterId === 'a2_k4') {
+      this.switchChapter('a2_k4');
+      if (this.components.a2_k4) {
+        this.components.a2_k4.activeTab = 'exam';
+        this.components.a2_k4.render();
+      }
+    } else if (chapterId === 'a2_k5') {
+      this.switchChapter('a2_k5');
+      if (this.components.a2_k5) {
+        this.components.a2_k5.activeTab = 'exam';
+        this.components.a2_k5.render();
       }
     }
   }
@@ -1460,38 +1524,38 @@ export class Modull0App {
       {
         id: 'a2_k4',
         num: 'A2.4',
-        titleUkr: 'Медична система, аптека та лікарняні фонди',
-        titleIsl: 'Heilsugæslan, Apótek & Sjúkrasjóður',
-        level: 'A2.2 Здоров\'я',
-        source: 'ÍFA 2 Kafli 4 • Heilsuvera',
+        titleUkr: 'Система охорони здоров\'я, поліклініка та Heilsuvera',
+        titleIsl: 'Heilbrigðiskerfið, heilsugæslan & Heilsuvera',
+        level: 'A2.1 Соціальна медицина',
+        source: 'ÍFA 2 Kafli 6 & 10 • Heilsuvera & 1700',
         icon: '🏥',
         color: 'rose',
-        isActive: false,
-        cases: ['🟡 Mér líður...', '💊 Lyfseðill', '🏥 Heilsuvera'],
+        isActive: true,
+        cases: ['🩺 Læknavaktin 1700', '💊 Lyfjagátt', '📱 Heilsuvera'],
         topics: [
-          'Портал пацієнта Heilsuvera, запис до лікаря та скарги на здоров\'я',
-          'Електронні рецепти в аптеці Lyfja / Apótek',
-          'Виплати за лікарняними від профспілкового фонду Sjúkrasjóður'
+          'Поліклініка Heilsugæslan, чергова лінія 1700 та тріаж медсестер',
+          'Електронний кабінет Heilsuvera.is, оновлення рецептів у Lyfjagátt',
+          'Модальні дієслова приписів (að eiga að, að þurfa að) та безособові симптоми'
         ],
-        examLabel: 'У розробці ⏳'
+        examLabel: 'Іспит A2.4 (15 Q)'
       },
       {
         id: 'a2_k5',
         num: 'A2.5',
-        titleUkr: 'Розклад дня та зворотні дієслова на -st',
-        titleIsl: 'Dagurinn minn & Miðmynd',
-        level: 'A2.2 Життєвий ритм',
-        source: 'ÍFA 2 Kafli 3 • Málfræði',
-        icon: '🔄',
-        color: 'purple',
-        isActive: false,
-        cases: ['🔀 Miðmynd -st', '⏰ Vaktavinna', '🧘 Rútína'],
+        titleUkr: 'Освітня система, дитячий садок та початкова школа',
+        titleIsl: 'Menntakerfið, leikskóli og grunnskóli',
+        level: 'A2.1 Освіта та сім\'я',
+        source: 'ÍFA 2 Kafli 7 • Mentor.is & Menntasvið',
+        icon: '🎒',
+        color: 'teal',
+        isActive: true,
+        cases: ['🧸 Leikskóli & Útivera', '📱 Mentor.is', '🎒 Grunnskóli'],
         topics: [
-          'Зворотний стан дієслів на -st (að klæðast, að greiða sér, að hitta)',
-          'Розширений щоденний графік та прислівники регулярності',
-          'Опис позмінної роботи (Vaktavinna) та баланс відпочинку'
+          'Адаптація в садочку (aðlögun), прогулянки в будь-яку погоду (útivera & pollagalli)',
+          'Обов\'язкова школа Grunnskóli, подовжений день (frístundaheimili) та харчування',
+          'Батьківський портал Mentor.is (veikindatilkynning) та дієслова розпорядку минулого часу'
         ],
-        examLabel: 'У розробці ⏳'
+        examLabel: 'Іспит A2.5 (15 Q)'
       },
       {
         id: 'a2_k6',
