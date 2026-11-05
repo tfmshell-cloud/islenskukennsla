@@ -35,6 +35,7 @@ import { A2K4HealthApp } from './A2K4HealthApp.js?v=1.0';
 import { A2K5EducationApp } from './A2K5EducationApp.js?v=1.0';
 import { A2K6RoutineApp } from './A2K6RoutineApp.js?v=1.0';
 import { A2K7BankingApp } from './A2K7BankingApp.js?v=1.0';
+import { A2K8SocietyApp } from './A2K8SocietyApp.js?v=1.0';
 import { SourcesVaultApp } from './SourcesVaultApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
@@ -203,6 +204,9 @@ export class Modull0App {
                 <button data-chapter="a2_k7" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k7' ? 'active' : ''} text-emerald-300 border-emerald-500/40" title="Рівень A2 • Книга 2 • Урок 7: Банки, фінанси та Auðkenni">
                   💳 A2.7: Банки
                 </button>
+                <button data-chapter="a2_k8" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k8' ? 'active' : ''} text-amber-300 border-amber-500/40" title="Рівень A2 • Книга 2 • Урок 8: Ісландське суспільство, податки та Lokapróf A2">
+                  🏆 A2.8: Фінал
+                </button>
                 
                 <span class="text-slate-700 font-bold px-0.5">|</span>
 
@@ -345,6 +349,9 @@ export class Modull0App {
               <button data-chapter="a2_k7" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k7' ? 'bg-emerald-500 text-black shadow-md' : 'bg-black/50 text-emerald-300 hover:text-white border border-emerald-500/30'}" title="Книга 2: Банки, фінанси та Auðkenni">
                 A2.7: Банки
               </button>
+              <button data-chapter="a2_k8" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k8' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/50 text-amber-300 hover:text-white border border-amber-500/30'}" title="Книга 2: Ісландське суспільство, податки та Lokapróf A2">
+                A2.8: Фінал 🏆
+              </button>
               <span class="text-slate-700 font-bold px-0.5">|</span>
               <button data-chapter="sources_vault" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'sources_vault' ? 'bg-cyan-500 text-black shadow-md' : 'bg-black/50 text-cyan-300 hover:text-white border border-cyan-500/30'}" title="Офіційні держпортали, джерела та аудіоматриця">
                 🏛️ Держпортали
@@ -456,6 +463,11 @@ export class Modull0App {
           <!-- ================= TAB A2.7: УРОК A2.7 (БАНКИ, ФІНАНСИ ТА AUÐKENNI) ================= -->
           <div id="chapter-container-a2_k7" class="chapter-view ${this.activeChapter === 'a2_k7' ? '' : 'hidden'} space-y-4">
             <!-- Populated by A2K7BankingApp -->
+          </div>
+
+          <!-- ================= TAB A2.8: УРОК A2.8 (СУСПІЛЬСТВО, ПОДАТКИ ТА LOKAPRÓF) ================= -->
+          <div id="chapter-container-a2_k8" class="chapter-view ${this.activeChapter === 'a2_k8' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by A2K8SocietyApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -753,6 +765,13 @@ export class Modull0App {
       this.components.a2_k7.render();
     }
 
+    // 4p. Mount Level A2 • Lesson 8 (Society, Taxes & Lokapróf A2)
+    const a2k8Container = this.root.querySelector('#chapter-container-a2_k8');
+    if (a2k8Container) {
+      this.components.a2_k8 = new A2K8SocietyApp(a2k8Container);
+      this.components.a2_k8.render();
+    }
+
     // 4g. Mount Curriculum Catalog Hubs (A1 & A2)
     this.renderA1Hub();
     this.renderA2Hub();
@@ -1018,6 +1037,10 @@ export class Modull0App {
           heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 7 (БАНКИ, ФІНАНСИ ТА AUÐKENNI)';
           heroTitle.innerText = 'Урок A2.7: Банківська система, інтернет-банкінг, вимоги kröfur та Auðkenni';
           break;
+        case 'a2_k8':
+          heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 8 (СУСПІЛЬСТВО, ПОДАТКИ ТА LOKAPRÓF)';
+          heroTitle.innerText = 'Урок A2.8: Ісландське суспільство, податки у Skatturinn та випускний іспит Lokapróf A2';
+          break;
         case 'a1_hub':
           heroBadge.innerText = 'КУРСОВИЙ КАТАЛОГ • РІВЕНЬ A1 (0–7)';
           heroTitle.innerText = 'Каталог усіх уроків рівня A1 (Íslenska fyrir alla 1, Розділи 1–8)';
@@ -1095,6 +1118,9 @@ export class Modull0App {
     }
     if (chapterId === 'a2_k7' && this.components.a2_k7) {
       this.components.a2_k7.render();
+    }
+    if (chapterId === 'a2_k8' && this.components.a2_k8) {
+      this.components.a2_k8.render();
     }
     if (chapterId === 'a1_hub') {
       this.renderA1Hub();
@@ -1246,6 +1272,12 @@ export class Modull0App {
       if (this.components.a2_k7) {
         this.components.a2_k7.activeTab = 'exam';
         this.components.a2_k7.render();
+      }
+    } else if (chapterId === 'a2_k8') {
+      this.switchChapter('a2_k8');
+      if (this.components.a2_k8) {
+        this.components.a2_k8.activeTab = 'exam';
+        this.components.a2_k8.render();
       }
     }
   }
@@ -1660,20 +1692,20 @@ export class Modull0App {
       {
         id: 'a2_k8',
         num: 'A2.8',
-        titleUkr: 'Ісландське суспільство та Випускний іспит A2',
-        titleIsl: 'Samfélagið & Lokapróf A2',
+        titleUkr: 'Ісландське суспільство, податки та Випускний іспит A2',
+        titleIsl: 'Íslenskt samfélag, skattar og Lokapróf A2',
         level: 'A2.2 ФІНАЛ A2',
-        source: 'ÍFA 2 Kafli 8 • A2 Lokapróf',
+        source: 'ÍFA 2 Kafli 8 • Skatturinn, ÚTL & Lokapróf',
         icon: '🏆',
-        color: 'emerald',
-        isActive: false,
-        cases: ['🇮🇸 Samfélag', '🗳️ Réttindi', '🎓 Lokapróf'],
+        color: 'amber',
+        isActive: true,
+        cases: ['🇮🇸 Samfélag', '🏛️ Skatturinn', '🎓 Lokapróf A2'],
         topics: [
-          'Суспільні норми, права іммігрантів, податкова декларація Skatturinn',
-          'Ісландські свята, традиції та культурна спадщина',
-          'Великий випускний сертифікаційний іспит за весь рівень A2'
+          'Суспільні норми, права іммігрантів (ÚTL), профспілки (ASÍ) та етикет рівності',
+          'Податкова декларація у Skatturinn (skattframtal), пільга persónuafsláttur та повернення коштів',
+          'Великий сертифікаційний випускний іспит за весь рівень A2 (30 питань, слухання Hlustun)'
         ],
-        examLabel: 'Фінал A2 🏆'
+        examLabel: 'Lokapróf A2 (30 Q) 🏆'
       }
     ];
 
