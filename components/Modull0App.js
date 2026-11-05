@@ -30,6 +30,7 @@ import { Kafli6FoodApp } from './Kafli6FoodApp.js?v=1.0';
 import { Kafli7HobbiesWeatherApp } from './Kafli7HobbiesWeatherApp.js?v=1.0';
 import { A2K1HousingApp } from './A2K1HousingApp.js?v=1.0';
 import { A2K2WorkApp } from './A2K2WorkApp.js?v=1.0';
+import { A2K3TransportApp } from './A2K3TransportApp.js?v=1.0';
 import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
 import { binAuraSystem } from './BinAuraSystem.js?v=7.1';
@@ -101,7 +102,7 @@ export class Modull0App {
                     🇮🇸
                   </span>
                   <span class="header-logo-title text-xs sm:text-sm font-black font-mono tracking-tight text-white">ÍSLENSKA</span>
-                  <span class="platform-badge text-[9px] px-1.5 py-0.2 rounded font-mono font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">A1</span>
+                  <span class="platform-badge text-[9px] px-1.5 py-0.2 rounded font-mono font-bold uppercase tracking-wider bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/40">A1 • A2</span>
                 </a>
 
                 <!-- Dagsamningur Red/Green Beacon Mount -->
@@ -141,10 +142,13 @@ export class Modull0App {
           <div id="block2-lessons-bar" class="border-b border-slate-800/80 bg-cyber-deep/95">
             <div class="max-w-7xl mx-auto px-3 sm:px-6 min-h-[42px] py-1 flex items-center justify-between gap-3 overflow-x-auto">
               
-              <!-- Left: Lessons 0 to 7 + Hub Tools with clear A1 badge -->
+              <!-- Left: Lessons 0 to 7 + Hub Tools with clear A1 & A2 badges -->
               <div class="flex items-center gap-1.5 font-mono text-xs py-0.5 flex-nowrap flex-shrink-0">
                 <button data-chapter="a1_hub" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a1_hub' ? 'active' : ''} text-cyan-300 font-extrabold bg-cyan-950/50 border-cyan-500/60 shadow-sm" title="Оглядовий каталог усіх 8 уроків рівня A1">
                   📚 Каталог A1
+                </button>
+                <button data-chapter="a2_hub" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_hub' ? 'active' : ''} text-emerald-300 font-extrabold bg-emerald-950/50 border-emerald-500/60 shadow-sm" title="Оглядовий каталог усіх 8 уроків рівня A2 (Книга 2: ÍFA 2)">
+                  📗 Каталог A2
                 </button>
                 <button data-chapter="modull_0" class="chapter-nav-btn nav-btn ${this.activeChapter === 'modull_0' ? 'active' : ''}">
                   🔤 0: Абетка
@@ -170,11 +174,17 @@ export class Modull0App {
                 <button data-chapter="kafli_7" class="chapter-nav-btn nav-btn ${this.activeChapter === 'kafli_7' ? 'active' : ''}">
                   🏊 7: Фінал A1
                 </button>
+
+                <span class="text-slate-700 font-bold px-0.5">|</span>
+
                 <button data-chapter="a2_k1" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k1' ? 'active' : ''} text-indigo-300 border-indigo-500/40" title="Рівень A2 • Книга 2 • Урок 1: Житло та минулий час">
                   🏠 A2.1: Житло
                 </button>
                 <button data-chapter="a2_k2" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k2' ? 'active' : ''} text-emerald-300 border-emerald-500/40" title="Рівень A2 • Книга 2 • Урок 2: Робота та сильні дієслова">
                   💼 A2.2: Робота
+                </button>
+                <button data-chapter="a2_k3" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a2_k3' ? 'active' : ''} text-amber-300 border-amber-500/40" title="Рівень A2 • Книга 2 • Урок 3: Транспорт, Klapp та дієслова руху">
+                  🚌 A2.3: Транспорт
                 </button>
                 
                 <span class="text-slate-700 font-bold px-0.5">|</span>
@@ -260,11 +270,14 @@ export class Modull0App {
         <!-- ================= MAIN WORKSPACE ================= -->
         <main class="max-w-7xl mx-auto px-3 sm:px-6 py-3 space-y-3">
           
-          <!-- Persistent A1 Lessons Switcher (Always Visible Across All Screen Widths) -->
+          <!-- Persistent A1 & A2 Lessons Switcher (Always Visible Across All Screen Widths) -->
           <div class="p-2 sm:p-2.5 rounded-2xl bg-cyber-card/90 border border-cyber-border flex items-center justify-between gap-2 overflow-x-auto shadow-md">
             <div class="flex items-center gap-1.5 text-xs font-mono shrink-0">
               <button data-chapter="a1_hub" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-extrabold transition-all ${this.activeChapter === 'a1_hub' ? 'bg-cyan-400 text-black shadow-md' : 'bg-cyan-950/50 text-cyan-300 hover:text-white border border-cyan-500/40'}">
                 📚 Каталог A1
+              </button>
+              <button data-chapter="a2_hub" class="chapter-nav-btn px-2.5 py-1 rounded-lg text-xs font-mono font-extrabold transition-all ${this.activeChapter === 'a2_hub' ? 'bg-emerald-400 text-black shadow-md' : 'bg-emerald-950/50 text-emerald-300 hover:text-white border border-emerald-500/40'}">
+                📗 Каталог A2
               </button>
               <button data-chapter="modull_0" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'modull_0' ? 'bg-cyan-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
                 0: Абетка
@@ -290,11 +303,15 @@ export class Modull0App {
               <button data-chapter="kafli_7" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'kafli_7' ? 'bg-cyan-500 text-black' : 'bg-black/50 text-slate-300 hover:text-white border border-slate-800'}">
                 7: Фінал A1
               </button>
+              <span class="text-slate-700 font-bold px-0.5">|</span>
               <button data-chapter="a2_k1" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k1' ? 'bg-indigo-500 text-black shadow-md' : 'bg-black/50 text-indigo-300 hover:text-white border border-indigo-500/30'}" title="Книга 2: Житло та минулий час">
                 A2.1: Житло
               </button>
               <button data-chapter="a2_k2" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k2' ? 'bg-emerald-500 text-black shadow-md' : 'bg-black/50 text-emerald-300 hover:text-white border border-emerald-500/30'}" title="Книга 2: Робота та сильні дієслова">
                 A2.2: Робота
+              </button>
+              <button data-chapter="a2_k3" class="chapter-nav-btn px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all ${this.activeChapter === 'a2_k3' ? 'bg-amber-500 text-black shadow-md' : 'bg-black/50 text-amber-300 hover:text-white border border-amber-500/30'}" title="Книга 2: Транспорт, Klapp та дієслова руху">
+                A2.3: Транспорт
               </button>
             </div>
 
@@ -308,6 +325,12 @@ export class Modull0App {
           <!-- ================= TAB A1 HUB: ГОЛОВНИЙ КАТАЛОГ УРОКІВ РІВНЯ A1 ================= -->
           <div id="chapter-container-a1_hub" class="chapter-view ${this.activeChapter === 'a1_hub' ? '' : 'hidden'} space-y-4">
             <!-- Populated by renderA1Hub -->
+          </div>
+
+          <!-- ================= TAB A2 HUB: ГОЛОВНИЙ КАТАЛОГ УРОКІВ РІВНЯ A2 ================= -->
+          <div id="chapter-container-a2_hub" class="chapter-view ${this.activeChapter === 'a2_hub' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by renderA2Hub -->
+          </div>
           </div>
 
           <!-- ================= TAB 0: УРОК 0 (АБЕТКА ТА ЗВУКИ) ================= -->
@@ -368,6 +391,11 @@ export class Modull0App {
           <!-- ================= TAB A2.2: УРОК A2.2 (РОБОТА, ТАБЕЛЬ ЗАРПЛАТИ ТА СИЛЬНІ ДІЄСЛОВА) ================= -->
           <div id="chapter-container-a2_k2" class="chapter-view ${this.activeChapter === 'a2_k2' ? '' : 'hidden'} space-y-4">
             <!-- Populated by A2K2WorkApp -->
+          </div>
+
+          <!-- ================= TAB A2.3: УРОК A2.3 (ТРАНСПОРТ, KLAPP ТА ДІЄСЛОВА РУХУ) ================= -->
+          <div id="chapter-container-a2_k3" class="chapter-view ${this.activeChapter === 'a2_k3' ? '' : 'hidden'} space-y-4">
+            <!-- Populated by A2K3TransportApp -->
           </div>
 
           <!-- ================= TAB FLASHCARDS: 3D КАРТКИ & NOTEBOOKLM STUDIO ================= -->
@@ -630,8 +658,16 @@ export class Modull0App {
       this.components.a2_k2.render();
     }
 
-    // 4g. Mount A1 Curriculum Catalog Hub
+    // 4j. Mount Level A2 • Lesson 3 (Transport, Klapp & Motion Verbs)
+    const a2k3Container = this.root.querySelector('#chapter-container-a2_k3');
+    if (a2k3Container) {
+      this.components.a2_k3 = new A2K3TransportApp(a2k3Container);
+      this.components.a2_k3.render();
+    }
+
+    // 4g. Mount Curriculum Catalog Hubs (A1 & A2)
     this.renderA1Hub();
+    this.renderA2Hub();
 
     // 4c. Mount Master Flashcards & NotebookLM Studio Hub
     const flashcardsContainer = this.root.querySelector('#chapter-container-flashcards');
@@ -867,9 +903,17 @@ export class Modull0App {
           heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 2 (РОБОТА ТА СИЛЬНІ ДІЄСЛОВА)';
           heroTitle.innerText = 'Урок A2.2: Ринок праці, табель зарплати та сильні дієслова (Vinna & sterkar sagnir)';
           break;
+        case 'a2_k3':
+          heroBadge.innerText = 'РІВЕНЬ A2 • КНИГА 2 • УРОК 3 (ТРАНСПОРТ ТА ДІЄСЛОВА РУХУ)';
+          heroTitle.innerText = 'Урок A2.3: Громадський транспорт Strætó, Klapp, аеропорт та подорожі';
+          break;
         case 'a1_hub':
           heroBadge.innerText = 'КУРСОВИЙ КАТАЛОГ • РІВЕНЬ A1 (0–7)';
           heroTitle.innerText = 'Каталог усіх уроків рівня A1 (Íslenska fyrir alla 1, Розділи 1–8)';
+          break;
+        case 'a2_hub':
+          heroBadge.innerText = 'КУРСОВИЙ КАТАЛОГ • РІВЕНЬ A2 (КНИГА 2: ÍSLENSKA FYRIR ALLA 2)';
+          heroTitle.innerText = 'Каталог усіх 8 уроків рівня A2 (Соціальна автономія та побутова інтеграція)';
           break;
         case 'saga_map':
           heroBadge.innerText = 'МАПА САГИ • HRINGVEGUR 1';
@@ -922,8 +966,14 @@ export class Modull0App {
     if (chapterId === 'a2_k2' && this.components.a2_k2) {
       this.components.a2_k2.render();
     }
+    if (chapterId === 'a2_k3' && this.components.a2_k3) {
+      this.components.a2_k3.render();
+    }
     if (chapterId === 'a1_hub') {
       this.renderA1Hub();
+    }
+    if (chapterId === 'a2_hub') {
+      this.renderA2Hub();
     }
     if (chapterId === 'flashcards' && this.components.flashcardsHub) {
       this.components.flashcardsHub.render();
@@ -1036,6 +1086,12 @@ export class Modull0App {
       if (this.components.a2_k2) {
         this.components.a2_k2.activeTab = 'exam';
         this.components.a2_k2.render();
+      }
+    } else if (chapterId === 'a2_k3') {
+      this.switchChapter('a2_k3');
+      if (this.components.a2_k3) {
+        this.components.a2_k3.activeTab = 'exam';
+        this.components.a2_k3.render();
       }
     }
   }
@@ -1301,6 +1357,293 @@ export class Modull0App {
     });
 
     hubContainer.querySelectorAll('.hub-open-exam-btn').forEach(btn => {
+      btn.onclick = () => {
+        const lid = btn.dataset.lesson;
+        if (lid) this.openLessonExam(lid);
+      };
+    });
+  }
+
+  renderA2Hub() {
+    const hubContainer = this.root.querySelector('#chapter-container-a2_hub');
+    if (!hubContainer) return;
+
+    const lessonsA2 = [
+      {
+        id: 'a2_k1',
+        num: 'A2.1',
+        titleUkr: 'Житлові умови та договори оренди',
+        titleIsl: 'Húsnæði & Leigusamningar',
+        level: 'A2.1 Соціальна база',
+        source: 'ÍFA 2 Kafli 1 • HMS Standard',
+        icon: '🏠',
+        color: 'indigo',
+        isActive: true,
+        cases: ['⏳ Þátíð -aði', '📜 Leiga', '🏢 HMS'],
+        topics: [
+          'Минулий час слабких дієслів 1–3 груп (-aði, -ði, -ti, -di)',
+          'Оренда житла, депозит (trygging) та договори HMS',
+          'Житлові субсидії (Húsaleigubætur) та огляд квартири'
+        ],
+        examLabel: 'Іспит A2.1 (15 Q)'
+      },
+      {
+        id: 'a2_k2',
+        num: 'A2.2',
+        titleUkr: 'Ринок праці, трудовий договір та зарплата',
+        titleIsl: 'Vinna, Samningar & Launaseðill',
+        level: 'A2.1 Трудова автономія',
+        source: 'ÍFA 2 Kafli 2 • Skatturinn & Efling',
+        icon: '💼',
+        color: 'emerald',
+        isActive: true,
+        cases: ['7 рядів аблауту', '💰 Launaseðill', '🛡️ Efling'],
+        topics: [
+          '7 класів сильних дієслів у минулому часі (ablaut — hljóðskipti)',
+          'Трудовий договір Ráðningarsamningur та податкова карта Persónuafsláttur',
+          'Анатомія розрахункового листа Launaseðill: брутто, нетто, профспілка'
+        ],
+        examLabel: 'Іспит A2.2 (15 Q)'
+      },
+      {
+        id: 'a2_k3',
+        num: 'A2.3',
+        titleUkr: 'Громадський транспорт Strætó, Klapp та перельоти',
+        titleIsl: 'Samgöngur, Klapp & Ferðalög',
+        level: 'A2.1 Мобільність',
+        source: 'ÍFA 2 Kafli 8 & 4 • SafeTravel',
+        icon: '🚌',
+        color: 'amber',
+        isActive: true,
+        cases: ['🟢 ÞF vs 🟡 ÞGF', '📱 Klapp', '✈️ BSÍ / Flybus'],
+        topics: [
+          'Прийменники руху vs локації (Hvert? 🟢 ÞF vs Hvar? 🟡 ÞGF)',
+          'Міський транспорт Strætó, тарифи, валідація у додатку Klapp',
+          'Поїздки до аеропорту (Flugrútan) та безпека на трасах SafeTravel'
+        ],
+        examLabel: 'Іспит A2.3 (15 Q)'
+      },
+      {
+        id: 'a2_k4',
+        num: 'A2.4',
+        titleUkr: 'Медична система, аптека та лікарняні фонди',
+        titleIsl: 'Heilsugæslan, Apótek & Sjúkrasjóður',
+        level: 'A2.2 Здоров\'я',
+        source: 'ÍFA 2 Kafli 4 • Heilsuvera',
+        icon: '🏥',
+        color: 'rose',
+        isActive: false,
+        cases: ['🟡 Mér líður...', '💊 Lyfseðill', '🏥 Heilsuvera'],
+        topics: [
+          'Портал пацієнта Heilsuvera, запис до лікаря та скарги на здоров\'я',
+          'Електронні рецепти в аптеці Lyfja / Apótek',
+          'Виплати за лікарняними від профспілкового фонду Sjúkrasjóður'
+        ],
+        examLabel: 'У розробці ⏳'
+      },
+      {
+        id: 'a2_k5',
+        num: 'A2.5',
+        titleUkr: 'Розклад дня та зворотні дієслова на -st',
+        titleIsl: 'Dagurinn minn & Miðmynd',
+        level: 'A2.2 Життєвий ритм',
+        source: 'ÍFA 2 Kafli 3 • Málfræði',
+        icon: '🔄',
+        color: 'purple',
+        isActive: false,
+        cases: ['🔀 Miðmynd -st', '⏰ Vaktavinna', '🧘 Rútína'],
+        topics: [
+          'Зворотний стан дієслів на -st (að klæðast, að greiða sér, að hitta)',
+          'Розширений щоденний графік та прислівники регулярності',
+          'Опис позмінної роботи (Vaktavinna) та баланс відпочинку'
+        ],
+        examLabel: 'У розробці ⏳'
+      },
+      {
+        id: 'a2_k6',
+        num: 'A2.6',
+        titleUkr: 'Система освіти, дитсадки та Mentor.is',
+        titleIsl: 'Skólakerfið & Mentor.is',
+        level: 'A2.2 Освіта родини',
+        source: 'ÍFA 2 Kafli 6 • Skólamál',
+        icon: '🎒',
+        color: 'cyan',
+        isActive: false,
+        cases: ['🏫 Leikskóli', '📱 Mentor.is', '📝 Tilkynning'],
+        topics: [
+          'Дошкільна освіта Leikskóli та середня школа Grunnskóli',
+          'Батьківський портал Mentor.is: повідомлення про хворобу дитини',
+          'Комунікація з викладачами та участь у шкільних заходах'
+        ],
+        examLabel: 'У розробці ⏳'
+      },
+      {
+        id: 'a2_k7',
+        num: 'A2.7',
+        titleUkr: 'Автомобіль в Ісландії, техогляд та сервіс',
+        titleIsl: 'Bíllinn, Aðalskoðun & Tryggingar',
+        level: 'A2.2 Автономія водія',
+        source: 'ÍFA 2 Kafli 7 • Samgöngustofa',
+        icon: '🚗',
+        color: 'indigo',
+        isActive: false,
+        cases: ['🔧 Aðalskoðun', '🛡️ Kaskó', '⛽ Bensínstöð'],
+        topics: [
+          'Володіння автомобілем в Ісландії, щорічний техогляд Aðalskoðun',
+          'Страхування (Ábyrgðartrygging, Kaskó) та взаємодія з майстернею',
+          'Автозаправки самообслуговування та зимове обслуговування авто'
+        ],
+        examLabel: 'У розробці ⏳'
+      },
+      {
+        id: 'a2_k8',
+        num: 'A2.8',
+        titleUkr: 'Ісландське суспільство та Випускний іспит A2',
+        titleIsl: 'Samfélagið & Lokapróf A2',
+        level: 'A2.2 ФІНАЛ A2',
+        source: 'ÍFA 2 Kafli 8 • A2 Lokapróf',
+        icon: '🏆',
+        color: 'emerald',
+        isActive: false,
+        cases: ['🇮🇸 Samfélag', '🗳️ Réttindi', '🎓 Lokapróf'],
+        topics: [
+          'Суспільні норми, права іммігрантів, податкова декларація Skatturinn',
+          'Ісландські свята, традиції та культурна спадщина',
+          'Великий випускний сертифікаційний іспит за весь рівень A2'
+        ],
+        examLabel: 'Фінал A2 🏆'
+      }
+    ];
+
+    hubContainer.innerHTML = `
+      <div class="space-y-6 max-w-7xl mx-auto pb-12 select-none">
+        
+        <!-- Header Banner -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-cyber-card to-cyber-deep border border-emerald-500/40 shadow-2xl relative overflow-hidden">
+          <div class="absolute -right-12 -top-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div class="space-y-3 relative z-10">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                Рівень A2 • Miðstig 1 (CEFR A2.1 – A2.2)
+              </span>
+              <span class="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                Книга 2: Íslenska fyrir alla 2 • 8 Модулів
+              </span>
+              <span class="text-xs font-mono text-slate-400">Стандарт HMS, Skatturinn & Árnastofnun BÍN</span>
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-extrabold font-mono text-white tracking-tight flex items-center gap-3">
+              <span>📗</span> Повний академічний каталог курсу A2
+            </h2>
+
+            <p class="text-sm text-slate-300 font-sans max-w-3xl leading-relaxed">
+              Рівень повної соціальної та побутової автономії в Ісландії: оренда квартири через офіційну Leiguskrá (HMS), підписання трудових договорів Ráðningarsamningur, аудит зарплатних табелів Launaseðill, поїздки транспортом Strætó / Klapp, медицина Heilsuvera та шкільна взаємодія.
+            </p>
+
+            <div class="pt-2 flex flex-wrap items-center gap-3 font-mono text-xs">
+              <button id="hub-a2-start-first-lesson" class="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold shadow-lg transition-all flex items-center gap-2 cursor-pointer">
+                <span>🚀</span><span>Почати з Уроку A2.1 (Житло)</span>
+              </button>
+              <button id="hub-a2-to-a1-btn" class="px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-bold transition-all flex items-center gap-2 cursor-pointer">
+                <span>📚</span><span>Каталог Уроків A1 (0–7)</span>
+              </button>
+              <a href="curriculum_dashboard.html" class="px-4 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold transition-all flex items-center gap-2">
+                <span>🗺️</span><span>Дорожня карта (33 розд.)</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8-Card Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          ${lessonsA2.map(l => `
+            <div class="p-5 rounded-2xl bg-cyber-card border ${l.isActive ? 'border-emerald-500/50 hover:border-emerald-400 shadow-xl hover:-translate-y-0.5' : 'border-cyber-border opacity-70'} transition-all flex flex-col justify-between group">
+              
+              <div class="space-y-3">
+                <!-- Top Card Meta -->
+                <div class="flex items-start justify-between gap-2">
+                  <div class="flex items-center gap-2.5">
+                    <span class="text-3xl p-2 rounded-xl bg-cyber-deep border border-cyber-border/80 group-hover:scale-110 transition-transform">${l.icon}</span>
+                    <div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="text-[10px] font-mono font-extrabold uppercase px-1.5 py-0.2 rounded ${l.isActive ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
+                          ${l.num}
+                        </span>
+                        <span class="text-[10px] font-mono text-slate-400">${l.level}</span>
+                      </div>
+                      <h3 class="text-base font-bold font-mono text-white ${l.isActive ? 'group-hover:text-emerald-300' : ''} transition-colors leading-snug mt-0.5">
+                        ${l.titleUkr}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="text-xs font-mono text-emerald-400 italic">${l.titleIsl}</p>
+                <p class="text-[11px] font-mono text-slate-400">${l.source}</p>
+
+                <!-- Grammar Case Badges -->
+                <div class="flex flex-wrap gap-1 pt-1">
+                  ${l.cases.map(c => `
+                    <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-cyber-deep border border-cyber-border text-slate-300">
+                      ${c}
+                    </span>
+                  `).join('')}
+                </div>
+
+                <!-- Learning Outcomes -->
+                <ul class="text-xs text-slate-300 font-sans space-y-1.5 pt-2 border-t border-cyber-border/60">
+                  ${l.topics.map(t => `
+                    <li class="flex items-start gap-1.5">
+                      <span class="${l.isActive ? 'text-emerald-400' : 'text-slate-500'} shrink-0 text-[10px]">●</span>
+                      <span class="leading-tight">${t}</span>
+                    </li>
+                  `).join('')}
+                </ul>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="mt-4 pt-3 border-t border-cyber-border flex items-center gap-2 font-mono text-xs">
+                ${l.isActive ? `
+                  <button class="hub-a2-open-lesson-btn flex-1 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-black border border-emerald-500/40 font-bold transition-all text-center flex items-center justify-center gap-1 cursor-pointer" data-lesson="${l.id}">
+                    <span>Відкрити</span><span>➔</span>
+                  </button>
+                  <button class="hub-a2-open-exam-btn py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-black border border-amber-500/40 font-bold transition-all text-center cursor-pointer" data-lesson="${l.id}" title="${l.examLabel}">
+                    <span>📝</span>
+                  </button>
+                ` : `
+                  <div class="w-full py-2 rounded-xl bg-cyber-deep border border-cyber-border text-slate-500 text-center font-mono text-xs">
+                    ⏳ Заплановано
+                  </div>
+                `}
+              </div>
+
+            </div>
+          `).join('')}
+        </div>
+
+      </div>
+    `;
+
+    // Bind A2 Hub actions
+    const startFirstA2Btn = hubContainer.querySelector('#hub-a2-start-first-lesson');
+    if (startFirstA2Btn) {
+      startFirstA2Btn.onclick = () => this.switchChapter('a2_k1');
+    }
+
+    const toA1Btn = hubContainer.querySelector('#hub-a2-to-a1-btn');
+    if (toA1Btn) {
+      toA1Btn.onclick = () => this.switchChapter('a1_hub');
+    }
+
+    hubContainer.querySelectorAll('.hub-a2-open-lesson-btn').forEach(btn => {
+      btn.onclick = () => {
+        const lid = btn.dataset.lesson;
+        if (lid) this.switchChapter(lid);
+      };
+    });
+
+    hubContainer.querySelectorAll('.hub-a2-open-exam-btn').forEach(btn => {
       btn.onclick = () => {
         const lid = btn.dataset.lesson;
         if (lid) this.openLessonExam(lid);
