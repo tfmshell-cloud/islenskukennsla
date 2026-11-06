@@ -184,7 +184,7 @@ export class Modull0App {
                 </button>
                 <button data-pillar="podcasts" class="global-pillar-btn px-3 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 ${this.activeGlobalTab === 'podcasts' ? 'bg-amber-500/20 text-amber-300 border-amber-500/60 shadow-md font-extrabold' : 'bg-black/50 text-slate-400 border-slate-800 hover:text-white'}">
                   <span>🎙️</span><span>ПОДКАСТИ</span>
-                  <span class="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[9px] font-black">13 MASTER</span>
+                  <span class="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[9px] font-black">20 MASTER</span>
                 </button>
                 <button data-pillar="exams" class="global-pillar-btn px-3 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 ${this.activeGlobalTab === 'exams' ? 'bg-purple-500/20 text-purple-300 border-purple-500/60 shadow-md font-extrabold' : 'bg-black/50 text-slate-400 border-slate-800 hover:text-white'}">
                   <span>📝</span><span>ІСПИТИ</span>
