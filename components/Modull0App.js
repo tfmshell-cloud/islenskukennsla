@@ -43,7 +43,7 @@ import { BinMorphologyLab } from './BinMorphologyLab.js?v=7.1';
 import { gameState } from './GameState.js?v=7.1';
 import { binAuraSystem } from './BinAuraSystem.js?v=7.1';
 import { audioEngine } from './AudioEngine.js?v=7.1';
-import { UnifiedPodcastPlayer } from './UnifiedPodcastPlayer.js?v=1.0';
+import { UnifiedPodcastPlayer } from './UnifiedPodcastPlayer.js?v=1.1';
 import { UnifiedExamsCenter } from './UnifiedExamsCenter.js?v=1.0';
 
 export const LESSON_PODCAST_MAP = {
