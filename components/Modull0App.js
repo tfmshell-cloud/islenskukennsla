@@ -116,7 +116,7 @@ export class Modull0App {
                 <a href="curriculum_dashboard.html?tab=podcasts" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-500/20 to-purple-500/20 hover:from-amber-500/30 hover:to-purple-500/30 border border-amber-500/50 text-amber-300 hover:text-white font-mono text-[11px] font-extrabold transition-all shadow-sm hover:scale-105 active:scale-95" title="Відкрити Плеєр та Студію 22 білінгвальних подкастів (13 Master готові)">
                   <span class="animate-pulse">🎙️</span>
                   <span class="hidden sm:inline">ПОДКАСТИ</span>
-                  <span class="px-1.5 py-0.2 rounded bg-amber-400 text-black text-[9px] font-black tracking-tight">20 MASTER</span>
+                  <span class="px-1.5 py-0.2 rounded bg-amber-400 text-black text-[9px] font-black tracking-tight">23 MASTER</span>
                 </a>
 
                 <!-- Dagsamningur Red/Green Beacon Mount -->
@@ -158,8 +158,8 @@ export class Modull0App {
               
               <!-- Left: Lessons 0 to 7 + Hub Tools with clear A1 & A2 badges -->
               <div class="flex items-center gap-1.5 font-mono text-xs py-0.5 flex-nowrap flex-shrink-0">
-                <a href="curriculum_dashboard.html?tab=podcasts" class="chapter-nav-btn nav-btn text-amber-300 font-extrabold bg-amber-950/60 border-amber-500/70 shadow-md flex items-center gap-1.5 hover:bg-amber-900/60" title="Студія та плеєр 22 білінгвальних подкастів (20 Master готові)">
-                  <span>🎙️</span><span>Подкасти (20)</span>
+                <a href="curriculum_dashboard.html?tab=podcasts" class="chapter-nav-btn nav-btn text-amber-300 font-extrabold bg-amber-950/60 border-amber-500/70 shadow-md flex items-center gap-1.5 hover:bg-amber-900/60" title="Студія та плеєр 23 білінгвальних подкастів (23 Master готові)">
+                  <span>🎙️</span><span>Подкасти (23)</span>
                 </a>
                 <button data-chapter="a1_hub" class="chapter-nav-btn nav-btn ${this.activeChapter === 'a1_hub' ? 'active' : ''} text-cyan-300 font-extrabold bg-cyan-950/50 border-cyan-500/60 shadow-sm" title="Оглядовий каталог усіх 8 уроків рівня A1">
                   📚 Каталог A1

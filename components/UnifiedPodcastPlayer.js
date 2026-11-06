@@ -105,17 +105,17 @@ export class UnifiedPodcastPlayer {
             <div class="flex items-center justify-between gap-1 pb-2 border-b border-slate-800/80">
               <div class="font-mono text-xs font-bold text-white flex items-center gap-1.5">
                 <span>📻</span><span>ПЛЕЙЛИСТ</span>
-                <span class="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[10px] font-black">${readyCount}/22 ГОТОВІ</span>
+                <span class="px-1.5 py-0.2 rounded-full bg-amber-400 text-black text-[10px] font-black">${readyCount}/23 ГОТОВІ</span>
               </div>
               <div class="text-[11px] font-mono text-slate-400">
-                ⏱️ 5+ годин
+                ⏱️ 7+ годин
               </div>
             </div>
 
             <!-- Селектор категорій/рівнів (Пілси) -->
             <div class="grid grid-cols-4 gap-1 font-mono text-[11px]">
               <button onclick="window.__STUDIO_PLAYER__.setFilter('all')" class="py-1 px-1.5 rounded-lg text-center font-bold border transition-all ${this.activeFilter === 'all' ? 'bg-cyan-500 text-black border-cyan-400 shadow-sm' : 'bg-black/40 text-slate-400 border-slate-800 hover:text-white'}">
-                Всі (22)
+                Всі (23)
               </button>
               <button onclick="window.__STUDIO_PLAYER__.setFilter('A1')" class="py-1 px-1.5 rounded-lg text-center font-bold border transition-all ${this.activeFilter === 'A1' ? 'bg-cyan-500 text-black border-cyan-400 shadow-sm' : 'bg-black/40 text-cyan-400 border-slate-800 hover:text-white'}">
                 A0–A1
